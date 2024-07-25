@@ -124,6 +124,17 @@ const Sider = () => {
                   <hr />
                   <li>
                     <Link
+                      to="/sitting-paid-amount"
+                      className={`link-div ${getSidebarClass(
+                        "/sitting-paid-amount"
+                      )}`}
+                    >
+                      Paid Sitting Bill
+                    </Link>
+                  </li>
+                  <hr />
+                  <li>
+                    <Link
                       to="/paid_amount"
                       className={`link-div ${getSidebarClass("/paid_amount")}`}
                     >
