@@ -74,7 +74,7 @@ const DrugSetting = () => {
   const getDrugsData = async () => {
     try {
       const { data } = await axios.get(
-        `https://dentalgurusuperadmin.doaguru.com/api/v1/super-admin/getDrugs/${branch.name}`,
+        `http://localhost:7777/api/v1/super-admin/getDrugs/${branch.name}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -92,7 +92,7 @@ const DrugSetting = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "https://dentalgurusuperadmin.doaguru.com/api/v1/super-admin/addDrugs",
+        "http://localhost:7777/api/v1/super-admin/addDrugs",
         addDrugs,
         {
           headers: {
@@ -114,7 +114,7 @@ const DrugSetting = () => {
     e.preventDefault();
     try {
       const response = await axios.put(
-        `https://dentalgurusuperadmin.doaguru.com/api/v1/super-admin/updateDrugDetails/${selected}`,
+        `http://localhost:7777/api/v1/super-admin/updateDrugDetails/${selected}`,
         upaAddDrugs,
         {
           headers: {
@@ -135,7 +135,7 @@ const DrugSetting = () => {
   const deleteDrug = async (id) => {
     try {
       const response = await axios.delete(
-        `https://dentalgurusuperadmin.doaguru.com/api/v1/super-admin/deleteDrug/${id}`,
+        `http://localhost:7777/api/v1/super-admin/deleteDrug/${id}`,
         {
           headers: {
             "Content-Type": "application/json",

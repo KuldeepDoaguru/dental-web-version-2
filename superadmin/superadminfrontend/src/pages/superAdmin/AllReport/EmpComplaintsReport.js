@@ -26,7 +26,7 @@ const EmpComplaintsReport = () => {
   const getComplainViaBranch = async () => {
     try {
       const { data } = await axios.get(
-        `https://dentalgurusuperadmin.doaguru.com/api/v1/super-admin/getEmployeeComplainByBranch/${branch.name}`,
+        `http://localhost:7777/api/v1/super-admin/getEmployeeComplainByBranch/${branch.name}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -72,7 +72,7 @@ const EmpComplaintsReport = () => {
     e.preventDefault();
     try {
       const { data } = await axios.post(
-        `https://dentalgurusuperadmin.doaguru.com/api/v1/super-admin/downloadEmployeeComplaintReport/${branch.name}`,
+        `http://localhost:7777/api/v1/super-admin/downloadEmployeeComplaintReport/${branch.name}`,
         { fromDate: fromDate, toDate: toDate },
         {
           headers: {

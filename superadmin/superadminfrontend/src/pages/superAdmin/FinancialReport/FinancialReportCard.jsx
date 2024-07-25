@@ -13,8 +13,7 @@ import BranchSelector from "../../../components/BranchSelector";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { utils, writeFile } from "xlsx";
-import moment from 'moment';
-
+import moment from "moment";
 
 const FinancialReportCard = () => {
   const navigate = useNavigate();
@@ -36,7 +35,7 @@ const FinancialReportCard = () => {
   const getBillDetails = async () => {
     try {
       const { data } = await axios.get(
-        `https://dentalgurusuperadmin.doaguru.com/api/v1/super-admin/getBillsByBranch/${branch.name}`,
+        `http://localhost:7777/api/v1/super-admin/getBillsByBranch/${branch.name}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -53,7 +52,7 @@ const FinancialReportCard = () => {
   const getPurchaseList = async () => {
     try {
       const response = await axios.get(
-        `https://dentalgurusuperadmin.doaguru.com/api/v1/super-admin/getPurInventoryByBranch/${branch.name}`,
+        `http://localhost:7777/api/v1/super-admin/getPurInventoryByBranch/${branch.name}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -104,7 +103,8 @@ const FinancialReportCard = () => {
   //filterforexpenses
   const filterForExpenses = appointmentList?.filter((item) => {
     return (
-      item.purchase_date?.split("T")[0].slice(0, 7) === formattedDate.slice(0, 7)
+      item.purchase_date?.split("T")[0].slice(0, 7) ===
+      formattedDate.slice(0, 7)
     );
   });
 
@@ -149,7 +149,7 @@ const FinancialReportCard = () => {
     e.preventDefault();
     try {
       const { data } = await axios.post(
-        `https://dentalgurusuperadmin.doaguru.com/api/v1/super-admin/downloadEarnReportByTime/${branch.name}`,
+        `http://localhost:7777/api/v1/super-admin/downloadEarnReportByTime/${branch.name}`,
         { fromDate: fromDate, toDate: toDate },
         {
           headers: {
@@ -182,7 +182,7 @@ const FinancialReportCard = () => {
   //   e.preventDefault();
   //   try {
   //     const { data } = await axios.post(
-  //       `https://dentalgurusuperadmin.doaguru.com/api/v1/super-admin/downloadExpenseReportByTime/${branch.name}`,
+  //       `http://localhost:7777/api/v1/super-admin/downloadExpenseReportByTime/${branch.name}`,
   //       { expensesfromDate: expensesfromDate, expensestoDate: expensestoDate },
   //       {
   //         headers: {
@@ -343,17 +343,27 @@ const FinancialReportCard = () => {
                               ?.filter((item) => {
                                 // const billDate =
                                 //   item.payment_date_time?.split("T")[0];
-                                const billDate =
-                                moment(item.payment_date_time.split("T")[0],'YYYY-MM-DD').add(1, 'days').format('DD-MM-YYYY')
+                                const billDate = moment(
+                                  item.payment_date_time.split("T")[0],
+                                  "YYYY-MM-DD"
+                                )
+                                  .add(1, "days")
+                                  .format("DD-MM-YYYY");
 
-
-                                  //  if (fromDate && toDate) {
-                                  // return (
-                                  //   billDate >= fromDate && billDate <= toDate
-                                  // );
-                                   if (fromDate && toDate) {
+                                //  if (fromDate && toDate) {
+                                // return (
+                                //   billDate >= fromDate && billDate <= toDate
+                                // );
+                                if (fromDate && toDate) {
                                   return (
-                                    billDate >=  moment(fromDate,'YYYY-MM-DD').format('DD-MM-YYYY')    && billDate <= moment(toDate,'YYYY-MM-DD').format('DD-MM-YYYY')
+                                    billDate >=
+                                      moment(fromDate, "YYYY-MM-DD").format(
+                                        "DD-MM-YYYY"
+                                      ) &&
+                                    billDate <=
+                                      moment(toDate, "YYYY-MM-DD").format(
+                                        "DD-MM-YYYY"
+                                      )
                                   );
                                 } else {
                                   return true; // If no date range is selected, show all items
@@ -364,8 +374,12 @@ const FinancialReportCard = () => {
                                   <tr>
                                     <td>{item.bill_id}</td>
                                     <td>
-                                      {moment(item.payment_date_time.split("T")[0],'YYYY-MM-DD').add(1, 'days').format('DD-MM-YYYY')}
-                                      
+                                      {moment(
+                                        item.payment_date_time.split("T")[0],
+                                        "YYYY-MM-DD"
+                                      )
+                                        .add(1, "days")
+                                        .format("DD-MM-YYYY")}
                                     </td>
                                     <td>{item.paid_amount}</td>
                                     <td>{item.patient_name}</td>

@@ -28,7 +28,7 @@ const Compleated = () => {
       setLoading(true);
       try {
         const { data } = await axios.get(
-          `https://dentalgurusuperadmin.doaguru.com/api/v1/super-admin/getPatientLabTest/${branch.name}`,
+          `http://localhost:7777/api/v1/super-admin/getPatientLabTest/${branch.name}`,
           {
             headers: {
               "Content-Type": "application/json",

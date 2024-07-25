@@ -26,7 +26,7 @@ const InventoryReport = () => {
   const getPurchaseList = async () => {
     try {
       const response = await axios.get(
-        `https://dentalgurusuperadmin.doaguru.com/api/v1/super-admin/getPurInventoryByBranch/${branch.name}`,
+        `http://localhost:7777/api/v1/super-admin/getPurInventoryByBranch/${branch.name}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -63,7 +63,7 @@ const InventoryReport = () => {
     e.preventDefault();
     try {
       const { data } = await axios.post(
-        `https://dentalgurusuperadmin.doaguru.com/api/v1/super-admin/downloadExpenseReportByTime/${branch.name}`,
+        `http://localhost:7777/api/v1/super-admin/downloadExpenseReportByTime/${branch.name}`,
         { fromDate: fromDate, toDate: toDate },
         {
           headers: {

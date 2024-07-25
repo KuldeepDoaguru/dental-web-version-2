@@ -24,6 +24,7 @@ const {
   getEmployeeDataByBranch,
   getEmployeeDataByBranchAndId,
   resetPassword,
+  sendOtpForLogin,
 } = require("../controllers/superAdminController");
 const {
   makeBills,
@@ -299,5 +300,6 @@ router.post("/downloadLabReportByTime/:branch", downloadLabReportByTime);
 router.post("/downloadOPDReportByTime/:branch", downloadOPDReportByTime);
 router.get("/getProcedureList", getProcedureList);
 router.get("/getTreatmentViaId/:tid", getTreatmentViaId);
+router.post("/sendOtpForLogin", sendOtpForLogin);
 
 module.exports = router;

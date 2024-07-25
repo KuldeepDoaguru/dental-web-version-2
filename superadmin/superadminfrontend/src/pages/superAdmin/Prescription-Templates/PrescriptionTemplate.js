@@ -4,7 +4,7 @@ import Sider from "../../../components/Sider";
 import Header from "../../../components/Header";
 import styled from "styled-components";
 import { FaSearch } from "react-icons/fa";
-import BranchSelector from "../../../components/BranchSelector"; 
+import BranchSelector from "../../../components/BranchSelector";
 import { useDispatch, useSelector } from "react-redux";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import axios from "axios";
@@ -31,12 +31,12 @@ const PrescriptionTemplate = () => {
     branch_name: branch.name,
     medicine_name: "",
     dosage: "",
-  
+
     notes: "",
   });
 
   const [upPres, setUpPres] = useState({
-    medicine_name:"",
+    medicine_name: "",
     dosage: "",
     notes: "",
   });
@@ -68,18 +68,18 @@ const PrescriptionTemplate = () => {
     setShowAddPreTemp(true);
   };
 
-  const openEditPreTempPopup = (id,item) => {
+  const openEditPreTempPopup = (id, item) => {
     setSelected(item);
     console.log("open pop up");
     setShowEditPreTemp(true);
   };
- console.log(selected)
+  console.log(selected);
   const closeUpdatePopup = () => {
     setUpPres({
       medicine_name: getPresList?.medicine_name,
       dosage: getPresList?.dosage,
       notes: getPresList?.notes,
-    })
+    });
     setShowAddPreTemp(false);
     setShowEditPreTemp(false);
   };
@@ -91,7 +91,7 @@ const PrescriptionTemplate = () => {
   const getPrescriptionDetails = async () => {
     try {
       const { data } = await axios.get(
-        `https://dentalgurusuperadmin.doaguru.com/api/v1/super-admin/getPrescription/${branch.name}`,
+        `http://localhost:7777/api/v1/super-admin/getPrescription/${branch.name}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -109,7 +109,7 @@ const PrescriptionTemplate = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "https://dentalgurusuperadmin.doaguru.com/api/v1/super-admin/addPrescription",
+        "http://localhost:7777/api/v1/super-admin/addPrescription",
         addPres,
         {
           headers: {
@@ -135,7 +135,7 @@ const PrescriptionTemplate = () => {
   const getPresDetailsById = async () => {
     try {
       const { data } = await axios.get(
-        `https://dentalgurusuperadmin.doaguru.com/api/v1/super-admin/getPrescriptionById/${selected}`,
+        `http://localhost:7777/api/v1/super-admin/getPrescriptionById/${selected}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -153,7 +153,7 @@ const PrescriptionTemplate = () => {
     e.preventDefault();
     try {
       const response = await axios.put(
-        `https://dentalgurusuperadmin.doaguru.com/api/v1/super-admin/updatePrescriptionDetails/${selected.pr_id}`,
+        `http://localhost:7777/api/v1/super-admin/updatePrescriptionDetails/${selected.pr_id}`,
         upPres,
         {
           headers: {
@@ -177,13 +177,15 @@ const PrescriptionTemplate = () => {
   };
 
   const deletePrescription = async (id) => {
-    const isConfirmed = window.confirm("Are you sure you want to delete this data?");
+    const isConfirmed = window.confirm(
+      "Are you sure you want to delete this data?"
+    );
     if (!isConfirmed) {
       return; // Exit if the user cancels the action
     }
     try {
       const response = await axios.delete(
-        `https://dentalgurusuperadmin.doaguru.com/api/v1/super-admin/deletePrescription/${id}`,
+        `http://localhost:7777/api/v1/super-admin/deletePrescription/${id}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -191,7 +193,7 @@ const PrescriptionTemplate = () => {
           },
         }
       );
-    
+
       getPrescriptionDetails();
       cogoToast.success("prescription deleted successfully");
     } catch (error) {
@@ -210,7 +212,9 @@ const PrescriptionTemplate = () => {
     getPresDetailsById();
   }, [selected]);
 
-  const searchFilter = getPresList.filter((lab)=>lab.medicine_name.toLowerCase().includes(keyword.toLowerCase()));
+  const searchFilter = getPresList.filter((lab) =>
+    lab.medicine_name.toLowerCase().includes(keyword.toLowerCase())
+  );
 
   const totalPages = Math.ceil(searchFilter.length / complaintsPerPage);
 
@@ -226,12 +230,12 @@ const PrescriptionTemplate = () => {
 
   const displayedAppointments = filterAppointDataByMonth();
 
-  useEffect(()=>{
+  useEffect(() => {
     setUpPres({
       medicine_name: selected?.medicine_name,
       dosage: selected?.dosage,
       notes: selected?.notes,
-    })
+    });
   }, [selected]);
 
   return (
@@ -278,7 +282,7 @@ const PrescriptionTemplate = () => {
                           }
                         />
                         <button className="mx-2 btn btn-primary">
-                          <FaSearch size={20}/>
+                          <FaSearch size={20} />
                         </button>
                       </div>
                       <div className="col-xxl-2 col-xl-2 col-lg-2 col-md-2 col-sm-12 col-12">
@@ -299,7 +303,10 @@ const PrescriptionTemplate = () => {
                         </h6>
                       </div>
                       <div>
-                        <p className="fw-bold text-light">Total - {getPresList.length ? getPresList.length: "0"}</p>
+                        <p className="fw-bold text-light">
+                          Total -{" "}
+                          {getPresList.length ? getPresList.length : "0"}
+                        </p>
                       </div>
                     </div>
                     <div class="table-responsive rounded">
@@ -314,45 +321,44 @@ const PrescriptionTemplate = () => {
                           </tr>
                         </thead>
                         <tbody>
-                          {displayedAppointments
-                            .map((item) => (
-                              <>
-                                <tr className="table-row">
-                                  <td className="table-sno">{item.pr_id}</td>
-                                  <td className="table-small">
-                                    {item.medicine_name}
-                                  </td>
-                                  <td className="table-small">{item.dosage}</td>
-                                  {/* <td className="table-small">
+                          {displayedAppointments.map((item) => (
+                            <>
+                              <tr className="table-row">
+                                <td className="table-sno">{item.pr_id}</td>
+                                <td className="table-small">
+                                  {item.medicine_name}
+                                </td>
+                                <td className="table-small">{item.dosage}</td>
+                                {/* <td className="table-small">
                                     {item.frequency}
                                   </td>
                                   <td className="table-small">
                                     {item.duration}
                                   </td> */}
-                                  <td>{item.notes}</td>
-                                  <td>
-                                    <button
-                                      className="btn btn-warning"
-                                      onClick={() =>
-                                        openEditPreTempPopup(item.pr_id,item)
-                                      }
-                                    >
-                                      Edit
-                                    </button>
-                                    <button
-                                      type="button"
-                                      class="btn btn-danger mx-2"
-                                      // data-bs-toggle="modal"
-                                      // data-bs-target="#exampleModal"
-                                      onClick={() =>
-                                        deletePrescription(item.pr_id)
-                                      }
-                                    >
-                                      Delete
-                                    </button>
-                                  </td>
-                                </tr>
-                                {/* <div
+                                <td>{item.notes}</td>
+                                <td>
+                                  <button
+                                    className="btn btn-warning"
+                                    onClick={() =>
+                                      openEditPreTempPopup(item.pr_id, item)
+                                    }
+                                  >
+                                    Edit
+                                  </button>
+                                  <button
+                                    type="button"
+                                    class="btn btn-danger mx-2"
+                                    // data-bs-toggle="modal"
+                                    // data-bs-target="#exampleModal"
+                                    onClick={() =>
+                                      deletePrescription(item.pr_id)
+                                    }
+                                  >
+                                    Delete
+                                  </button>
+                                </td>
+                              </tr>
+                              {/* <div
                                   class="modal fade rounded"
                                   id="exampleModal"
                                   tabindex="-1"
@@ -393,24 +399,24 @@ const PrescriptionTemplate = () => {
                                     </div>
                                   </div>
                                 </div> */}
-                              </>
-                            ))}
+                            </>
+                          ))}
                         </tbody>
                       </table>
 
                       <PaginationContainer>
-                      <ReactPaginate
-                        previousLabel={"previous"}
-                        nextLabel={"next"}
-                        breakLabel={"..."}
-                        pageCount={totalPages}
-                        marginPagesDisplayed={2}
-                        pageRangeDisplayed={5}
-                        onPageChange={handlePageChange}
-                        containerClassName={"pagination"}
-                        activeClassName={"active"}
-                      />
-                       </PaginationContainer>
+                        <ReactPaginate
+                          previousLabel={"previous"}
+                          nextLabel={"next"}
+                          breakLabel={"..."}
+                          pageCount={totalPages}
+                          marginPagesDisplayed={2}
+                          pageRangeDisplayed={5}
+                          onPageChange={handlePageChange}
+                          containerClassName={"pagination"}
+                          activeClassName={"active"}
+                        />
+                      </PaginationContainer>
                     </div>
                   </div>
                 </div>
@@ -578,30 +584,30 @@ const Container = styled.div`
   }
 
   input::placeholder {
-            color: #aaa;
-            opacity: 1; /* Ensure placeholder is visible */
-            font-size: 1.2rem;
-            transition: color 0.3s ease;
-        }
+    color: #aaa;
+    opacity: 1; /* Ensure placeholder is visible */
+    font-size: 1.2rem;
+    transition: color 0.3s ease;
+  }
 
-        input:focus::placeholder {
-            color: transparent; /* Hide placeholder on focus */
-        }
+  input:focus::placeholder {
+    color: transparent; /* Hide placeholder on focus */
+  }
 
-        input {
-            width: 100%;
-            padding: 12px 20px;
-            margin: 8px 0;
-            display: inline-block;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            box-sizing: border-box;
-            transition: border-color 0.3s ease;
-        }
+  input {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+  }
 
-        input:focus {
-            border-color: #007bff; /* Change border color on focus */
-        }
+  input:focus {
+    border-color: #007bff; /* Change border color on focus */
+  }
 
   .navlink.active {
     background-color: red;

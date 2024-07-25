@@ -14,8 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { utils, writeFile } from "xlsx";
 // import * as XLSX from "xlsx";
-import moment from 'moment';
-
+import moment from "moment";
 
 const FinalFinancialReport = () => {
   const navigate = useNavigate();
@@ -38,7 +37,7 @@ const FinalFinancialReport = () => {
   const getBillDetails = async () => {
     try {
       const { data } = await axios.get(
-        `https://dentalgurusuperadmin.doaguru.com/api/v1/super-admin/getBillsByBranch/${branch.name}`,
+        `http://localhost:7777/api/v1/super-admin/getBillsByBranch/${branch.name}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -55,7 +54,7 @@ const FinalFinancialReport = () => {
   const getPurchaseList = async () => {
     try {
       const response = await axios.get(
-        `https://dentalgurusuperadmin.doaguru.com/api/v1/super-admin/getPurInventoryByBranch/${branch.name}`,
+        `http://localhost:7777/api/v1/super-admin/getPurInventoryByBranch/${branch.name}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -106,7 +105,8 @@ const FinalFinancialReport = () => {
   //filterforexpenses
   const filterForExpenses = appointmentList?.filter((item) => {
     return (
-      item.purchase_date?.split("T")[0].slice(0, 7) === formattedDate.slice(0, 7)
+      item.purchase_date?.split("T")[0].slice(0, 7) ===
+      formattedDate.slice(0, 7)
     );
   });
 
@@ -151,7 +151,7 @@ const FinalFinancialReport = () => {
     e.preventDefault();
     try {
       const { data } = await axios.post(
-        `https://dentalgurusuperadmin.doaguru.com/api/v1/super-admin/downloadEarnReportByTime/${branch.name}`,
+        `http://localhost:7777/api/v1/super-admin/downloadEarnReportByTime/${branch.name}`,
         { fromDate: fromDate, toDate: toDate },
         {
           headers: {
@@ -180,13 +180,11 @@ const FinalFinancialReport = () => {
     }
   };
 
-
-
   const downloadExpenseData = async (e) => {
     e.preventDefault();
     try {
       const { data } = await axios.post(
-        `https://dentalgurusuperadmin.doaguru.com/api/v1/super-admin/downloadExpenseReportByTime/${branch.name}`,
+        `http://localhost:7777/api/v1/super-admin/downloadExpenseReportByTime/${branch.name}`,
         { expensesfromDate: expensesfromDate, expensestoDate: expensestoDate },
         {
           headers: {
@@ -205,7 +203,10 @@ const FinalFinancialReport = () => {
         const worksheet = utils.json_to_sheet(data);
 
         utils.book_append_sheet(workbook, worksheet, `Expense Report`);
-        writeFile(workbook, `${expensesfromDate} - ${expensestoDate}-expense-report.xlsx`);
+        writeFile(
+          workbook,
+          `${expensesfromDate} - ${expensestoDate}-expense-report.xlsx`
+        );
         console.log(data);
       } else {
         console.error("data is not an array");
@@ -215,36 +216,32 @@ const FinalFinancialReport = () => {
     }
   };
 
-//   const downloadExpenseData = async (e) => {
-//     e.preventDefault();
-//     if (!expensesfromDate || !expensestoDate) {
-//       alert("Please select Date");
-//       return;
-//     }
-//     const filteredData = vlist.filter((item) => {
-//       const date = moment(item.voucher_date).format("YYYY-MM-DD"); 
-//       return moment(date).isBetween(fromDate, toDate, null, "[]");
-//     });
+  //   const downloadExpenseData = async (e) => {
+  //     e.preventDefault();
+  //     if (!expensesfromDate || !expensestoDate) {
+  //       alert("Please select Date");
+  //       return;
+  //     }
+  //     const filteredData = vlist.filter((item) => {
+  //       const date = moment(item.voucher_date).format("YYYY-MM-DD");
+  //       return moment(date).isBetween(fromDate, toDate, null, "[]");
+  //     });
 
-//     const formattedData = filteredData.map((item) => ({
-//       SN: item.voucher_id,
-//       Name: item.for_name,
-//       For: item.for_use,
-//       Amount: item.voucher_amount,
-//       Date: moment(item.voucher_date).format("YYYY-MM-DD"),
-//       "Created by": item.created_by,
-//       // Add more fields as needed
-//     }));
+  //     const formattedData = filteredData.map((item) => ({
+  //       SN: item.voucher_id,
+  //       Name: item.for_name,
+  //       For: item.for_use,
+  //       Amount: item.voucher_amount,
+  //       Date: moment(item.voucher_date).format("YYYY-MM-DD"),
+  //       "Created by": item.created_by,
+  //       // Add more fields as needed
+  //     }));
 
-//     const worksheet = XLSX.utils.json_to_sheet(formattedData);
-//     const wb = XLSX.utils.book_new();
-//     XLSX.utils.book_append_sheet(wb, worksheet, "Report");
-//     XLSX.writeFile(wb, "voucherReport.xlsx");
-//   };
-    
-  
-
-
+  //     const worksheet = XLSX.utils.json_to_sheet(formattedData);
+  //     const wb = XLSX.utils.book_new();
+  //     XLSX.utils.book_append_sheet(wb, worksheet, "Report");
+  //     XLSX.writeFile(wb, "voucherReport.xlsx");
+  //   };
 
   console.log(`${fromDate} - ${toDate}`);
   console.log(`${expensesfromDate} - ${expensestoDate}`);
@@ -379,17 +376,27 @@ const FinalFinancialReport = () => {
                               ?.filter((item) => {
                                 // const billDate =
                                 //   item.payment_date_time?.split("T")[0];
-                                const billDate =
-                                moment(item.payment_date_time.split("T")[0],'YYYY-MM-DD').add(1, 'days').format('DD-MM-YYYY')
+                                const billDate = moment(
+                                  item.payment_date_time.split("T")[0],
+                                  "YYYY-MM-DD"
+                                )
+                                  .add(1, "days")
+                                  .format("DD-MM-YYYY");
 
-
-                                  //  if (fromDate && toDate) {
-                                  // return (
-                                  //   billDate >= fromDate && billDate <= toDate
-                                  // );
-                                   if (fromDate && toDate) {
+                                //  if (fromDate && toDate) {
+                                // return (
+                                //   billDate >= fromDate && billDate <= toDate
+                                // );
+                                if (fromDate && toDate) {
                                   return (
-                                    billDate >=  moment(fromDate,'YYYY-MM-DD').format('DD-MM-YYYY')    && billDate <= moment(toDate,'YYYY-MM-DD').format('DD-MM-YYYY')
+                                    billDate >=
+                                      moment(fromDate, "YYYY-MM-DD").format(
+                                        "DD-MM-YYYY"
+                                      ) &&
+                                    billDate <=
+                                      moment(toDate, "YYYY-MM-DD").format(
+                                        "DD-MM-YYYY"
+                                      )
                                   );
                                 } else {
                                   return true; // If no date range is selected, show all items
@@ -400,8 +407,12 @@ const FinalFinancialReport = () => {
                                   <tr>
                                     <td>{item.bill_id}</td>
                                     <td>
-                                      {moment(item.payment_date_time.split("T")[0],'YYYY-MM-DD').add(1, 'days').format('DD-MM-YYYY')}
-                                      
+                                      {moment(
+                                        item.payment_date_time.split("T")[0],
+                                        "YYYY-MM-DD"
+                                      )
+                                        .add(1, "days")
+                                        .format("DD-MM-YYYY")}
                                     </td>
                                     <td>{item.paid_amount}</td>
                                     <td>{item.patient_name}</td>
@@ -428,7 +439,9 @@ const FinalFinancialReport = () => {
                                 type="date"
                                 required
                                 className="p-1 rounded"
-                                onChange={(e) => setExpensesFromDate(e.target.value)}
+                                onChange={(e) =>
+                                  setExpensesFromDate(e.target.value)
+                                }
                               />
                             </div>
                             <p className="mx-2">To</p>
@@ -437,7 +450,9 @@ const FinalFinancialReport = () => {
                                 type="date"
                                 required
                                 className="p-1 rounded"
-                                onChange={(e) => setExpensesToDate(e.target.value)}
+                                onChange={(e) =>
+                                  setExpensesToDate(e.target.value)
+                                }
                               />
                             </div>
                           </div>
@@ -468,7 +483,8 @@ const FinalFinancialReport = () => {
                                   item.purchase_date?.split("T")[0]; // Extracting the date part
                                 if (expensesfromDate && expensestoDate) {
                                   return (
-                                    billDate >= expensesfromDate && billDate <= expensestoDate
+                                    billDate >= expensesfromDate &&
+                                    billDate <= expensestoDate
                                   );
                                 } else {
                                   return true; // If no date range is selected, show all items

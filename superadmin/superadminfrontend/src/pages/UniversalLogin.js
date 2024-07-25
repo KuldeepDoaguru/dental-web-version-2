@@ -28,7 +28,7 @@ const UniversalLogin = () => {
     setLoading(true);
     try {
       const response = await axios.post(
-        "https://dentalgurusuperadmin.doaguru.com/api/v1/super-admin/sendOtpForLogin",
+        "http://localhost:7777/api/v1/super-admin/sendOtpForLogin",
         {
           email,
         }
@@ -44,7 +44,7 @@ const UniversalLogin = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "https://dentalgurusuperadmin.doaguru.com/api/v1/super-admin/adminLoginUser",
+        "http://localhost:7777/api/v1/super-admin/adminLoginUser",
         {
           email,
           password,
@@ -52,9 +52,9 @@ const UniversalLogin = () => {
       );
       setLoading(false);
       console.log(response.data);
-      // cogoToast.success(response.data.message);
+      // cogoToast.success(response.data.success);
       setLocalhost(response.data);
-      if (response.data.success === true) {
+      if (response.data.success === "true") {
         sendOtp();
         cogoToast.success("OTP sent Successfully");
         setPopupVisible(true);
@@ -93,7 +93,7 @@ const UniversalLogin = () => {
       e.preventDefault();
       try {
         const response = await axios.post(
-          "https://dentalgurusuperadmin.doaguru.com/api/v1/super-admin/verifyOtp",
+          "http://localhost:7777/api/v1/super-admin/verifyOtp",
           {
             email,
             otp,

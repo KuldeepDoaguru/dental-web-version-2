@@ -40,7 +40,7 @@ const Card = () => {
   const getAppointList = async () => {
     try {
       const { data } = await axios.get(
-        `https://dentalgurusuperadmin.doaguru.com/api/v1/super-admin/getAppointmentData/${branch.name}`,
+        `http://localhost:7777/api/v1/super-admin/getAppointmentData/${branch.name}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -58,7 +58,7 @@ const Card = () => {
   const getEmployeeAvailable = async () => {
     try {
       const { data } = await axios.get(
-        `https://dentalgurusuperadmin.doaguru.com/api/v1/super-admin/getAvailableEmp/${branch.name}`,
+        `http://localhost:7777/api/v1/super-admin/getAvailableEmp/${branch.name}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -76,7 +76,7 @@ const Card = () => {
   const getTreatmentValues = async () => {
     try {
       const { data } = await axios.get(
-        `https://dentalgurusuperadmin.doaguru.com/api/v1/super-admin/getTreatSuggest/${branch.name}`,
+        `http://localhost:7777/api/v1/super-admin/getTreatSuggest/${branch.name}`,
         {
           headers: {
             "Content-Type": "application/json",

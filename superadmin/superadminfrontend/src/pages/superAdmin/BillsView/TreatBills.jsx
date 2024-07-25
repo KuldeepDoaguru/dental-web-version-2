@@ -71,7 +71,7 @@ const TreatBills = () => {
     setLoading(true);
     try {
       const { data } = await axios.get(
-        `https://dentalgurusuperadmin.doaguru.com/api/v1/super-admin/getTreatSuggest/${branch.name}`,
+        `http://localhost:7777/api/v1/super-admin/getTreatSuggest/${branch.name}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -93,7 +93,7 @@ const TreatBills = () => {
   const deleteBillData = async (id) => {
     try {
       const response = await axios.delete(
-        `https://dentalgurusuperadmin.doaguru.com/api/v1/super-admin/deleteBills/${id}`,
+        `http://localhost:7777/api/v1/super-admin/deleteBills/${id}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -112,7 +112,7 @@ const TreatBills = () => {
   const getBillDetailsByBid = async () => {
     try {
       const { data } = await axios.get(
-        `https://dentalgurusuperadmin.doaguru.com/api/v1/super-admin/getBillBYBillId/${selectedItem}`,
+        `http://localhost:7777/api/v1/super-admin/getBillBYBillId/${selectedItem}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -130,7 +130,7 @@ const TreatBills = () => {
     e.preventDefault();
     try {
       const response = await axios.put(
-        `https://dentalgurusuperadmin.doaguru.com/api/v1/super-admin/updateBillDetailsByBillId/${selectedItem}`,
+        `http://localhost:7777/api/v1/super-admin/updateBillDetailsByBillId/${selectedItem}`,
         upData,
         {
           headers: {

@@ -27,7 +27,7 @@ const LabReport = () => {
     setLoading(true);
     try {
       const { data } = await axios.get(
-        `https://dentalgurusuperadmin.doaguru.com/api/v1/super-admin/getLabData/${branch.name}`,
+        `http://localhost:7777/api/v1/super-admin/getLabData/${branch.name}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -71,7 +71,7 @@ const LabReport = () => {
   //   e.preventDefault();
   //   try {
   //     const { data } = await axios.post(
-  //       `https://dentalgurusuperadmin.doaguru.com/api/v1/super-admin/downloadLabReportByTime/${branch.name}`,
+  //       `http://localhost:7777/api/v1/super-admin/downloadLabReportByTime/${branch.name}`,
   //       { fromDate: fromDate, toDate: toDate },
   //       {
   //         headers: {

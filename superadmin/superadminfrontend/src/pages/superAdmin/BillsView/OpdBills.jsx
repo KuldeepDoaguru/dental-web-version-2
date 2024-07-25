@@ -24,7 +24,7 @@ const OpdBills = () => {
       setLoading(true);
       try {
         const response = await axios.get(
-          `https://dentalgurusuperadmin.doaguru.com/api/v1/super-admin/getAppointmentData/${branch.name}`,
+          `http://localhost:7777/api/v1/super-admin/getAppointmentData/${branch.name}`,
           {
             headers: {
               "Content-Type": "application/json",

@@ -160,7 +160,7 @@ const TreatmentSetting = () => {
   const getTreatmentDataViaId = async () => {
     try {
       const { data } = await axios.get(
-        `https://dentalgurusuperadmin.doaguru.com/api/v1/super-admin/getTreatmentViaId/${trID}`,
+        `http://localhost:7777/api/v1/super-admin/getTreatmentViaId/${trID}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -183,7 +183,7 @@ const TreatmentSetting = () => {
   const getProcedure = async () => {
     try {
       const { data } = await axios.get(
-        `https://dentalgurusuperadmin.doaguru.com/api/v1/super-admin/getProcedureList`,
+        `http://localhost:7777/api/v1/super-admin/getProcedureList`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -203,7 +203,7 @@ const TreatmentSetting = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "https://dentalgurusuperadmin.doaguru.com/api/v1/super-admin/addTreatment",
+        "http://localhost:7777/api/v1/super-admin/addTreatment",
         treatData,
         {
           headers: {
@@ -232,7 +232,7 @@ const TreatmentSetting = () => {
     setLoading(true);
     try {
       const { data } = await axios.get(
-        "https://dentalgurusuperadmin.doaguru.com/api/v1/super-admin/getTreatmentList",
+        "http://localhost:7777/api/v1/super-admin/getTreatmentList",
         {
           headers: {
             "Content-Type": "application/json",
@@ -253,7 +253,7 @@ const TreatmentSetting = () => {
     e.preventDefault();
     try {
       const response = await axios.put(
-        `https://dentalgurusuperadmin.doaguru.com/api/v1/super-admin/updateTreatmentDetails/${id}`,
+        `http://localhost:7777/api/v1/super-admin/updateTreatmentDetails/${id}`,
         updateTreatVal,
         {
           headers: {
@@ -280,7 +280,7 @@ const TreatmentSetting = () => {
 
       if (isConfirmed) {
         const response = await axios.delete(
-          `https://dentalgurusuperadmin.doaguru.com/api/v1/super-admin/deleteTreatment/${id}`,
+          `http://localhost:7777/api/v1/super-admin/deleteTreatment/${id}`,
           {
             headers: {
               "Content-Type": "application/json",

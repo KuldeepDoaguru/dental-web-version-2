@@ -388,6 +388,91 @@ const sendOtp = (req, res) => {
   }
 };
 
+const sendOtpForLogin = (req, res) => {
+  const { email } = req.body;
+
+  // random otp
+  function generateOTP(length) {
+    const chars = "0123456789";
+    let otp = "";
+
+    for (let i = 0; i < length; i++) {
+      const randomIndex = Math.floor(Math.random() * chars.length);
+      otp += chars[randomIndex];
+    }
+
+    return otp;
+  }
+
+  const OTP = generateOTP(6);
+
+  try {
+    const transporter = nodemailer.createTransport({
+      service: "Gmail",
+      auth: {
+        user: process.env.EMAILSENDER,
+        pass: process.env.EMAILPASSWORD,
+      },
+    });
+
+    const mailOptions = {
+      from: process.env.EMAILSENDER,
+      to: email,
+      subject: "Super Admin Login OTP",
+      text: `Your OTP for login is: ${OTP}`,
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.error(error);
+        return res
+          .status(500)
+          .json("An error occurred while sending the email.");
+      } else {
+        console.log("OTP sent:", info.response);
+
+        const selectQuery = "SELECT * FROM otpcollections WHERE email = ?";
+        db.query(selectQuery, email, (err, result) => {
+          if (err) {
+            res.status(400).json({ success: false, message: err.message });
+          }
+          if (result && result.length > 0) {
+            const updateQuery =
+              "UPDATE otpcollections SET code = ? WHERE email = ?";
+            db.query(updateQuery, [OTP, email], (upErr, upResult) => {
+              if (upErr) {
+                res
+                  .status(400)
+                  .json({ success: false, message: upErr.message });
+              }
+              res.status(200).send(upResult);
+            });
+          } else {
+            // Assuming you have a 'db' object for database operations
+            db.query(
+              "INSERT INTO otpcollections (email, code) VALUES (?, ?) ON DUPLICATE KEY UPDATE code = VALUES(code)",
+              [email, OTP],
+              (err, result) => {
+                if (err) {
+                  console.error(err);
+                  return res
+                    .status(500)
+                    .send({ message: "Failed to store OTP" });
+                }
+
+                res.status(200).json({ message: "OTP sent successfully" });
+              }
+            );
+          }
+        });
+      }
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json("An error occurred.");
+  }
+};
+
 const superAdminLoginUser = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -1154,4 +1239,5 @@ module.exports = {
   deleteAppointData,
   getEmployeeDataByBranch,
   resetPassword,
+  sendOtpForLogin,
 };

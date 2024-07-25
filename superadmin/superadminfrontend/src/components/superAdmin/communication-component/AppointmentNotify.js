@@ -64,7 +64,7 @@ const AppointmentNotify = () => {
   const getNotifyList = async () => {
     try {
       const { data } = await axios.get(
-        "https://dentalgurusuperadmin.doaguru.com/api/v1/super-admin/getNotifyList",
+        "http://localhost:7777/api/v1/super-admin/getNotifyList",
         {
           headers: {
             "Content-Type": "application/json",
@@ -83,7 +83,7 @@ const AppointmentNotify = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "https://dentalgurusuperadmin.doaguru.com/api/v1/super-admin/addNotifyCommunication",
+        "http://localhost:7777/api/v1/super-admin/addNotifyCommunication",
         notiDetails,
         {
           headers: {
@@ -104,7 +104,7 @@ const AppointmentNotify = () => {
     e.preventDefault();
     try {
       const response = await axios.put(
-        `https://dentalgurusuperadmin.doaguru.com/api/v1/super-admin/updateNotifyTagsDetails/${selected}`,
+        `http://localhost:7777/api/v1/super-admin/updateNotifyTagsDetails/${selected}`,
         upNotiDetails,
         {
           headers: {
@@ -124,7 +124,7 @@ const AppointmentNotify = () => {
   const deleteNotifyTags = async (id) => {
     try {
       const response = await axios.delete(
-        `https://dentalgurusuperadmin.doaguru.com/api/v1/super-admin/deleteNotifyTags/${id}`,
+        `http://localhost:7777/api/v1/super-admin/deleteNotifyTags/${id}`,
         {
           headers: {
             "Content-Type": "application/json",
