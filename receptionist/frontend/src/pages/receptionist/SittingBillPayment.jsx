@@ -255,6 +255,7 @@ function SittingBillPayment() {
     }
   };
 
+  
   const submitSittingBill = async () => {
     try {
       const res = await axios.put(

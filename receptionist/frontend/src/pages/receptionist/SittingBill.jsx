@@ -230,7 +230,8 @@ const SittingBill = () => {
                 backgroundColor: "#0dcaf0",
                 border: "#0dcaf0",
               }}
-              onClick={goBack}
+              // onClick={goBack}
+              onClick={() => window.history.go(-1)}
             >
               <IoMdArrowRoundBack /> Back
             </button>

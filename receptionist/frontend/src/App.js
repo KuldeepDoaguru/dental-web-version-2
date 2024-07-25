@@ -39,6 +39,7 @@ import F404page from "./pages/receptionist/F404page";
 import SittingBillDetails from "./pages/receptionist/SittingBillDetails";
 import SittingBillPayment from "./pages/receptionist/SittingBillPayment";
 import SittingBill from "./pages/receptionist/SittingBill";
+import SittingPaidBillDetails from "./pages/receptionist/SittingPaidBillDetails";
 
 function App() {
   const user = useSelector((state) => state.user);
@@ -191,6 +192,16 @@ function App() {
         }
       />
       <Route
+        path="/sitting-paid-amount"
+        element={
+          user.currentUser === null ? (
+            <UniversalLogin />
+          ) : (
+            <SittingPaidBillDetails />
+          )
+        }
+      />
+      <Route
         path="/paid_amount"
         element={
           user.currentUser === null ? <UniversalLogin /> : <PatientsPaid />
@@ -235,6 +246,12 @@ function App() {
 
       <Route
         path="/ViewPatientSittingBill/:tpid/:sbid/:treatment"
+        element={
+          user.currentUser === null ? <UniversalLogin /> : <SittingBill />
+        }
+      />
+      <Route
+        path="/ViewPatientSittingBill/:tpid/:sbid"
         element={
           user.currentUser === null ? <UniversalLogin /> : <SittingBill />
         }

@@ -13,7 +13,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Lottie from "react-lottie";
 import animationData from "../../images/animation/loading-effect.json";
 
-function SittingBillDetails() {
+function SittingPaidBillDetails() {
   const { refreshTable, currentUser } = useSelector((state) => state.user);
   const branch = currentUser.branch_name;
   const token = currentUser?.token;
@@ -43,7 +43,7 @@ function SittingBillDetails() {
 
   console.log(patBill);
   const filterForUnPaidBills = patBill?.filter((item) => {
-    return item.payment_status === "pending";
+    return item.payment_status === "paid";
   });
 
   console.log(filterForUnPaidBills);
@@ -189,7 +189,7 @@ function SittingBillDetails() {
         </div>
         <div className="col-lg-11 mt-2" id="set">
           <div className="text-center">
-            <h3>All Patients Sitting Bill Due Data</h3>
+            <h3>All Patients Sitting Bill Paid Data</h3>
           </div>
           <div className="row">
             <div className="col-lg-12" id="head">
@@ -276,7 +276,7 @@ function SittingBillDetails() {
                           <th className=" sticky">Sitting Amount</th>
                           {/* <th className=" sticky">Paid By Direct Amount</th>
                           <th className=" sticky">Paid By Secuirty Amt</th> */}
-                          <th className=" sticky">Due Amount</th>
+                          <th className=" sticky">Paid Amount</th>
                           <th className=" sticky">Bill Date</th>
                           <th className=" sticky">Action</th>
                         </tr>
@@ -309,14 +309,12 @@ function SittingBillDetails() {
                                 {/* <td>{item.pay_direct}</td>
                                 <td>{item.pay_security_amount}</td> */}
                                 <td>
-                                  {item.payment_status === "pending"
-                                    ? item.sitting_amount
-                                    : 0}
+                                  {item.paid_amount}
                                 </td>
                                 <td>{item?.date?.split(" ")[0]}</td>
                                 <td>
                                   <Link
-                                    to={`/SittingBillPayment/${item.sb_id}/${item.tp_id}/${item.uhid}`}
+                                    to={`/ViewPatientSittingBill/${item.tp_id}/${item.sb_id}`}
                                   >
                                     <button
                                       className="btn"
@@ -324,7 +322,7 @@ function SittingBillDetails() {
                                         backgroundColor: "#FFA600",
                                       }}
                                     >
-                                      Pay Now
+                                      View Invoice
                                     </button>
                                   </Link>
                                 </td>
@@ -397,7 +395,7 @@ function SittingBillDetails() {
   );
 }
 
-export default SittingBillDetails;
+export default SittingPaidBillDetails;
 const Wrapper = styled.div`
   overflow: hidden;
   .navbar1 {
