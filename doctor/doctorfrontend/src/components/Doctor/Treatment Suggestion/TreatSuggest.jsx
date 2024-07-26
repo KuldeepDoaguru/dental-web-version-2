@@ -18,6 +18,8 @@ const TreatSuggest = () => {
   const [secBut, setSecBut] = useState(false);
   const [loadingTestBt, setLoadingTestBt] = useState(false);
   const user = useSelector((state) => state.user);
+  const branchData = useSelector((state) => state.branch.currentBranch);
+  console.log(branchData);
   const branch = user.currentUser.branch_name;
   const employeeName = user.currentUser.employee_name;
   const [otherMed, setOtherMed] = useState("");
@@ -733,13 +735,14 @@ const TreatSuggest = () => {
       navigate(`/prescription-generate/${tpid}`);
     } catch (error) {
       console.log(error);
-      cogoToast.error(error.response.data.message);
+      cogoToast.error(`${error.response.data.message}, Now Start Treatment`);
+      // navigate(`/TreatmentDashBoard/${tpid}/${id}`);
     }
   };
 
-  // const generatePres = () => {
-  //   navigate(`/prescription-generate/${tpid}`);
-  // };
+  const generatePres = () => {
+    navigate(`/prescription-generate/${tpid}`);
+  };
 
   return (
     <>
@@ -1120,11 +1123,11 @@ const TreatSuggest = () => {
           </div>
 
           {/* Medicine section starts */}
-          <div className="container">
+          <div className="container-fluid">
             <h2>Medicine Details</h2>
-            <div className="row shadow-sm p-3 mb-3 bg-body rounded">
+            <div className="row  shadow-sm p-3 mb-3 bg-body rounded">
               <form onSubmit={handleSubmit}>
-                <div className="row">
+                <div className="row g-3">
                   <div className="col-xxl-2 col-xl-3 col-lg-3 col-md-4 col-sm-6 col-6">
                     <div className="form-outline">
                       <label>disease</label>
@@ -1322,7 +1325,7 @@ const TreatSuggest = () => {
             </div>
           </div>
 
-          <div className="container">
+          <div className="container-fluid">
             <div className="row">
               <table class="table">
                 <thead className="rounded">
@@ -1367,13 +1370,28 @@ const TreatSuggest = () => {
           <div className="d-flex justify-content-center align-items-center">
             {treatList.length > 0 ? (
               <>
-                <button
-                  type="button"
-                  className="btn btn-info text-light shadow fw-bold"
-                  onClick={insertCorrectData}
-                >
-                  Print Prescription
-                </button>
+                {branchData[0]?.doctor_payment === "Yes" ? (
+                  <>
+                    <button
+                      type="button"
+                      className="btn btn-info text-light shadow fw-bold"
+                      onClick={handleCollect}
+                    >
+                      Security Amount
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <button
+                      type="button"
+                      className="btn btn-info text-light mx-2 shadow fw-bold"
+                      onClick={insertCorrectData}
+                    >
+                      Print Prescription
+                    </button>
+                  </>
+                )}
+
                 <button
                   className="btn btn-info text-light mx-2 shadow fw-bold"
                   onClick={handleChangePage}
@@ -1383,13 +1401,29 @@ const TreatSuggest = () => {
               </>
             ) : (
               <>
-                <button
-                  type="button"
-                  className="btn btn-info text-light shadow fw-bold"
-                  disabled
-                >
-                  Print Prescription
-                </button>
+                {branchData[0]?.doctor_payment === "Yes" ? (
+                  <>
+                    <button
+                      type="button"
+                      className="btn btn-info text-light mx-2 shadow fw-bold"
+                      disabled
+                    >
+                      Security Amount
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    {" "}
+                    <button
+                      type="button"
+                      className="btn btn-info text-light shadow fw-bold"
+                      disabled
+                    >
+                      Print Prescription
+                    </button>
+                  </>
+                )}
+
                 <button
                   className="btn btn-info text-light mx-2 shadow fw-bold"
                   disabled
