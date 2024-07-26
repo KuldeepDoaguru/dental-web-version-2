@@ -62,6 +62,7 @@ import axios from "axios";
 import RefundedAmountReport from "./pages/superAdmin/AllReport/RefundedAmountReport";
 import AllRefundList from "./pages/superAdmin/RefundAmountList/AllRefundList";
 import ViewPatientTotalBill from "./pages/superAdmin/ViewPatientTotalBill";
+import ClinicConfigSetting from "./pages/superAdmin/settings/ClinicConfigSetting";
 
 const App = () => {
   // const storedUserData = localStorage.getItem("userData");
@@ -144,6 +145,12 @@ const App = () => {
         <Route
           path="/clinic-setting"
           element={user.id === null ? <UniversalLogin /> : <ClinicSetting />}
+        />
+        <Route
+          path="/clinic-config-setting"
+          element={
+            user.id === null ? <UniversalLogin /> : <ClinicConfigSetting />
+          }
         />
         <Route
           path="/lab-setting"

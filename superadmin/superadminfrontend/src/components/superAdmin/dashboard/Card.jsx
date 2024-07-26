@@ -127,7 +127,7 @@ const Card = () => {
   //filterForPatAppointToday
   const filterForOpdEarnToday = appointmentList?.filter(
     (item) =>
-      item.appointment_created_at.split(" ")[0] === formateForDay &&
+      item.appointment_created_at?.split(" ")[0] === formateForDay &&
       item.treatment_provided === "OPD" &&
       item.appointment_status !== "Cancel"
   );
@@ -155,33 +155,33 @@ const Card = () => {
   //filter for employee availability
   const filterForEmpAVToday = availableEmp?.filter(
     (item) =>
-      item.availability === "yes" && item.date.split("T")[0] === formateForDay
+      item.availability === "yes" && item.date?.split("T")[0] === formateForDay
   );
 
   // console.log(filterForEmpAVToday);
 
   //filter for available doctor
-  // console.log(availableEmp[0]?.date.split("T")[0]);
+  // console.log(availableEmp[0]?.date?.split("T")[0]);
   const filterForDocAVToday = availableEmp?.filter(
     (item) =>
       item.availability === "yes" &&
-      item.date.split("T")[0] === formateForDay &&
+      item.date?.split("T")[0] === formateForDay &&
       item.employee_designation === "doctor"
   );
 
   // console.log(filterForDocAVToday);
 
   //filter for present employee today
-  // console.log(availableEmp[0]?.date.split("T")[0]);
+  // console.log(availableEmp[0]?.date?.split("T")[0]);
   const filterForEmpPresentToday = availableEmp?.filter(
     (item) =>
-      item.availability === "yes" && item.date.split("T")[0] === formattedDate
+      item.availability === "yes" && item.date?.split("T")[0] === formattedDate
   );
 
   // console.log(filterForEmpPresentToday);
 
   //filter for today's earning
-  // console.log(appointmentList[0]?.appointment_dateTime?.split("T")[0]);
+  // console.log(appointmentList[0]?.appointment_dateTime??.split("T")[0]);
   const filterForEarningToday = treatValue?.filter(
     (item) =>
       item.payment_status === "paid" &&
@@ -208,7 +208,7 @@ const Card = () => {
   // console.log(totalTreatValue);
 
   const filterForTodayAppoint = appointmentList?.filter(
-    (item) => item.appointment_dateTime.split("T")[0] === formateForDay
+    (item) => item.appointment_dateTime?.split("T")[0] === formateForDay
   );
 
   // console.log(filterForTodayAppoint);

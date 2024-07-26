@@ -83,6 +83,11 @@ const {
   getComplainById,
   updateComplaints,
   downloadEmployeeComplaintReport,
+  updateDoctorPaymentAllowSetting,
+  addInsuranceCompany,
+  getInsuranceList,
+  updateInsuranceDetails,
+  deleteInsurance,
 } = require("../controllers/attendanceController");
 const {
   getTreatSuggest,
@@ -248,6 +253,10 @@ router.post(
 );
 router.get("/getBranchDetailsByBranch/:branch", getBranchDetailsByBranch);
 router.put("/updateBranchCalenderSetting/:branch", updateBranchCalenderSetting);
+router.put(
+  "/updateDoctorPaymentAllowSetting/:branch",
+  updateDoctorPaymentAllowSetting
+);
 router.post("/addBlockDays", addBlockDays);
 router.get("/getHolidays/:branch", getHolidays);
 router.put("/updateHolidays/:hid", updateHolidays);
@@ -301,5 +310,9 @@ router.post("/downloadOPDReportByTime/:branch", downloadOPDReportByTime);
 router.get("/getProcedureList", getProcedureList);
 router.get("/getTreatmentViaId/:tid", getTreatmentViaId);
 router.post("/sendOtpForLogin", sendOtpForLogin);
+router.post("/addInsuranceCompany/:branch", addInsuranceCompany);
+router.get("/getInsuranceList/:branch", getInsuranceList);
+router.put("/updateInsuranceDetails/:ins/:branch", updateInsuranceDetails);
+router.delete("/deleteInsurance/:ins/:branch", deleteInsurance);
 
 module.exports = router;

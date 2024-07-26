@@ -7,6 +7,7 @@ const { db } = require("../dbConnect/connect");
 const fs = require("fs");
 const path = require("path");
 const { log } = require("console");
+const moment = require("moment-timezone");
 
 dotenv.config();
 
@@ -907,6 +908,197 @@ const downloadEmployeeComplaintReport = (req, res) => {
   }
 };
 
+const updateDoctorPaymentAllowSetting = (req, res) => {
+  try {
+    const branch = req.params.branch;
+    const { doctor_payment, allow_insurance } = req.body;
+    const selectQuery = "SELECT * FROM branches WHERE branch_name = ?";
+    db.query(selectQuery, branch, (err, result) => {
+      if (err) {
+        return res.status(400).json({ success: false, message: err.message });
+      }
+      if (result && result.length > 0) {
+        const updateFields = [];
+        const updateValues = [];
+
+        if (doctor_payment) {
+          updateFields.push("doctor_payment = ?");
+          updateValues.push(doctor_payment);
+        }
+
+        if (allow_insurance) {
+          updateFields.push("allow_insurance = ?");
+          updateValues.push(allow_insurance);
+        }
+
+        const updateQuery = `UPDATE branches SET ${updateFields.join(
+          ", "
+        )} WHERE branch_name = ?`;
+
+        db.query(updateQuery, [...updateValues, branch], (err, result) => {
+          if (err) {
+            return res.status(500).json({
+              success: false,
+              message: "Failed to update details",
+            });
+          } else {
+            return res.status(200).json({
+              success: true,
+              message: "Branch Details updated successfully",
+            });
+          }
+        });
+      } else {
+        return res.status(404).json({
+          success: false,
+          message: "Branch not found",
+        });
+      }
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ success: false, message: error.message });
+  }
+};
+
+const addInsuranceCompany = (req, res) => {
+  const dateTime = moment().tz("Asia/Kolkata").format("DD-MM-YYYY HH:mm:ss");
+  try {
+    const branch = req.params.branch;
+    const { companyname, category, status } = req.body;
+    const selectQuery =
+      "SELECT * FROM insurance_company WHERE branch_name = ? AND companyname = ?";
+    db.query(selectQuery, [branch, companyname], (err, result) => {
+      if (err) {
+        res.status(400).json({ success: false, message: err.message });
+      }
+      if (result && result.length > 0) {
+        res.status(400).json({
+          success: false,
+          message: "insurance company already exists",
+        });
+      } else {
+        const insertQuery =
+          "INSERT INTO insurance_company (branch_name, companyname, category, status, added_date) VALUES (?,?,?,?, ?)";
+        const insertParams = [branch, companyname, category, status, dateTime];
+        db.query(insertQuery, insertParams, (err, result) => {
+          if (err) {
+            res.status(400).json({ success: false, message: err.message });
+          }
+          res
+            .status(200)
+            .json({ success: true, message: "data added successfully" });
+        });
+      }
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "internal server error" });
+  }
+};
+
+const getInsuranceList = (req, res) => {
+  try {
+    const branch = req.params.branch;
+    const selectQuery = "SELECT * FROM insurance_company WHERE branch_name = ?";
+    db.query(selectQuery, branch, (err, result) => {
+      if (err) {
+        res.status(400).json({ success: false, message: err.message });
+      }
+      res.status(200).send(result);
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "internal server error" });
+  }
+};
+
+const updateInsuranceDetails = (req, res) => {
+  try {
+    const ins = req.params.ins;
+    const branch = req.params.branch;
+    const { companyname, category, status } = req.body;
+    const selectQuery =
+      "SELECT * FROM insurance_company WHERE ins_id = ? AND branch_name = ?";
+    db.query(selectQuery, [ins, branch], (err, result) => {
+      if (err) {
+        res.status(400).json({ success: false, message: err.message });
+      }
+      if (result && result.length > 0) {
+        const updateFields = [];
+        const updateValues = [];
+
+        if (companyname) {
+          updateFields.push("companyname = ?");
+          updateValues.push(companyname);
+        }
+
+        if (category) {
+          updateFields.push("category = ?");
+          updateValues.push(category);
+        }
+
+        if (status) {
+          updateFields.push("status = ?");
+          updateValues.push(status);
+        }
+
+        const updateQuery = `UPDATE insurance_company SET ${updateFields.join(
+          ", "
+        )} WHERE ins_id = ? AND branch_name = ?`;
+
+        db.query(updateQuery, [...updateValues, ins, branch], (err, result) => {
+          if (err) {
+            return res.status(500).json({
+              success: false,
+              message: "Failed to update details",
+            });
+          } else {
+            return res.status(200).json({
+              success: true,
+              message: "Branch Details updated successfully",
+            });
+          }
+        });
+      } else {
+        res.status(400).json({ success: false, message: err.message });
+      }
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "internal server error" });
+  }
+};
+
+const deleteInsurance = (req, res) => {
+  try {
+    const ins = req.params.ins;
+    const branch = req.params.branch;
+    const selectQuery =
+      "SELECT * FROM insurance_company WHERE ins_id = ? AND branch_name = ?";
+    db.query(selectQuery, [ins, branch], (err, result) => {
+      if (err) {
+        res.status(400).json({ success: false, message: err.message });
+      }
+      if (result && result.length > 0) {
+        const deleteQuery =
+          "DELETE FROM insurance_company WHERE ins_id = ? AND branch_name = ?";
+        db.query(deleteQuery, [ins, branch], (err, result) => {
+          if (err) {
+            res.status(400).json({ success: false, message: err.message });
+          }
+          res
+            .status(200)
+            .json({ success: true, message: "Successfully deleted" });
+        });
+      } else {
+        res
+          .status(400)
+          .json({ success: false, message: "insurance not found" });
+      }
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "internal server error" });
+  }
+};
+
 module.exports = {
   getAttendanceDetails,
   downloadAttendanceReportByTime,
@@ -936,4 +1128,9 @@ module.exports = {
   getComplainById,
   updateComplaints,
   downloadEmployeeComplaintReport,
+  updateDoctorPaymentAllowSetting,
+  addInsuranceCompany,
+  getInsuranceList,
+  updateInsuranceDetails,
+  deleteInsurance,
 };

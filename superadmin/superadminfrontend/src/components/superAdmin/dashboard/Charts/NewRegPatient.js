@@ -82,7 +82,7 @@ const NewRegPatient = () => {
 
   // Group appointments by date and count appointments for each day
   const dailyAppointments = appointmentList?.reduce((acc, appointment) => {
-    const date = appointment.appointment_created_at.split(" ")[0];
+    const date = appointment.appointment_created_at?.split(" ")[0];
     acc[date] = acc[date] ? acc[date] + 1 : 1;
     return acc;
   }, {});
