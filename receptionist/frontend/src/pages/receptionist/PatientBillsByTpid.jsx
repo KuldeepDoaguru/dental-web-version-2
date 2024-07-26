@@ -5,6 +5,8 @@ import axios from "axios";
 import { useSelector } from "react-redux";
 import numToWords from "num-to-words";
 import moment from "moment";
+import { FaPrint } from "react-icons/fa6";
+import { IoMdArrowRoundBack } from "react-icons/io";
 // import numWords from "num-words";
 
 const PatientBillsByTpid = () => {
@@ -222,16 +224,16 @@ const PatientBillsByTpid = () => {
         <div className="container-fluid">
           <div className="d-flex justify-content-between align-items-center my-2 px-3 gap-2">
             <button
-              className="btn btn-primary no-print btn-lg"
+              className="btn btn-info no-print btn-lg shadow"
               onClick={() => window.history.go(-1)}
             >
-              Back
+            <IoMdArrowRoundBack />   Back
             </button>
             <button
-              className="btn btn-info no-print btn-lg"
+              className="btn btn-info no-print btn-lg shadow"
               onClick={handleButton}
             >
-              Print
+             <FaPrint /> Print
             </button>
           </div>
         </div>
@@ -305,9 +307,9 @@ const PatientBillsByTpid = () => {
         <div className="container-fluid">
           <h3 className="text-center">Invoice</h3>
           <div className="heading-title">
-            <h4>Patient Details :</h4>
+            <h6>Patient Details :</h6>
           </div>
-          <h6 className="fw-bold">
+          <h6 className="">
             Patient Type : {getPatientData[0]?.patient_type}
           </h6>
           <table className="table table-bordered border">
@@ -361,7 +363,7 @@ const PatientBillsByTpid = () => {
         {/* doctor details */}
         <div className="container-fluid">
           <div className="heading-title">
-            <h4>Doctor Details :</h4>
+            <h6>Doctor Details :</h6>
           </div>
           <div className="d-flex justify-content-between">
             <div className="text-start docDetails text-capitalize">
@@ -382,7 +384,7 @@ const PatientBillsByTpid = () => {
         {/* patient observation */}
         <div className="container-fluid">
           <div className="heading-title">
-            <h4>Patient Observation :</h4>
+            <h6>Patient Observation :</h6>
           </div>
           <table className="table table-bordered border">
             <thead>
@@ -413,7 +415,7 @@ const PatientBillsByTpid = () => {
         {/* treatment provided */}
         <div className="container-fluid">
           <div className="heading-title">
-            <h4>Treatment Procedure :</h4>
+            <h6>Treatment Procedure :</h6>
           </div>
           <div className="Treatment">
             {/* <p className="text-start fs-4 fw-bold">Treatment Procedure</p> */}
@@ -520,17 +522,17 @@ const PatientBillsByTpid = () => {
             <div className="col-xxl-8 col-xl-8 col-lg-8 col-md-8 col-sm-8 col-8">
               <div className="border">
                 <div className="heading-title mt-0">
-                  <h4>Total Amount In Words :</h4>
+                  <h6>Total Amount In Words :</h6>
                 </div>
                 <div className="text-word">
-                  <p className="m-0">
-                    {numToWords(totalBillvalueWithoutGst)} {"Rupees"}
+                  <p className="m-0 fw-bold">
+                    {numToWords(totalBillvalueWithoutGst)} {"Rupees ONLY"}
                   </p>
                 </div>
               </div>
               <div className="">
                 <div className="heading-title mt-0">
-                  <h4>Payment Info :</h4>
+                  <h6>Payment Info :</h6>
                 </div>
                 <div className="">
                   <table className="table table-bordered mb-0">
@@ -588,7 +590,7 @@ const PatientBillsByTpid = () => {
                       <td className="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6 border p-1 text-end total-tr">
                         Total Amount Received:
                       </td>
-                      <td className="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6 border p-1 text-center total-tr">
+                      <td className="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6 border p-1 text-center fs-6 fw-bold total-tr">
                         {totalBillvalueWithoutGst}
                       </td>
                     </tr>
@@ -598,14 +600,14 @@ const PatientBillsByTpid = () => {
               <div className="border">
                 <div className="text-terms"></div>
                 <div className="heading-title mt-0">
-                  <h5 className="text-center">Clinic Seal & Signature</h5>
+                  <h6 className="text-center">Clinic Seal & Signature</h6>
                 </div>
               </div>
             </div>
           </div>
           <div className="border">
             <div className="heading-title mt-0">
-              <h4>Terms and Conditions :</h4>
+              <h6>Terms and Conditions :</h6>
             </div>
             <div className="text-termslong"></div>
           </div>
@@ -628,6 +630,7 @@ const PatientBillsByTpid = () => {
 
 export default PatientBillsByTpid;
 const Wrapper = styled.div`
+font-size: 12px;
   overflow: hidden;
   background-color: white;
   height: 100%;
@@ -715,7 +718,7 @@ const Wrapper = styled.div`
   }
 
   .text-terms {
-    height: 12.5rem;
+    height: 7.5rem;
   }
 
   .gutter {

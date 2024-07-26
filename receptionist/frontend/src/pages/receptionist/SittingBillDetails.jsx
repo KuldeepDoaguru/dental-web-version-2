@@ -71,7 +71,7 @@ function SittingBillDetails() {
     const filteredResults = filterForUnPaidBills.filter(
       (row) =>
         row?.patient_name.toLowerCase().includes(searchTerm.trim()) ||
-        row?.patient_mobile.includes(searchTerm.trim()) ||
+        row?.mobileno.includes(searchTerm.trim()) ||
         row?.uhid.toLowerCase().includes(searchTerm.trim())
     );
 

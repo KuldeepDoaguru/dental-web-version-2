@@ -113,6 +113,7 @@ import styled from "styled-components";
 import { useDispatch } from "react-redux";
 import axios from "axios";
 import { setUser } from "../redux/user/userSlice";
+import { setBranch } from "../redux/user/branchSlice";
 import cogoToast from "cogo-toast";
 import { IoEye, IoEyeOffOutline } from "react-icons/io5";
 
@@ -129,6 +130,7 @@ const UniversalLogin = () => {
   const [braches, setBranches] = useState([]);
   const [selectedBranch, setSelectedBranch] = useState("");
   const [loading, setLoading] = useState(false);
+  const [storeBranch,setStoreBranch] = useState("")
 
   // const sendOtp = async () => {
   //   try {
@@ -163,6 +165,17 @@ const UniversalLogin = () => {
   const handleSelectBranch = (e) => {
     setSelectedBranch(e.target.value);
   };
+  
+
+  useEffect(()=>{
+      const filterdResult = braches.filter((item) => {
+        return item.branch_name === selectedBranch;
+      })
+    console.log(filterdResult)
+     setStoreBranch(filterdResult)
+  },[selectedBranch])
+
+
 
   console.log(selectedBranch);
   const receptionistLogin = async (e) => {
@@ -191,6 +204,7 @@ const UniversalLogin = () => {
         // sendOtp();
         cogoToast.success("login successful");
         dispatch(setUser(response.data.user));
+        dispatch(setBranch(storeBranch));
         navigate("/receptionist-dashboard");
         // setPopupVisible(true);
         setLoading(false);
@@ -311,7 +325,7 @@ const UniversalLogin = () => {
                             required
                           >
                             <option value="">Select Branch</option>
-                            {braches?.map((branch) => {
+                            {braches?.map((branch,index,branches) => {
                               return (
                                 <option
                                   value={branch.branch_name}

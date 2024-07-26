@@ -5,6 +5,7 @@ import { IoMdArrowRoundBack } from "react-icons/io";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
+import { FaPrint } from "react-icons/fa6";
 
 const SittingBill = () => {
   const { tpid, sbid, treatment } = useParams();
@@ -41,6 +42,13 @@ const SittingBill = () => {
   };
 
   console.log(getBranch);
+  const handleButton = async () => {
+    try {
+      window.print();
+    } catch (error) {
+      console.log("Error updating sitting count", error);
+    }
+  };
 
   // Get Patient Details START
   const getPatientDetail = async () => {
@@ -143,9 +151,13 @@ const SittingBill = () => {
     getBranchDetails();
     getLabAllData();
     getSittingBillbyId();
-    getDoctorDetails();
+    // getDoctorDetails();
     getExamineDetails();
   }, []);
+
+  useEffect(()=>{
+    getDoctorDetails();
+  },[getPatientData])
 
   console.log(sittingBill);
 
@@ -223,26 +235,18 @@ const SittingBill = () => {
           <hr />
         </div> */}
         <div className="container-fluid">
-          <div className="d-flex justify-content-between">
+        <div className="d-flex justify-content-between align-items-center my-2 px-3 gap-2">
             <button
-              className="btn btn-info no-print mt-2 mb-2 text-white shadow"
-              style={{
-                backgroundColor: "#0dcaf0",
-                border: "#0dcaf0",
-              }}
-              onClick={goBack}
+              className="btn btn-info no-print btn-lg shadow"
+              onClick={() => window.history.go(-1)}
             >
-              <IoMdArrowRoundBack /> Back
+            <IoMdArrowRoundBack />  Back
             </button>
             <button
-              className="btn btn-info no-print mt-2 mb-2 text-white shadow"
-              style={{
-                backgroundColor: "#0dcaf0",
-                border: "#0dcaf0",
-              }}
-              //   onClick={handleButton}
+              className="btn btn-info no-print btn-lg shadow"
+              onClick={handleButton}
             >
-              Print
+             <FaPrint /> Print
             </button>
           </div>
 
@@ -265,9 +269,9 @@ const SittingBill = () => {
         </div>
         <div className="container-fluid">
           <div className="heading-title">
-            <h4>Patient Details :</h4>
+            <h6>Patient Details :</h6>
           </div>
-          <h6 className="fw-bold">
+          <h6 className="">
             Patient Type : {getPatientData[0]?.patient_type}
           </h6>
           <table className="table table-bordered border">
@@ -313,7 +317,7 @@ const SittingBill = () => {
         {/* doctor details */}
         <div className="container-fluid">
           <div className="heading-title">
-            <h4>Doctor Details :</h4>
+            <h6>Doctor Details :</h6>
           </div>
           <div className="d-flex justify-content-between">
             <div className="text-start docDetails">
@@ -334,7 +338,7 @@ const SittingBill = () => {
         {/* patient observation */}
         <div className="container-fluid">
           <div className="heading-title">
-            <h4>Patient Observation :</h4>
+            <h6>Patient Observation :</h6>
           </div>
           <table className="table table-bordered border">
             <thead>
@@ -365,7 +369,7 @@ const SittingBill = () => {
         {/* treatment provided */}
         <div className="container-fluid">
           <div className="heading-title">
-            <h4>Treatment Procedure :</h4>
+            <h6>Treatment Procedure :</h6>
           </div>
           <div className="Treatment">
             {/* <p className="text-start fs-4 fw-bold">Treatment Procedure</p> */}
@@ -382,8 +386,8 @@ const SittingBill = () => {
                   <th>Net Treatment Amount</th>
                   <th>Sitting Amount</th>
                   <th>Paid Amount</th>
-                  <th>Payment Mode</th>
-                  <th>Payment Date</th>
+                  {/* <th>Payment Mode</th>
+                  <th>Payment Date</th> */}
                   {/* <th>Note</th> */}
                 </tr>
               </thead>
@@ -405,8 +409,8 @@ const SittingBill = () => {
                       <td>{item.final_cost}</td>
                       <td>{item.sitting_amount}</td>
                       <td>{item.paid_amount}</td>
-                      <td>{item.payment_mode}</td>
-                      <td>{item.date?.split(" ")[0]}</td>
+                      {/* <td>{item.payment_mode}</td>
+                      <td>{item.date?.split(" ")[0]}</td> */}
                       {/* <td>{item.note}</td> */}
                     </tr>
                   </>
@@ -466,18 +470,18 @@ const SittingBill = () => {
             <div className="col-xxl-8 col-xl-8 col-lg-8 col-md-8 col-sm-8 col-8">
               <div className="border">
                 <div className="heading-title mt-0">
-                  <h4>Total Amount In Words :</h4>
+                  <h6>Total Amount In Words :</h6>
                 </div>
                 <div className="text-word">
-                  <p className="m-0">
+                  <p className="m-0 fw-bold">
                     {" "}
-                    {numToWords(sittingBill[0]?.paid_amount).toUpperCase()} ONLY
+                    {numToWords(sittingBill[0]?.paid_amount).toUpperCase()} RUPEES ONLY
                   </p>
                 </div>
               </div>
               <div className="">
                 <div className="heading-title mt-0">
-                  <h4>Payment Info :</h4>
+                  <h6>Payment Info :</h6>
                 </div>
                 <div className="">
                   <table className="table table-bordered mb-0">
@@ -533,9 +537,9 @@ const SittingBill = () => {
                   <tbody>
                     <tr>
                       <td className="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6 border p-1 text-end total-tr">
-                        Total Amount Recieved:
+                        Total Amount Received:
                       </td>
-                      <td className="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6 border p-1 text-center total-tr">
+                      <td className="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6 border fw-bold p-1 text-center total-tr fs-6">
                         {sittingBill[0]?.paid_amount}
                       </td>
                     </tr>
@@ -545,14 +549,14 @@ const SittingBill = () => {
               <div className="border">
                 <div className="text-terms"></div>
                 <div className="heading-title mt-0">
-                  <h5 className="text-center">Clinic Seal & Signature</h5>
+                  <h6 className="text-center">Clinic Seal & Signature</h6>
                 </div>
               </div>
             </div>
           </div>
           <div className="border">
             <div className="heading-title mt-0">
-              <h4>Terms and Conditions :</h4>
+              <h6>Terms and Conditions :</h6>
             </div>
             <div className="text-termslong"></div>
           </div>
@@ -612,6 +616,7 @@ const SittingBill = () => {
 
 export default SittingBill;
 const Wrapper = styled.div`
+font-size: 12px;
   overflow: hidden;
   background-color: white;
   height: 100%;
@@ -697,7 +702,7 @@ const Wrapper = styled.div`
   }
 
   .text-terms {
-    height: 12.5rem;
+    height: 7.5rem;
   }
 
   .gutter {
@@ -725,7 +730,8 @@ const Wrapper = styled.div`
     white-space: nowrap;
   } */
 
-  th {
-    white-space: nowrap;
-  }
+  //th {
+   // white-space: nowrap;
+  // }
+ 
 `;

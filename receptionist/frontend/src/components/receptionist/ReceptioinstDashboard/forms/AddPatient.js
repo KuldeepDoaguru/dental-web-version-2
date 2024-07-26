@@ -761,9 +761,79 @@ function AddPatient() {
         <ul className="list-group">
           <li className="list-group-item">
             <div className="row">
+
+            <div className="col-sm-6">
+                <div className="form-outline">
+                  <label className="form-label mt-2" for="patientType">
+                    Patient Type *
+                  </label>
+
+                  <select
+                    className="form-select"
+                    id="patientType"
+                    name="patientType"
+                    required
+                    onChange={handleChange}
+                  >
+                    <option value="">Select Patient Type</option>
+                    <option value="General">General</option>
+                    <option value="Credit">Credit</option>
+                    {/* <option value="CGHS(Serving)">CGHS(Serving)</option>
+                    <option value="CGHS(Pensioner)">CGHS(Pensioner)</option>
+                    <option value="CSMA">CSMA</option> */}
+                  </select>
+                </div>
+              </div>
+           { data.patientType == "Credit" &&
+           <>
+           <div className="col-sm-6">
+                <div className="form-outline">
+                  <label className="form-label mt-2" for="patientType">
+                    Credit By *
+                  </label>
+
+                  <select
+                    className="form-select"
+                    id="patientType"
+                    name="patientType"
+                    required
+                    onChange={handleChange}
+                  >
+                    <option value="">Select Credit By</option>
+                    <option value="CGHS(Serving)">CGHS(Serving)</option>
+                    <option value="CGHS(Pensioner)">CGHS(Pensioner)</option>
+                   <option value="CSMA">CSMA</option>
+                  </select>
+                </div>
+              </div>
+
+
               <div className="col-sm-6">
                 <div className="form-outline" id="form1">
-                  <label className="form-label" for="name">
+                  <label className="form-label mt-2" for="name">
+                  Beneficiary Id *
+                  </label>
+                  <input
+                    type="text"
+                    id="name"
+                    className="form-control"
+                    name="patient_Name"
+                    onChange={handleChange}
+                    pattern="[A-Za-z\s]*"
+                    title="Text should contain only letters"
+                    placeholder="Enter full name"
+                    required
+                    autocomplete="off"
+                    maxLength={100}
+                  />
+                </div>
+              </div> 
+              </>
+}
+
+              <div className="col-sm-6">
+                <div className="form-outline" id="form1">
+                  <label className="form-label mt-2" for="name">
                     Patient name *
                   </label>
                   <input
@@ -783,7 +853,7 @@ function AddPatient() {
               </div>
               <div className="col-sm-6 ">
                 <div className="form-outline">
-                  <label className="form-label" for="gender">
+                  <label className="form-label mt-2" for="gender">
                     Gender *
                   </label>
                   <select
@@ -979,7 +1049,7 @@ function AddPatient() {
               <div className="col-sm-6">
                 <div className="form-outline">
                   <label className="form-label mt-2" for="weight">
-                    Weight *
+                    Weight
                   </label>
 
                   <input
@@ -988,7 +1058,7 @@ function AddPatient() {
                     className="form-control"
                     name="weight"
                     onChange={handleChange}
-                    required
+                    
                     placeholder="Enter weight in kg"
                     pattern="[0-9]*"
                     title="weight should contain only numbers"
@@ -1032,27 +1102,7 @@ function AddPatient() {
                 </div>
               </div>
 
-              <div className="col-sm-6">
-                <div className="form-outline">
-                  <label className="form-label mt-2" for="patientType">
-                    Patient Type *
-                  </label>
-
-                  <select
-                    className="form-select"
-                    id="patientType"
-                    name="patientType"
-                    required
-                    onChange={handleChange}
-                  >
-                    <option value="">Select Patient Type</option>
-                    <option value="General">General</option>
-                    <option value="CGHS(Serving)">CGHS(Serving)</option>
-                    <option value="CGHS(Pensioner)">CGHS(Pensioner)</option>
-                    <option value="CSMA">CSMA</option>
-                  </select>
-                </div>
-              </div>
+             
 
               <p className="mt-4">Fill details for Book Appointment</p>
 
@@ -1169,7 +1219,7 @@ function AddPatient() {
                                     }`} // Add 'active' class if the patient is selected
                                     onClick={() => handleDoctorSelect(doctor)} // Call handlePatientSelect function when the patient is clicked
                                   >
-                                    {"Dr. "} {doctor.employee_name} {"-"} Id:{" "}
+                                    {"Dr. "} {doctor.employee_name} <br/>  Id:{" "}
                                     {doctor.employee_ID}
                                     {/* Display other patient details as needed */}
                                   </li>
