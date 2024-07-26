@@ -161,6 +161,8 @@ const addPatient = (req, res) => {
       allergy,
       disease,
       patientType,
+      credit_By,
+      beneficiary_Id ,
       status,
       doctorId,
       doctor_name,
@@ -243,8 +245,8 @@ const addPatient = (req, res) => {
             // Proceed with adding the patient
             const insertPatientQuery = `
                       INSERT INTO patient_details (
-                          uhid, branch_name, patient_name, dob, age, weight, gender, bloodgroup, mobileno, emailid, contact_person, contact_person_name, allergy, disease, address, patient_type, aadhaar_no, patient_added_by, patient_added_by_emp_id, created_at
-                      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                          uhid, branch_name, patient_name, dob, age, weight, gender, bloodgroup, mobileno, emailid, contact_person, contact_person_name, allergy, disease, address, patient_type, credit_By , beneficiary_Id , aadhaar_no, patient_added_by, patient_added_by_emp_id, created_at
+                      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? , ?, ?)
                   `;
 
             const insertPatientParams = [
@@ -264,6 +266,8 @@ const addPatient = (req, res) => {
               disease,
               address,
               patientType,
+              credit_By,
+              beneficiary_Id,
               aadhaar_no,
               patient_added_by,
               patient_added_by_emp_id,
@@ -3693,6 +3697,33 @@ const completePatientBill = (req, res) => {
   }
 };
 
+const getInsuranceCompany = (req, res) => {
+  const { branch } = req.params;
+  try {
+    const sql = "SELECT * FROM insurance_company WHERE branch_name = ? AND status = 'Active' ";
+
+    db.query(sql,[branch], (err, results) => {
+      if (err) {
+        logger.error("Error fetching Insurance Company from MySql:");
+        console.error("Error fetching Insurance Company from MySql:", err);
+        res.status(500).json({ error: "Error fetching Insurance Company" });
+      } else {
+        res
+          .status(200)
+          .json({ data: results, message: "Insurance Company fetched successfully" });
+      }
+    });
+  } catch (error) {
+    logger.error("Error fetching Insurance Company from MySql:");
+    console.error("Error fetching Insurance Company from MySql:", error);
+    res.status(500).json({
+      success: false,
+      message: "Error in fetched Insurance Company",
+      error: error.message,
+    });
+  }
+};
+
 module.exports = {
   addPatient,
   getDisease,
@@ -3762,4 +3793,5 @@ module.exports = {
   updateBillforSitting,
   getPaidSittingBillbyTpid,
   completePatientBill,
+  getInsuranceCompany
 };
