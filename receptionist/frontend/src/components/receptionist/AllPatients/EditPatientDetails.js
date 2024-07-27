@@ -15,13 +15,29 @@ function EditPatientDetails({ onClose, patientInfo, allPatientData }) {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const { currentUser, refreshTable } = useSelector((state) => state.user);
+  const {currentBranch} = useSelector((state) => state.branch);
   const branch = currentUser.branch_name;
   const token = currentUser?.token;
   const [show, setShow] = useState(false);
   const [selectedDisease, setSelectedDisease] = useState([]);
   const [inputDisease, setInputDisease] = useState("");
   const [disease, setDisease] = useState([]);
+  const [insuranceCompany , setInsuranceCompany] = useState("");
 
+
+
+
+  const getInsuranceCompany = async () => {
+    try{
+     const response = await axios.get(`http://localhost:4000/api/v1/receptionist/getInsuranceCompany/${branch}`)
+     
+     setInsuranceCompany(response.data.data)
+    }
+    catch(error) {
+     console.log(error);
+    }
+}
+console.log(insuranceCompany)
   const timelineData = async (id) => {
     try {
       const response = await axios.post(
@@ -67,6 +83,8 @@ function EditPatientDetails({ onClose, patientInfo, allPatientData }) {
     allergy: patientInfo.allergy,
     disease: patientInfo.disease,
     patientType: patientInfo.patient_type,
+    credit_By : patientInfo.credit_By,
+    beneficiary_Id : patientInfo.beneficiary_Id,
     address: patientInfo.address,
     patient_updated_by: currentUser.employee_name,
     patient_updated_by_emp_id: currentUser.employee_ID,
@@ -86,6 +104,7 @@ function EditPatientDetails({ onClose, patientInfo, allPatientData }) {
   };
   useEffect(() => {
     getDisease();
+    getInsuranceCompany();
   }, []);
 
   useEffect(() => {
@@ -98,6 +117,7 @@ function EditPatientDetails({ onClose, patientInfo, allPatientData }) {
       }));
       setSelectedDisease(selected);
     }
+  
   }, [patientInfo]);
 
   console.log(selectedDisease);
@@ -226,8 +246,81 @@ function EditPatientDetails({ onClose, patientInfo, allPatientData }) {
                     readOnly
                     value={data.patientId}
                     id="recipient-name"
+                    disabled
                   />
                 </div>
+                <div class="mb-3">
+                  <label className="form-label" for="patientType">
+                    Patient Type *
+                  </label>
+
+                  <select
+                    className="form-select"
+                    id="patientType"
+                    name="patientType"
+                    value={data.patientType}
+                    required
+                    onChange={handleChange}
+                  >
+                    <option value="">Select Patient Type</option>
+                    <option value="General">General</option>
+                    {currentBranch[0].allow_insurance == "Yes" && <option value="Credit">Credit</option>}
+                  
+                  </select>
+                </div>
+                { data.patientType == "Credit" &&
+           <>
+           <div className="mb-3">
+                <div className="form-outline">
+                  <label className="form-label mt-2" for="patientType">
+                    Credit By *
+                  </label>
+
+                  <select
+                    className="form-select"
+                    id="credit_By"
+                    name="credit_By"
+                    required
+                    onChange={handleChange}
+                    value={data.credit_By}
+                  >
+                    <option value="">Select Credit By</option>
+                    {
+                  insuranceCompany && insuranceCompany?.map((item)=> (
+                      <option value={item.companyname}>{item.companyname}</option>
+                     )) 
+                    }
+                    
+                    {/* <option value="CGHS(Pensioner)">CGHS(Pensioner)</option>
+                   <option value="CSMA">CSMA</option> */}
+                  </select>
+                </div>
+              </div>
+
+
+              <div className="mb-3">
+                <div className="form-outline" id="form1">
+                  <label className="form-label mt-2" for="name">
+                  Beneficiary Id *
+                  </label>
+                  <input
+                    type="text"
+                    id="beneficiary_Id"
+                    className="form-control"
+                    name="beneficiary_Id"
+                    onChange={handleChange}
+                    value={data.beneficiary_Id}
+                    // pattern="[A-Za-z\s]*"
+                    // title="Text should contain only letters"
+                    placeholder="Enter Beneficiary Id"
+                    required
+                    autocomplete="off"
+                    maxLength={100}
+                  />
+                </div>
+              </div> 
+              </>
+}
                 <div class="mb-3">
                   <label className="form-label" for="name1">
                     Patient name
@@ -477,26 +570,7 @@ function EditPatientDetails({ onClose, patientInfo, allPatientData }) {
                     placeholder="Select or type to add..."
                   />
                 </div>
-                <div class="mb-3">
-                  <label className="form-label" for="patientType">
-                    Patient Type
-                  </label>
-
-                  <select
-                    className="form-select"
-                    id="patientType"
-                    name="patientType"
-                    value={data.patientType}
-                    required
-                    onChange={handleChange}
-                  >
-                    <option value="">Select Patient Type</option>
-                    <option value="General">General</option>
-                    <option value="CGHS(Serving)">CGHS(Serving)</option>
-                    <option value="CGHS(Pensioner)">CGHS(Pensioner)</option>
-                    <option value="CSMA">CSMA</option>
-                  </select>
-                </div>
+              
 
                 <button
                   type="submit"

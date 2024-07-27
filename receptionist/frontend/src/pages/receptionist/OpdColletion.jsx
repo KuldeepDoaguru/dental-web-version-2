@@ -65,7 +65,7 @@ function OpdCollection() {
 
   useEffect(() => {
     const filteredResults = appointmentsData.filter((row) =>
-      row.created_at.includes(selectedDate)
+      row?.created_at?.includes(selectedDate)
     );
     setSelectedDateAppData(filteredResults);
     handleSearch({ target: { value: searchTerm } });
@@ -86,10 +86,10 @@ function OpdCollection() {
 
     const filteredResults = appointmentsData.filter(
       (row) =>
-        (row.patient_name.toLowerCase().includes(searchTerm.trim()) ||
-          row.mobileno.includes(searchTerm.trim()) ||
-          row.uhid.toLowerCase().includes(searchTerm.trim())) &&
-        row.created_at.includes(selectedDate)
+        (row.patient_name.toLowerCase()?.includes(searchTerm.trim()) ||
+          row.mobileno?.includes(searchTerm.trim()) ||
+          row.uhid?.toLowerCase().includes(searchTerm.trim())) &&
+        row.created_at?.includes(selectedDate)
     );
 
     setFilteredData(filteredResults);
@@ -320,7 +320,7 @@ function OpdCollection() {
                           <th>Payment Mode</th>
                           <th>Transaction Id</th>
                           <th>Payment Status</th>
-                          <th>Refund Date</th>
+                          <th>Cancel Date</th>
                           <th>Created At</th>
                           <th>Action</th>
                         </tr>
@@ -384,11 +384,16 @@ function OpdCollection() {
                                 <Link
                                   to={`/print_Opd_Reciept/${data.appoint_id}`}
                                 >
-                                  {data.payment_Status == "paid" && (
+                                  {/* {data.payment_Status == "paid" && (
                                     <button className="btn btn-success">
                                       View Reciept
                                     </button>
-                                  )}
+                                  )} */}
+                                  
+                                    <button className="btn btn-success">
+                                      View Reciept
+                                    </button>
+                                 
                                 </Link>
                               </td>
                             </tr>

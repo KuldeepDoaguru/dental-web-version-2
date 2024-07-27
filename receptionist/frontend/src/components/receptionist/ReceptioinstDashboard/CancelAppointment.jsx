@@ -222,6 +222,8 @@ function CancleAppointment({ onClose, appointmentInfo, allAppointmentData }) {
 
   const [data, setData] = useState({
     appoint_id: appointmentInfo.appoint_id,
+    patient_type : appointmentInfo.patient_type,
+    payment_Mode : appointmentInfo.payment_Mode,
     patient_name: appointmentInfo.patient_name,
     appointment_dateTime: appointmentInfo.appointment_dateTime,
     assigned_doctor_name: appointmentInfo.assigned_doctor_name,
@@ -320,7 +322,7 @@ function CancleAppointment({ onClose, appointmentInfo, allAppointmentData }) {
       appoint_id: appointmentInfo.appoint_id,
       notes: data.notes,
       status: "Cancel",
-      payment_Status: "Refund",
+      payment_Status: (data.payment_Status == "paid" ?  "Refund" :  data.payment_Status),
       cancelReason: data.cancelReason,
       appointment_updated_by: currentUser.employee_name,
       appointment_updated_by_emp_id: currentUser.employee_ID,
@@ -401,6 +403,21 @@ function CancleAppointment({ onClose, appointmentInfo, allAppointmentData }) {
                   />
                 </div>
                 <div class="mb-3">
+                  <label for="patient_type" class="col-form-label">
+                   Patient Type:
+                  </label>
+                  <input
+                    type="text"
+                    value={data.patient_type}
+                    readOnly
+                    class="form-control"
+                    name="opd_amount"
+                    // onChange={handleChange}
+                    id="patient_type"
+                  />
+                </div>
+
+                <div class="mb-3">
                   <label for="recipient-name" class="col-form-label">
                     Patient Name:
                   </label>
@@ -476,9 +493,9 @@ function CancleAppointment({ onClose, appointmentInfo, allAppointmentData }) {
                     id="recipient-name"
                   />
                 </div>
-                <div class="mb-3">
+                { data.treatment_provided == "OPD" &&  <div class="mb-3">
                   <label for="message-text" class="col-form-label">
-                    Paid Amount for Appointment:
+                   Amount for Appointment Booking:
                   </label>
                   <input
                     type="text"
@@ -490,13 +507,44 @@ function CancleAppointment({ onClose, appointmentInfo, allAppointmentData }) {
                     id="recipient-name"
                   />
                 </div>
-                <div class="mb-3">
+}
+                { data.treatment_provided == "OPD" &&  <div class="mb-3">
+                  <label for="payment_Mode" class="col-form-label">
+                  Payment Mode 
+                  </label>
+                  <input
+                    type="text"
+                    value={data.payment_Mode}
+                    readOnly
+                    class="form-control"
+                    name="opd_amount"
+                    // onChange={handleChange}
+                    id="payment_Mode"
+                  />
+                </div>
+}
+                { data.treatment_provided == "OPD" &&  <div class="mb-3">
+                  <label for="payment_Mode" class="col-form-label">
+                  Payment Status 
+                  </label>
+                  <input
+                    type="text"
+                    value={data.payment_Status}
+                    readOnly
+                    class="form-control"
+                    name="opd_amount"
+                    // onChange={handleChange}
+                    id="payment_Mode"
+                  />
+                </div>
+} 
+               { (data.treatment_provided == "OPD" && data.payment_Status == "paid") && <div class="mb-3">
                   <label for="message-text" class="col-form-label">
                     Refund Amount:
                   </label>
                   <input
                     type="text"
-                    value={data.opd_amount}
+                    value={data?.payment_Status == "paid" ? data?.opd_amount : 0}
                     readOnly
                     class="form-control"
                     name="opd_amount"
@@ -504,6 +552,7 @@ function CancleAppointment({ onClose, appointmentInfo, allAppointmentData }) {
                     id="recipient-name"
                   />
                 </div>
+               }
                 <div class="mb-3">
                   <label for="message-text" class="col-form-label">
                     Cancel reason:

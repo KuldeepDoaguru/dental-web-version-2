@@ -346,6 +346,7 @@ function BookAppointment() {
     opd_amount: "",
     payment_Mode: "",
     transaction_Id: "",
+    cheque_number : "",
     payment_Status: "",
     notes: "",
     appointment_created_by: "",
@@ -763,6 +764,7 @@ function BookAppointment() {
         opd_amount: selectedTreatment === "OPD" ? opdAmount : "0",
         payment_Mode: bookData.payment_Mode,
         transaction_Id: bookData.transaction_Id,
+        cheque_number : bookData.cheque_number,
         payment_Status: bookData.payment_Status,
         appointment_created_by: currentUser.employee_name,
         appointment_created_by_emp_id: currentUser.employee_ID,
@@ -990,6 +992,65 @@ function BookAppointment() {
               </div>
               <div className="col-sm-6 ">
                 <div className="form-outline">
+                  
+                  <label className="form-label mt-2" for="date1">
+                    Patient Type
+                  </label>
+                  <input
+                    id="text"
+                    type="text"
+                    value={selectedPatient ? selectedPatient?.patient_type : ""}
+                    className="form-control"
+                    onChange={handleDateChange}
+                    readOnly
+                    disabled
+                    
+                  />
+                </div>
+              </div>
+            {
+              selectedPatient?.patient_type == "Credit" &&
+               <>
+             <div className="col-sm-6 ">
+                <div className="form-outline">
+                  
+                  <label className="form-label mt-2" for="date1">
+                  Credit By
+                  </label>
+                  <input
+                    id="text"
+                    type="text"
+                    value={selectedPatient ? selectedPatient?.credit_By : ""}
+                    className="form-control"
+                    onChange={handleDateChange}
+                    readOnly
+                    disabled
+                    
+                  />
+                </div>
+              </div>
+              <div className="col-sm-6 ">
+                <div className="form-outline">
+                  
+                  <label className="form-label mt-2" for="date1">
+                  Beneficiary Id
+                  </label>
+                  <input
+                    id="text"
+                    type="text"
+                    value={selectedPatient ? selectedPatient?.beneficiary_Id : ""}
+                    className="form-control"
+                    onChange={handleDateChange}
+                    readOnly
+                    disabled
+                    
+                  />
+                </div>
+              </div>
+              </>
+}
+              <div className="col-sm-6 ">
+                <div className="form-outline">
                   {/* <label className="form-label" for="form6Example2">
                             Date&Time
                           </label>
@@ -1158,12 +1219,15 @@ function BookAppointment() {
                         required
                       >
                         <option value="">Select</option>
-                        <option value="cash">Cash</option>
-                        <option value="online">Online</option>
+                        <option value="Cash">Cash</option>
+                             {selectedPatient?.patient_type == "Credit" && <option value="Credit">Credit</option> }
+                              <option value="UPI">UPI</option>
+                              <option value="Card">Card</option>
+                              <option value="Cheque">Cheque</option>
                       </select>
                     </div>
                   </div>
-                  {bookData.payment_Mode === "online" && (
+                  {(bookData.payment_Mode === "Card" ||bookData.payment_Mode === "UPI" )  && (
                     <div className="col-sm-6">
                       <div className="form-outline">
                         <label className="form-label mt-2" for="transaction_Id">
@@ -1182,6 +1246,31 @@ function BookAppointment() {
                       </div>
                     </div>
                   )}
+                    {(bookData.payment_Mode === "Cheque" )  && (
+                          <div className="col-sm-6">
+                            <div className="form-outline">
+                              <label
+                                className="form-label mt-2"
+                                for="cheque_number"
+                              >
+                                Cheque No *
+                              </label>
+                              <input
+                                type="text"
+                                id="cheque_number"
+                                className="form-control"
+                                onChange={handleChange}
+                                name="cheque_number"
+                                required
+                                placeholder="Enter Cheque No."
+                                pattern="[0-9]{6}"
+                    title="Cheque number should be 6 digits"
+                    maxLength={6}
+                    minLength={6}
+                              />
+                            </div>
+                          </div>
+                        )}
                   <div className="col-sm-6">
                     <div className="form-outline">
                       <label className="form-label mt-2" for="payment_Status">
@@ -1195,8 +1284,8 @@ function BookAppointment() {
                         required
                       >
                         <option value="">Select</option>
-                        <option value="paid">Paid</option>
-                        <option value="unpaid">Unpaid</option>
+                        {(bookData.payment_Mode == "Cheque" || bookData.payment_Mode == "Credit" ) ||   <option value="paid">Paid</option> }
+                             {(bookData.payment_Mode == "Cheque" || bookData.payment_Mode == "Credit" ) && <option value="Credit">Credit</option> }
                       </select>
                     </div>
                   </div>

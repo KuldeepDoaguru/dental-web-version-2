@@ -171,6 +171,7 @@ const addPatient = (req, res) => {
       opd_amount,
       payment_Mode,
       transaction_Id,
+      cheque_number,
       payment_Status,
       notes,
       address,
@@ -289,8 +290,8 @@ const addPatient = (req, res) => {
                   // Proceed with booking appointment
                   const bookAppointmentQuery = `
                               INSERT INTO appointments (
-                                  patient_uhid, branch_name, assigned_doctor_name, assigned_doctor_id, appointment_dateTime, treatment_provided, appointment_status,opd_amount, payment_Mode, transaction_Id, payment_Status, notes, appointment_created_by, appointment_created_by_emp_id, created_at
-                              ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?, ?, ?, ?)
+                                  patient_uhid, branch_name, assigned_doctor_name, assigned_doctor_id, appointment_dateTime, treatment_provided, appointment_status,opd_amount, payment_Mode, transaction_Id, cheque_number, payment_Status, notes, appointment_created_by, appointment_created_by_emp_id, created_at
+                              ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?, ?, ?, ? , ? )
                           `;
 
                   const bookAppointmentParams = [
@@ -304,6 +305,7 @@ const addPatient = (req, res) => {
                     opd_amount,
                     payment_Mode,
                     transaction_Id,
+                    cheque_number,
                     payment_Status,
                     notes,
                     patient_added_by,
@@ -435,6 +437,8 @@ const updatePatientDetails = (req, res) => {
       allergy,
       disease,
       patientType,
+      credit_By,
+      beneficiary_Id,
       address,
       patient_updated_by,
       patient_updated_by_emp_id,
@@ -448,7 +452,8 @@ const updatePatientDetails = (req, res) => {
              
              
                 
-           patient_name = ?,dob = ?, age = ?, weight = ?, gender = ? , bloodgroup = ?, mobileno = ?, emailid = ? , contact_person = ?, contact_person_name = ?, allergy = ?, disease = ? , address = ? , patient_type = ? , aadhaar_no = ? , patient_updated_by = ? , patient_updated_by_emp_id = ?, updated_at = ?
+           patient_name = ?,dob = ?, age = ?, weight = ?, gender = ? , bloodgroup = ?, mobileno = ?, emailid = ? , contact_person = ?, contact_person_name = ?, allergy = ?, disease = ? , address = ? , patient_type = ? , 
+           credit_By = ?, beneficiary_Id = ?, aadhaar_no = ? , patient_updated_by = ? , patient_updated_by_emp_id = ?, updated_at = ?
           WHERE 
               uhid = ?
       `;
@@ -468,6 +473,8 @@ const updatePatientDetails = (req, res) => {
       disease,
       address,
       patientType,
+      credit_By,
+      beneficiary_Id,
       aadhaar_no,
       patient_updated_by,
       patient_updated_by_emp_id,

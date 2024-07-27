@@ -25,6 +25,7 @@ function AllPatient() {
   const [searchTerm, setSearchTerm] = useState("");
   const [loading, setLoading] = useState(false);
 
+  
   const getPatient = async () => {
     setLoading(true);
     try {
