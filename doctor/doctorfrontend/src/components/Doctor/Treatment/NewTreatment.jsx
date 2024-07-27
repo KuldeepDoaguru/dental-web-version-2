@@ -12,7 +12,7 @@ import moment from "moment";
 const NewTreatment = () => {
   const [patientDetails, setPatientDetails] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const { appoint_id, tpid } = useParams();
+  const { tpid, appoint_id } = useParams();
   console.log(appoint_id);
   console.log(tpid);
   const [showEditPopup, setShowEditPopup] = useState(false);
@@ -155,7 +155,7 @@ const NewTreatment = () => {
   const getData = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:8888/api/doctor/getDentalDataByID/${appoint_id}`,
+        `http://localhost:8888/api/doctor/getDentalDataByID/${appoint_id}/${tpid}`,
         {
           headers: {
             "Content-Type": "application/json",

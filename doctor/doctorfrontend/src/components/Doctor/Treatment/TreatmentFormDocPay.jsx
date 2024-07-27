@@ -44,7 +44,7 @@ const TreatmentFormDocPay = () => {
     net_amt: "",
     paid_amount: "",
     pending_amount: "",
-    sitting_payment_status: "",
+    sitting_payment_status: "pending",
     note: "",
   });
 
@@ -55,7 +55,7 @@ const TreatmentFormDocPay = () => {
     setLoading(true);
     try {
       const { data } = await axios.get(
-        `https://dentalgurudoctor.doaguru.com/api/doctor/getOnlyExaminv/${tp_id}/${tsid}`,
+        `http://localhost:8888/api/doctor/getOnlyExaminv/${tp_id}/${tsid}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -77,12 +77,17 @@ const TreatmentFormDocPay = () => {
     try {
       let endpoint;
       if (sitCheck.length > 0) {
-        endpoint = `https://dentalgurudoctor.doaguru.com/api/doctor/getExaminedataByIdandexamineAfterSitOne/${tsid}/${tp_id}`;
+        endpoint = `http://localhost:8888/api/doctor/getExaminedataByIdandexamineAfterSitOne/${tsid}/${tp_id}`;
       } else {
-        endpoint = `https://dentalgurudoctor.doaguru.com/api/doctor/getExaminedataByIdandexamine/${tsid}/${tp_id}`;
+        endpoint = `http://localhost:8888/api/doctor/getExaminedataByIdandexamine/${tsid}/${tp_id}`;
       }
 
-      const { data } = await axios.get(endpoint);
+      const { data } = await axios.get(endpoint, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       console.log(data);
       setTreatments(data);
@@ -295,7 +300,7 @@ const TreatmentFormDocPay = () => {
   const timelineForTreatForm = async () => {
     try {
       const response = await axios.post(
-        "https://dentalgurudoctor.doaguru.com/api/doctor/insertTimelineEvent",
+        "http://localhost:8888/api/doctor/insertTimelineEvent",
         {
           type: "Treatment Procedure",
           description:
@@ -422,11 +427,12 @@ const TreatmentFormDocPay = () => {
   };
   console.log(formDetails);
   console.log(pendingAmountValue);
+  console.log(payableAmountafterSecAmount);
 
   const treatmentStatsUpdate = async () => {
     try {
       const response = await axios.put(
-        `https://dentalgurudoctor.doaguru.com/api/doctor/updateTreatSittingStatus/${branch}/${tsid}`,
+        `http://localhost:8888/api/doctor/updateTreatSittingStatus/${branch}/${tsid}`,
         { treatment_status: treatStats },
         {
           headers: {
@@ -441,11 +447,59 @@ const TreatmentFormDocPay = () => {
     }
   };
 
+  const sittingForm = {
+    sitting_number: lastTreatment?.current_sitting,
+    treatment: treatment,
+    teeth_number: lastTreatment?.selected_teeth,
+    teeth_qty: dataArray?.length,
+    treatment_cost: lastTreatment?.totalCost,
+    cost_per_qty: lastTreatment?.totalCost * dataArray?.length,
+    discount:
+      lastTreatment?.current_sitting <= 1
+        ? formData.disc_amt
+        : lastTreatment?.disc_amt <= 0
+        ? formData.disc_amt === ""
+          ? 0
+          : formData.disc_amt
+        : lastTreatment?.disc_amt,
+    final_cost:
+      lastTreatment?.paid_amount > 0
+        ? lastTreatment?.pending_amount
+        : rawNetAmount,
+    sitting_amount: formData.paid_amount,
+    pending_amount:
+      lastTreatment?.paid_amount > 0
+        ? lastTreatment?.pending_amount - formData.paid_amount
+        : rawNetAmount - formData.paid_amount,
+    pay_direct:
+      secRecValue <= payableAmountafterSecAmount
+        ? payableAmountafterSecAmount - secRecValue
+        : formData.sitting_payment_status === "Received"
+        ? payableAmountafterSecAmount
+        : 0,
+    pay_security_amount: secRecValue,
+    payment_status: formData.sitting_payment_status,
+    note: formData.note,
+  };
+
+  console.log(sittingForm);
+  const generateBillSitting = async () => {
+    try {
+      const res = await axios.post(
+        `http://localhost:8888/api/doctor/generateSittingBill/${tp_id}/${branch}`,
+        sittingForm
+      );
+      cogoToast.success("sitting bill generate successfully");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const handleSubmit = async () => {
     setLoading(true);
     try {
       const res = await axios.post(
-        `https://dentalgurudoctor.doaguru.com/api/doctor/insertTreatmentData/${tsid}/${appoint_id}/${tp_id}`,
+        `http://localhost:8888/api/doctor/insertTreatmentData/${tsid}/${appoint_id}/${tp_id}`,
         formDetails,
         {
           headers: {
@@ -471,10 +525,11 @@ const TreatmentFormDocPay = () => {
         });
         setLoading(false);
         treatmentStatsUpdate();
+        generateBillSitting();
         getPatientDetail();
 
         navigate(
-          `/TPrescriptionDash/${tsid}/${appoint_id}/${tp_id}/${lastTreatment?.current_sitting}/${treatment}`
+          `/ViewPatientSittingBill/${tp_id}/${lastTreatment?.current_sitting}/${treatment}`
         );
         // navigate(`/TreatmentDashBoard/${appoint_id}/${tp_id}`);
       } else {
@@ -494,7 +549,7 @@ const TreatmentFormDocPay = () => {
   const getPatientDetail = async () => {
     try {
       const res = await axios.get(
-        `https://dentalgurudoctor.doaguru.com/api/doctor/getAppointmentsWithPatientDetailsById/${tp_id}`,
+        `http://localhost:8888/api/doctor/getAppointmentsWithPatientDetailsById/${tp_id}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -546,7 +601,7 @@ const TreatmentFormDocPay = () => {
   const getSecurityAmt = async () => {
     try {
       const { data } = await axios.get(
-        `https://dentalgurudoctor.doaguru.com/api/doctor/getSecurityAmountByAppointmentId/${tp_id}`,
+        `http://localhost:8888/api/doctor/getSecurityAmountByAppointmentId/${tp_id}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -591,7 +646,7 @@ const TreatmentFormDocPay = () => {
   const updateAmountAfterPayViaSecAmount = async () => {
     try {
       const res = await axios.put(
-        `https://dentalgurudoctor.doaguru.com/api/doctor/updateRecSecAmountAfterPayment/${tp_id}`,
+        `http://localhost:8888/api/doctor/updateRecSecAmountAfterPayment/${tp_id}`,
         {
           sec_rec_amt:
             lastTreatment?.pending_amount <= 0
@@ -632,7 +687,7 @@ const TreatmentFormDocPay = () => {
   const timelineForMakePayViaSecurity = async () => {
     try {
       const response = await axios.post(
-        "https://dentalgurudoctor.doaguru.com/api/doctor/insertTimelineEvent",
+        "http://localhost:8888/api/doctor/insertTimelineEvent",
         {
           type: "Security Amount Used",
           description: `${
@@ -660,7 +715,7 @@ const TreatmentFormDocPay = () => {
     } else {
       try {
         const res = await axios.put(
-          `https://dentalgurudoctor.doaguru.com/api/doctor/updateSecurityAmountAfterPayment/${tp_id}`,
+          `http://localhost:8888/api/doctor/updateSecurityAmountAfterPayment/${tp_id}`,
           { remaining_amount: remaining_amount },
           {
             headers: {
@@ -681,6 +736,7 @@ const TreatmentFormDocPay = () => {
     }
   };
 
+  console.log(formData);
   console.log(showDirect, partPay);
   console.log(lastTreatment?.net_amount);
 
@@ -1013,7 +1069,9 @@ const TreatmentFormDocPay = () => {
                       </label>
                       <div>
                         {securityAmt[0]?.remaining_amount > 0 &&
-                        formData.paid_amount > 0 ? (
+                        formData.paid_amount > 0 &&
+                        formData.paid_amount <=
+                          securityAmt[0]?.remaining_amount ? (
                           !showDirect ? (
                             <button
                               type="button"

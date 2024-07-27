@@ -206,8 +206,7 @@ const AppointTable = () => {
           return (
             item.appoint_id === appointId &&
             item.tp_id === tpid &&
-            item.package_status !== null &&
-            item.treatment_provided !== "OPD"
+            item.package_status !== null
           );
         });
 
@@ -547,9 +546,7 @@ const AppointTable = () => {
                                 </td>
                                 <td>
                                   <small>
-                                    {item.treatment_status === "completed" ||
-                                    item.treatment_status === null ||
-                                    item.treatment_provided === "OPD"
+                                    {item.treatment_status === "completed"
                                       ? item.treatment_provided
                                       : item.treatment_names}
                                   </small>
@@ -565,11 +562,7 @@ const AppointTable = () => {
                                 <td>{item.disease}</td>
                                 <td>{item.patient_type}</td>
                                 <td>{item.notes}</td>
-                                <td>
-                                  {item.treatment_provided === "OPD"
-                                    ? 0
-                                    : item.current_sitting + 1}
-                                </td>
+                                <td>{item.current_sitting + 1}</td>
                                 <td>{item.appointment_status}</td>
                                 <td>
                                   <div className="dropdown">

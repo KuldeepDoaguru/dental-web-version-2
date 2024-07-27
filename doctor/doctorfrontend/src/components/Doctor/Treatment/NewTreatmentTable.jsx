@@ -9,9 +9,11 @@ import { useDispatch, useSelector } from "react-redux";
 import cogoToast from "cogo-toast";
 
 const NewTreatmentTable = () => {
-  const { id, tpid } = useParams();
-  console.log(id);
+  const { appoint_id, tpid } = useParams();
+  console.log(appoint_id);
   const navigate = useNavigate();
+  const branchData = useSelector((state) => state.branch.currentBranch);
+  console.log(branchData);
   const [loading, setLoading] = useState(false);
   const [treatmentData, setTreatmentData] = useState([]);
   const [modalIndex, setModalIndex] = useState(null);
@@ -182,6 +184,23 @@ const NewTreatmentTable = () => {
     }
   };
 
+  const updateAppointmentStat = async () => {
+    try {
+      const res = await axios.put(
+        `http://localhost:8888/api/doctor/updateAppointStatus/${appoint_id}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      cogoToast.success("appointment updated");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const generateFinalBill = async () => {
     setLoading(true);
     try {
@@ -197,6 +216,10 @@ const NewTreatmentTable = () => {
       );
       console.log(res);
       setLoading(false);
+      {
+        branchData[0]?.doctor_payment !== "Yes" && updateAppointmentStat();
+      }
+
       setBillData(res.data);
       timelineForFinalBill();
       cogoToast.success("bill generated successfully");

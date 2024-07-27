@@ -113,6 +113,8 @@ const {
   insertTreatPrescriptionQuick,
   getTreatPrescriptionByAppointIdList,
   generateSittingBill,
+  getEmployeeDetailsbyId,
+  getSittingBillDueBySittingId,
 } = require("../controller/authTreatment.js");
 const {
   uploadImage,
@@ -306,11 +308,7 @@ router.delete(
   authenticate,
   deleteTreatPrescriptionById
 );
-router.put(
-  "/updateAppointStatus/:appointId",
-  authenticate,
-  updateAppointStatus
-);
+router.put("/updateAppointStatus/:appointId", updateAppointStatus);
 router.get("/onGoingTreat/:patientUHID", authenticate, onGoingTreat);
 // Medical Prescription Routes END here......
 
@@ -577,5 +575,16 @@ router.get(
 router.post("/generateSittingBill/:tpid/:branch", generateSittingBill);
 router.get("/getPatientByAppID/:appoint_id", getPatientByAppID);
 router.post("/insertPatientPrescription", insertPatientPrescription);
+router.get(
+  "/getEmployeeDetailsbyId/:branch/:eid",
+  authenticate,
+  getEmployeeDetailsbyId
+);
+
+router.get(
+  "/getSittingBillbyId/:branch/:sbid/:tpid",
+  authenticate,
+  getSittingBillDueBySittingId
+);
 
 module.exports = { authRoutes: router };

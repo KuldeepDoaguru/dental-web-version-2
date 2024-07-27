@@ -4,6 +4,7 @@ import { IoMdArrowRoundBack } from "react-icons/io";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
+import numWords from "num-words";
 
 const SittingBill = () => {
   const { tpid, sitting, treatment } = useParams();
@@ -20,6 +21,8 @@ const SittingBill = () => {
   const [getTreatSug, setGetTreatSug] = useState([]);
   const [getBranch, setGetBranch] = useState([]);
   const [getLabData, setGetLabData] = useState([]);
+  const [sittingBill, setSittingBill] = useState([]);
+  const [getDocDetails, setGetDocDetails] = useState([]);
 
   const getBranchDetails = async () => {
     try {
@@ -59,6 +62,8 @@ const SittingBill = () => {
     }
   };
 
+  console.log(getPatientData[0]?.doctor_id);
+
   const getLabAllData = async () => {
     try {
       const res = await axios.get(
@@ -77,85 +82,93 @@ const SittingBill = () => {
     }
   };
 
+  const getSittingBillbyId = async () => {
+    try {
+      const { data } = await axios.get(
+        `http://localhost:8888/api/doctor/getSittingBillbyId/${branch}/${sitting}/${tpid}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setSittingBill(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  console.log(sittingBill);
+
+  const getDoctorDetails = async () => {
+    try {
+      const { data } = await axios.get(
+        `http://localhost:8888/api/doctor/getEmployeeDetailsbyId/${branch}/${getPatientData[0]?.doctor_id}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setGetDocDetails(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  console.log(getDocDetails);
+
+  const getExamineDetails = async () => {
+    try {
+      const res = await axios.get(
+        `http://localhost:8888/api/doctor/getDentalDataByTpid/${tpid}/${branch}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(res.data);
+      setGetExaminData(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  console.log(getExaminData);
+
   useEffect(() => {
     getPatientDetail();
     getBranchDetails();
     getLabAllData();
+    getSittingBillbyId();
+    // getDoctorDetails();
+    getExamineDetails();
   }, []);
+
+  useEffect(() => {
+    getDoctorDetails();
+  }, [getPatientData]);
 
   const goBack = () => {
     window.history.go(-1);
+  };
+
+  const handleButton = async () => {
+    try {
+      window.print();
+    } catch (error) {
+      console.log("Error updating sitting count", error);
+    }
   };
   return (
     <>
       <Wrapper>
         {/* branch details */}
-        {/* <div className="container-fluid">
-          <div className="row">
-            <div className="col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-4 col-4">
-              <div className="clinic-logo">
-                <img
-                  src="https://res.cloudinary.com/dq5upuxm8/image/upload/v1708075638/dental%20guru/Login-page_1_cwadmt.png"
-                  alt=""
-                  className="img-fluid"
-                />
-              </div>
-            </div>
-            <div className="col-xxl-8 col-xl-8 col-lg-8 col-md-8 col-sm-8 col-8">
-              <div className="header-left">
-                <h3 className="text-center">Invoice</h3>
-                <hr />
-                <h6>
-                  <strong>Clinic Name :</strong>{" "}
-                  <span
-                    className="fw-bold text-capitalize"
-                    style={{ color: "#00b894" }}
-                  >
-                    {getBranch[0]?.hospital_name}
-                  </span>
-                </h6>
-                <hr />
-                <h6>
-                  <strong>Branch Name :</strong>{" "}
-                  <span
-                    className="fw-bold text-capitalize"
-                    style={{ color: "#00b894" }}
-                  >
-                    {getBranch[0]?.branch_name}
-                  </span>
-                </h6>
-                <hr />
-                <h6>
-                  <strong>Address :</strong>{" "}
-                  <span
-                    className="fw-bold text-capitalize"
-                    style={{ color: "#00b894" }}
-                  >
-                    {getBranch[0]?.branch_address}
-                  </span>
-                </h6>
-                <hr />
-                <h6>
-                  <strong>Phone No. :</strong>{" "}
-                  <span
-                    className="fw-bold text-capitalize"
-                    style={{ color: "#00b894" }}
-                  >
-                    {getBranch[0]?.branch_contact}
-                  </span>
-                </h6>
-                <hr />
-                <h6>
-                  <strong>Email ID :</strong>{" "}
-                  <span className="fw-bold" style={{ color: "#00b894" }}>
-                    {getBranch[0]?.branch_email}
-                  </span>
-                </h6>
-              </div>
-            </div>
-          </div>
-          <hr />
-        </div> */}
+
         <div className="container-fluid">
           <div className="d-flex justify-content-between">
             <button
@@ -174,7 +187,7 @@ const SittingBill = () => {
                 backgroundColor: "#0dcaf0",
                 border: "#0dcaf0",
               }}
-              //   onClick={handleButton}
+              onClick={handleButton}
             >
               Print
             </button>
@@ -195,13 +208,13 @@ const SittingBill = () => {
         </div>
         {/* patient details */}
         <div className="text-center">
-          <h3>Invoice</h3>
+          <h3>Sitting Invoice</h3>
         </div>
         <div className="container-fluid">
           <div className="heading-title">
-            <h4>Patient Details :</h4>
+            <h4 className="fs-6">Patient Details :</h4>
           </div>
-          <h6 className="fw-bold">
+          <h6 className="fw-bold" style={{ fontSize: "12px" }}>
             Patient Type : {getPatientData[0]?.patient_type}
           </h6>
           <table className="table table-bordered border">
@@ -225,13 +238,13 @@ const SittingBill = () => {
                     <th scope="row">Address</th>
                     <td>{item.address}</td>
                     <th scope="row">Invoice No.</th>
-                    <td>billDetails[0]?.bill_id</td>
+                    <td>{sittingBill[0]?.sb_id}</td>
                   </tr>
                   <tr>
                     <th scope="row">Mobile No.</th>
                     <td>{item.mobileno}</td>
                     <th scope="row">Date</th>
-                    <td>billDetails[0]?.bill_date.split("T")[0]</td>
+                    <td>{sittingBill[0]?.date?.split(" ")[0]}</td>
                   </tr>
                   <tr>
                     <th scope="row">Email</th>
@@ -247,19 +260,20 @@ const SittingBill = () => {
         {/* doctor details */}
         <div className="container-fluid">
           <div className="heading-title">
-            <h4>Doctor Details :</h4>
+            <h4 className="fs-6">Doctor Details :</h4>
           </div>
           <div className="d-flex justify-content-between">
             <div className="text-start docDetails">
-              <p>
+              <p style={{ fontSize: "12px" }}>
                 <strong>Doctor Name :</strong> Dr.{" "}
-                user.currentUser.employee_name
+                {getDocDetails[0]?.employee_name}
               </p>
-              <p>
-                <strong>Mobile :</strong> user.currentUser.employee_mobile
+              <p style={{ fontSize: "12px" }}>
+                <strong>Mobile :</strong>
+                {getDocDetails[0]?.employee_mobile}
               </p>
-              <p>
-                <strong>Email :</strong> user.currentUser.email
+              <p style={{ fontSize: "12px" }}>
+                <strong>Email :</strong> {getDocDetails[0]?.employee_email}
               </p>
             </div>
           </div>
@@ -268,7 +282,7 @@ const SittingBill = () => {
         {/* patient observation */}
         <div className="container-fluid">
           <div className="heading-title">
-            <h4>Patient Observation :</h4>
+            <h4 className="fs-6">Patient Observation :</h4>
           </div>
           <table className="table table-bordered border">
             <thead>
@@ -281,15 +295,17 @@ const SittingBill = () => {
               </tr>
             </thead>
             <tbody>
-              <>
-                <tr>
-                  <td>selected_teeth</td>
-                  <td>disease</td>
-                  <td>chief_complain</td>
-                  <td>on_examination</td>
-                  <td>advice</td>
-                </tr>
-              </>
+              {getExaminData?.map((item) => (
+                <>
+                  <tr>
+                    <td>{item.selected_teeth}</td>
+                    <td>{item.disease}</td>
+                    <td>{item.chief_complain}</td>
+                    <td>{item.on_examination}</td>
+                    <td>{item.advice}</td>
+                  </tr>
+                </>
+              ))}
             </tbody>
           </table>
         </div>
@@ -297,7 +313,7 @@ const SittingBill = () => {
         {/* treatment provided */}
         <div className="container-fluid">
           <div className="heading-title">
-            <h4>Treatment Procedure :</h4>
+            <h4 className="fs-6">Treatment Procedure :</h4>
           </div>
           <div className="Treatment">
             {/* <p className="text-start fs-4 fw-bold">Treatment Procedure</p> */}
@@ -311,32 +327,39 @@ const SittingBill = () => {
                   <th>Cost</th>
                   <th>Cst * Qty</th>
                   <th>Disc %</th>
-                  <th>Net Amount</th>
+                  <th>Net Treatment Amount</th>
+                  <th>Sitting Amount</th>
                   <th>Paid Amount</th>
                 </tr>
               </thead>
               <tbody>
-                <React.Fragment>
-                  <tr
-                  // className={index % 2 === 0 ? "table-primary" : "table-info"}
-                  >
-                    <td>sitting_number</td>
-                    <td>dental_treatment</td>
-                    <td>no_teeth</td>
-                    <td>qty</td>
-                    <td>cost_amt</td>
-                    <td>total_amt</td>
-                    <td>disc_amt</td>
-                    <td>net_amount</td>
-                    <td>
-                      {" "}
-                      sitting_payment_status === "Pending" ? 0 :
-                      item.paid_amount
-                    </td>
-                  </tr>
-                </React.Fragment>
+                {sittingBill?.map((item, index) => (
+                  <>
+                    <tr
+                      className={
+                        index % 2 === 0 ? "table-primary" : "table-info"
+                      }
+                    >
+                      <td>{item.sitting_number}</td>
+                      <td>{item.treatment}</td>
+                      <td>{item.teeth_number}</td>
+                      <td>{item.teeth_qty}</td>
+                      <td>{item.treatment_cost}</td>
+                      <td>{item.cost_per_qty}</td>
+                      <td>{item.discount}%</td>
+                      <td>{item.final_cost}</td>
+                      <td>{item.sitting_amount}</td>
+                      <td>
+                        {" "}
+                        {item.sitting_payment_status === "Pending"
+                          ? 0
+                          : item.paid_amount}
+                      </td>
+                    </tr>
+                  </>
+                ))}
               </tbody>
-              <tfoot>
+              {/* <tfoot>
                 <tr>
                   <td
                     colSpan="8"
@@ -346,13 +369,11 @@ const SittingBill = () => {
                     Treatment Pending Payment:
                   </td>
                   <td className="heading-title text-danger fw-bold">
-                    {/* Calculate total cost here */}
-                    {/* Assuming getTreatData is an array of objects with 'net_amount' property */}
                     billDetails[0]?.total_amount - totalBillvalueWithoutGst
                   </td>
                 </tr>
-              </tfoot>
-              <tfoot>
+              </tfoot> */}
+              {/* <tfoot>
                 <tr>
                   <td
                     colSpan="7"
@@ -362,27 +383,27 @@ const SittingBill = () => {
                     Treatment Total:
                   </td>
                   <td className="heading-title">
-                    {/* {netVal.reduce(
+                    {netVal.reduce(
                       (total, item) =>
                         total +
                         (Number(item.total_amt) -
                           (Number(item.total_amt) * Number(item.disc_amt)) /
                             100),
                       0
-                    )} */}
+                    )}
                   </td>
 
                   <td className="heading-title">
-                    {/* {getTreatData.reduce(
+                    {getTreatData.reduce(
                       (total, item) =>
                         item.sitting_payment_status === "Pending"
                           ? total
                           : total + Number(item.paid_amount),
                       0
-                    )} */}
+                    )}
                   </td>
                 </tr>
-              </tfoot>
+              </tfoot> */}
             </table>
           </div>
         </div>
@@ -392,15 +413,17 @@ const SittingBill = () => {
             <div className="col-xxl-8 col-xl-8 col-lg-8 col-md-8 col-sm-8 col-8">
               <div className="border">
                 <div className="heading-title mt-0">
-                  <h4>Total Amount In Words :</h4>
+                  <h4 className="fs-6">Total Amount In Words :</h4>
                 </div>
                 <div className="text-word">
-                  <p className="m-0">totalBillvalueWithoutGst</p>
+                  <p className="m-0 fw-bold mx-2" style={{ fontSize: "12px" }}>
+                    {numWords(sittingBill[0]?.paid_amount)?.toUpperCase()} ONLY
+                  </p>
                 </div>
               </div>
               <div className="">
                 <div className="heading-title mt-0">
-                  <h4>Payment Info :</h4>
+                  <h4 className="fs-6">Payment Info :</h4>
                 </div>
                 <div className="">
                   <table className="table table-bordered mb-0">
@@ -444,14 +467,14 @@ const SittingBill = () => {
               <div className="">
                 <table className="table table-bordered mb-0">
                   <tbody>
-                    <tr>
+                    {/* <tr>
                       <td className="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6 border p-1 text-end total-tr">
                         Amount Received After Treatment:
                       </td>
                       <td className="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6 border p-1 text-center total-tr">
                         totalBillvalueWithoutGst - payafterTreat
                       </td>
-                    </tr>
+                    </tr> */}
                   </tbody>
                   <tbody>
                     <tr>
@@ -459,7 +482,7 @@ const SittingBill = () => {
                         Total Amount Recieved:
                       </td>
                       <td className="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6 border p-1 text-center total-tr">
-                        totalBillvalueWithoutGst
+                        {sittingBill[0]?.paid_amount}
                       </td>
                     </tr>
                   </tbody>
@@ -468,14 +491,14 @@ const SittingBill = () => {
               <div className="border">
                 <div className="text-terms"></div>
                 <div className="heading-title mt-0">
-                  <h5 className="text-center">Clinic Seal & Signature</h5>
+                  <h5 className="text-center fs-6">Clinic Seal & Signature</h5>
                 </div>
               </div>
             </div>
           </div>
           <div className="border">
             <div className="heading-title mt-0">
-              <h4>Terms and Conditions :</h4>
+              <h4 className="fs-6">Terms and Conditions :</h4>
             </div>
             <div className="text-termslong"></div>
           </div>
@@ -643,8 +666,9 @@ const Wrapper = styled.div`
   .text-termslong {
     height: 2rem;
   }
-  /* th,
+
+  th,
   td {
-    white-space: nowrap;
-  } */
+    font-size: 12px;
+  }
 `;
