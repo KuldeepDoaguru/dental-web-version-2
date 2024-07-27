@@ -15,6 +15,7 @@ function AddPatient() {
   const navigate = useNavigate();
   const user = useSelector((state) => state.user);
   const { refreshTable } = useSelector((state) => state.user);
+  const {currentBranch} = useSelector((state) => state.branch);
   const branch = user?.currentUser?.branch_name;
   const token = user?.currentUser?.token;
 
@@ -36,6 +37,7 @@ function AddPatient() {
   const [branchDetail, setBranchDetail] = useState([]);
   const [branchHolidays, setBranchHolidays] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [insuranceCompany , setInsuranceCompany] = useState("");
 
   const opdCost = treatments?.filter(
     (treatment) => treatment?.treatment_name === "OPD"
@@ -64,6 +66,18 @@ function AddPatient() {
       console.log(error);
     }
   };
+
+  const getInsuranceCompany = async () => {
+           try{
+            const response = await axios.get(`http://localhost:4000/api/v1/receptionist/getInsuranceCompany/${branch}`)
+            
+            setInsuranceCompany(response.data.data)
+           }
+           catch(error) {
+            console.log(error);
+           }
+  }
+  console.log(insuranceCompany)
 
   const getBranchHolidays = async () => {
     try {
@@ -267,6 +281,7 @@ function AddPatient() {
     getDoctorsWithLeave();
     getBranchDetail();
     getBranchHolidays();
+    getInsuranceCompany()
   }, []);
 
   useEffect(() => {
@@ -314,6 +329,8 @@ function AddPatient() {
     allergy: "",
     disease: "",
     patientType: "",
+    credit_By : "" ,
+    beneficiary_Id : "" ,
     status: "",
     doctorId: "",
     doctor_name: "",
@@ -610,6 +627,8 @@ function AddPatient() {
         status: "Appoint",
         disease: selectedDisease?.map((option) => option.value).toString(),
         patientType: data.patientType,
+        credit_By : data.credit_By ,
+        beneficiary_Id : data.beneficiary_Id ,
         doctorId: selectedDoctor.employee_ID,
         doctor_name: selectedDoctor.employee_name,
         doctor_email: selectedDoctor.employee_email,
@@ -754,6 +773,7 @@ function AddPatient() {
 
   console.log(filteredDoctor);
   console.log(selectedDoctor);
+  console.log(currentBranch)
 
   return (
     <Wrapper>
@@ -777,7 +797,7 @@ function AddPatient() {
                   >
                     <option value="">Select Patient Type</option>
                     <option value="General">General</option>
-                    <option value="Credit">Credit</option>
+                   {currentBranch[0].allow_insurance == "Yes" && <option value="Credit">Credit</option>} 
                     {/* <option value="CGHS(Serving)">CGHS(Serving)</option>
                     <option value="CGHS(Pensioner)">CGHS(Pensioner)</option>
                     <option value="CSMA">CSMA</option> */}
@@ -794,15 +814,20 @@ function AddPatient() {
 
                   <select
                     className="form-select"
-                    id="patientType"
-                    name="patientType"
+                    id="credit_By"
+                    name="credit_By"
                     required
                     onChange={handleChange}
                   >
                     <option value="">Select Credit By</option>
-                    <option value="CGHS(Serving)">CGHS(Serving)</option>
-                    <option value="CGHS(Pensioner)">CGHS(Pensioner)</option>
-                   <option value="CSMA">CSMA</option>
+                    {
+                     insuranceCompany.map((item)=> (
+                      <option value={item.companyname}>{item.companyname}</option>
+                     )) 
+                    }
+                    
+                    {/* <option value="CGHS(Pensioner)">CGHS(Pensioner)</option>
+                   <option value="CSMA">CSMA</option> */}
                   </select>
                 </div>
               </div>
@@ -815,13 +840,13 @@ function AddPatient() {
                   </label>
                   <input
                     type="text"
-                    id="name"
+                    id="beneficiary_Id"
                     className="form-control"
-                    name="patient_Name"
+                    name="beneficiary_Id"
                     onChange={handleChange}
-                    pattern="[A-Za-z\s]*"
-                    title="Text should contain only letters"
-                    placeholder="Enter full name"
+                    // pattern="[A-Za-z\s]*"
+                    // title="Text should contain only letters"
+                    placeholder="Enter Beneficiary Id"
                     required
                     autocomplete="off"
                     maxLength={100}

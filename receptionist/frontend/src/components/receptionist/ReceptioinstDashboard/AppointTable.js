@@ -111,13 +111,13 @@ const AppointTable = () => {
 
 
 console.log(appointmentsData);
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      dispatch(toggleTableRefresh());
-    }, 5000);
+  // useEffect(() => {
+  //   const intervalId = setInterval(() => {
+  //     dispatch(toggleTableRefresh());
+  //   }, 5000);
 
-    return () => clearInterval(intervalId);
-  }, [dispatch]);
+  //   return () => clearInterval(intervalId);
+  // }, [dispatch]);
 
    
 
