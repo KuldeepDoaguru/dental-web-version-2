@@ -8,6 +8,8 @@ import numWords from "num-words";
 const PatientBillsByTpid = () => {
   const { tpid } = useParams();
   const navigate = useNavigate();
+  const branchData = useSelector((state) => state.branch.currentBranch);
+  console.log(branchData);
   const [getPatientData, setGetPatientData] = useState([]);
   const user = useSelector((state) => state.user);
   const token = user.currentUser.token;
@@ -349,9 +351,9 @@ const PatientBillsByTpid = () => {
         </div>
         <div className="container-fluid">
           <div className="heading-title">
-            <h4>Patient Details :</h4>
+            <h4 className="fs-6">Patient Details :</h4>
           </div>
-          <h6 className="fw-bold">
+          <h6 className="fw-bold" style={{ fontSize: "12px" }}>
             Patient Type : {getPatientData[0]?.patient_type}
           </h6>
           <table className="table table-bordered border">
@@ -397,18 +399,18 @@ const PatientBillsByTpid = () => {
         {/* doctor details */}
         <div className="container-fluid">
           <div className="heading-title">
-            <h4>Doctor Details :</h4>
+            <h4 className="fs-6">Doctor Details :</h4>
           </div>
           <div className="d-flex justify-content-between">
             <div className="text-start docDetails">
-              <p>
+              <p style={{ fontSize: "12px" }}>
                 <strong>Doctor Name :</strong> Dr.{" "}
                 {user.currentUser.employee_name}
               </p>
-              <p>
+              <p style={{ fontSize: "12px" }}>
                 <strong>Mobile :</strong> {user.currentUser.employee_mobile}
               </p>
-              <p>
+              <p style={{ fontSize: "12px" }}>
                 <strong>Email :</strong> {user.currentUser.email}
               </p>
             </div>
@@ -418,7 +420,7 @@ const PatientBillsByTpid = () => {
         {/* patient observation */}
         <div className="container-fluid">
           <div className="heading-title">
-            <h4>Patient Observation :</h4>
+            <h4 className="fs-6">Patient Observation :</h4>
           </div>
           <table className="table table-bordered border">
             <thead>
@@ -449,7 +451,7 @@ const PatientBillsByTpid = () => {
         {/* treatment provided */}
         <div className="container-fluid">
           <div className="heading-title">
-            <h4>Treatment Procedure :</h4>
+            <h4 className="fs-6">Treatment Procedure :</h4>
           </div>
           <div className="Treatment">
             {/* <p className="text-start fs-4 fw-bold">Treatment Procedure</p> */}
@@ -463,7 +465,7 @@ const PatientBillsByTpid = () => {
                   <th>Cost</th>
                   <th>Cst * Qty</th>
                   <th>Disc %</th>
-                  <th>Net Amount</th>
+                  <th>Net Sitting Amount</th>
                   <th>Paid Amount</th>
                 </tr>
               </thead>
@@ -482,7 +484,7 @@ const PatientBillsByTpid = () => {
                       <td>{item.cost_amt}</td>
                       <td>{item.total_amt}</td>
                       <td>{item.disc_amt}</td>
-                      <td>{item.net_amount}</td>
+                      <td>{item.paid_amount}</td>
                       <td>
                         {" "}
                         {item.sitting_payment_status === "Pending"
@@ -498,7 +500,7 @@ const PatientBillsByTpid = () => {
                   <td
                     colSpan="8"
                     style={{ textAlign: "center" }}
-                    className="heading-title text-danger fw-bold"
+                    className="heading-title text-danger fw-bold fs-6"
                   >
                     Treatment Pending Payment:
                   </td>
@@ -514,7 +516,7 @@ const PatientBillsByTpid = () => {
                   <td
                     colSpan="7"
                     style={{ textAlign: "right" }}
-                    className="heading-title"
+                    className="heading-title fs-6"
                   >
                     Treatment Total:
                   </td>
@@ -549,15 +551,17 @@ const PatientBillsByTpid = () => {
             <div className="col-xxl-8 col-xl-8 col-lg-8 col-md-8 col-sm-8 col-8">
               <div className="border">
                 <div className="heading-title mt-0">
-                  <h4>Total Amount In Words :</h4>
+                  <h4 className="fs-6">Total Amount In Words :</h4>
                 </div>
                 <div className="text-word">
-                  <p className="m-0">{numWords(totalBillvalueWithoutGst)}</p>
+                  <p className="m-0 px-1" style={{ fontSize: "12px" }}>
+                    {numWords(totalBillvalueWithoutGst)}
+                  </p>
                 </div>
               </div>
               <div className="">
                 <div className="heading-title mt-0">
-                  <h4>Payment Info :</h4>
+                  <h4 className="fs-6">Payment Info :</h4>
                 </div>
                 <div className="">
                   <table className="table table-bordered mb-0">
@@ -625,14 +629,14 @@ const PatientBillsByTpid = () => {
               <div className="border">
                 <div className="text-terms"></div>
                 <div className="heading-title mt-0">
-                  <h5 className="text-center">Clinic Seal & Signature</h5>
+                  <h5 className="text-center fs-6">Clinic Seal & Signature</h5>
                 </div>
               </div>
             </div>
           </div>
           <div className="border">
             <div className="heading-title mt-0">
-              <h4>Terms and Conditions :</h4>
+              <h4 className="fs-6">Terms and Conditions :</h4>
             </div>
             <div className="text-termslong"></div>
           </div>
@@ -646,25 +650,9 @@ const PatientBillsByTpid = () => {
             >
               Print
             </button> */}
-            {billDetails[0]?.payment_status === "paid" ? (
-              ""
-            ) : (
-              <button
-                className="btn btn-success ms-2 no-print mt-2 mb-2 text-white shadow"
-                style={{
-                  backgroundColor: "#0dcaf0",
-                  border: "#0dcaf0",
-                }}
-                onClick={() => navigate(`/patient-due-payment-print/${tpid}`)}
-              >
-                Go to Payment page
-              </button>
-            )}
-            {billDetails[0]?.due_amount !== "0" ||
-            billDetails[0]?.payment_status !== "paid" ? (
-              ""
-            ) : (
+            {branchData[0]?.doctor_payment === "No" ? (
               <>
+                {" "}
                 <button
                   className="btn btn-info no-print mx-3 mt-2 mb-2 text-white shadow"
                   style={{
@@ -676,7 +664,53 @@ const PatientBillsByTpid = () => {
                   Appointment Dashboard
                 </button>
               </>
+            ) : (
+              <>
+                {billDetails[0]?.payment_status === "paid" ? (
+                  ""
+                ) : (
+                  <>
+                    {billDetails[0]?.payment_status === "Credit" ? (
+                      ""
+                    ) : (
+                      <>
+                        {" "}
+                        <button
+                          className="btn btn-success ms-2 no-print mt-2 mb-2 text-white shadow"
+                          style={{
+                            backgroundColor: "#0dcaf0",
+                            border: "#0dcaf0",
+                          }}
+                          onClick={() =>
+                            navigate(`/patient-due-payment-print/${tpid}`)
+                          }
+                        >
+                          Go to Payment page
+                        </button>
+                      </>
+                    )}
+                  </>
+                )}
+                {billDetails[0]?.payment_status !== "paid" &&
+                billDetails[0]?.payment_status !== "Credit" ? (
+                  ""
+                ) : (
+                  <>
+                    <button
+                      className="btn btn-info no-print mx-3 mt-2 mb-2 text-white shadow"
+                      style={{
+                        backgroundColor: "#0dcaf0",
+                        border: "#0dcaf0",
+                      }}
+                      onClick={() => navigate("/doctor-dashboard")}
+                    >
+                      Appointment Dashboard
+                    </button>
+                  </>
+                )}
+              </>
             )}
+
             {/* <button
               className="btn btn-info no-print mx-3 mt-2 mb-2"
               onClick={() => navigate("/doctor-dashboard")}
@@ -777,7 +811,7 @@ const Wrapper = styled.div`
   }
 
   .text-terms {
-    height: 12.5rem;
+    height: 7.5rem;
   }
 
   .gutter {
@@ -800,8 +834,8 @@ const Wrapper = styled.div`
   .text-termslong {
     height: 2rem;
   }
-  /* th,
+  th,
   td {
-    white-space: nowrap;
-  } */
+    font-size: 12px;
+  }
 `;

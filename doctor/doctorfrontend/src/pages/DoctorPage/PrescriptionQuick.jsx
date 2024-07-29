@@ -7,7 +7,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 
 const PrescriptionQuick = () => {
-  const { tpid } = useParams();
+  const { tpid, appoint_id } = useParams();
+  // console.log(useParams());
   const user = useSelector((state) => state.user);
   const token = user.currentUser.token;
   console.log(user);
@@ -164,6 +165,10 @@ const PrescriptionQuick = () => {
     getTreatPrescriptionByAppointId();
   }, []);
 
+  const handleTreatNavigattion = () => {
+    navigate(`/TreatmentDashBoard/${tpid}/${appoint_id}`);
+  };
+
   return (
     <>
       <Wrapper>
@@ -204,20 +209,21 @@ const PrescriptionQuick = () => {
           <hr />
         </div>
         <div className="container-fluid">
+          <h2 className="text-center">Prescription</h2>
           <div className="row">
             <div className="col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-4 col-4">
               <div className="header-left">
-                <h3 className="text-start">
+                <h3 className="text-start fs-6">
                   Dr. {user.currentUser.employee_name}
                 </h3>
                 <h6
-                  className="fw-bold text-capitalize text-start"
+                  className="fw-bold text-capitalize text-start fs-6"
                   style={{ color: "#00b894" }}
                 >
                   {user.currentUser.doctor_expertise}
                 </h6>
 
-                <h6 className="fw-bold text-capitalize text-start">
+                <h6 className="fw-bold text-capitalize text-start fs-6">
                   {user.currentUser.doctor_education_details}
                 </h6>
 
@@ -227,7 +233,10 @@ const PrescriptionQuick = () => {
                 <h6 className="fw-bold text-capitalize text-start">
                   {getBranch[0]?.hospital_name}
                 </h6> */}
-                <h6 className="fw-bold text-capitalize text-start">
+                <h6
+                  className="fw-bold text-capitalize text-start"
+                  style={{ fontSize: "14px" }}
+                >
                   Date : {getExaminData[0]?.date?.split(" ")[0]}
                 </h6>
               </div>
@@ -271,7 +280,7 @@ const PrescriptionQuick = () => {
                 </div> */}
               </div>
               <div className="diagnosis">
-                <p className="text-start fs-4 fw-bold">Diagnosis</p>
+                <p className="text-start fs-6 fw-bold ">Diagnosis</p>
                 <table className="table table-bordered border">
                   <thead>
                     <tr>
@@ -326,7 +335,7 @@ const PrescriptionQuick = () => {
               ) : null}
 
               <div className="Treatment">
-                <p className="text-start fs-4 fw-bold">Treatment Procedure</p>
+                <p className="text-start fs-6 fw-bold">Treatment Procedure</p>
                 <table className="table table-bordered border">
                   <thead>
                     <tr>
@@ -361,7 +370,7 @@ const PrescriptionQuick = () => {
                 </table>
               </div>
               <div className="Medicine">
-                <p className="text-start fs-4 fw-bold">Medicine Details</p>
+                <p className="text-start fs-6 fw-bold">Medicine Details</p>
               </div>
 
               <div className="table-responsive">
@@ -414,16 +423,16 @@ const PrescriptionQuick = () => {
                 >
                   Appointment Dashboard
                 </button> */}
-                {/* <button
+                <button
                   className="btn btn-info no-print mx-3 mb-3 mt-2 text-white shadow"
                   style={{
                     backgroundColor: "#0dcaf0",
                     border: "#0dcaf0",
                   }}
-                  //   onClick={handleTreatNavigattion}
+                  onClick={handleTreatNavigattion}
                 >
                   Treatment Dashboard
-                </button> */}
+                </button>
               </div>
             </div>
           </div>
@@ -489,5 +498,10 @@ const Wrapper = styled.div`
       height: 100%;
       width: 100%;
     }
+  }
+
+  th,
+  td {
+    font-size: 12px;
   }
 `;

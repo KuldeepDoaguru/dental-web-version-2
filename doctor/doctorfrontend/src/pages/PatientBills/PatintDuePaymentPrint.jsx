@@ -12,11 +12,14 @@ const PatintDuePaymentPrint = () => {
   const navigate = useNavigate();
   const { tpid } = useParams();
   const user = useSelector((state) => state.user.currentUser);
+  const branch = useSelector((state) => state.branch.currentBranch);
+  console.log(branch);
   const userToken = useSelector((state) => state.user);
   const token = userToken.currentUser.token;
   console.log(token);
   console.log(user);
   const [branchData, setBranchData] = useState([]);
+  const [getPatientData, setGetPatientData] = useState([]);
   const [billAmount, setBillAmount] = useState([]);
   const [saAmt, setSaAmt] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -31,6 +34,25 @@ const PatintDuePaymentPrint = () => {
 
   const goBack = () => {
     window.history.go(-1);
+  };
+
+  const getPatientDetail = async () => {
+    try {
+      const res = await axios.get(
+        `http://localhost:8888/api/doctor/getAppointmentsWithPatientDetailsById/${tpid}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      const uhid = res.data.result.length > 0 ? res.data.result[0].uhid : null;
+      setGetPatientData(res.data.result);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleChange = (e) => {
@@ -113,11 +135,13 @@ const PatintDuePaymentPrint = () => {
   };
 
   console.log(getTreatData);
+  console.log(getPatientData);
 
   useEffect(() => {
     getBranchDetails();
     getBillDetails();
     secuirtyAmtBytpuhid();
+    getPatientDetail();
     getTreatDetail();
   }, []);
 
@@ -225,7 +249,11 @@ const PatintDuePaymentPrint = () => {
 
   const BillInput = {
     paid_amount: updatedPaidAmt,
-    payment_status: "paid",
+    payment_status:
+      branch[0]?.allow_insurance === "Yes" &&
+      getPatientData[0]?.patient_type === "Credit"
+        ? "Credit"
+        : "Paid",
     payment_date_time: formattedDate,
     payment_mode: data.payment_mode,
     transaction_Id: data.transaction_Id,
@@ -667,8 +695,15 @@ const PatintDuePaymentPrint = () => {
                         <option value="" selected>
                           Select Payment Method
                         </option>
-                        <option value="cash">Cash</option>
-                        <option value="online">Online</option>
+                        {branch[0]?.allow_insurance === "Yes" &&
+                        getPatientData[0]?.patient_type === "Credit" ? (
+                          <option value="Credit">Credit</option>
+                        ) : (
+                          <>
+                            <option value="cash">Cash</option>
+                            <option value="online">Online</option>
+                          </>
+                        )}
                       </select>
                     </div>
 

@@ -165,6 +165,7 @@ const SecurityAmount = () => {
       setLoading(false);
       cogoToast.success("Security Amount Added");
       updateAppointmentData();
+      navigate(`/prescription-generate/${tpid}/${id}`);
       setFormData({
         // branch_name: "",
         date: "",

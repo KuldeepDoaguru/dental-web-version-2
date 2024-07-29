@@ -216,14 +216,13 @@ const NewTreatmentTable = () => {
       );
       console.log(res);
       setLoading(false);
-      {
-        branchData[0]?.doctor_payment !== "Yes" && updateAppointmentStat();
-      }
+      updateAppointmentStat();
 
       setBillData(res.data);
       timelineForFinalBill();
       cogoToast.success("bill generated successfully");
-      navigate(`/doctor-dashboard`);
+      // navigate(`/doctor-dashboard`);
+      navigate(`/ViewPatientTotalBill/${tpid}`);
     } catch (error) {
       setLoading(false);
       console.log(error);

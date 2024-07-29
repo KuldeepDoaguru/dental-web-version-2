@@ -708,7 +708,8 @@ const TreatSuggest = () => {
     assigned_doctor: getPatientData[0]?.doctor_name,
     amount: grandTotal,
     remaining_amount: "",
-    payment_status: "pending",
+    payment_status:
+      getPatientData[0]?.patient_type === "Credit" ? "Credit" : "pending",
     payment_Mode: "",
     transaction_Id: "",
     received_by: "",
@@ -732,7 +733,7 @@ const TreatSuggest = () => {
       console.log(resp.data);
       updateAppointmentData();
       dispatch(toggleTableRefresh());
-      navigate(`/prescription-generate/${tpid}`);
+      navigate(`/prescription-generate/${tpid}/${id}`);
     } catch (error) {
       console.log(error);
       cogoToast.error(`${error.response.data.message}, Now Start Treatment`);
@@ -741,7 +742,8 @@ const TreatSuggest = () => {
   };
 
   const generatePres = () => {
-    navigate(`/prescription-generate/${tpid}`);
+    alert(tpid, id);
+    navigate(`/prescription-generate/${tpid}/${id}`);
   };
 
   return (
@@ -1372,13 +1374,24 @@ const TreatSuggest = () => {
               <>
                 {branchData[0]?.doctor_payment === "Yes" ? (
                   <>
-                    <button
-                      type="button"
-                      className="btn btn-info text-light shadow fw-bold"
-                      onClick={handleCollect}
-                    >
-                      Security Amount
-                    </button>
+                    {branchData[0]?.allow_insurance !== "Yes" &&
+                    getPatientData[0]?.patient_type !== "Credit" ? (
+                      <button
+                        type="button"
+                        className="btn btn-info text-light shadow fw-bold"
+                        onClick={handleCollect}
+                      >
+                        Security Amount
+                      </button>
+                    ) : (
+                      <button
+                        type="button"
+                        className="btn btn-info text-light mx-2 shadow fw-bold"
+                        onClick={generatePres}
+                      >
+                        Print Prescription
+                      </button>
+                    )}
                   </>
                 ) : (
                   <>

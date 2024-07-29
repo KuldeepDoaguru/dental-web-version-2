@@ -23,6 +23,8 @@ const TreatmentFormDocPay = () => {
   console.log(user.currentUser.employee_ID);
   const branch = user.currentUser.branch_name;
   console.log(branch);
+  const branchData = useSelector((state) => state.branch.currentBranch);
+  console.log(branchData);
   const [treatments, setTreatments] = useState([]);
   const [showBookingPopup, setShowBookingPopup] = useState(false);
   const [treatStats, setTreatStats] = useState();
@@ -478,7 +480,12 @@ const TreatmentFormDocPay = () => {
         ? payableAmountafterSecAmount
         : 0,
     pay_security_amount: secRecValue,
-    payment_status: formData.sitting_payment_status,
+    payment_mode:
+      getPatientData[0]?.patient_type === "Credit" ? "Credit" : "Pending",
+    payment_status:
+      getPatientData[0]?.patient_type === "Credit"
+        ? "Credit"
+        : formData.sitting_payment_status,
     note: formData.note,
   };
 
@@ -529,7 +536,7 @@ const TreatmentFormDocPay = () => {
         getPatientDetail();
 
         navigate(
-          `/ViewPatientSittingBill/${tp_id}/${lastTreatment?.current_sitting}/${treatment}`
+          `/ViewPatientSittingBill/${tp_id}/${lastTreatment?.current_sitting}/${appoint_id}/${treatment}`
         );
         // navigate(`/TreatmentDashBoard/${appoint_id}/${tp_id}`);
       } else {
@@ -1057,53 +1064,62 @@ const TreatmentFormDocPay = () => {
                       />
                     </div>
                   </div>
-                  <div className="col-xxl-3 col-xl-3 col-lg-3 col-md-4 col-sm-12 col-12">
-                    <div class="mb-3">
-                      <label htmlFor="" class="form-label fw-bold">
-                        Remaining Security Amount :{" "}
-                        <strong style={{ color: "red" }}>
-                          {securityAmt[0]?.remaining_amount
-                            ? securityAmt[0]?.remaining_amount
-                            : 0}
-                        </strong>
-                      </label>
-                      <div>
-                        {securityAmt[0]?.remaining_amount > 0 &&
-                        formData.paid_amount > 0 &&
-                        formData.paid_amount <=
-                          securityAmt[0]?.remaining_amount ? (
-                          !showDirect ? (
-                            <button
-                              type="button"
-                              className="btn btn-info"
-                              disabled={loading}
-                              onClick={MakePaymentViaSecurityAmount}
-                            >
-                              {loading
-                                ? "Make Payment using security amount..."
-                                : "Make Payment using security amount"}
-                            </button>
-                          ) : (
-                            <button
-                              className="btn btn-success"
-                              type="button"
-                              disabled
-                            >
-                              Payment Successful
-                            </button>
-                          )
-                        ) : (
-                          <button
-                            type="button"
-                            className="btn btn-info"
-                            disabled
-                          >
-                            Make Payment using security amount
-                          </button>
-                        )}
+                  {branchData[0]?.allow_insurance !== "Yes" &&
+                  getPatientData[0]?.patient_type !== "Credit" ? (
+                    <>
+                      <div className="col-xxl-3 col-xl-3 col-lg-3 col-md-4 col-sm-12 col-12">
+                        <div class="mb-3">
+                          <label htmlFor="" class="form-label fw-bold">
+                            Remaining Security Amount :{" "}
+                            <strong style={{ color: "red" }}>
+                              {securityAmt[0]?.remaining_amount
+                                ? securityAmt[0]?.remaining_amount
+                                : 0}
+                            </strong>
+                          </label>
+
+                          <div>
+                            {securityAmt[0]?.remaining_amount > 0 &&
+                            formData.paid_amount > 0 &&
+                            formData.paid_amount <=
+                              securityAmt[0]?.remaining_amount ? (
+                              !showDirect ? (
+                                <button
+                                  type="button"
+                                  className="btn btn-info"
+                                  disabled={loading}
+                                  onClick={MakePaymentViaSecurityAmount}
+                                >
+                                  {loading
+                                    ? "Make Payment using security amount..."
+                                    : "Make Payment using security amount"}
+                                </button>
+                              ) : (
+                                <button
+                                  className="btn btn-success"
+                                  type="button"
+                                  disabled
+                                >
+                                  Payment Successful
+                                </button>
+                              )
+                            ) : (
+                              <button
+                                type="button"
+                                className="btn btn-info"
+                                disabled
+                              >
+                                Make Payment using security amount
+                              </button>
+                            )}
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  </div>
+                    </>
+                  ) : (
+                    ""
+                  )}
+
                   <div className="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
                     <div class="mb-3">
                       <label htmlFor="" class="form-label fw-bold">

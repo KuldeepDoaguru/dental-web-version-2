@@ -932,7 +932,6 @@ function BookAppointment() {
       <form ref={formRef} onSubmit={handleBookAppointment}>
         <ul className="list-group">
           <li className="list-group-item">
-            
             <input
               class="form-control mr-sm-2 mt-3 mb-2 m-auto"
               type="search"
@@ -958,9 +957,8 @@ function BookAppointment() {
                       }`} // Add 'active' class if the patient is selected
                       onClick={() => handlePatientSelect(patient)} // Call handlePatientSelect function when the patient is clicked
                     >
-                      {patient.uhid} {"-"} {" "}
-                      {patient.patient_name}
-                      <br/> Mobile : {patient.mobileno}
+                      {patient.uhid} {"-"} {patient.patient_name}
+                      <br /> Mobile : {patient.mobileno}
                       {/* Display other patient details as needed */}
                     </li>
                   ))
@@ -1097,7 +1095,7 @@ function BookAppointment() {
                               }`} // Add 'active' class if the patient is selected
                               onClick={() => handleDoctorSelect(doctor)} // Call handlePatientSelect function when the patient is clicked
                             >
-                              {"Dr. "} {doctor.employee_name}  <br/> Id:{" "}
+                              {"Dr. "} {doctor.employee_name} <br /> Id:{" "}
                               {doctor.employee_ID}
                               {/* Display other patient details as needed */}
                             </li>

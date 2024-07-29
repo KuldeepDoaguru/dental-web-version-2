@@ -203,11 +203,7 @@ const AppointTable = () => {
         // });
 
         const filterForPendingTp = appointments?.filter((item) => {
-          return (
-            item.appoint_id === appointId &&
-            item.tp_id === tpid &&
-            item.package_status !== null
-          );
+          return item.appoint_id === appointId && item.tp_id === tpid;
         });
 
         console.log(filterForPendingTp);
@@ -218,7 +214,10 @@ const AppointTable = () => {
         });
 
         console.log(filterForGoingTp);
-        if (filterForPendingTp.length > 0) {
+        if (
+          filterForPendingTp[0]?.package_status !== "completed" &&
+          filterForPendingTp[0]?.package_status !== null
+        ) {
           navigate(`/TreatmentDashBoard/${tpid}/${appointId}`);
         } else if (filterForGoingTp.length > 0) {
           const appointFilter = appointments?.filter((tad) => {

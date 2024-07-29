@@ -7,7 +7,7 @@ import styled from "styled-components";
 import numWords from "num-words";
 
 const SittingBill = () => {
-  const { tpid, sitting, treatment } = useParams();
+  const { tpid, sitting, treatment, appoint_id } = useParams();
   const navigate = useNavigate();
   const [getPatientData, setGetPatientData] = useState([]);
   const user = useSelector((state) => state.user);
@@ -85,7 +85,7 @@ const SittingBill = () => {
   const getSittingBillbyId = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:8888/api/doctor/getSittingBillbyId/${branch}/${sitting}/${tpid}`,
+        `http://localhost:8888/api/doctor/getSittingBillbyId/${branch}/${sitting}/${tpid}/${treatment}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -162,6 +162,14 @@ const SittingBill = () => {
       window.print();
     } catch (error) {
       console.log("Error updating sitting count", error);
+    }
+  };
+
+  const handleTreatNavigate = () => {
+    try {
+      navigate(`/TreatmentDashBoard/${tpid}/${appoint_id}`);
+    } catch (error) {
+      console.log(error);
     }
   };
   return (
@@ -351,8 +359,10 @@ const SittingBill = () => {
                       <td>{item.sitting_amount}</td>
                       <td>
                         {" "}
-                        {item.sitting_payment_status === "Pending"
+                        {item.payment_status === "Pending"
                           ? 0
+                          : item.payment_status === "Credit"
+                          ? item.final_cost
                           : item.paid_amount}
                       </td>
                     </tr>
@@ -417,7 +427,12 @@ const SittingBill = () => {
                 </div>
                 <div className="text-word">
                   <p className="m-0 fw-bold mx-2" style={{ fontSize: "12px" }}>
-                    {numWords(sittingBill[0]?.paid_amount)?.toUpperCase()} ONLY
+                    {sittingBill[0]?.payment_status === "Credit"
+                      ? numWords(sittingBill[0]?.final_cost).toUpperCase()
+                      : numWords(
+                          sittingBill[0]?.paid_amount
+                        ).toUpperCase()}{" "}
+                    ONLY
                   </p>
                 </div>
               </div>
@@ -482,7 +497,9 @@ const SittingBill = () => {
                         Total Amount Recieved:
                       </td>
                       <td className="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6 border p-1 text-center total-tr">
-                        {sittingBill[0]?.paid_amount}
+                        {sittingBill[0]?.payment_status === "Credit"
+                          ? sittingBill[0]?.final_cost
+                          : sittingBill[0]?.paid_amount}
                       </td>
                     </tr>
                   </tbody>
@@ -506,6 +523,12 @@ const SittingBill = () => {
         {/* print button */}
         <div className="container-fluid">
           <div className="d-flex justify-content-center align-items-center">
+            <button
+              className="btn btn-info no-print mt-2 mb-2"
+              onClick={handleTreatNavigate}
+            >
+              Treatment Dashboard
+            </button>
             {/* <button
               className="btn btn-info no-print mt-2 mb-2"
               onClick={handleButton}
@@ -643,7 +666,7 @@ const Wrapper = styled.div`
   }
 
   .text-terms {
-    height: 12.5rem;
+    height: 7.5rem;
   }
 
   .gutter {

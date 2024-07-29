@@ -726,7 +726,7 @@ function App() {
         />
 
         <Route
-          path="/prescription-generate/:tpid"
+          path="/prescription-generate/:tpid/:appoint_id"
           element={
             user === null ? (
               <DoctorLogin />
@@ -749,7 +749,7 @@ function App() {
         />
 
         <Route
-          path="/ViewPatientSittingBill/:tpid/:sitting/:treatment"
+          path="/ViewPatientSittingBill/:tpid/:sitting/:appoint_id/:treatment"
           element={
             user === null ? (
               <DoctorLogin />

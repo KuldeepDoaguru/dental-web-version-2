@@ -9,7 +9,7 @@ import { GiFastBackwardButton } from "react-icons/gi";
 import SittingProcessModal from "../Examination/SaveExaminationData/SittingProcessModal";
 import moment from "moment";
 
-const NewTreatment = () => {
+const  NewTreatment = () => {
   const [patientDetails, setPatientDetails] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const { tpid, appoint_id } = useParams();

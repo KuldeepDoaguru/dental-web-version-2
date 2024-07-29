@@ -582,7 +582,7 @@ router.get(
 );
 
 router.get(
-  "/getSittingBillbyId/:branch/:sbid/:tpid",
+  "/getSittingBillbyId/:branch/:sbid/:tpid/:treatment",
   authenticate,
   getSittingBillDueBySittingId
 );

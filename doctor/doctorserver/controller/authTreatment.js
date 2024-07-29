@@ -1159,11 +1159,12 @@ const generateSittingBill = (req, res) => {
       pending_amount,
       pay_direct,
       pay_security_amount,
+      payment_mode,
       payment_status,
       note,
     } = req.body;
     const insertQuery =
-      "INSERT INTO sitting_bill (tp_id, branch_name, sitting_number, treatment, teeth_number, teeth_qty, treatment_cost, cost_per_qty, discount, final_cost, sitting_amount, pending_amount, pay_direct, pay_security_amount, payment_status, note, date) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+      "INSERT INTO sitting_bill (tp_id, branch_name, sitting_number, treatment, teeth_number, teeth_qty, treatment_cost, cost_per_qty, discount, final_cost, sitting_amount, pending_amount, pay_direct, pay_security_amount, payment_mode, payment_status, note, date) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     const insertParams = [
       tpid,
       branch,
@@ -1179,6 +1180,7 @@ const generateSittingBill = (req, res) => {
       pending_amount,
       pay_direct,
       pay_security_amount,
+      payment_mode,
       payment_status,
       note,
       dateTime,
@@ -1219,10 +1221,10 @@ const getEmployeeDetailsbyId = (req, res) => {
 
 const getSittingBillDueBySittingId = (req, res) => {
   try {
-    const { branch, sbid, tpid } = req.params;
+    const { branch, sbid, tpid, treatment } = req.params;
     const selectQuery =
-      "SELECT * FROM sitting_bill JOIN treatment_package ON treatment_package.tp_id = sitting_bill.tp_id JOIN patient_details ON patient_details.uhid = treatment_package.uhid WHERE sitting_bill.branch_name = ? AND sitting_bill.sitting_number = ? AND sitting_bill.tp_id = ?";
-    db.query(selectQuery, [branch, sbid, tpid], (err, result) => {
+      "SELECT * FROM sitting_bill JOIN treatment_package ON treatment_package.tp_id = sitting_bill.tp_id JOIN patient_details ON patient_details.uhid = treatment_package.uhid WHERE sitting_bill.branch_name = ? AND sitting_bill.sitting_number = ? AND sitting_bill.tp_id = ? AND sitting_bill.treatment = ?";
+    db.query(selectQuery, [branch, sbid, tpid, treatment], (err, result) => {
       if (err) {
         res.status(400).json({ success: false, message: err.message });
       }
