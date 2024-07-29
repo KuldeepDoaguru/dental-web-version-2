@@ -183,6 +183,7 @@ function SecurityAmount() {
     payment_status: "success",
     payment_Mode: "",
     transaction_Id: "",
+    // cheque_number : "",
     notes: "",
     received_by: currentUser.employee_name,
   });
@@ -244,6 +245,7 @@ function SecurityAmount() {
         ...data,
         payment_Mode: "",
         transaction_Id: "",
+        // cheque_number : "",
         notes: "",
       });
       getSecurityAmountList();
@@ -841,8 +843,8 @@ function SecurityAmount() {
             <div className="container">
               <div>
                 <div class="mb-3">
-                  <label className="form-label" htmlFor="">
-                    Payment Mode
+                  <label className="form-label" htmlFor="payment_Mode">
+                    Payment Mode *
                   </label>
                   <select
                     className="form-select"
@@ -853,15 +855,18 @@ function SecurityAmount() {
                     onChange={handlePaySecChange}
                   >
                     <option value="">Select</option>
-                    <option value="cash">Cash</option>
-                    <option value="online">Online</option>
+                    <option value="Cash">Cash</option>
+                             {/* {selectedPatient?.patient_type == "Credit" && <option value="Credit">Credit</option> } */}
+                              <option value="UPI">UPI</option>
+                              <option value="Card">Card</option>
+                              {/* <option value="Cheque">Cheque</option> */}
                   </select>
                 </div>
 
-                {data.payment_Mode === "online" && (
+                {(data.payment_Mode === "Card" || data.payment_Mode === "UPI"  ) && (
                   <div class="mb-3">
                     <label className="form-label" for="form6Example1">
-                      Transaction Id
+                      Transaction Id *
                     </label>
                     <input
                       type="text"
@@ -874,6 +879,22 @@ function SecurityAmount() {
                     />
                   </div>
                 )}
+                {/* {(data.payment_Mode === "Cheque" ) && (
+                  <div class="mb-3">
+                    <label className="form-label" for="cheque_number">
+                    Cheque No *
+                    </label>
+                    <input
+                      type="text"
+                      id="cheque_number"
+                      className="form-control"
+                      name="cheque_number"
+                      onChange={handlePaySecChange}
+                      value={data.cheque_number}
+                      required
+                    />
+                  </div>
+                )} */}
 
                 <div class="mb-3">
                   <label className="form-label" for="form6Example1">

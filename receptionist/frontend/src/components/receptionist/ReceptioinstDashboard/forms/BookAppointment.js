@@ -346,7 +346,7 @@ function BookAppointment() {
     opd_amount: "",
     payment_Mode: "",
     transaction_Id: "",
-    cheque_number : "",
+    // cheque_number : "",
     payment_Status: "",
     notes: "",
     appointment_created_by: "",
@@ -764,7 +764,7 @@ function BookAppointment() {
         opd_amount: selectedTreatment === "OPD" ? opdAmount : "0",
         payment_Mode: bookData.payment_Mode,
         transaction_Id: bookData.transaction_Id,
-        cheque_number : bookData.cheque_number,
+        // cheque_number : bookData.cheque_number,
         payment_Status: bookData.payment_Status,
         appointment_created_by: currentUser.employee_name,
         appointment_created_by_emp_id: currentUser.employee_ID,
@@ -1223,7 +1223,7 @@ function BookAppointment() {
                              {selectedPatient?.patient_type == "Credit" && <option value="Credit">Credit</option> }
                               <option value="UPI">UPI</option>
                               <option value="Card">Card</option>
-                              <option value="Cheque">Cheque</option>
+                              {/* <option value="Cheque">Cheque</option> */}
                       </select>
                     </div>
                   </div>
@@ -1246,7 +1246,7 @@ function BookAppointment() {
                       </div>
                     </div>
                   )}
-                    {(bookData.payment_Mode === "Cheque" )  && (
+                    {/* {(bookData.payment_Mode === "Cheque" )  && (
                           <div className="col-sm-6">
                             <div className="form-outline">
                               <label
@@ -1270,7 +1270,7 @@ function BookAppointment() {
                               />
                             </div>
                           </div>
-                        )}
+                        )} */}
                   <div className="col-sm-6">
                     <div className="form-outline">
                       <label className="form-label mt-2" for="payment_Status">
@@ -1284,8 +1284,8 @@ function BookAppointment() {
                         required
                       >
                         <option value="">Select</option>
-                        {(bookData.payment_Mode == "Cheque" || bookData.payment_Mode == "Credit" ) ||   <option value="paid">Paid</option> }
-                             {(bookData.payment_Mode == "Cheque" || bookData.payment_Mode == "Credit" ) && <option value="Credit">Credit</option> }
+                        {(  bookData.payment_Mode == "Credit" ) ||   <option value="paid">Paid</option> }
+                             {( bookData.payment_Mode == "Credit" ) && <option value="Credit">Credit</option> }
                       </select>
                     </div>
                   </div>

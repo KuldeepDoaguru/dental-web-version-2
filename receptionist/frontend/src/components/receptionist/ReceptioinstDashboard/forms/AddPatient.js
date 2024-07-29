@@ -339,7 +339,7 @@ function AddPatient() {
     opd_amount: "",
     payment_Mode: "",
     transaction_Id: "",
-    cheque_number : "",
+    // cheque_number : "",
     payment_Status: "",
     notes: "",
     address: "",
@@ -638,7 +638,7 @@ function AddPatient() {
         opd_amount: selectedTreatment === "OPD" ? opdAmount : "0",
         payment_Mode: data.payment_Mode,
         transaction_Id: data.transaction_Id,
-        cheque_number : data.cheque_number,
+        // cheque_number : data.cheque_number,
         payment_Status: data.payment_Status,
         notes: data.notes,
         patient_added_by: user.currentUser.employee_name,
@@ -1335,7 +1335,7 @@ function AddPatient() {
                              {data.patientType == "Credit" && <option value="Credit">Credit</option> }
                               <option value="UPI">UPI</option>
                               <option value="Card">Card</option>
-                              <option value="Cheque">Cheque</option>
+                              {/* <option value="Cheque">Cheque</option> */}
                               
                             </select>
                           </div>
@@ -1362,7 +1362,7 @@ function AddPatient() {
                             </div>
                           </div>
                         )}
-                        {(data.payment_Mode === "Cheque" )  && (
+                        {/* {(data.payment_Mode === "Cheque" )  && (
                           <div className="col-sm-6">
                             <div className="form-outline">
                               <label
@@ -1386,7 +1386,7 @@ function AddPatient() {
                               />
                             </div>
                           </div>
-                        )}
+                        )} */}
                         <div className="col-sm-6">
                           <div className="form-outline">
                             <label
@@ -1403,8 +1403,8 @@ function AddPatient() {
                               required
                             >
                               <option value="">Select</option>
-                            {(data.payment_Mode == "Cheque" || data.payment_Mode == "Credit" ) ||   <option value="paid">Paid</option> }
-                             {(data.payment_Mode == "Cheque" || data.payment_Mode == "Credit" ) && <option value="Credit">Credit</option> }
+                            {( data.payment_Mode == "Credit" ) ||   <option value="paid">Paid</option> }
+                             {( data.payment_Mode == "Credit" ) && <option value="Credit">Credit</option> }
                             </select>
                           </div>
                         </div>

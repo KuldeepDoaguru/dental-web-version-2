@@ -16,10 +16,12 @@ function PatintDuePaymentPrint() {
   const [loading, setLoading] = useState(false);
   const { refreshTable, currentUser } = useSelector((state) => state.user);
   const token = currentUser?.token;
+  const {currentBranch} = useSelector((state) => state.branch);
   const branch = currentUser.branch_name;
   const [branchData, setBranchData] = useState([]);
   const [billAmount, setBillAmount] = useState([]);
   const [saAmt, setSaAmt] = useState([]);
+  const [getPatient, setPatient] = useState([]);
   console.log(token);
   const [data, setData] = useState({
     payment_mode: "",
@@ -39,6 +41,24 @@ function PatintDuePaymentPrint() {
     setData({ ...data, [name]: value });
   };
 
+  const getPatientDetailsByBill = async () => {
+    try {
+      const response = axios.get(
+        `http://localhost:4000/api/v1/receptionist/getPatientDetailsForBill/${branch}/${uhid}/${bid}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setPatient((await response)?.data?.data)
+
+    } catch (error) {
+      console.log(error)
+    }
+  };
+  console.log(getPatient);
   const branchDetails = async () => {
     try {
       const { data } = await axios.get(
@@ -89,6 +109,7 @@ function PatintDuePaymentPrint() {
     branchDetails();
     getBillDetails();
     secuirtyAmtBytpuhid();
+    getPatientDetailsByBill()
   }, []);
 
   console.log(branchData);
@@ -179,7 +200,7 @@ function PatintDuePaymentPrint() {
   };
   const validateForm = () => {
     if (!data.payment_mode) return false;
-    if (data.payment_mode === "online" && !data.transaction_Id) return false;
+    if ((data.payment_mode === "UPI" || data.payment_mode === "Card" ) && !data.transaction_Id) return false;
     return true;
   };
 
@@ -194,7 +215,7 @@ function PatintDuePaymentPrint() {
         `http://localhost:4000/api/v1/receptionist/makeBillPayment/${branch}/${bid}`,
         {
           paid_amount: updatedPaidAmt,
-          payment_status: "paid",
+          payment_status: data.payment_mode === "Credit" ? "Credit" : "paid",
           payment_date_time: formattedDate,
           payment_mode: data.payment_mode,
           transaction_Id: data.transaction_Id,
@@ -233,6 +254,8 @@ function PatintDuePaymentPrint() {
       cogoToast.error("Failed to paid bill");
     }
   };
+
+  console.log(data)
 
   const handlePrint = () => {
     const contentToPrint =
@@ -588,15 +611,18 @@ function PatintDuePaymentPrint() {
                     className="p-1 w-100 rounded"
                     required
                   >
-                    <option value="" selected>
+                    {/* <option value="" selected>
                       --Select Payment Method--
-                    </option>
-                    <option value="cash">Cash</option>
-                    <option value="online">Online</option>
+                    </option> */}
+                    <option value="" selected>Select</option>
+                              <option value="Cash">Cash</option>
+                             {(getPatient[0]?.patient_type == "Credit" && currentBranch[0].allow_insurance == "Yes") && <option value="Credit">Credit</option> }
+                              <option value="UPI">UPI</option>
+                              <option value="Card">Card</option>
                   </select>
                 </div>
 
-                {data.payment_mode === "online" && (
+                {(data.payment_mode === "UPI" || data.payment_mode === "Card") && (
                   <div data-mdb-input-init class="form-outline mb-4">
                     <label class="form-label" for="form1Example2">
                       Transaction ID

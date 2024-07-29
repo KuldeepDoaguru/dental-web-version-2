@@ -69,6 +69,7 @@ const {
   getPaidSittingBillbyTpid,
   completePatientBill,
   getInsuranceCompany,
+  getPatientDetailsForBill,
 } = require("../controller/receptionist_Controller");
 const authenticate = require("../middleware/authMiddleware");
 const router = express.Router();
@@ -292,5 +293,6 @@ router.get(
 
 router.put("/completePatientBill/:tpid/:branch", completePatientBill);
 router.get("/getInsuranceCompany/:branch" , getInsuranceCompany)
+router.get("/getPatientDetailsForBill/:branch/:uhid/:billId" , getPatientDetailsForBill)
 
 module.exports = router;

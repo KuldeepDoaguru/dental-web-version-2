@@ -17,11 +17,13 @@ function SittingBillPayment() {
   const { refreshTable, currentUser } = useSelector((state) => state.user);
   console.log(currentUser);
   const token = currentUser?.token;
+  const {currentBranch} = useSelector((state) => state.branch);
   const branch = currentUser.branch_name;
   const [branchData, setBranchData] = useState([]);
   const [allSitting, setAllSitting] = useState([]);
   const [billAmount, setBillAmount] = useState([]);
   const [saAmt, setSaAmt] = useState([]);
+  const [patientData,setPatientData] = useState([]);
   console.log(token);
   const [data, setData] = useState({
     paid_amount: "",
@@ -46,6 +48,24 @@ function SittingBillPayment() {
     const { value, name } = e.target;
 
     setData({ ...data, [name]: value });
+  };
+
+  const getPatient = async () => {
+    try {
+      const response = await axios.get(
+        `http://localhost:4000/api/v1/receptionist/get-Patient-by-id/${branch}/${uhid}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(response);
+      setPatientData(response?.data?.data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const branchDetails = async () => {
@@ -77,7 +97,7 @@ function SittingBillPayment() {
     }
   };
 
-  console.log(saAmt);
+  
   const getBillDetails = async () => {
     try {
       const { data } = await axios.get(
@@ -117,6 +137,7 @@ function SittingBillPayment() {
     getBillDetails();
     secuirtyAmtBytpuhid();
     getAllSittingBill();
+    getPatient();
   }, []);
 
   console.log(branchData);
@@ -212,7 +233,7 @@ function SittingBillPayment() {
         ? "security amount"
         : data.payment_mode,
     reference_number: data.reference_number,
-    payment_status: "paid",
+    payment_status: data.payment_mode === "Credit" ? data.payment_mode : "paid",
     note: data.note,
   };
 
@@ -235,7 +256,7 @@ function SittingBillPayment() {
         : totalSecPaidValue,
   };
 
-  console.log(billUpdateForm);
+  console.log(patientData);
 
   const updateBillforSitting = async () => {
     try {
@@ -257,6 +278,26 @@ function SittingBillPayment() {
 
   
   const submitSittingBill = async () => {
+    if(!data.payment_option === "security"){
+      if(!data.payment_mode){
+        alert("Please Select Payment Mode")
+        return
+      }
+    }
+    if(data.payment_option === "paydirect"){
+      if(!data.payment_mode){
+        alert("Please Select Payment Mode")
+        return
+      }
+    }
+    
+    if(data.payment_mode === "UPI" || data.payment_mode === "Card"){
+      if(!data.reference_number){
+        alert("Please Enter reference number")
+      return
+    }
+     
+    }
     try {
       const res = await axios.put(
         `http://localhost:4000/api/v1/receptionist/updateSittingBillPayment/${sbid}/${branch}`,
@@ -556,19 +597,21 @@ function SittingBillPayment() {
                             onChange={handleChange}
                             value={data.payment_mode}
                             class="form-control"
+                            required
                           >
                             <option value="">-select-</option>
-                            <option value="cash">Cash</option>
-                            <option value="upi">UPI</option>
-                            <option value="cheque">Cheque</option>
+                            <option value="Cash">Cash</option>
+                            {(patientData?.patient_type == "Credit" && currentBranch[0].allow_insurance == "Yes") && <option value="Credit">Credit</option> }
+                            <option value="UPI">UPI</option>
+                            <option value="Card">Card</option>
                           </select>
                         </div>
                       </div>
                     </>
                   )}
 
-                  {data.payment_mode === "upi" ||
-                  data.payment_mode === "cheque" ? (
+                  {data.payment_mode === "UPI" ||
+                  data.payment_mode === "Card" ? (
                     <>
                       <div className="col-xxl-3 col-xl-3 col-lg-3 col-md-6 col-sm-12 col-12">
                         <div class="mb-3">

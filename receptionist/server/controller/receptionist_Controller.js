@@ -171,7 +171,6 @@ const addPatient = (req, res) => {
       opd_amount,
       payment_Mode,
       transaction_Id,
-      cheque_number,
       payment_Status,
       notes,
       address,
@@ -290,8 +289,8 @@ const addPatient = (req, res) => {
                   // Proceed with booking appointment
                   const bookAppointmentQuery = `
                               INSERT INTO appointments (
-                                  patient_uhid, branch_name, assigned_doctor_name, assigned_doctor_id, appointment_dateTime, treatment_provided, appointment_status,opd_amount, payment_Mode, transaction_Id, cheque_number, payment_Status, notes, appointment_created_by, appointment_created_by_emp_id, created_at
-                              ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?, ?, ?, ? , ? )
+                                  patient_uhid, branch_name, assigned_doctor_name, assigned_doctor_id, appointment_dateTime, treatment_provided, appointment_status,opd_amount, payment_Mode, transaction_Id, payment_Status, notes, appointment_created_by, appointment_created_by_emp_id, created_at
+                              ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?, ?, ?, ? )
                           `;
 
                   const bookAppointmentParams = [
@@ -305,7 +304,6 @@ const addPatient = (req, res) => {
                     opd_amount,
                     payment_Mode,
                     transaction_Id,
-                    cheque_number,
                     payment_Status,
                     notes,
                     patient_added_by,
@@ -3731,6 +3729,49 @@ const getInsuranceCompany = (req, res) => {
   }
 };
 
+const getPatientDetailsForBill = (req, res) => {
+  try {
+    const branch = req.params.branch;
+    const uhid = req.params.uhid;
+    const billId = req.params.billId;
+
+    // const sql = 'SELECT * FROM apointments WHERE branch_name = ?';
+    const sql = `
+        SELECT 
+          
+            b.uhid,
+            p.patient_name,
+            p.patient_type
+        FROM 
+            patient_bills AS b
+        JOIN 
+            patient_details AS p ON b.uhid = p.uhid WHERE
+            b.branch_name = ? and b.uhid = ? and bill_id = ?
+    `;
+
+    db.query(sql, [branch,uhid,billId], (err, results) => {
+      if (err) {
+        logger.error("Error fetching patient details");
+        console.error("Error fetching patient details from MySql:", err);
+        res.status(500).json({ error: "Error fetching patient details" });
+      } else {
+        res.status(200).json({
+          data: results,
+          message: "patient details fetched successfully",
+        });
+      }
+    });
+  } catch (error) {
+    logger.error("Error fetching patient details");
+    console.error("Error fetching patient details from MySql:", error);
+    res.status(500).json({
+      success: false,
+      message: "Error in fetched patient details",
+      error: error.message,
+    });
+  }
+};
+
 module.exports = {
   addPatient,
   getDisease,
@@ -3800,5 +3841,6 @@ module.exports = {
   updateBillforSitting,
   getPaidSittingBillbyTpid,
   completePatientBill,
-  getInsuranceCompany
+  getInsuranceCompany,
+  getPatientDetailsForBill
 };
