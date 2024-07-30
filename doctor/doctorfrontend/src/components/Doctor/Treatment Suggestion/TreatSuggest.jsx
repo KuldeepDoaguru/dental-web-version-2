@@ -742,7 +742,7 @@ const TreatSuggest = () => {
   };
 
   const generatePres = () => {
-    alert(tpid, id);
+    alert("745");
     navigate(`/prescription-generate/${tpid}/${id}`);
   };
 
@@ -1374,8 +1374,9 @@ const TreatSuggest = () => {
               <>
                 {branchData[0]?.doctor_payment === "Yes" ? (
                   <>
-                    {branchData[0]?.allow_insurance !== "Yes" &&
-                    getPatientData[0]?.patient_type !== "Credit" ? (
+                    {branchData[0]?.allow_insurance !== "Yes" ||
+                    getPatientData[0]?.patient_type !== "Credit" ||
+                    getPatientData[0]?.patient_type === null ? (
                       <button
                         type="button"
                         className="btn btn-info text-light shadow fw-bold"

@@ -480,8 +480,7 @@ const TreatmentFormDocPay = () => {
         ? payableAmountafterSecAmount
         : 0,
     pay_security_amount: secRecValue,
-    payment_mode:
-      getPatientData[0]?.patient_type === "Credit" ? "Credit" : "Pending",
+    payment_mode: getPatientData[0]?.patient_type === "Credit" ? "Credit" : "",
     payment_status:
       getPatientData[0]?.patient_type === "Credit"
         ? "Credit"
@@ -1064,7 +1063,7 @@ const TreatmentFormDocPay = () => {
                       />
                     </div>
                   </div>
-                  {branchData[0]?.allow_insurance !== "Yes" &&
+                  {branchData[0]?.allow_insurance !== "Yes" ||
                   getPatientData[0]?.patient_type !== "Credit" ? (
                     <>
                       <div className="col-xxl-3 col-xl-3 col-lg-3 col-md-4 col-sm-12 col-12">

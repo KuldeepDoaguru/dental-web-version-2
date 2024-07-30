@@ -51,6 +51,7 @@ const {
   getOnlyExaminv,
   getPatientByAppID,
   insertPatientPrescription,
+  prescriptionOnMail,
 } = require("../controller/authAppointTable.js");
 const {
   getBranch,
@@ -585,6 +586,23 @@ router.get(
   "/getSittingBillbyId/:branch/:sbid/:tpid/:treatment",
   authenticate,
   getSittingBillDueBySittingId
+);
+
+const prestorage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "prescription/"); // Define destination folder
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + path.extname(file.originalname));
+  },
+});
+
+const preUpload = multer({ storage: prestorage });
+router.post(
+  "/prescriptionOnMail",
+  authenticate,
+  preUpload.single("file"),
+  prescriptionOnMail
 );
 
 module.exports = { authRoutes: router };

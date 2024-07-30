@@ -112,6 +112,50 @@ const PatientProfile = () => {
                     <li>
                       <div>
                         <div className="row">
+                          <div className="col-xl-5 col-lg-5 col-md-6 col-sm-6 col-12">
+                            <strong>Patient Type :</strong>
+                          </div>
+                          <div className="col-xl-7 col-lg-7 col-md-6 col-sm-6 col-12">
+                            <span className="">
+                              {patientData?.patient_type}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+                    {patientData?.patient_type === "Credit" && (
+                      <li>
+                        <div>
+                          <div className="row">
+                            <div className="col-xl-5 col-lg-5 col-md-6 col-sm-6 col-12">
+                              <strong>Credit By :</strong>
+                            </div>
+                            <div className="col-xl-7 col-lg-7 col-md-6 col-sm-6 col-12">
+                              <span className="">{patientData?.credit_By}</span>
+                            </div>
+                          </div>
+                        </div>
+                      </li>
+                    )}
+                    {patientData?.patient_type === "Credit" && (
+                      <li>
+                        <div>
+                          <div className="row">
+                            <div className="col-xl-5 col-lg-5 col-md-6 col-sm-6 col-12">
+                              <strong>Beneficiary Id :</strong>
+                            </div>
+                            <div className="col-xl-7 col-lg-7 col-md-6 col-sm-6 col-12">
+                              <span className="">
+                                {patientData?.beneficiary_Id}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </li>
+                    )}
+                    <li>
+                      <div>
+                        <div className="row">
                           <div className="col-xl-5 col-lg-5 col-md-6 col-sm-6 col-6">
                             <strong>UHID :</strong>
                           </div>
