@@ -5,6 +5,9 @@ import axios from "axios";
 import cogoToast from "cogo-toast";
 import { useSelector } from "react-redux";
 import moment from "moment";
+import { FaPrint } from "react-icons/fa6";
+import { FaHome } from "react-icons/fa";
+import { IoMdArrowRoundBack } from "react-icons/io";
 
 const PrintOpdBill = () => {
   const pdfRef = useRef();
@@ -328,26 +331,28 @@ const PrintOpdBill = () => {
         </div>
       </div>
       <div className="d-flex justify-content-center my-3 gap-2">
-        <button
+      <button
           type="button"
-          className="btn btn-primary btn-lg"
-          onClick={handlePrint}
-        >
-          Print
-        </button>
-        <button
-          type="button"
-          className="btn btn-primary btn-lg"
+          className="btn btn-info btn-lg shadow"
           onClick={() => window.history.go(-1)}
         >
-          Back
+        <IoMdArrowRoundBack />  Back
         </button>
         <button
           type="button"
-          className="btn btn-primary btn-lg"
+          className="btn btn-info btn-lg shadow"
+          onClick={handlePrint}
+        >
+          <FaPrint /> {" "}
+          Print
+        </button>
+       
+        <button
+          type="button"
+          className="btn btn-info btn-lg shadow"
           onClick={() => navigate("/receptionist-dashboard")}
         >
-          Go to Dashboard
+        <FaHome /> {" "}  Go to Dashboard
         </button>
         {/* <button
     type='button'

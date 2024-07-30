@@ -141,6 +141,15 @@ const Sider = () => {
                       Paid Amount
                     </Link>
                   </li>
+                  <hr />
+                  <li>
+                    <Link
+                      to="/all_credit_invoice"
+                      className={`link-div ${getSidebarClass("/all_credit_invoice")}`}
+                    >
+                      All Credit Invoice
+                    </Link>
+                  </li>
                 </ul>
               )}
             </li>

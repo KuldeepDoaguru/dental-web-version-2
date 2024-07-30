@@ -40,6 +40,7 @@ import SittingBillDetails from "./pages/receptionist/SittingBillDetails";
 import SittingBillPayment from "./pages/receptionist/SittingBillPayment";
 import SittingBill from "./pages/receptionist/SittingBill";
 import SittingPaidBillDetails from "./pages/receptionist/SittingPaidBillDetails";
+import AllCreditInvoice from "./pages/receptionist/AllCreditInvoice";
 
 function App() {
   const user = useSelector((state) => state.user);
@@ -205,6 +206,12 @@ function App() {
         path="/paid_amount"
         element={
           user.currentUser === null ? <UniversalLogin /> : <PatientsPaid />
+        }
+      />
+      <Route
+        path="/all_credit_invoice"
+        element={
+          user.currentUser === null ? <UniversalLogin /> : <AllCreditInvoice />
         }
       />
       <Route

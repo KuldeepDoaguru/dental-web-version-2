@@ -2,35 +2,30 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Header from "../../components/receptionist/Header";
 import Sider from "../../components/receptionist/Sider";
-import { Link } from "react-router-dom";
 import { Table, Input, Button, Form } from "react-bootstrap";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import EditPatientDetails from "../../components/receptionist/AllPatients/EditPatientDetails";
 import moment from "moment";
+import MakePayment from "../../components/receptionist/SecurityAmount/MakePayment";
+import cogoToast from "cogo-toast";
+import { Link, useNavigate } from "react-router-dom";
 import Lottie from "react-lottie";
 import animationData from "../../images/animation/loading-effect.json";
-function AllPatient() {
+
+function SittingCreditBill() {
   const { refreshTable, currentUser } = useSelector((state) => state.user);
   const branch = currentUser.branch_name;
   const token = currentUser?.token;
-  const [patients, setPatients] = useState([]);
+  const [loadingEffect, setLoadingEffect] = useState(false);
 
-  const [showEditPatientPopup, setShowEditPatientPopup] = useState(false);
-  const [selectedPatient, setSelectedPatient] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [patBill, setPatBill] = useState([]);
 
-  const [filteredData, setFilteredData] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [loading, setLoading] = useState(false);
-
-  
-  const getPatient = async () => {
-    setLoading(true);
+  const getPatBills = async () => {
+    setLoadingEffect(true);
     try {
-      const response = await axios.get(
-        `http://localhost:4000/api/v1/receptionist/get-Patients/${branch}`,
+      const { data } = await axios.get(
+        `http://localhost:4000/api/v1/receptionist/getSittingBillDue/${branch}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -38,23 +33,34 @@ function AllPatient() {
           },
         }
       );
-      console.log(response);
-      setPatients(response?.data?.data);
-      setLoading(false);
+      setPatBill(data);
+      setLoadingEffect(false);
     } catch (error) {
       console.log(error);
-      setLoading(false);
+      setLoadingEffect(false);
     }
   };
 
-  useEffect(() => {
-    getPatient();
-  }, [refreshTable]);
+  console.log(patBill);
+  const filterForUnPaidBills = patBill?.filter((item) => {
+    return item.payment_status === "pending";
+  });
 
-  const handleEditPatient = (Patient) => {
-    setSelectedPatient(Patient);
-    setShowEditPatientPopup(true);
-  };
+  console.log(filterForUnPaidBills);
+
+  useEffect(() => {
+    getPatBills();
+  }, []);
+
+  console.log(patBill);
+
+  //   const [showEditPatientPopup, setShowEditPatientPopup] = useState(false);
+  //   const [selectedPatient, setSelectedPatient] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+
+  const [filteredData, setFilteredData] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
 
   // Searching function
   const handleSearch = (event) => {
@@ -62,11 +68,11 @@ function AllPatient() {
     setSearchTerm(searchTerm);
     setCurrentPage(1); // Reset to the first page when searching
 
-    const filteredResults = patients.filter(
+    const filteredResults = filterForUnPaidBills.filter(
       (row) =>
-        row.patient_name.toLowerCase().includes(searchTerm.trim()) ||
-        row.mobileno.includes(searchTerm.trim()) ||
-        row.uhid.toLowerCase().includes(searchTerm.trim())
+        row?.patient_name.toLowerCase().includes(searchTerm.trim()) ||
+        row?.mobileno.includes(searchTerm.trim()) ||
+        row?.uhid.toLowerCase().includes(searchTerm.trim())
     );
 
     setFilteredData(filteredResults);
@@ -82,9 +88,9 @@ function AllPatient() {
   const indexOfFirstRow = indexOfLastRow - rowsPerPage;
   const currentRows = searchTerm
     ? filteredData.slice(indexOfFirstRow, indexOfLastRow)
-    : patients.slice(indexOfFirstRow, indexOfLastRow);
+    : filterForUnPaidBills.slice(indexOfFirstRow, indexOfLastRow);
 
-  const totalPages = Math.ceil(patients.length / rowsPerPage);
+  const totalPages = Math.ceil(filterForUnPaidBills.length / rowsPerPage);
 
   const paginate = (pageNumber) => {
     if (pageNumber > 0 && pageNumber <= totalPages) {
@@ -93,7 +99,11 @@ function AllPatient() {
   };
 
   const pageNumbers = [];
-  for (let i = 1; i <= Math.ceil(patients.length / rowsPerPage); i++) {
+  for (
+    let i = 1;
+    i <= Math.ceil(filterForUnPaidBills.length / rowsPerPage);
+    i++
+  ) {
     pageNumbers.push(i);
   }
 
@@ -158,7 +168,6 @@ function AllPatient() {
     }
     return null;
   });
-
   const defaultOptions = {
     loop: true,
     autoplay: true,
@@ -170,25 +179,21 @@ function AllPatient() {
 
   return (
     <Wrapper>
-      <div className="header">
+      {/* <div className="header">
         <Header />
-      </div>
+      </div> */}
 
-      <div className="row flex-nowrap ">
-        <div className="col-lg-1 col-1" id="hd">
+      <div className="row flex-nowrap">
+        {/* <div className="col-lg-1 col-1" id="hd">
           <Sider />
-        </div>
-
-        <div className="col-lg-11 mt-2" id="set">
-          <div className="text-center">
-            <h3>All Patients</h3>
-          </div>
+        </div> */}
+        <div className="col-lg-12 mt-2" id="">
+          {/* <div className="text-center">
+            <h3>All Patients Sitting Bill Due Data</h3>
+          </div> */}
           <div className="row">
-            <div className="col-lg-12 col-sm-10 " id="head">
-              <nav
-                class=" shadow rounded
-    navbar navbar-light bg-light"
-              >
+            <div className="col-lg-12" id="head">
+              <nav class="shadow rounded navbar navbar-light bg-light">
                 <h6 className="mx-3 my-1 my-md-0">Search By Patient</h6>
                 <div class="container-fluid" id="cont">
                   <div class="navbar1 ">
@@ -211,7 +216,6 @@ function AllPatient() {
                         {" "}
                         Rows Per Page :{" "}
                       </h6>
-
                       <Form.Control
                         as="select"
                         value={rowsPerPage}
@@ -227,7 +231,7 @@ function AllPatient() {
                     </Form.Group>
                   </div>
                   <div>
-                    <h5>Total Patients - {patients.length}</h5>
+                    <h5>Total Patients - {filterForUnPaidBills.length}</h5>
                   </div>
 
                   {/* <div class="dropdown" id='drop'>
@@ -246,110 +250,94 @@ function AllPatient() {
               </nav>
             </div>
 
-            <div className="col-lg-12 table">
+            <div className="col-lg-12">
               <div
                 className="widget-area-2 proclinic-box-shadow  mt-5"
                 id="tableres"
               >
-                {loading ? (
-                  <LottieWrapper>
-                    <Lottie
-                      options={defaultOptions}
-                      height={300}
-                      width={400}
-                      style={{ background: "transparent" }}
-                    ></Lottie>
-                  </LottieWrapper>
+                {loadingEffect ? (
+                  <Lottie
+                    options={defaultOptions}
+                    height={300}
+                    width={400}
+                    style={{ background: "transparent" }}
+                  ></Lottie>
                 ) : (
                   <div className="table-responsive">
-                    <>
-                      <table className="table table-bordered table-striped">
-                        <thead>
-                          <tr>
-                            <th>UHID</th>
-                            <th>Patient Name</th>
-                            <th>Phone Number</th>
-                            <th>Email</th>
-                            <th>Gender</th>
-                            <th>Age</th>
-                            <th>Patient Type</th>
-                            <th>Credit By</th>
-                            <th>Address</th>
-                            <th>Created At</th>
-                            <th>Action</th>
-                          </tr>
-                        </thead>
-                        {currentRows.length === 0 ? (
-                          <div className="no-data-container">
-                            <h4>No Data Found</h4>
-                          </div>
-                        ) : (
-                          <tbody>
-                            {currentRows?.map((data, index) => (
-                              <tr key={index}>
+                    <table className="table table-bordered table-striped">
+                      <thead>
+                        <tr>
+                          <th className="table-sno sticky">TPID</th>
+                          <th className="sticky">Patient UHID</th>
+                          <th className=" sticky">Patients Name</th>
+                          <th className=" sticky">Patients Mobile</th>
+                          <th className=" sticky">Patients Email</th>
+                          <th className=" sticky">Doctor Name</th>
+                          <th className=" sticky">Sitting Amount</th>
+                          {/* <th className=" sticky">Paid By Direct Amount</th>
+                          <th className=" sticky">Paid By Secuirty Amt</th> */}
+                          <th className=" sticky">Due Amount</th>
+                          <th className=" sticky">Bill Date</th>
+                          <th className=" sticky">Action</th>
+                        </tr>
+                      </thead>
+                      {currentRows.length === 0 ? (
+                        <div className="no-data-container">
+                          <h4>No Data Found</h4>
+                        </div>
+                      ) : (
+                        <tbody>
+                          {currentRows?.map((item) => (
+                            <>
+                              <tr className="table-row">
+                                <td className="table-sno">{item.tp_id}</td>
                                 <td>
-                                  <Link to={`/patient_profile/${data.uhid}`}>
-                                    {data.uhid}
+                                  <Link to={`/patient_profile/${item.uhid}`}>
+                                    {item.uhid}
                                   </Link>
                                 </td>
                                 <td className="text-capitalize">
-                                  {data.patient_name}
+                                  {item.patient_name}
                                 </td>
-                                <td>{data.mobileno}</td>
-                                <td>{data.emailid}</td>
-
-                                <td>{data.gender}</td>
-                                <td>{data.age}</td>
-                                <td>{data.patient_type}</td>
-                                <td>{data.credit_By}</td>
-                                <td>{data.address}</td>
-                                <td>
-                                  {moment(data?.created_at).format(
-                                    "DD/MM/YYYY hh:mm A"
-                                  )}
+                                <td>{item.mobileno}</td>
+                                <td>{item.emailid}</td>
+                                <td className="text-capitalize">
+                                  {"Dr. "}
+                                  {item.doctor_name}
                                 </td>
+                                <td>{item.sitting_amount}</td>
+                                {/* <td>{item.pay_direct}</td>
+                                <td>{item.pay_security_amount}</td> */}
                                 <td>
-                                  <div className="dropdown">
+                                  {item.payment_status === "pending"
+                                    ? item.sitting_amount
+                                    : 0}
+                                </td>
+                                <td>{item?.date?.split(" ")[0]}</td>
+                                <td>
+                                  <Link
+                                    to={`/SittingBillPayment/${item.sb_id}/${item.tp_id}/${item.uhid}`}
+                                  >
                                     <button
-                                      className="btn btn-secondary dropdown-toggle"
-                                      type="button"
-                                      data-bs-toggle="dropdown"
-                                      aria-expanded="false"
+                                      className="btn"
+                                      style={{
+                                        backgroundColor: "#FFA600",
+                                      }}
                                     >
-                                      Action
+                                      Pay Now
                                     </button>
-                                    <ul className="dropdown-menu">
-                                      <li>
-                                        <Link
-                                          className="dropdown-item mx-0"
-                                          to={`/patient_profile/${data.uhid}`}
-                                        >
-                                          View Patient details
-                                        </Link>
-                                      </li>
-                                      <li>
-                                        <Link
-                                          className="dropdown-item mx-0"
-                                          onClick={() =>
-                                            handleEditPatient(data)
-                                          }
-                                        >
-                                          Edit Patient details
-                                        </Link>
-                                      </li>
-                                    </ul>
-                                  </div>
+                                  </Link>
                                 </td>
                               </tr>
-                            ))}
-                          </tbody>
-                        )}
-                      </table>
-                    </>
+                            </>
+                          ))}
+                        </tbody>
+                      )}
+                    </table>
                   </div>
                 )}
                 <div className="container mt-3 mb-3">
-                  <div className="row pagination">
+                  <div className="row">
                     <div className="col-lg-10 col-xl-8 col-md-12 col-sm-12 col-8">
                       {" "}
                       <h4
@@ -366,12 +354,12 @@ function AllPatient() {
                             {" "}
                             Showing Page {currentPage} of {totalPages} from{" "}
                             {filteredData?.length} entries (filtered from{" "}
-                            {patients?.length} total entries){" "}
+                            {filterForUnPaidBills?.length} total entries){" "}
                           </>
                         ) : (
                           <>
                             Showing Page {currentPage} of {totalPages} from{" "}
-                            {patients?.length} entries
+                            {filterForUnPaidBills?.length} entries
                           </>
                         )}
                       </h4>
@@ -389,7 +377,9 @@ function AllPatient() {
 
                         <Button
                           onClick={() => paginate(currentPage + 1)}
-                          disabled={indexOfLastRow >= patients.length}
+                          disabled={
+                            indexOfLastRow >= filterForUnPaidBills.length
+                          }
                           variant="success"
                         >
                           Next
@@ -403,21 +393,13 @@ function AllPatient() {
           </div>
         </div>
       </div>
-      {showEditPatientPopup && (
-        <EditPatientDetails
-          onClose={() => setShowEditPatientPopup(false)}
-          patientInfo={selectedPatient}
-          allPatientData={patients}
-        />
-      )}
     </Wrapper>
   );
 }
 
-export default AllPatient;
+export default SittingCreditBill;
 const Wrapper = styled.div`
   overflow: hidden;
-
   .navbar1 {
     display: flex;
     width: 25%;
@@ -440,16 +422,29 @@ const Wrapper = styled.div`
   #head {
     @media screen and (max-width: 768px) {
       width: 98%;
+      /* margin-left: 1.2rem; */
     }
     @media screen and (min-width: 768px) and (max-width: 1020px) {
+      margin-left: 1rem;
+
       margin: auto;
-      width: 100%;
     }
     @media screen and (min-width: 1500px) and (max-width: 2000px) {
       width: 98%;
     }
     @media screen and (min-width: 2000px) and (max-width: 2500px) {
       width: 98%;
+    }
+  }
+  #hd {
+    padding-top: 60px; /* Height of header */
+    min-height: 100vh;
+    position: fixed;
+    @media screen and (max-width: 768px) {
+      height: 68rem;
+    }
+    @media screen and (min-width: 768px) and (max-width: 1020px) {
+      height: 58rem;
     }
   }
 
@@ -480,19 +475,6 @@ const Wrapper = styled.div`
       margin-left: 0rem;
     }
   }
-
-  #hd {
-    padding-top: 60px; /* Height of header */
-    min-height: 100vh;
-    position: fixed;
-
-    @media screen and (max-width: 768px) {
-      height: 68rem;
-    }
-    @media screen and (min-width: 768px) and (max-width: 1020px) {
-      height: 58rem;
-    }
-  }
   #tableres {
     @media screen and (max-width: 768px) {
       width: auto;
@@ -518,10 +500,33 @@ const Wrapper = styled.div`
     white-space: nowrap;
   }
 
-  .pagination {
-    background-color: transparent;
+  .popup-container {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    overflow: scroll;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    align-items: center;
+    justify-content: center;
   }
 
+  .popup-container.active {
+    display: flex;
+    background-color: #00000075;
+    z-index: 200;
+  }
+
+  .popup {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    height: auto;
+    width: auto;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
   .header {
     position: fixed;
     min-width: 100%;
@@ -547,11 +552,4 @@ const Wrapper = styled.div`
   .no-data-container h4 {
     margin: 0;
   }
-`;
-const LottieWrapper = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: transparent;
-  height: 100%;
 `;

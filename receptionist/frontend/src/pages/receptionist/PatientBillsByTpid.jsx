@@ -316,6 +316,15 @@ const PatientBillsByTpid = () => {
             <tbody>
               {getPatientData?.map((item, index) => (
                 <React.Fragment key={index}>
+                   {
+                  item?.patient_type === "Credit" &&
+                  <tr>
+                    <th scope="row">Credit By</th>
+                    <td>{item?.credit_By}</td>
+                    <th scope="row">Beneficiary Id</th>
+                    <td>{item?.beneficiary_Id}</td>
+                  </tr>
+                }  
                   <tr>
                     <th scope="row">UHID</th>
                     <td>{item.uhid}</td>

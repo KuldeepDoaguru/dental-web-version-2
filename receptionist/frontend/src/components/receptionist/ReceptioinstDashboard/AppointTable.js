@@ -566,7 +566,7 @@ console.log(appointmentsData);
                       patient_type
                     }</td>
                     <td>{patient.notes}</td>
-                    <td className="text-capitalize">{patient.appointment_status
+                    <td className={`text-capitalize ${patient.appointment_status === 'Cancel' ? 'text-danger' : ''}`}>{patient.appointment_status
                     }</td>
 
                     <td><div className="dropdown">

@@ -63,8 +63,10 @@ function Card() {
 
       const filteredPatients = response?.data?.data.filter(
         (patient) =>
-          patient?.payment_Status === "paid" &&
-          patient.created_at.includes(selectedDate)
+         (  patient?.payment_Status  &&
+          patient?.created_at.includes(selectedDate) )
+        //  (  patient?.payment_Status  &&
+        //   patient?.created_at.includes(selectedDate) )
       );
       setOpdData(filteredPatients);
     } catch (error) {
@@ -78,6 +80,7 @@ function Card() {
     }
   };
 
+console.log(opdData)
   const getNewPatient = async () => {
     try {
       const response = await axios.get(
@@ -141,7 +144,7 @@ function Card() {
     opdData.forEach((data) => {
       // Check if the OPD amount is a valid number
       const opdAmount = parseInt(data?.opd_amount);
-      if (!isNaN(opdAmount)) {
+      if (!isNaN(opdAmount) &&   data.appointment_status !=="Cancel") {
         totalAmount += opdAmount;
       }
     });

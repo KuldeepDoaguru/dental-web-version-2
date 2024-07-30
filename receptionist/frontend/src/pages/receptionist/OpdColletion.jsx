@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { Table, Input, Button, Form } from "react-bootstrap";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
+import { FaIndianRupeeSign } from "react-icons/fa6";
 import { FaArrowCircleLeft } from "react-icons/fa";
 import { FaArrowCircleRight } from "react-icons/fa";
 import EditPatientDetails from "../../components/receptionist/AllPatients/EditPatientDetails";
@@ -39,6 +40,8 @@ function OpdCollection() {
     };
   };
 
+  console.log(selectedDateAppData);
+
   const getAppointments = async () => {
     setLoadingEffect(true);
     try {
@@ -55,6 +58,10 @@ function OpdCollection() {
       const filteredPatients = response?.data?.data?.filter(
         (patient) => patient.treatment_provided === "OPD"
       );
+      // const filteredPatients = response?.data?.data?.filter(
+      //   (patient) => patient.treatment_provided === "OPD" && patient.appointment_status !=="Cancel"
+      // );
+      
       setAppointmentData(filteredPatients);
       setLoadingEffect(false);
     } catch (error) {
@@ -194,6 +201,45 @@ function OpdCollection() {
       preserveAspectRatio: "xMidYMid slice",
     },
   };
+  let total = 0;
+  let credit = 0;
+  let cash = 0;
+  let upi = 0;
+  let card = 0;
+  let refund = 0;
+  const calculateTotalAmount = () =>{
+     // const selectedDateAppData = .filter(
+      //   (patient) => patient.treatment_provided === "OPD" && patient.appointment_status !=="Cancel"
+      // );
+
+    selectedDateAppData?.forEach((item)=>{
+      if(!isNaN(item?.opd_amount)){
+        if(item.appointment_status !=="Cancel" && item?.payment_Mode === "Credit"){
+          credit +=  parseInt(item?.opd_amount)
+        }
+        else if(item.appointment_status !=="Cancel" && item?.payment_Mode === "Cash"){
+          cash += parseInt(item?.opd_amount)
+        }
+        else if(item.appointment_status !=="Cancel" && item?.payment_Mode === "UPI"){
+          upi += parseInt(item.opd_amount)
+        }
+        else if(item.appointment_status !=="Cancel" && item?.payment_Mode === "Card"){
+          card += parseInt(item?.opd_amount)
+        }
+  
+        if(item.payment_Status === "Refund"){
+          refund += parseInt(item?.opd_amount)
+        }
+        if(item.treatment_provided === "OPD" && item.appointment_status !=="Cancel"){
+          total += parseInt(item?.opd_amount)
+        }
+      }
+     
+    })
+  }
+  calculateTotalAmount();
+  // console.log(total,credit,upi,card,cash);
+
   return (
     <Wrapper>
       <div className="header">
@@ -288,6 +334,14 @@ function OpdCollection() {
   </ul>
 </div> */}
                 </div>
+                <div className="d-flex mx-2 mt-2">
+                <h6 className="mx-2">Total - <FaIndianRupeeSign /> {total}</h6>
+                <h6 className="mx-2">Cash - <FaIndianRupeeSign /> {cash}</h6>
+                <h6 className="mx-2">Credit - <FaIndianRupeeSign /> {credit}</h6>
+                <h6 className="mx-2">UPI  -<FaIndianRupeeSign /> {upi}</h6>
+                <h6 className="mx-2">Card - <FaIndianRupeeSign /> {card}</h6>
+                <h6 className="mx-2">Refund - <FaIndianRupeeSign /> {refund}</h6>
+                </div>
               </nav>
             </div>
 
@@ -354,7 +408,7 @@ function OpdCollection() {
                                 {data.assigned_doctor_name}
                               </td>
                               <td>{data.treatment_provided}</td>
-                              <td className="text-capitalize">
+                              <td className={`text-capitalize ${data.appointment_status === 'Cancel' ? 'text-danger' : ''}`}>
                                 {data.appointment_status}
                               </td>
                               <td>{data.opd_amount}</td>

@@ -267,6 +267,7 @@ function NewPatient() {
                           <th>Gender</th>
                           <th>Age</th>
                           <th>Patient Type</th>
+                          <th>Credit By</th>
                           <th>Address</th>
                           <th>Created At</th>
                           <th>Action</th>
@@ -294,6 +295,7 @@ function NewPatient() {
                               <td>{data.gender}</td>
                               <td>{data.age}</td>
                               <td>{data.patient_type}</td>
+                              <td>{data.credit_By}</td>
                               <td>{data.address}</td>
                               <td>
                                 {moment(data?.created_at).format(
