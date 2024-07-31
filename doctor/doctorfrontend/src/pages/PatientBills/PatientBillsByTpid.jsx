@@ -326,19 +326,22 @@ const PatientBillsByTpid = () => {
 
       const formData = new FormData();
       formData.append("number", getPatientData[0]?.mobileno);
-      formData.append("type", "media");
+      // formData.append("type", "media");
       formData.append("message", `test message`);
       formData.append(
         "media_url",
         `https://res.cloudinary.com/dq5upuxm8/video/upload/v1697973901/Stranger_Things_4___Volume_2_Trailer___Netflix_u6dbve.mp4`
       );
       formData.append("filename", "stranger things");
-      formData.append("instance_id", "66A738A57110E");
-      formData.append("access_token", "668f7d2850e22");
+      // formData.append("instance_id", "66A738A57110E");
+      // formData.append("access_token", "668f7d2850e22");
       for (let [key, value] of formData.entries()) {
         console.log(key, value);
       }
-
+      const res = await axios.post(
+        "`http://localhost:8888/api/doctor/sendWhatsapp",
+        formData
+      );
       cogoToast.success("Treatment bill sent successfully");
       console.log("PDF sent successfully");
     } catch (error) {

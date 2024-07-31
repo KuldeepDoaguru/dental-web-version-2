@@ -4,6 +4,9 @@ const nodemailer = require("nodemailer");
 const dotenv = require("dotenv");
 const moment = require("moment-timezone");
 const twilio = require("twilio");
+const formidable = require("formidable");
+const fs = require("fs");
+const path = require("path");
 dotenv.config();
 
 const ACCOUNT_SID = process.env.ACCOUNT_SID;
@@ -989,36 +992,47 @@ const prescriptionOnMail = (req, res) => {
   }
 };
 
-const sendSMS = (req, res) => {
+const sendSMS = async (req, res) => {
   const { phoneNumber, message } = req.body;
 
-  client.messages
-    .create({
+  try {
+    await client.messages.create({
       from: process.env.TWILIONUMBER,
       to: phoneNumber,
       body: message,
-    })
-    .then(() => {
-      res.send("Message sent successfully!");
-      console.log("message has sent");
-    })
-    .catch((error) => {
-      console.error("Error sending SMS:", error);
-      res.status(500).send("Error sending SMS");
     });
+    res.send("Message sent successfully!");
+    console.log("Message has been sent");
+  } catch (error) {
+    console.error("Error sending SMS:", error);
+    res.status(500).send("Error sending SMS");
+  }
 };
 
 // send-whatsapp
 const sendWhatsapp = async (req, res) => {
   const { phoneNumber, message } = req.body;
+  const mediaFile = req.file;
+  console.log("1018", mediaFile.filename);
 
+  if (!phoneNumber || !message || !mediaFile) {
+    return res
+      .status(400)
+      .json({ success: false, message: "All fields required" });
+  }
+  console.log("1019", mediaFile, phoneNumber, message);
+  const fileUrl = `http://localhost:8888/prescription/${mediaFile.filename}`;
+  console.log("1027", fileUrl.toString());
   try {
     const response = await client.messages.create({
       body: message,
       from: process.env.TWILIONUMBERWHATSAPP,
-      to: phoneNumber,
-      mediaUrl: fileUrl,
+      mediaUrl: [
+        "https://dentalgurusuperadmin.doaguru.com/branchHeadFootImg/1718777687071header.png",
+      ],
+      to: `whatsapp:+91${phoneNumber}`,
     });
+    console.log("1027", response.body);
     console.log("WhatsApp message sent successfully:", response.sid);
     res.send("WhatsApp message sent successfully");
   } catch (error) {
@@ -1053,4 +1067,6 @@ module.exports = {
   getPatientByAppID,
   insertPatientPrescription,
   prescriptionOnMail,
+  sendWhatsapp,
+  sendSMS,
 };

@@ -28,6 +28,7 @@ app.get("/backup/download/:filename", (req, res) => {
 
 // Serve uploaded images statically
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
+app.use("/prescription", express.static(path.join(__dirname, "prescription")));
 
 // REST API Routes
 app.use("/api/doctor", authRoutes);

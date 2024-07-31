@@ -52,6 +52,8 @@ const {
   getPatientByAppID,
   insertPatientPrescription,
   prescriptionOnMail,
+  sendWhatsapp,
+  sendSMS,
 } = require("../controller/authAppointTable.js");
 const {
   getBranch,
@@ -604,5 +606,8 @@ router.post(
   preUpload.single("file"),
   prescriptionOnMail
 );
+
+router.post("/sendWhatsapp", preUpload.single("media_url"), sendWhatsapp);
+router.post("/sendSMS", authenticate, sendSMS);
 
 module.exports = { authRoutes: router };
