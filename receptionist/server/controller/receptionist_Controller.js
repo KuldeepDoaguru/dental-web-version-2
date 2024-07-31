@@ -3521,6 +3521,63 @@ const updateSittingBillPayment = (req, res) => {
     res.status(500).json({ success: false, message: "Internal server error" });
   }
 };
+const updateSittingBillToPaid = (req, res) => {
+  try {
+    const sbid = req.params.sbid;
+    const branch = req.params.branch;
+    const {
+      
+      payment_status,
+     
+    } = req.body;
+
+    const selectQuery =
+      "SELECT * FROM sitting_bill WHERE sb_id = ? AND branch_name = ?";
+    db.query(selectQuery, [sbid, branch], (err, result) => {
+      if (err) {
+        res.status(400).json({ success: false, message: err.message });
+      }
+      if (result && result.length > 0) {
+        const updateFields = [];
+        const updateValues = [];
+
+        if (payment_status) {
+          updateFields.push("payment_status = ?");
+          updateValues.push(payment_status);
+        }
+
+      
+        const updateQuery = `UPDATE sitting_bill SET ${updateFields.join(
+          ", "
+        )} WHERE sb_id = ? AND branch_name = ?`;
+
+        db.query(
+          updateQuery,
+          [...updateValues, sbid, branch],
+          (err, result) => {
+            if (err) {
+              return res.status(500).json({
+                success: false,
+                message: "Failed to update details",
+              });
+            } else {
+              return res.status(200).json({
+                success: true,
+                message: "Lab Details updated successfully",
+              });
+            }
+          }
+        );
+      } else {
+        res
+          .status(400)
+          .json({ success: false, message: "sitting bill not exist" });
+      }
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Internal server error" });
+  }
+};
 
 const getSittingBillbyId = (req, res) => {
   try {
@@ -3660,6 +3717,8 @@ const updateBillforSitting = (req, res) => {
   }
 };
 
+
+
 const getPaidSittingBillbyTpid = (req, res) => {
   try {
     const { tpid, branch } = req.params;
@@ -3690,6 +3749,56 @@ const completePatientBill = (req, res) => {
         const updateQuery =
           "UPDATE patient_bills SET payment_status = ? WHERE tp_id = ? AND branch_name = ?";
         db.query(updateQuery, [paymentStatus, tpid, branch], (err, result) => {
+          if (err) {
+            res.status(400).json({ success: false, message: err.message });
+          }
+          res.status(200).json({ success: true, message: "" });
+        });
+      }
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "internal server error" });
+  }
+};
+const ChangeStatusToPaidPatientBill = (req, res) => {
+  try {
+    const { bill_id, branch } = req.params;
+    const paymentStatus = "paid";
+    const selectQuery =
+      "SELECT * FROM patient_bills WHERE bill_id = ? AND branch_name = ?";
+    db.query(selectQuery, [bill_id, branch], (err, result) => {
+      if (err) {
+        res.status(400).json({ success: false, message: err.message });
+      }
+      if (result && result.length > 0) {
+        const updateQuery =
+          "UPDATE patient_bills SET payment_status = ? WHERE bill_id = ? AND branch_name = ?";
+        db.query(updateQuery, [paymentStatus, bill_id, branch], (err, result) => {
+          if (err) {
+            res.status(400).json({ success: false, message: err.message });
+          }
+          res.status(200).json({ success: true, message: "" });
+        });
+      }
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "internal server error" });
+  }
+};
+const ChangeStatusToPaidOPDBill = (req, res) => {
+  try {
+    const { appoint_id, branch } = req.params;
+    const paymentStatus = "paid";
+    const selectQuery =
+      "SELECT * FROM appointments WHERE appoint_id = ? AND branch_name = ?";
+    db.query(selectQuery, [appoint_id, branch], (err, result) => {
+      if (err) {
+        res.status(400).json({ success: false, message: err.message });
+      }
+      if (result && result.length > 0) {
+        const updateQuery =
+          "UPDATE appointments SET payment_Status = ? WHERE appoint_id = ? AND branch_name = ?";
+        db.query(updateQuery, [paymentStatus, appoint_id, branch], (err, result) => {
           if (err) {
             res.status(400).json({ success: false, message: err.message });
           }
@@ -3842,5 +3951,8 @@ module.exports = {
   getPaidSittingBillbyTpid,
   completePatientBill,
   getInsuranceCompany,
-  getPatientDetailsForBill
+  getPatientDetailsForBill,
+  updateSittingBillToPaid,
+  ChangeStatusToPaidPatientBill,
+  ChangeStatusToPaidOPDBill
 };

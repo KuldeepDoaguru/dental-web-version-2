@@ -41,6 +41,7 @@ import SittingBillPayment from "./pages/receptionist/SittingBillPayment";
 import SittingBill from "./pages/receptionist/SittingBill";
 import SittingPaidBillDetails from "./pages/receptionist/SittingPaidBillDetails";
 import AllCreditInvoice from "./pages/receptionist/AllCreditInvoice";
+import FinalInvoices from "./pages/receptionist/FinalInvoices";
 
 function App() {
   const user = useSelector((state) => state.user);
@@ -176,10 +177,16 @@ function App() {
           user.currentUser === null ? <UniversalLogin /> : <SecurityAmount />
         }
       />
-      <Route
+      {/* <Route
         path="/due_amount"
         element={
           user.currentUser === null ? <UniversalLogin /> : <PatientsDue />
+        }
+      /> */}
+      <Route
+        path="/invoices"
+        element={
+          user.currentUser === null ? <UniversalLogin /> : <FinalInvoices />
         }
       />
       <Route
@@ -202,12 +209,12 @@ function App() {
           )
         }
       />
-      <Route
+      {/* <Route
         path="/paid_amount"
         element={
           user.currentUser === null ? <UniversalLogin /> : <PatientsPaid />
         }
-      />
+      /> */}
       <Route
         path="/all_credit_invoice"
         element={

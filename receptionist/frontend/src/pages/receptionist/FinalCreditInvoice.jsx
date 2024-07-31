@@ -13,18 +13,19 @@ import { Link, useNavigate } from "react-router-dom";
 import Lottie from "react-lottie";
 import animationData from "../../images/animation/loading-effect.json";
 
-function PatientsDue() {
+function FinalCreditInvoice() {
   const { refreshTable, currentUser } = useSelector((state) => state.user);
   const branch = currentUser.branch_name;
   const token = currentUser?.token;
   const [loadingEffect, setLoadingEffect] = useState(false);
-  const [patBill, setPatBill] = useState([]);
 
-  const getPatBills = async () => {
+  const [paidList, setPaidList] = useState([]);
+
+  const getBillPaidList = async () => {
     setLoadingEffect(true);
     try {
       const { data } = await axios.get(
-        `http://localhost:4000/api/v1/receptionist/getPatientBillsByBranch/${branch}`,
+        `http://localhost:4000/api/v1/receptionist/paidBillLIst/${branch}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -32,7 +33,7 @@ function PatientsDue() {
           },
         }
       );
-      setPatBill(data);
+      setPaidList(data);
       setLoadingEffect(false);
     } catch (error) {
       console.log(error);
@@ -40,17 +41,16 @@ function PatientsDue() {
     }
   };
 
-  console.log(patBill);
-  const filterForUnPaidBills = patBill?.filter((item) => {
-    return item.payment_status !== "paid";
+  console.log(paidList);
+  const filterForPaidBills = paidList?.filter((item) => {
+    return item.payment_mode === "Credit";
   });
 
-  useEffect(() => {
-    getPatBills();
-  }, []);
+  console.log(filterForPaidBills);
 
-  console.log(patBill);
-  console.log(filterForUnPaidBills);
+  useEffect(() => {
+    getBillPaidList();
+  }, []);
 
   //   const [showEditPatientPopup, setShowEditPatientPopup] = useState(false);
   //   const [selectedPatient, setSelectedPatient] = useState("");
@@ -66,7 +66,7 @@ function PatientsDue() {
     setSearchTerm(searchTerm);
     setCurrentPage(1); // Reset to the first page when searching
 
-    const filteredResults = filterForUnPaidBills.filter(
+    const filteredResults = filterForPaidBills.filter(
       (row) =>
         row?.patient_name.toLowerCase().includes(searchTerm.trim()) ||
         row?.patient_mobile.includes(searchTerm.trim()) ||
@@ -86,9 +86,9 @@ function PatientsDue() {
   const indexOfFirstRow = indexOfLastRow - rowsPerPage;
   const currentRows = searchTerm
     ? filteredData.slice(indexOfFirstRow, indexOfLastRow)
-    : filterForUnPaidBills.slice(indexOfFirstRow, indexOfLastRow);
+    : filterForPaidBills.slice(indexOfFirstRow, indexOfLastRow);
 
-  const totalPages = Math.ceil(filterForUnPaidBills.length / rowsPerPage);
+  const totalPages = Math.ceil(filterForPaidBills.length / rowsPerPage);
 
   const paginate = (pageNumber) => {
     if (pageNumber > 0 && pageNumber <= totalPages) {
@@ -99,7 +99,7 @@ function PatientsDue() {
   const pageNumbers = [];
   for (
     let i = 1;
-    i <= Math.ceil(filterForUnPaidBills.length / rowsPerPage);
+    i <= Math.ceil(filterForPaidBills.length / rowsPerPage);
     i++
   ) {
     pageNumbers.push(i);
@@ -174,6 +174,35 @@ function PatientsDue() {
       preserveAspectRatio: "xMidYMid slice",
     },
   };
+  const billUpdateForm = {
+    
+    payment_status: "paid",
+  };
+
+  const updateBillforPaid = async (id) => {
+    const isConfirmed = window.confirm("Are you sure you want to Paid this Bill?");
+
+    if (!isConfirmed) {
+      // If the user cancels the deletion, do nothing
+      return;
+    }
+    try {
+      const res = await axios.put(
+        `http://localhost:4000/api/v1/receptionist/ChangeStatusToPaidPatientBill/${id}/${branch}`,
+        billUpdateForm,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      cogoToast.success("Bill updated successfully");
+      getBillPaidList();
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <Wrapper>
@@ -187,7 +216,7 @@ function PatientsDue() {
         </div> */}
         <div className="col-lg-12 mt-2" id="">
           {/* <div className="text-center">
-            <h3>All Patients Due Data</h3>
+            <h3>Patients Paid Data</h3>
           </div> */}
           <div className="row">
             <div className="col-lg-12" id="head">
@@ -229,7 +258,7 @@ function PatientsDue() {
                     </Form.Group>
                   </div>
                   <div>
-                    <h5>Total Patients - {filterForUnPaidBills.length}</h5>
+                    <h5>Total Patients - {filterForPaidBills.length}</h5>
                   </div>
 
                   {/* <div class="dropdown" id='drop'>
@@ -265,18 +294,19 @@ function PatientsDue() {
                     <table className="table table-bordered table-striped">
                       <thead>
                         <tr>
-                          <th className="table-sno sticky">TPID</th>
-                          <th className="sticky">Patient UHID</th>
-                          <th className=" sticky">Patients Name</th>
-                          <th className=" sticky">Patients Mobile</th>
-                          <th className=" sticky">Patients Email</th>
-                          <th className=" sticky">Doctor Name</th>
-                          <th className=" sticky">Total Amount</th>
-                          <th className=" sticky">Paid By Direct Amount</th>
-                          <th className=" sticky">Paid By Secuirty Amt</th>
-                          <th className=" sticky">Due Amount</th>
-                          <th className=" sticky">Bill Date</th>
-                          <th className=" sticky">Action</th>
+                          <th className="sticky">Bill ID</th>
+                          <th className="sticky">Bill Date</th>
+                          <th className="sticky">TPID</th>
+                          <th className="sticky">UHID</th>
+                          <th className="sticky">Patient Name</th>
+                          <th className="sticky">Mobile No.</th>
+                          <th className="sticky">Doctor Name</th>
+                          <th className="sticky">Total Amount</th>
+                          <th className="sticky">Paid By Direct Amount</th>
+                          {/* <th className="sticky">Paid By Secuirty Amt</th> */}
+                          <th className="sticky">Payment Date</th>
+                          <th className="sticky">Payment Status</th>
+                          <th className="sticky">Action</th>
                         </tr>
                       </thead>
                       {currentRows.length === 0 ? (
@@ -288,7 +318,16 @@ function PatientsDue() {
                           {currentRows?.map((item) => (
                             <>
                               <tr className="table-row">
-                                <td className="table-sno">{item.tp_id}</td>
+                                <td>{item.bill_id}</td>
+                                <td>
+                                  {item?.bill_date
+                                    ? moment(
+                                        item?.bill_date,
+                                        "DD-MM-YYYYTHH:mm:ss"
+                                      ).format("DD/MM/YYYY hh:mm A")
+                                    : ""}
+                                </td>
+                                <td>{item.tp_id}</td>
                                 <td>
                                   <Link to={`/patient_profile/${item.uhid}`}>
                                     {item.uhid}
@@ -298,44 +337,40 @@ function PatientsDue() {
                                   {item.patient_name}
                                 </td>
                                 <td>{item.patient_mobile}</td>
-                                <td>{item.patient_email}</td>
                                 <td className="text-capitalize">
                                   {"Dr. "}
                                   {item.assigned_doctor_name}
                                 </td>
                                 <td>{item.total_amount}</td>
                                 <td>{item.paid_amount}</td>
-                                <td>{item.pay_by_sec_amt}</td>
+                                {/* <td>{item.pay_by_sec_amt}</td> */}
                                 <td>
-                                  {Number(item.total_amount) -
-                                    (Number(item.paid_amount) +
-                                      Number(item.pay_by_sec_amt))}
-                                </td>
-                                <td>
-                                  {item?.bill_date
+                                  {item?.payment_date_time
                                     ? moment(
-                                        item?.bill_date,
+                                        item?.payment_date_time,
                                         "DD-MM-YYYYTHH:mm:ss"
                                       ).format("DD/MM/YYYY hh:mm A")
                                     : ""}
                                 </td>
+                                <td>{item.payment_status}</td>
                                 <td>
-                                  <Link
-                                    to={`/PatintDuePaymentPrint/${item.bill_id}/${item.tp_id}/${item.uhid}`}
-                                  >
+                                 
+                                {item.payment_status !== "paid"
+                                 &&
                                     <button
                                       className="btn"
                                       style={{
                                         backgroundColor: "#FFA600",
                                       }}
+                                      onClick={() =>
+                                        updateBillforPaid(item.bill_id)
+                                      }
+
                                     >
-                                      {Number(item.total_amount) ===
-                                      Number(item.paid_amount) +
-                                        Number(item.pay_by_sec_amt)
-                                        ? "complete the bill"
-                                        : "Pay Now"}
+                                     Change Status to Paid
                                     </button>
-                                  </Link>
+}
+                                 
                                 </td>
                               </tr>
                             </>
@@ -363,12 +398,12 @@ function PatientsDue() {
                             {" "}
                             Showing Page {currentPage} of {totalPages} from{" "}
                             {filteredData?.length} entries (filtered from{" "}
-                            {filterForUnPaidBills?.length} total entries){" "}
+                            {filterForPaidBills?.length} total entries){" "}
                           </>
                         ) : (
                           <>
                             Showing Page {currentPage} of {totalPages} from{" "}
-                            {filterForUnPaidBills?.length} entries
+                            {filterForPaidBills?.length} entries
                           </>
                         )}
                       </h4>
@@ -386,9 +421,7 @@ function PatientsDue() {
 
                         <Button
                           onClick={() => paginate(currentPage + 1)}
-                          disabled={
-                            indexOfLastRow >= filterForUnPaidBills.length
-                          }
+                          disabled={indexOfLastRow >= filterForPaidBills.length}
                           variant="success"
                         >
                           Next
@@ -406,7 +439,7 @@ function PatientsDue() {
   );
 }
 
-export default PatientsDue;
+export default FinalCreditInvoice;
 const Wrapper = styled.div`
   overflow: hidden;
   .navbar1 {

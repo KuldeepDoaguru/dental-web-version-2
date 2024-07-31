@@ -5,9 +5,30 @@ import Sider from "../../components/receptionist/Sider";
 import SittingCreditBill from "./SittingCreditBill";
 import FinalCreditInvoice from "./FinalCreditInvoice";
 import CreditOPDBill from "./CreditOPDBill";
+import PatientsPaid from "./PatientsPaid";
+import PatientsDue from "./PatientsDue";
+import { useLocation,  useNavigate  } from "react-router-dom"; // Import these hooks
 
 
-function AllCreditInvoice() {
+function FinalInvoices() {
+
+    const location = useLocation();
+  const navigate =  useNavigate ();
+
+  const [activeTab, setActiveTab] = useState('due');
+
+  useEffect(() => {
+    const query = new URLSearchParams(location.search);
+    const tab = query.get('tab');
+    if (tab) {
+      setActiveTab(tab);
+    }
+  }, [location.search]);
+
+  const handleTabClick = (tab) => {
+    setActiveTab(tab);
+    navigate(`?tab=${tab}`);
+  };
   
   return (
     <Wrapper>
@@ -21,92 +42,61 @@ function AllCreditInvoice() {
         </div>
         <div className="col-lg-11 mt-2" id="set">
           <div className="text-center">
-            <h3>All Patients Credit Invoice</h3>
+            <h3>All Patients Invoice</h3>
           </div>
 
           <ul className="nav nav-tabs" id="myTab" role="tablist">
         <li className="nav-item" role="presentation">
           <button
-            className="nav-link active nav-link1"
-            id="home-tab"
-            data-bs-toggle="tab"
-            data-bs-target="#home-tab-pane"
-            type="button"
-            role="tab"
-            aria-controls="home-tab-pane"
-            aria-selected="true"
+           className={`nav-link nav-link1 ${activeTab === 'due' ? 'active' : ''}`}
+           id="due-tab"
+           type="button"
+           role="tab"
+           onClick={() => handleTabClick('due')}
           >
-            Sitting Bill
+            Due Invoices
           </button>
         </li>
         <li className="nav-item" role="presentation">
           <button
-            className="nav-link nav-link1"
-            id="profile-tab"
-            data-bs-toggle="tab"
-            data-bs-target="#profile-tab-pane"
-            type="button"
-            role="tab"
-            aria-controls="profile-tab-pane"
-            aria-selected="false"
+             className={`nav-link nav-link1 ${activeTab === 'paid' ? 'active' : ''}`}
+             id="paid-tab"
+             type="button"
+             role="tab"
+             onClick={() => handleTabClick('paid')}
           >
-           Invoice
+          Paid Invoices
           </button>
         </li>
-        <li className="nav-item" role="presentation">
-          <button
-            className="nav-link nav-link1"
-            id="opd-tab"
-            data-bs-toggle="tab"
-            data-bs-target="#opd-tab-pane"
-            type="button"
-            role="tab"
-            aria-controls="opd-tab-pane"
-            aria-selected="false"
-          >
-           OPD Bill
-          </button>
-        </li>
+       
         <div className="tab-content" id="myTabContent">
           <div
-            className="tab-pane fade show active"
-            id="home-tab-pane"
-            role="tabpanel"
-            aria-labelledby="home-tab"
-            tabindex="0"
+           className={`tab-pane fade ${activeTab === 'due' ? 'show active' : ''}`}
+           id="due-tab-pane"
+           role="tabpanel"
+           aria-labelledby="due-tab"
+           tabIndex="0"
           >
             <ul className="list-group">
               <li className="list-group-item">
-               <SittingCreditBill/>
+               <PatientsDue/>
               </li>
             </ul>
           </div>
           <div
-            className="tab-pane fade"
-            id="profile-tab-pane"
-            role="tabpanel"
-            aria-labelledby="profile-tab"
-            tabindex="0"
+             className={`tab-pane fade ${activeTab === 'paid' ? 'show active' : ''}`}
+             id="paid-tab-pane"
+             role="tabpanel"
+             aria-labelledby="paid-tab"
+             tabIndex="0"
           >
             <ul className="list-group">
               <li className="list-group-item" id="app">
-               <FinalCreditInvoice/>
+               <PatientsPaid/>
               </li>
             </ul>
           </div>
-          <div
-            className="tab-pane fade"
-            id="opd-tab-pane"
-            role="tabpanel"
-            aria-labelledby="opd-tab"
-            tabindex="0"
-          >
-            <ul className="list-group">
-              <li className="list-group-item" id="app">
-               <CreditOPDBill/>
-              </li>
-            </ul>
-          </div>
+      
           </div>
         </ul>
        
@@ -116,7 +106,7 @@ function AllCreditInvoice() {
   );
 }
 
-export default AllCreditInvoice;
+export default FinalInvoices;
 const Wrapper = styled.div`
   overflow: hidden;
   #hd {

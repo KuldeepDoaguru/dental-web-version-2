@@ -2,29 +2,52 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Header from "../../components/receptionist/Header";
 import Sider from "../../components/receptionist/Sider";
+import { Link } from "react-router-dom";
 import { Table, Input, Button, Form } from "react-bootstrap";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
+import { FaIndianRupeeSign } from "react-icons/fa6";
+import { FaArrowCircleLeft } from "react-icons/fa";
+import { FaArrowCircleRight } from "react-icons/fa";
 import EditPatientDetails from "../../components/receptionist/AllPatients/EditPatientDetails";
 import moment from "moment";
-import MakePayment from "../../components/receptionist/SecurityAmount/MakePayment";
-import cogoToast from "cogo-toast";
-import { Link, useNavigate } from "react-router-dom";
 import Lottie from "react-lottie";
 import animationData from "../../images/animation/loading-effect.json";
-
-function PatientsDue() {
+import cogoToast from "cogo-toast";
+function CreditOPDBill() {
   const { refreshTable, currentUser } = useSelector((state) => state.user);
   const branch = currentUser.branch_name;
   const token = currentUser?.token;
-  const [loadingEffect, setLoadingEffect] = useState(false);
-  const [patBill, setPatBill] = useState([]);
+  const [selectedDate, setSelectedDate] = useState(
+    new Date().toISOString()?.split("T")[0]
+  ); // Initialize with today's date
+  const [appointmentsData, setAppointmentData] = useState([]);
 
-  const getPatBills = async () => {
+  const [loadingEffect, setLoadingEffect] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+
+  const [filteredData, setFilteredData] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedDateAppData, setSelectedDateAppData] = useState([]);
+
+  const handleDateChange = (increment) => {
+    return () => {
+      if (selectedDate) {
+        const currentDate = new Date(selectedDate);
+        currentDate.setDate(currentDate?.getDate() + increment);
+        setSelectedDate(currentDate?.toISOString()?.split("T")[0]);
+      }
+    };
+  };
+
+  console.log(selectedDateAppData);
+
+  const getAppointments = async () => {
     setLoadingEffect(true);
     try {
-      const { data } = await axios.get(
-        `http://localhost:4000/api/v1/receptionist/getPatientBillsByBranch/${branch}`,
+      const response = await axios.get(
+        `http://localhost:4000/api/v1/receptionist/get-appointments/${branch}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -32,7 +55,15 @@ function PatientsDue() {
           },
         }
       );
-      setPatBill(data);
+
+      const filteredPatients = response?.data?.data?.filter(
+        (patient) => patient.treatment_provided === "OPD" && patient.payment_Mode === "Credit"
+      );
+      // const filteredPatients = response?.data?.data?.filter(
+      //   (patient) => patient.treatment_provided === "OPD" && patient.appointment_status !=="Cancel"
+      // );
+      
+      setAppointmentData(filteredPatients);
       setLoadingEffect(false);
     } catch (error) {
       console.log(error);
@@ -40,25 +71,20 @@ function PatientsDue() {
     }
   };
 
-  console.log(patBill);
-  const filterForUnPaidBills = patBill?.filter((item) => {
-    return item.payment_status !== "paid";
-  });
+  useEffect(() => {
+    const filteredResults = appointmentsData.filter((row) =>
+      row?.created_at?.includes(selectedDate)
+    );
+    setSelectedDateAppData(filteredResults);
+    handleSearch({ target: { value: searchTerm } });
+  }, [appointmentsData, selectedDate]);
 
   useEffect(() => {
-    getPatBills();
+    handleSearch({ target: { value: searchTerm } });
+  }, [refreshTable, selectedDate]);
+  useEffect(() => {
+    getAppointments();
   }, []);
-
-  console.log(patBill);
-  console.log(filterForUnPaidBills);
-
-  //   const [showEditPatientPopup, setShowEditPatientPopup] = useState(false);
-  //   const [selectedPatient, setSelectedPatient] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
-
-  const [filteredData, setFilteredData] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
 
   // Searching function
   const handleSearch = (event) => {
@@ -66,11 +92,12 @@ function PatientsDue() {
     setSearchTerm(searchTerm);
     setCurrentPage(1); // Reset to the first page when searching
 
-    const filteredResults = filterForUnPaidBills.filter(
+    const filteredResults = appointmentsData.filter(
       (row) =>
-        row?.patient_name.toLowerCase().includes(searchTerm.trim()) ||
-        row?.patient_mobile.includes(searchTerm.trim()) ||
-        row?.uhid.toLowerCase().includes(searchTerm.trim())
+        (row.patient_name.toLowerCase()?.includes(searchTerm.trim()) ||
+          row.mobileno?.includes(searchTerm.trim()) ||
+          row.uhid?.toLowerCase().includes(searchTerm.trim())) &&
+        row.created_at?.includes(selectedDate)
     );
 
     setFilteredData(filteredResults);
@@ -86,9 +113,9 @@ function PatientsDue() {
   const indexOfFirstRow = indexOfLastRow - rowsPerPage;
   const currentRows = searchTerm
     ? filteredData.slice(indexOfFirstRow, indexOfLastRow)
-    : filterForUnPaidBills.slice(indexOfFirstRow, indexOfLastRow);
+    : selectedDateAppData.slice(indexOfFirstRow, indexOfLastRow);
 
-  const totalPages = Math.ceil(filterForUnPaidBills.length / rowsPerPage);
+  const totalPages = Math.ceil(selectedDateAppData.length / rowsPerPage);
 
   const paginate = (pageNumber) => {
     if (pageNumber > 0 && pageNumber <= totalPages) {
@@ -99,7 +126,7 @@ function PatientsDue() {
   const pageNumbers = [];
   for (
     let i = 1;
-    i <= Math.ceil(filterForUnPaidBills.length / rowsPerPage);
+    i <= Math.ceil(selectedDateAppData.length / rowsPerPage);
     i++
   ) {
     pageNumbers.push(i);
@@ -166,6 +193,7 @@ function PatientsDue() {
     }
     return null;
   });
+  console.log(appointmentsData);
   const defaultOptions = {
     loop: true,
     autoplay: true,
@@ -174,6 +202,74 @@ function PatientsDue() {
       preserveAspectRatio: "xMidYMid slice",
     },
   };
+
+//   const billUpdateForm = {
+    
+//     payment_Status: "paid",
+//   };
+
+  const updateBillforPaid = async (id) => {
+    const isConfirmed = window.confirm("Are you sure you want to Paid this Bill?");
+
+    if (!isConfirmed) {
+      // If the user cancels the deletion, do nothing
+      return;
+    }
+    try {
+      const res = await axios.put(
+        `http://localhost:4000/api/v1/receptionist/ChangeStatusToPaidOPDBill/${id}/${branch}`,
+        {},
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      cogoToast.success("Bill updated successfully");
+      getAppointments()
+    } catch (error) {
+      console.log(error);
+    }
+  };
+//   let total = 0;
+//   let credit = 0;
+//   let cash = 0;
+//   let upi = 0;
+//   let card = 0;
+//   let refund = 0;
+//   const calculateTotalAmount = () =>{
+//      // const selectedDateAppData = .filter(
+//       //   (patient) => patient.treatment_provided === "OPD" && patient.appointment_status !=="Cancel"
+//       // );
+
+//     selectedDateAppData?.forEach((item)=>{
+//       if(!isNaN(item?.opd_amount)){
+//         if(item.appointment_status !=="Cancel" && item?.payment_Mode === "Credit"){
+//           credit +=  parseInt(item?.opd_amount)
+//         }
+//         else if(item.appointment_status !=="Cancel" && item?.payment_Mode === "Cash"){
+//           cash += parseInt(item?.opd_amount)
+//         }
+//         else if(item.appointment_status !=="Cancel" && item?.payment_Mode === "UPI"){
+//           upi += parseInt(item.opd_amount)
+//         }
+//         else if(item.appointment_status !=="Cancel" && item?.payment_Mode === "Card"){
+//           card += parseInt(item?.opd_amount)
+//         }
+  
+//         if(item.payment_Status === "Refund"){
+//           refund += parseInt(item?.opd_amount)
+//         }
+//         if(item.treatment_provided === "OPD" && item.appointment_status !=="Cancel"){
+//           total += parseInt(item?.opd_amount)
+//         }
+//       }
+     
+//     })
+//   }
+//   calculateTotalAmount();
+  // console.log(total,credit,upi,card,cash);
 
   return (
     <Wrapper>
@@ -187,7 +283,7 @@ function PatientsDue() {
         </div> */}
         <div className="col-lg-12 mt-2" id="">
           {/* <div className="text-center">
-            <h3>All Patients Due Data</h3>
+            <h3>OPD Collection</h3>
           </div> */}
           <div className="row">
             <div className="col-lg-12" id="head">
@@ -228,8 +324,32 @@ function PatientsDue() {
                       </Form.Control>
                     </Form.Group>
                   </div>
+                  <div className="d-flex align-items-center">
+                    <FaArrowCircleLeft
+                      style={{
+                        fontSize: "35px",
+                        padding: "3px",
+                        cursor: "pointer",
+                      }}
+                      onClick={handleDateChange(-1)}
+                    />
+                    <input
+                      type="date"
+                      className="form-control "
+                      value={selectedDate}
+                      onChange={(e) => setSelectedDate(e.target.value)}
+                    />
+                    <FaArrowCircleRight
+                      style={{
+                        fontSize: "35px",
+                        padding: "3px",
+                        cursor: "pointer",
+                      }}
+                      onClick={handleDateChange(1)}
+                    />
+                  </div>
                   <div>
-                    <h5>Total Patients - {filterForUnPaidBills.length}</h5>
+                    <h5>Total Patients - {selectedDateAppData.length}</h5>
                   </div>
 
                   {/* <div class="dropdown" id='drop'>
@@ -245,12 +365,20 @@ function PatientsDue() {
   </ul>
 </div> */}
                 </div>
+                {/* <div className="d-flex mx-2 mt-2">
+                <h6 className="mx-2">Total - <FaIndianRupeeSign /> {total}</h6>
+                <h6 className="mx-2">Cash - <FaIndianRupeeSign /> {cash}</h6>
+                <h6 className="mx-2">Credit - <FaIndianRupeeSign /> {credit}</h6>
+                <h6 className="mx-2">UPI  -<FaIndianRupeeSign /> {upi}</h6>
+                <h6 className="mx-2">Card - <FaIndianRupeeSign /> {card}</h6>
+                <h6 className="mx-2">Refund - <FaIndianRupeeSign /> {refund}</h6>
+                </div> */}
               </nav>
             </div>
 
             <div className="col-lg-12">
               <div
-                className="widget-area-2 proclinic-box-shadow  mt-5"
+                className="widget-area-2 proclinic-box-shadow mt-5"
                 id="tableres"
               >
                 {loadingEffect ? (
@@ -265,18 +393,21 @@ function PatientsDue() {
                     <table className="table table-bordered table-striped">
                       <thead>
                         <tr>
-                          <th className="table-sno sticky">TPID</th>
-                          <th className="sticky">Patient UHID</th>
-                          <th className=" sticky">Patients Name</th>
-                          <th className=" sticky">Patients Mobile</th>
-                          <th className=" sticky">Patients Email</th>
-                          <th className=" sticky">Doctor Name</th>
-                          <th className=" sticky">Total Amount</th>
-                          <th className=" sticky">Paid By Direct Amount</th>
-                          <th className=" sticky">Paid By Secuirty Amt</th>
-                          <th className=" sticky">Due Amount</th>
-                          <th className=" sticky">Bill Date</th>
-                          <th className=" sticky">Action</th>
+                          <th>App. Id</th>
+                          <th>UHID</th>
+                          <th>Patient Name</th>
+                          <th>Phone Number</th>
+                          <th>App. Timing</th>
+                          <th>Doctor Name</th>
+                          <th>Treatment</th>
+                          <th>App. Status</th>
+                          <th>OPD Amount</th>
+                          <th>Payment Mode</th>
+                          <th>Transaction Id</th>
+                          <th>Payment Status</th>
+                          <th>Cancel Date</th>
+                          <th>Created At</th>
+                          <th>Action</th>
                         </tr>
                       </thead>
                       {currentRows.length === 0 ? (
@@ -285,60 +416,82 @@ function PatientsDue() {
                         </div>
                       ) : (
                         <tbody>
-                          {currentRows?.map((item) => (
-                            <>
-                              <tr className="table-row">
-                                <td className="table-sno">{item.tp_id}</td>
-                                <td>
-                                  <Link to={`/patient_profile/${item.uhid}`}>
-                                    {item.uhid}
-                                  </Link>
-                                </td>
-                                <td className="text-capitalize">
-                                  {item.patient_name}
-                                </td>
-                                <td>{item.patient_mobile}</td>
-                                <td>{item.patient_email}</td>
-                                <td className="text-capitalize">
-                                  {"Dr. "}
-                                  {item.assigned_doctor_name}
-                                </td>
-                                <td>{item.total_amount}</td>
-                                <td>{item.paid_amount}</td>
-                                <td>{item.pay_by_sec_amt}</td>
-                                <td>
-                                  {Number(item.total_amount) -
-                                    (Number(item.paid_amount) +
-                                      Number(item.pay_by_sec_amt))}
-                                </td>
-                                <td>
-                                  {item?.bill_date
-                                    ? moment(
-                                        item?.bill_date,
-                                        "DD-MM-YYYYTHH:mm:ss"
-                                      ).format("DD/MM/YYYY hh:mm A")
-                                    : ""}
-                                </td>
-                                <td>
-                                  <Link
-                                    to={`/PatintDuePaymentPrint/${item.bill_id}/${item.tp_id}/${item.uhid}`}
-                                  >
+                          {currentRows?.map((data, index) => (
+                            <tr key={index}>
+                              <td>{data.appoint_id}</td>
+                              <td>
+                                <Link to={`/patient_profile/${data.uhid}`}>
+                                  {data.uhid}
+                                </Link>
+                              </td>
+                              <td className="text-capitalize">
+                                {data.patient_name}
+                              </td>
+                              <td>{data.mobileno}</td>
+                              <td>
+                                {moment(
+                                  data?.appointment_dateTime,
+                                  "YYYY-MM-DDTHH:mm"
+                                ).format("DD/MM/YYYY hh:mm A")}
+                              </td>
+
+                              <td className="text-capitalize">
+                                {data.assigned_doctor_name}
+                              </td>
+                              <td>{data.treatment_provided}</td>
+                              <td className={`text-capitalize ${data.appointment_status === 'Cancel' ? 'text-danger' : ''}`}>
+                                {data.appointment_status}
+                              </td>
+                              <td>{data.opd_amount}</td>
+                              <td className="text-capitalize">
+                                {data.payment_Mode}
+                              </td>
+                              <td>{data.transaction_Id}</td>
+                              <td className="text-capitalize">
+                                {data.payment_Status}
+                              </td>
+                              <td className="text-capitalize">
+                                {data?.refund_date_time
+                                  ? moment(
+                                      data?.refund_date_time,
+                                      "DD-MM-YYYYTHH:mm"
+                                    ).format("DD/MM/YYYY hh:mm A")
+                                  : ""}
+                              </td>
+
+                              <td>
+                                {moment(
+                                  data?.created_at,
+                                  "YYYY-MM-DDTHH:mm"
+                                ).format("DD/MM/YYYY hh:mm A")}
+                              </td>
+                              <td>
+                               
+                                  {/* {data.payment_Status == "paid" && (
+                                    <button className="btn btn-success">
+                                      View Reciept
+                                    </button>
+                                  )} */}
+                                  
+                                  {data.payment_Status !== "paid"
+                                 &&
                                     <button
                                       className="btn"
                                       style={{
                                         backgroundColor: "#FFA600",
                                       }}
+                                      onClick={() =>
+                                        updateBillforPaid(data.appoint_id)
+                                      }
+
                                     >
-                                      {Number(item.total_amount) ===
-                                      Number(item.paid_amount) +
-                                        Number(item.pay_by_sec_amt)
-                                        ? "complete the bill"
-                                        : "Pay Now"}
+                                     Change Status to Paid
                                     </button>
-                                  </Link>
-                                </td>
-                              </tr>
-                            </>
+}
+                                 
+                                
+                              </td>
+                            </tr>
                           ))}
                         </tbody>
                       )}
@@ -363,12 +516,12 @@ function PatientsDue() {
                             {" "}
                             Showing Page {currentPage} of {totalPages} from{" "}
                             {filteredData?.length} entries (filtered from{" "}
-                            {filterForUnPaidBills?.length} total entries){" "}
+                            {selectedDateAppData?.length} total entries){" "}
                           </>
                         ) : (
                           <>
                             Showing Page {currentPage} of {totalPages} from{" "}
-                            {filterForUnPaidBills?.length} entries
+                            {selectedDateAppData?.length} entries
                           </>
                         )}
                       </h4>
@@ -387,7 +540,7 @@ function PatientsDue() {
                         <Button
                           onClick={() => paginate(currentPage + 1)}
                           disabled={
-                            indexOfLastRow >= filterForUnPaidBills.length
+                            indexOfLastRow >= selectedDateAppData.length
                           }
                           variant="success"
                         >
@@ -406,7 +559,7 @@ function PatientsDue() {
   );
 }
 
-export default PatientsDue;
+export default CreditOPDBill;
 const Wrapper = styled.div`
   overflow: hidden;
   .navbar1 {
@@ -445,18 +598,6 @@ const Wrapper = styled.div`
       width: 98%;
     }
   }
-  #hd {
-    padding-top: 60px; /* Height of header */
-    min-height: 100vh;
-    position: fixed;
-    @media screen and (max-width: 768px) {
-      height: 68rem;
-    }
-    @media screen and (min-width: 768px) and (max-width: 1020px) {
-      height: 58rem;
-    }
-  }
-
   #set {
     margin-left: -4.5rem;
     padding-left: 150px; /* Width of sidebar */
@@ -484,6 +625,17 @@ const Wrapper = styled.div`
       margin-left: 0rem;
     }
   }
+  #hd {
+    padding-top: 60px; /* Height of header */
+    min-height: 100vh;
+    position: fixed;
+    @media screen and (max-width: 768px) {
+      height: 68rem;
+    }
+    @media screen and (min-width: 768px) and (max-width: 1020px) {
+      height: 58rem;
+    }
+  }
   #tableres {
     @media screen and (max-width: 768px) {
       width: auto;
@@ -507,34 +659,6 @@ const Wrapper = styled.div`
   }
   td {
     white-space: nowrap;
-  }
-
-  .popup-container {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    overflow: scroll;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    align-items: center;
-    justify-content: center;
-  }
-
-  .popup-container.active {
-    display: flex;
-    background-color: #00000075;
-    z-index: 200;
-  }
-
-  .popup {
-    background-color: white;
-    padding: 20px;
-    border-radius: 8px;
-    height: auto;
-    width: auto;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   }
   .header {
     position: fixed;

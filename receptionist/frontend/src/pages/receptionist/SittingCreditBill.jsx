@@ -18,8 +18,10 @@ function SittingCreditBill() {
   const branch = currentUser.branch_name;
   const token = currentUser?.token;
   const [loadingEffect, setLoadingEffect] = useState(false);
+  const [showChangeStatus, setShowChangeStatus] = useState(false);
 
   const [patBill, setPatBill] = useState([]);
+  const [selected, setSelected] = useState();
 
   const getPatBills = async () => {
     setLoadingEffect(true);
@@ -41,9 +43,39 @@ function SittingCreditBill() {
     }
   };
 
+  const billUpdateForm = {
+    
+    payment_status: "paid",
+  };
+
+  const updateBillforSitting = async (id) => {
+    const isConfirmed = window.confirm("Are you sure you want to Paid this Bill?");
+
+    if (!isConfirmed) {
+      // If the user cancels the deletion, do nothing
+      return;
+    }
+    try {
+      const res = await axios.put(
+        `http://localhost:4000/api/v1/receptionist/updateSittingBillToPaid/${id}/${branch}`,
+        billUpdateForm,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      cogoToast.success("Bill updated successfully");
+      getPatBills();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   console.log(patBill);
   const filterForUnPaidBills = patBill?.filter((item) => {
-    return item.payment_status === "pending";
+    return item.payment_mode === "Credit";
   });
 
   console.log(filterForUnPaidBills);
@@ -53,6 +85,15 @@ function SittingCreditBill() {
   }, []);
 
   console.log(patBill);
+  // const closeUpdatePopup = () => {
+    
+  //   setShowChangeStatus(false);
+  // };
+
+  // const openSecurityAmtPay = (id) => {
+  //   setShowChangeStatus(true);
+  //   setSelected(id);
+  // };
 
   //   const [showEditPatientPopup, setShowEditPatientPopup] = useState(false);
   //   const [selectedPatient, setSelectedPatient] = useState("");
@@ -272,11 +313,13 @@ function SittingCreditBill() {
                           <th className=" sticky">Patients Name</th>
                           <th className=" sticky">Patients Mobile</th>
                           <th className=" sticky">Patients Email</th>
+                          <th className=" sticky">Treatment</th>
+                          <th className=" sticky">Sitting No.</th>
                           <th className=" sticky">Doctor Name</th>
                           <th className=" sticky">Sitting Amount</th>
                           {/* <th className=" sticky">Paid By Direct Amount</th>
                           <th className=" sticky">Paid By Secuirty Amt</th> */}
-                          <th className=" sticky">Due Amount</th>
+                          <th className=" sticky">Payment Status</th>
                           <th className=" sticky">Bill Date</th>
                           <th className=" sticky">Action</th>
                         </tr>
@@ -301,6 +344,8 @@ function SittingCreditBill() {
                                 </td>
                                 <td>{item.mobileno}</td>
                                 <td>{item.emailid}</td>
+                                <td>{item.treatment}</td>
+                                <td>{item.sitting_number}</td>
                                 <td className="text-capitalize">
                                   {"Dr. "}
                                   {item.doctor_name}
@@ -309,24 +354,26 @@ function SittingCreditBill() {
                                 {/* <td>{item.pay_direct}</td>
                                 <td>{item.pay_security_amount}</td> */}
                                 <td>
-                                  {item.payment_status === "pending"
-                                    ? item.sitting_amount
-                                    : 0}
+                                  {item.payment_status}
                                 </td>
                                 <td>{item?.date?.split(" ")[0]}</td>
                                 <td>
-                                  <Link
-                                    to={`/SittingBillPayment/${item.sb_id}/${item.tp_id}/${item.uhid}`}
-                                  >
+                                 {item.payment_status !== "paid"
+                                 &&
                                     <button
                                       className="btn"
                                       style={{
                                         backgroundColor: "#FFA600",
                                       }}
+                                      onClick={() =>
+                                        updateBillforSitting(item.sb_id)
+                                      }
+
                                     >
-                                      Pay Now
+                                     Change Status to Paid
                                     </button>
-                                  </Link>
+}
+                                 
                                 </td>
                               </tr>
                             </>
@@ -393,6 +440,7 @@ function SittingCreditBill() {
           </div>
         </div>
       </div>
+       
     </Wrapper>
   );
 }

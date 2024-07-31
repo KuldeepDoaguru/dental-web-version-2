@@ -70,6 +70,9 @@ const {
   completePatientBill,
   getInsuranceCompany,
   getPatientDetailsForBill,
+  updateSittingBillToPaid,
+  ChangeStatusToPaidPatientBill,
+  ChangeStatusToPaidOPDBill,
 } = require("../controller/receptionist_Controller");
 const authenticate = require("../middleware/authMiddleware");
 const router = express.Router();
@@ -272,6 +275,11 @@ router.put(
   authenticate,
   updateSittingBillPayment
 );
+router.put(
+  "/updateSittingBillToPaid/:sbid/:branch",
+  authenticate,
+  updateSittingBillToPaid
+);
 
 router.get(
   "/getSittingBillbyId/:branch/:sbid",
@@ -292,6 +300,8 @@ router.get(
 );
 
 router.put("/completePatientBill/:tpid/:branch", completePatientBill);
+router.put("/ChangeStatusToPaidPatientBill/:bill_id/:branch",authenticate, ChangeStatusToPaidPatientBill);
+router.put("/ChangeStatusToPaidOPDBill/:appoint_id/:branch",authenticate, ChangeStatusToPaidOPDBill);
 router.get("/getInsuranceCompany/:branch" , getInsuranceCompany)
 router.get("/getPatientDetailsForBill/:branch/:uhid/:billId" , getPatientDetailsForBill)
 
