@@ -773,7 +773,7 @@ function App() {
 
         {/* ---Quick Prescription */}
         <Route
-          path="/Quick-Prescription"
+          path="/Quick-Prescription/:patient_uhid/:appointId"
           element={
             user === null ? (
               <DoctorLogin />

@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import numWords from "num-words";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
-import { SiGmail } from "react-icons/si";
+import { SiGmail, SiGooglemessages } from "react-icons/si";
 import { IoLogoWhatsapp } from "react-icons/io";
 import cogoToast from "cogo-toast";
 
@@ -325,27 +325,53 @@ const PatientBillsByTpid = () => {
       console.log(pdfData);
 
       const formData = new FormData();
-      formData.append("number", getPatientData[0]?.mobileno);
-      // formData.append("type", "media");
-      formData.append("message", `test message`);
-      formData.append(
-        "media_url",
-        `https://res.cloudinary.com/dq5upuxm8/video/upload/v1697973901/Stranger_Things_4___Volume_2_Trailer___Netflix_u6dbve.mp4`
-      );
-      formData.append("filename", "stranger things");
-      // formData.append("instance_id", "66A738A57110E");
-      // formData.append("access_token", "668f7d2850e22");
+      formData.append("phoneNumber", getPatientData[0]?.mobileno);
+      formData.append("message", "test message");
+      // Convert Blob to a File
+      const file = new File([pdfData], "treatment bill.pdf", {
+        type: "application/pdf",
+      });
+
+      formData.append("media_url", file);
       for (let [key, value] of formData.entries()) {
         console.log(key, value);
       }
+
       const res = await axios.post(
-        "`http://localhost:8888/api/doctor/sendWhatsapp",
-        formData
+        "http://localhost:8888/api/doctor/sendWhatsapp",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
       );
-      cogoToast.success("Treatment bill sent successfully");
+      cogoToast.success("sitting bill sent successfully");
       console.log("PDF sent successfully");
     } catch (error) {
       console.error("Error sending PDF:", error);
+    }
+  };
+
+  const formDetails = {
+    phoneNumber: getPatientData[0]?.mobileno,
+    message: `Dear ${getPatientData[0]?.patient_name}, your bill generated for the treatment, bill amount is ${billDetails[0]?.total_amount}/-`,
+  };
+  const billDetailsSms = async () => {
+    try {
+      const { data } = await axios.post(
+        "http://localhost:8888/api/doctor/sendSMS",
+        formDetails,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      cogoToast.success("bill details sent successfully");
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -833,26 +859,42 @@ const PatientBillsByTpid = () => {
             )}
             <br />
             Share on :
-            <button
-              className="btn btn-info no-print mx-3 mb-3 mt-2 text-white shadow"
-              style={{
-                backgroundColor: "#0dcaf0",
-                border: "#0dcaf0",
-              }}
-              onClick={sendPrescriptionMail}
-            >
-              <SiGmail />
-            </button>
-            <button
-              className="btn btn-info no-print mx-3 mb-3 mt-2 text-white shadow"
-              style={{
-                backgroundColor: "#0dcaf0",
-                border: "#0dcaf0",
-              }}
-              onClick={sendPrescriptionWhatsapp}
-            >
-              <IoLogoWhatsapp />
-            </button>
+            {branchData[0]?.sharemail === "Yes" && (
+              <button
+                className="btn btn-info no-print mx-3 mb-3 mt-2 text-white shadow"
+                style={{
+                  backgroundColor: "#0dcaf0",
+                  border: "#0dcaf0",
+                }}
+                onClick={sendPrescriptionMail}
+              >
+                <SiGmail />
+              </button>
+            )}
+            {branchData[0]?.sharewhatsapp === "Yes" && (
+              <button
+                className="btn btn-info no-print mx-3 mb-3 mt-2 text-white shadow"
+                style={{
+                  backgroundColor: "#0dcaf0",
+                  border: "#0dcaf0",
+                }}
+                onClick={sendPrescriptionWhatsapp}
+              >
+                <IoLogoWhatsapp />
+              </button>
+            )}
+            {branchData[0]?.sharesms === "Yes" && (
+              <button
+                className="btn btn-info no-print mx-3 mb-3 mt-2 text-white shadow"
+                style={{
+                  backgroundColor: "#0dcaf0",
+                  border: "#0dcaf0",
+                }}
+                onClick={billDetailsSms}
+              >
+                <SiGooglemessages />
+              </button>
+            )}
             {/* <button
               className="btn btn-info no-print mx-3 mt-2 mb-2"
               onClick={() => navigate("/doctor-dashboard")}

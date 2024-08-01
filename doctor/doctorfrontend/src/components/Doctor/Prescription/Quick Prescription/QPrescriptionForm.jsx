@@ -5,37 +5,61 @@ import Sider from "../../SideBar";
 import { IoIosArrowRoundForward } from "react-icons/io";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 
 const QPrescriptionForm = () => {
-  const [appointments, setAppointments] = useState({});
-  const [formData, setFormData] = useState({
-    chief_complain: "",
-    medical_histry: "",
-    dental_histry: "",
-    onexam: "",
-    advice: "",
-    medicines: "",
-  });
-
+  console.log(useParams());
+  const { patient_uhid, appointId } = useParams();
   const dispatch = useDispatch();
   const { refreshTable } = useSelector((state) => state.user);
   const user = useSelector((state) => state.user);
   const token = user.currentUser.token;
-  const appoint_id = "131";
+  const [appointments, setAppointments] = useState({});
+  const [chiefList, setChiefList] = useState([]);
+  const [formData, setFormData] = useState({
+    patient_name: appointments[0]?.patient_name,
+    patient_uhid: appointments[0]?.uhid,
+    appointId: appointId,
+    age: appointments[0]?.age,
+    gender: appointments[0]?.gender,
+    chief_complain: "",
+    medical_history: "",
+    dental_history: "",
+    onexam: "",
+    advice: "",
+    medicines: "",
+    note: "",
+  });
 
+  const ChiefComplainTOList = async () => {
+    try {
+      const { data } = await axios.get(
+        "http://localhost:8888/api/doctor/getChiefComplain",
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setChiefList(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const fetchAppointments = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:8888/api/doctor/getPatientByAppID/${appoint_id}`
-        // {
-        //   headers: {
-        //     "Content-Type": "application/json",
-        //     Authorization: `Bearer ${token}`,
-        //   },
-        // }
+        `http://localhost:8888/api/doctor/get-Patient-by-id/${patient_uhid}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
-      setAppointments(data.result[0]);
-      console.log(data.result[0]);
+      setAppointments(data);
+      console.log(data);
     } catch (error) {
       console.log(error);
     }
@@ -43,12 +67,17 @@ const QPrescriptionForm = () => {
 
   useEffect(() => {
     fetchAppointments();
+    ChiefComplainTOList();
   }, []);
 
+  console.log(appointments);
+  console.log(chiefList);
+
   const handleChange = (e) => {
+    const { name, value } = e.target;
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value,
+      [name]: value,
     });
   };
 
@@ -193,7 +222,7 @@ const QPrescriptionForm = () => {
                                 <label htmlFor="chief_complain">
                                   Chief Complaint
                                 </label>
-                                <input
+                                {/* <input
                                   type="text"
                                   id="chief_complain"
                                   name="chief_complain"
@@ -201,7 +230,22 @@ const QPrescriptionForm = () => {
                                   placeholder="Chief Complaint"
                                   value={formData.chief_complain}
                                   onChange={handleChange}
-                                />
+                                /> */}
+                                <select
+                                  name="chief_complain"
+                                  className="form-control"
+                                  id=""
+                                  onChange={handleChange}
+                                >
+                                  <option value="">-select-</option>
+                                  {chiefList?.map((item) => (
+                                    <>
+                                      <option value={item.chief_complain}>
+                                        {item.chief_complain}
+                                      </option>
+                                    </>
+                                  ))}
+                                </select>
                               </div>
                             </div>
                           </div>

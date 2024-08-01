@@ -19,6 +19,8 @@ const PrescriptionQuick = () => {
   console.log(user);
   const branch = user.currentUser.branch_name;
   console.log(branch);
+  const branchData = useSelector((state) => state.branch.currentBranch);
+  console.log(branchData);
   const [getExaminData, setGetExaminData] = useState([]);
   const [getTreatData, setGetTreatData] = useState([]);
   const [getTreatMedicine, setGetTreatMedicine] = useState([]);
@@ -545,26 +547,30 @@ const PrescriptionQuick = () => {
           </button>
           <br />
           Share on :
-          <button
-            className="btn btn-info no-print mx-3 mb-3 mt-2 text-white shadow"
-            style={{
-              backgroundColor: "#0dcaf0",
-              border: "#0dcaf0",
-            }}
-            onClick={sendPrescriptionMail}
-          >
-            <SiGmail />
-          </button>
-          <button
-            className="btn btn-info no-print mx-3 mb-3 mt-2 text-white shadow"
-            style={{
-              backgroundColor: "#0dcaf0",
-              border: "#0dcaf0",
-            }}
-            onClick={sendPrescriptionWhatsapp}
-          >
-            <IoLogoWhatsapp />
-          </button>
+          {branchData[0]?.sharemail === "Yes" && (
+            <button
+              className="btn btn-info no-print mx-3 mb-3 mt-2 text-white shadow"
+              style={{
+                backgroundColor: "#0dcaf0",
+                border: "#0dcaf0",
+              }}
+              onClick={sendPrescriptionMail}
+            >
+              <SiGmail />
+            </button>
+          )}
+          {branchData[0]?.sharewhatsapp === "Yes" && (
+            <button
+              className="btn btn-info no-print mx-3 mb-3 mt-2 text-white shadow"
+              style={{
+                backgroundColor: "#0dcaf0",
+                border: "#0dcaf0",
+              }}
+              onClick={sendPrescriptionWhatsapp}
+            >
+              <IoLogoWhatsapp />
+            </button>
+          )}
         </div>
       </Wrapper>
     </>

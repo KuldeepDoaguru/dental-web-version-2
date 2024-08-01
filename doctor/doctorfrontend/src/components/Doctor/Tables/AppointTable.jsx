@@ -228,6 +228,10 @@ const AppointTable = () => {
         }
         window.scrollTo(0, 0);
       }
+
+      if (action === "prescription") {
+        navigate(`/Quick-Prescription/${uhid}/${appointId}`);
+      }
       const res = await axios.get(
         `http://localhost:8888/api/doctor/appointtreatSitting?date=${selectedDate}`,
         {
@@ -612,6 +616,20 @@ const AppointTable = () => {
                                                 }
                                               >
                                                 Start Treatment
+                                              </button>
+                                            </li>
+                                            <li>
+                                              <button
+                                                className="dropdown-item mx-0"
+                                                onClick={() =>
+                                                  handleAction(
+                                                    "prescription",
+                                                    item.appoint_id,
+                                                    item.uhid
+                                                  )
+                                                }
+                                              >
+                                                Quick Prescription
                                               </button>
                                             </li>
                                             {/* <li>

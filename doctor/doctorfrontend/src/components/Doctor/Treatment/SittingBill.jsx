@@ -21,6 +21,8 @@ const SittingBill = () => {
   console.log(user);
   const branch = user.currentUser.branch_name;
   console.log(branch);
+  const branchData = useSelector((state) => state.branch.currentBranch);
+  console.log(branchData);
   const [getExaminData, setGetExaminData] = useState([]);
   const [getTreatData, setGetTreatData] = useState([]);
   const [getTreatMedicine, setGetTreatMedicine] = useState([]);
@@ -253,7 +255,7 @@ const SittingBill = () => {
       formData.append("phoneNumber", getPatientData[0]?.mobileno);
       formData.append("message", "test message");
       // Convert Blob to a File
-      const file = new File([pdfData], "prescription.pdf", {
+      const file = new File([pdfData], "sitting bill.pdf", {
         type: "application/pdf",
       });
 
@@ -279,7 +281,7 @@ const SittingBill = () => {
   };
   const formDetails = {
     phoneNumber: getPatientData[0]?.mobileno,
-    message: `Dear ${getPatientData[0]?.patient_name}, your bill generated for the sitting ${sittingBill[0]?.sitting_number} of treatment ${sittingBill[0]?.treatment}, bill amount is ${sittingBill[0]?.sitting_amount}`,
+    message: `Dear ${getPatientData[0]?.patient_name}, your bill generated for the sitting ${sittingBill[0]?.sitting_number} of treatment ${sittingBill[0]?.treatment}, sitting bill amount is ${sittingBill[0]?.sitting_amount}/-`,
   };
   const billDetailsSms = async () => {
     try {
@@ -684,36 +686,42 @@ const SittingBill = () => {
             </button>
             <br />
             Share on :
-            <button
-              className="btn btn-info no-print mx-3 mb-3 mt-2 text-white shadow"
-              style={{
-                backgroundColor: "#0dcaf0",
-                border: "#0dcaf0",
-              }}
-              onClick={sendPrescriptionMail}
-            >
-              <SiGmail />
-            </button>
-            <button
-              className="btn btn-info no-print mx-3 mb-3 mt-2 text-white shadow"
-              style={{
-                backgroundColor: "#0dcaf0",
-                border: "#0dcaf0",
-              }}
-              onClick={sendPrescriptionWhatsapp}
-            >
-              <IoLogoWhatsapp />
-            </button>
-            <button
-              className="btn btn-info no-print mx-3 mb-3 mt-2 text-white shadow"
-              style={{
-                backgroundColor: "#0dcaf0",
-                border: "#0dcaf0",
-              }}
-              onClick={billDetailsSms}
-            >
-              <SiGooglemessages />
-            </button>
+            {branchData[0]?.sharemail === "Yes" && (
+              <button
+                className="btn btn-info no-print mx-3 mb-3 mt-2 text-white shadow"
+                style={{
+                  backgroundColor: "#0dcaf0",
+                  border: "#0dcaf0",
+                }}
+                onClick={sendPrescriptionMail}
+              >
+                <SiGmail />
+              </button>
+            )}
+            {branchData[0]?.sharewhatsapp === "Yes" && (
+              <button
+                className="btn btn-info no-print mx-3 mb-3 mt-2 text-white shadow"
+                style={{
+                  backgroundColor: "#0dcaf0",
+                  border: "#0dcaf0",
+                }}
+                onClick={sendPrescriptionWhatsapp}
+              >
+                <IoLogoWhatsapp />
+              </button>
+            )}
+            {branchData[0]?.sharesms === "Yes" && (
+              <button
+                className="btn btn-info no-print mx-3 mb-3 mt-2 text-white shadow"
+                style={{
+                  backgroundColor: "#0dcaf0",
+                  border: "#0dcaf0",
+                }}
+                onClick={billDetailsSms}
+              >
+                <SiGooglemessages />
+              </button>
+            )}
             {/* <button
               className="btn btn-info no-print mt-2 mb-2"
               onClick={handleButton}

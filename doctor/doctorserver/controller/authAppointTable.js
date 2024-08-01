@@ -998,7 +998,7 @@ const sendSMS = async (req, res) => {
   try {
     await client.messages.create({
       from: process.env.TWILIONUMBER,
-      to: phoneNumber,
+      to: "+91" + phoneNumber,
       body: message,
     });
     res.send("Message sent successfully!");
