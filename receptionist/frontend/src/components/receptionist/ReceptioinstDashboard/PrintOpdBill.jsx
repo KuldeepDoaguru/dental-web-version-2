@@ -439,7 +439,7 @@ const Container = styled.div`
   .proc-detail {
     border-top: 2px solid black;
   }
-  .btn-primary {
+  .btn-info {
     @media print {
       display: none;
     }
