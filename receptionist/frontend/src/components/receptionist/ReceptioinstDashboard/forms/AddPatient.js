@@ -643,6 +643,9 @@ function AddPatient() {
         notes: data.notes,
         patient_added_by: user.currentUser.employee_name,
         patient_added_by_emp_id: user.currentUser.employee_ID,
+        sharemail : currentBranch[0].sharemail,
+        sharewhatsapp : currentBranch[0].sharewhatsapp,
+        sharesms : currentBranch[0].sharesms
       };
 
       if (!isDoctorAvailable(selectedDateTime)) {

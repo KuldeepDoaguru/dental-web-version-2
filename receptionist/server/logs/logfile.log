@@ -19763,3 +19763,675 @@
 {"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 12:14:38.847 IST"}
 {"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 12:14:38.880 IST"}
 {"level":"info","message":"Patient fetched successfully","timestamp":"2024-08-01 12:24:43.401 IST"}
+{"level":"info","message":"successfully get dental_prescription via tpid","timestamp":"2024-08-01 12:39:24.692 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 12:48:24.688 IST"}
+{"level":"info","message":"Disease fetched successfully","timestamp":"2024-08-01 12:48:28.808 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 12:48:28.812 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 12:48:28.819 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 12:48:28.844 IST"}
+{"level":"info","message":"Branch Holidays fetched successfully","timestamp":"2024-08-01 12:48:28.871 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 12:48:28.882 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 12:48:28.886 IST"}
+{"level":"info","message":"Branch Holidays fetched successfully","timestamp":"2024-08-01 12:48:28.919 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 12:48:28.934 IST"}
+{"level":"info","message":"Branch Holidays fetched successfully","timestamp":"2024-08-01 12:48:28.956 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 12:48:28.970 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 12:48:28.992 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 12:48:29.018 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 12:48:29.034 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 12:48:29.056 IST"}
+{"level":"info","message":"Disease fetched successfully","timestamp":"2024-08-01 12:48:54.082 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 12:48:54.084 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 12:48:54.095 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 12:48:54.116 IST"}
+{"level":"info","message":"Branch Holidays fetched successfully","timestamp":"2024-08-01 12:48:54.137 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 12:48:54.157 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 12:48:54.160 IST"}
+{"level":"info","message":"Branch Holidays fetched successfully","timestamp":"2024-08-01 12:48:54.197 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 12:48:54.210 IST"}
+{"level":"info","message":"Branch Holidays fetched successfully","timestamp":"2024-08-01 12:48:54.245 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 12:48:54.260 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 12:48:54.284 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 12:48:54.320 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 12:48:54.342 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 12:48:54.361 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 12:48:54.814 IST"}
+{"level":"info","message":"Disease fetched successfully","timestamp":"2024-08-01 12:48:59.630 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 12:48:59.632 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 12:48:59.650 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 12:48:59.669 IST"}
+{"level":"info","message":"Branch Holidays fetched successfully","timestamp":"2024-08-01 12:48:59.673 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 12:48:59.692 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 12:48:59.708 IST"}
+{"level":"info","message":"Branch Holidays fetched successfully","timestamp":"2024-08-01 12:48:59.724 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 12:48:59.758 IST"}
+{"level":"info","message":"Branch Holidays fetched successfully","timestamp":"2024-08-01 12:48:59.773 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 12:48:59.798 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 12:48:59.823 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 12:48:59.873 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 12:48:59.890 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 12:48:59.907 IST"}
+{"level":"info","message":"Patient and appointment added successfully","timestamp":"2024-08-01 12:50:29.492 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 12:50:29.594 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 12:50:29.618 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 12:50:29.636 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 12:50:29.656 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 12:50:29.673 IST"}
+{"level":"info","message":"Appointment fetched successfully","timestamp":"2024-08-01 12:50:29.737 IST"}
+{"level":"info","message":"Disease fetched successfully","timestamp":"2024-08-01 12:50:36.740 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 12:50:36.744 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 12:50:36.750 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 12:50:36.790 IST"}
+{"level":"info","message":"Branch Holidays fetched successfully","timestamp":"2024-08-01 12:50:36.802 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 12:50:36.806 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 12:50:36.818 IST"}
+{"level":"info","message":"Branch Holidays fetched successfully","timestamp":"2024-08-01 12:50:36.843 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 12:50:36.849 IST"}
+{"level":"info","message":"Branch Holidays fetched successfully","timestamp":"2024-08-01 12:50:36.898 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 12:50:36.901 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 12:50:36.930 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 12:50:36.961 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 12:50:36.980 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 12:50:36.998 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 12:50:38.931 IST"}
+{"level":"info","message":"Disease fetched successfully","timestamp":"2024-08-01 12:50:47.465 IST"}
+{"level":"info","message":"Disease fetched successfully","timestamp":"2024-08-01 12:50:57.518 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 12:50:57.521 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 12:50:57.554 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 12:50:57.556 IST"}
+{"level":"info","message":"Branch Holidays fetched successfully","timestamp":"2024-08-01 12:50:57.580 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 12:50:57.593 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 12:50:57.611 IST"}
+{"level":"info","message":"Branch Holidays fetched successfully","timestamp":"2024-08-01 12:50:57.626 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 12:50:57.654 IST"}
+{"level":"info","message":"Branch Holidays fetched successfully","timestamp":"2024-08-01 12:50:57.671 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 12:50:57.686 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 12:50:57.707 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 12:50:57.731 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 12:50:57.751 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 12:50:57.774 IST"}
+{"level":"info","message":"Appointment fetched successfully","timestamp":"2024-08-01 12:51:19.494 IST"}
+{"level":"info","message":"Disease fetched successfully","timestamp":"2024-08-01 12:51:33.084 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 12:51:33.095 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 12:51:33.101 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 12:51:33.127 IST"}
+{"level":"info","message":"Branch Holidays fetched successfully","timestamp":"2024-08-01 12:51:33.139 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 12:51:33.151 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 12:51:33.160 IST"}
+{"level":"info","message":"Branch Holidays fetched successfully","timestamp":"2024-08-01 12:51:33.195 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 12:51:33.211 IST"}
+{"level":"info","message":"Branch Holidays fetched successfully","timestamp":"2024-08-01 12:51:33.245 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 12:51:33.262 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 12:51:33.291 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 12:51:33.317 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 12:51:33.336 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 12:51:33.390 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 12:51:37.497 IST"}
+{"level":"info","message":"Branch Holidays fetched successfully","timestamp":"2024-08-01 12:51:37.543 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 12:51:44.296 IST"}
+{"level":"info","message":"Branch Holidays fetched successfully","timestamp":"2024-08-01 12:51:44.330 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 12:51:47.724 IST"}
+{"level":"info","message":"Branch Holidays fetched successfully","timestamp":"2024-08-01 12:51:47.754 IST"}
+{"level":"info","message":"Disease fetched successfully","timestamp":"2024-08-01 12:52:45.095 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 12:52:45.097 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 12:52:45.110 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 12:52:45.130 IST"}
+{"level":"info","message":"Branch Holidays fetched successfully","timestamp":"2024-08-01 12:52:45.141 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 12:52:45.152 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 12:52:45.170 IST"}
+{"level":"info","message":"Branch Holidays fetched successfully","timestamp":"2024-08-01 12:52:45.217 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 12:52:45.221 IST"}
+{"level":"info","message":"Branch Holidays fetched successfully","timestamp":"2024-08-01 12:52:45.252 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 12:52:45.254 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 12:52:45.280 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 12:52:45.300 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 12:52:45.320 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 12:52:45.346 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 12:52:56.978 IST"}
+{"level":"info","message":"Disease fetched successfully","timestamp":"2024-08-01 12:52:56.982 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 12:52:56.985 IST"}
+{"level":"info","message":"Branch Holidays fetched successfully","timestamp":"2024-08-01 12:52:57.023 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 12:52:57.025 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 12:52:57.032 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 12:52:57.056 IST"}
+{"level":"info","message":"Branch Holidays fetched successfully","timestamp":"2024-08-01 12:52:57.077 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 12:52:57.106 IST"}
+{"level":"info","message":"Branch Holidays fetched successfully","timestamp":"2024-08-01 12:52:57.122 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 12:52:57.139 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 12:52:57.162 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 12:52:57.186 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 12:52:57.200 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 12:52:57.242 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 12:53:11.141 IST"}
+{"level":"info","message":"Branch Holidays fetched successfully","timestamp":"2024-08-01 12:53:11.167 IST"}
+{"level":"info","message":"Appointment cancel successfully","timestamp":"2024-08-01 12:53:27.454 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 12:53:27.526 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 12:53:27.544 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 12:53:27.561 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 12:53:27.581 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 12:53:27.601 IST"}
+{"level":"info","message":"Appointment fetched successfully","timestamp":"2024-08-01 12:53:52.630 IST"}
+{"level":"info","message":"Successfully get single patient security amount","timestamp":"2024-08-01 12:54:19.206 IST"}
+{"level":"info","message":"Successfully get single patient security amount","timestamp":"2024-08-01 12:54:34.839 IST"}
+{"level":"info","message":"Successfully get single patient security amount","timestamp":"2024-08-01 12:57:28.056 IST"}
+{"level":"info","message":"Disease fetched successfully","timestamp":"2024-08-01 12:57:41.818 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 12:57:41.821 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 12:57:41.832 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 12:57:41.857 IST"}
+{"level":"info","message":"Branch Holidays fetched successfully","timestamp":"2024-08-01 12:57:41.899 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 12:57:41.908 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 12:57:41.912 IST"}
+{"level":"info","message":"Branch Holidays fetched successfully","timestamp":"2024-08-01 12:57:41.950 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 12:57:41.961 IST"}
+{"level":"info","message":"Branch Holidays fetched successfully","timestamp":"2024-08-01 12:57:41.993 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 12:57:41.996 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 12:57:42.021 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 12:57:42.050 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 12:57:42.065 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 12:57:42.084 IST"}
+{"level":"info","message":"Appointment fetched successfully","timestamp":"2024-08-01 12:57:45.180 IST"}
+{"level":"info","message":"Appointment fetched successfully","timestamp":"2024-08-01 12:58:19.617 IST"}
+{"level":"info","message":"successfully get dental_prescription via tpid","timestamp":"2024-08-01 13:00:00.129 IST"}
+{"level":"info","message":"Disease fetched successfully","timestamp":"2024-08-01 13:01:25.792 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 13:01:25.799 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 13:01:25.812 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 13:01:25.858 IST"}
+{"level":"info","message":"Branch Holidays fetched successfully","timestamp":"2024-08-01 13:01:25.871 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 13:01:25.889 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 13:01:25.908 IST"}
+{"level":"info","message":"Branch Holidays fetched successfully","timestamp":"2024-08-01 13:01:25.922 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 13:01:25.947 IST"}
+{"level":"info","message":"Branch Holidays fetched successfully","timestamp":"2024-08-01 13:01:25.981 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 13:01:25.984 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 13:01:26.007 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 13:01:26.030 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 13:01:26.051 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 13:01:26.068 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 13:01:49.383 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 13:02:22.823 IST"}
+{"level":"info","message":"Disease fetched successfully","timestamp":"2024-08-01 13:03:11.666 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 13:03:11.673 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 13:03:11.703 IST"}
+{"level":"info","message":"Branch Holidays fetched successfully","timestamp":"2024-08-01 13:03:11.718 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 13:03:11.723 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 13:03:11.757 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 13:03:11.760 IST"}
+{"level":"info","message":"Branch Holidays fetched successfully","timestamp":"2024-08-01 13:03:11.782 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 13:03:11.811 IST"}
+{"level":"info","message":"Branch Holidays fetched successfully","timestamp":"2024-08-01 13:03:11.825 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 13:03:11.844 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 13:03:11.862 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 13:03:11.887 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 13:03:11.907 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 13:03:11.935 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 13:03:18.438 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 13:03:46.960 IST"}
+{"level":"info","message":"Disease fetched successfully","timestamp":"2024-08-01 13:03:46.969 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 13:03:46.972 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 13:03:47.008 IST"}
+{"level":"info","message":"Branch Holidays fetched successfully","timestamp":"2024-08-01 13:03:47.020 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 13:03:47.024 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 13:03:47.071 IST"}
+{"level":"info","message":"Branch Holidays fetched successfully","timestamp":"2024-08-01 13:03:47.123 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 13:03:47.129 IST"}
+{"level":"info","message":"Branch Holidays fetched successfully","timestamp":"2024-08-01 13:03:47.159 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 13:03:47.167 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 13:03:47.200 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 13:03:47.218 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 13:03:47.238 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 13:03:47.259 IST"}
+{"level":"info","message":"Appointment updated successfully","timestamp":"2024-08-01 13:04:11.901 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 13:04:11.979 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 13:04:12.000 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 13:04:12.020 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 13:04:12.047 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 13:04:12.069 IST"}
+{"level":"info","message":"Appointment updated successfully","timestamp":"2024-08-01 13:04:22.265 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 13:04:22.338 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 13:04:22.359 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 13:04:22.375 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 13:04:22.392 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 13:04:22.416 IST"}
+{"level":"info","message":"Disease fetched successfully","timestamp":"2024-08-01 13:26:25.651 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 13:26:25.653 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 13:26:25.658 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 13:26:25.683 IST"}
+{"level":"info","message":"Branch Holidays fetched successfully","timestamp":"2024-08-01 13:26:25.694 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 13:26:25.700 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 13:26:25.706 IST"}
+{"level":"info","message":"Branch Holidays fetched successfully","timestamp":"2024-08-01 13:26:25.738 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 13:26:25.742 IST"}
+{"level":"info","message":"Branch Holidays fetched successfully","timestamp":"2024-08-01 13:26:25.790 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 13:26:25.793 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 13:26:25.826 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 13:26:25.853 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 13:26:25.874 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 13:26:25.892 IST"}
+{"level":"info","message":"Patient fetched successfully","timestamp":"2024-08-01 13:44:18.225 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 13:44:26.371 IST"}
+{"level":"info","message":"Disease fetched successfully","timestamp":"2024-08-01 13:44:42.295 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 13:44:42.304 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 13:44:42.306 IST"}
+{"level":"info","message":"Branch Holidays fetched successfully","timestamp":"2024-08-01 13:44:42.346 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 13:44:42.360 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 13:44:42.365 IST"}
+{"level":"info","message":"Branch Holidays fetched successfully","timestamp":"2024-08-01 13:44:42.403 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 13:44:42.409 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 13:44:42.411 IST"}
+{"level":"info","message":"Branch Holidays fetched successfully","timestamp":"2024-08-01 13:44:42.445 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 13:44:42.448 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 13:44:42.476 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 13:44:42.498 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 13:44:42.515 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 13:44:42.532 IST"}
+{"level":"info","message":"Disease fetched successfully","timestamp":"2024-08-01 14:05:32.929 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 14:05:32.932 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 14:05:32.959 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 14:05:32.975 IST"}
+{"level":"info","message":"Branch Holidays fetched successfully","timestamp":"2024-08-01 14:05:32.981 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 14:05:33.010 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 14:05:33.013 IST"}
+{"level":"info","message":"Branch Holidays fetched successfully","timestamp":"2024-08-01 14:05:33.036 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 14:05:33.058 IST"}
+{"level":"info","message":"Branch Holidays fetched successfully","timestamp":"2024-08-01 14:05:33.082 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 14:05:33.085 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 14:05:33.105 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 14:05:33.132 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 14:05:33.151 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 14:05:33.175 IST"}
+{"level":"info","message":"Patient details not found","timestamp":"2024-08-01 15:56:05.339 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 15:56:05.366 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 15:58:38.630 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 15:58:39.191 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 15:58:39.206 IST"}
+{"level":"info","message":"Branch Holidays fetched successfully","timestamp":"2024-08-01 15:58:39.251 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 15:58:39.263 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 16:04:35.979 IST"}
+{"level":"info","message":"Disease fetched successfully","timestamp":"2024-08-01 16:04:39.739 IST"}
+{"level":"info","message":"Patient updated successfully","timestamp":"2024-08-01 16:04:47.977 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 16:04:48.030 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 16:04:52.953 IST"}
+{"level":"info","message":"Disease fetched successfully","timestamp":"2024-08-01 16:04:52.970 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 16:04:52.977 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 16:04:53.026 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 16:04:53.041 IST"}
+{"level":"info","message":"Branch Holidays fetched successfully","timestamp":"2024-08-01 16:04:53.063 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 16:04:53.092 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 16:04:53.109 IST"}
+{"level":"info","message":"Branch Holidays fetched successfully","timestamp":"2024-08-01 16:04:53.136 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 16:04:53.179 IST"}
+{"level":"info","message":"Branch Holidays fetched successfully","timestamp":"2024-08-01 16:04:53.214 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 16:04:53.226 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 16:04:53.249 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 16:04:53.272 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 16:04:53.293 IST"}
+{"level":"info","message":"Patient details not found","timestamp":"2024-08-01 16:04:58.081 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 16:04:58.118 IST"}
+{"level":"info","message":"Appointment booked successfully","timestamp":"2024-08-01 16:05:13.228 IST"}
+{"level":"info","message":"Disease fetched successfully","timestamp":"2024-08-01 16:07:43.578 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 16:07:43.606 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 16:07:43.655 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 16:07:43.695 IST"}
+{"level":"info","message":"Branch Holidays fetched successfully","timestamp":"2024-08-01 16:07:43.710 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 16:07:43.724 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 16:07:43.735 IST"}
+{"level":"info","message":"Branch Holidays fetched successfully","timestamp":"2024-08-01 16:07:43.793 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 16:07:43.807 IST"}
+{"level":"info","message":"Branch Holidays fetched successfully","timestamp":"2024-08-01 16:07:43.839 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 16:07:43.842 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 16:07:43.868 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 16:07:43.970 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 16:07:43.988 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 16:07:44.008 IST"}
+{"level":"info","message":"Patient details not found","timestamp":"2024-08-01 16:09:52.159 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 16:09:52.182 IST"}
+{"level":"info","message":"Appointment booked successfully","timestamp":"2024-08-01 16:10:02.314 IST"}
+{"level":"info","message":"Appointment booked successfully","timestamp":"2024-08-01 16:11:07.920 IST"}
+{"level":"info","message":"Appointment booked successfully","timestamp":"2024-08-01 16:12:24.482 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 16:12:24.743 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 16:12:24.769 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 16:12:24.788 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 16:12:24.808 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 16:12:24.830 IST"}
+{"level":"info","message":"Patient details not found","timestamp":"2024-08-01 16:19:38.781 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 16:19:38.805 IST"}
+{"level":"info","message":"Appointment booked successfully","timestamp":"2024-08-01 16:19:59.064 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 16:19:59.323 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 16:19:59.351 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 16:19:59.377 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 16:19:59.396 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 16:19:59.420 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 16:21:12.136 IST"}
+{"level":"info","message":"Disease fetched successfully","timestamp":"2024-08-01 16:21:17.173 IST"}
+{"level":"info","message":"Patient updated successfully","timestamp":"2024-08-01 16:21:38.678 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 16:21:38.717 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 16:21:47.092 IST"}
+{"level":"info","message":"Disease fetched successfully","timestamp":"2024-08-01 16:21:47.099 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 16:21:47.117 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 16:21:47.157 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 16:21:47.161 IST"}
+{"level":"info","message":"Branch Holidays fetched successfully","timestamp":"2024-08-01 16:21:47.174 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 16:21:47.188 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 16:21:47.257 IST"}
+{"level":"info","message":"Branch Holidays fetched successfully","timestamp":"2024-08-01 16:21:47.298 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 16:21:47.363 IST"}
+{"level":"info","message":"Branch Holidays fetched successfully","timestamp":"2024-08-01 16:21:47.371 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 16:21:47.397 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 16:21:47.419 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 16:21:47.441 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 16:21:47.466 IST"}
+{"level":"info","message":"Patient details not found","timestamp":"2024-08-01 16:21:52.252 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 16:21:52.266 IST"}
+{"level":"info","message":"Appointment booked successfully","timestamp":"2024-08-01 16:22:02.405 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 16:22:02.665 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 16:22:02.680 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 16:22:02.699 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 16:22:02.723 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 16:22:02.748 IST"}
+{"level":"info","message":"Disease fetched successfully","timestamp":"2024-08-01 16:23:27.150 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 16:23:27.166 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 16:23:27.194 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 16:23:27.256 IST"}
+{"level":"info","message":"Branch Holidays fetched successfully","timestamp":"2024-08-01 16:23:27.276 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 16:23:27.288 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 16:23:27.307 IST"}
+{"level":"info","message":"Branch Holidays fetched successfully","timestamp":"2024-08-01 16:23:27.335 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 16:23:27.340 IST"}
+{"level":"info","message":"Branch Holidays fetched successfully","timestamp":"2024-08-01 16:23:27.383 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 16:23:27.387 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 16:23:27.411 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 16:23:27.437 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 16:23:27.454 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 16:23:27.479 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 16:23:27.801 IST"}
+{"level":"info","message":"Disease fetched successfully","timestamp":"2024-08-01 16:23:31.703 IST"}
+{"level":"info","message":"Disease fetched successfully","timestamp":"2024-08-01 16:25:01.665 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 16:25:01.686 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 16:25:01.755 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 16:25:01.788 IST"}
+{"level":"info","message":"Branch Holidays fetched successfully","timestamp":"2024-08-01 16:25:01.808 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 16:25:01.822 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 16:25:01.838 IST"}
+{"level":"info","message":"Branch Holidays fetched successfully","timestamp":"2024-08-01 16:25:01.880 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 16:25:01.893 IST"}
+{"level":"info","message":"Branch Holidays fetched successfully","timestamp":"2024-08-01 16:25:02.502 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 16:25:02.511 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 16:25:02.548 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 16:25:02.578 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 16:25:02.602 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 16:25:02.625 IST"}
+{"level":"info","message":"Patient details not found","timestamp":"2024-08-01 16:25:06.316 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 16:25:06.333 IST"}
+{"level":"info","message":"Appointment booked successfully","timestamp":"2024-08-01 16:25:16.843 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 16:25:17.188 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 16:25:17.210 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 16:25:17.230 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 16:25:17.254 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 16:25:17.275 IST"}
+{"level":"info","message":"Patient details not found","timestamp":"2024-08-01 16:26:45.362 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 16:26:45.383 IST"}
+{"level":"info","message":"Appointment booked successfully","timestamp":"2024-08-01 16:26:55.479 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 16:26:55.731 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 16:26:55.756 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 16:26:55.777 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 16:26:55.799 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 16:26:55.825 IST"}
+{"level":"info","message":"Patient details not found","timestamp":"2024-08-01 16:27:49.084 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 16:27:49.144 IST"}
+{"level":"info","message":"Appointment booked successfully","timestamp":"2024-08-01 16:27:57.445 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 16:27:57.693 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 16:27:57.718 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 16:27:57.739 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 16:27:57.760 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 16:27:57.783 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 16:29:46.625 IST"}
+{"level":"info","message":"Disease fetched successfully","timestamp":"2024-08-01 16:29:49.746 IST"}
+{"level":"info","message":"Patient updated successfully","timestamp":"2024-08-01 16:30:01.539 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 16:30:01.595 IST"}
+{"level":"info","message":"Disease fetched successfully","timestamp":"2024-08-01 16:30:10.691 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 16:30:10.694 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 16:30:10.710 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 16:30:10.765 IST"}
+{"level":"info","message":"Branch Holidays fetched successfully","timestamp":"2024-08-01 16:30:10.816 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 16:30:10.826 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 16:30:10.855 IST"}
+{"level":"info","message":"Branch Holidays fetched successfully","timestamp":"2024-08-01 16:30:10.894 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 16:30:10.904 IST"}
+{"level":"info","message":"Branch Holidays fetched successfully","timestamp":"2024-08-01 16:30:10.940 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 16:30:10.947 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 16:30:10.974 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 16:30:11.001 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 16:30:11.024 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 16:30:11.043 IST"}
+{"level":"info","message":"Patient details not found","timestamp":"2024-08-01 16:30:15.198 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 16:30:15.215 IST"}
+{"level":"info","message":"Appointment booked successfully","timestamp":"2024-08-01 16:30:25.348 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 16:30:25.425 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 16:30:25.445 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 16:30:25.461 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 16:30:25.481 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 16:30:25.504 IST"}
+{"level":"info","message":"Appointment booked successfully","timestamp":"2024-08-01 17:00:06.688 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 17:00:06.979 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 17:00:07.005 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 17:00:07.035 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 17:00:07.059 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 17:00:07.083 IST"}
+{"code":21211,"level":"error","message":"Error sending SMS: Invalid 'To' Phone Number: 91980632XXXX","moreInfo":"https://www.twilio.com/docs/errors/21211","stack":"Error: Invalid 'To' Phone Number: 91980632XXXX\n    at success (C:\\Users\\HITS\\Documents\\Dental_guru_version_2\\dental-web-version-2\\receptionist\\server\\node_modules\\twilio\\lib\\base\\Version.js:79:23)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)","status":400,"timestamp":"2024-08-01 17:00:08.368 IST"}
+{"level":"info","message":"Patient details not found","timestamp":"2024-08-01 17:00:44.914 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 17:00:44.943 IST"}
+{"level":"info","message":"Appointment booked successfully","timestamp":"2024-08-01 17:00:56.178 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 17:00:56.494 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 17:00:56.521 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 17:00:56.544 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 17:00:56.596 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 17:00:56.627 IST"}
+{"level":"info","message":"SMS sent successfully:","timestamp":"2024-08-01 17:00:57.487 IST"}
+{"level":"info","message":"Disease fetched successfully","timestamp":"2024-08-01 17:08:50.311 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 17:08:50.314 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 17:08:50.398 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 17:08:50.410 IST"}
+{"level":"info","message":"Branch Holidays fetched successfully","timestamp":"2024-08-01 17:08:50.420 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 17:08:50.436 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 17:08:50.451 IST"}
+{"level":"info","message":"Branch Holidays fetched successfully","timestamp":"2024-08-01 17:08:50.504 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 17:08:50.527 IST"}
+{"level":"info","message":"Branch Holidays fetched successfully","timestamp":"2024-08-01 17:08:50.586 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 17:08:50.598 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 17:08:50.632 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 17:08:50.674 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 17:08:50.696 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 17:08:50.735 IST"}
+{"level":"info","message":"Login successful","timestamp":"2024-08-01 17:09:06.901 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 17:09:06.994 IST"}
+{"level":"info","message":"Disease fetched successfully","timestamp":"2024-08-01 17:09:07.011 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 17:09:07.015 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 17:09:07.056 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 17:09:07.075 IST"}
+{"level":"info","message":"Branch Holidays fetched successfully","timestamp":"2024-08-01 17:09:07.082 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 17:09:07.115 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 17:09:07.143 IST"}
+{"level":"info","message":"Branch Holidays fetched successfully","timestamp":"2024-08-01 17:09:07.194 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 17:09:07.218 IST"}
+{"level":"info","message":"Branch Holidays fetched successfully","timestamp":"2024-08-01 17:09:07.249 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 17:09:07.280 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 17:09:07.311 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 17:09:07.340 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 17:09:07.361 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 17:14:52.855 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 17:14:52.897 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 17:14:52.918 IST"}
+{"level":"info","message":"Branch Holidays fetched successfully","timestamp":"2024-08-01 17:14:52.922 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 17:14:52.951 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 17:14:52.960 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 17:14:52.979 IST"}
+{"level":"info","message":"Branch Holidays fetched successfully","timestamp":"2024-08-01 17:14:52.983 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 17:14:52.996 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 17:14:53.020 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 17:56:24.368 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 17:56:25.126 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 17:56:25.164 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 17:56:25.224 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 17:56:25.236 IST"}
+{"level":"info","message":"Branch Holidays fetched successfully","timestamp":"2024-08-01 17:56:25.261 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 17:56:25.286 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 17:56:25.343 IST"}
+{"level":"info","message":"Branch Holidays fetched successfully","timestamp":"2024-08-01 17:56:25.350 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 17:56:25.388 IST"}
+{"level":"info","message":"Patient details not found","timestamp":"2024-08-01 17:59:33.759 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 17:59:33.793 IST"}
+{"level":"info","message":"Appointment booked successfully","timestamp":"2024-08-01 17:59:43.544 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 17:59:43.945 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 17:59:43.971 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 17:59:43.996 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 17:59:44.025 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 17:59:44.046 IST"}
+{"level":"info","message":"SMS sent successfully:","timestamp":"2024-08-01 17:59:45.370 IST"}
+{"level":"info","message":"Patient details not found","timestamp":"2024-08-01 18:00:23.121 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 18:00:23.169 IST"}
+{"level":"info","message":"Disease fetched successfully","timestamp":"2024-08-01 18:17:00.001 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 18:17:00.032 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 18:17:00.136 IST"}
+{"level":"info","message":"Branch Holidays fetched successfully","timestamp":"2024-08-01 18:17:00.213 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 18:17:00.217 IST"}
+{"level":"info","message":"Disease fetched successfully","timestamp":"2024-08-01 18:17:00.651 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 18:17:00.655 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 18:17:00.671 IST"}
+{"level":"info","message":"Branch Holidays fetched successfully","timestamp":"2024-08-01 18:17:00.736 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 18:17:00.741 IST"}
+{"level":"info","message":"Patient and appointment added successfully","timestamp":"2024-08-01 18:18:41.102 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 18:18:41.406 IST"}
+{"level":"info","message":"Appointment fetched successfully","timestamp":"2024-08-01 18:18:41.556 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 18:18:41.590 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 18:18:41.626 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 18:18:41.656 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 18:18:41.673 IST"}
+{"level":"info","message":"SMS sent successfully:","timestamp":"2024-08-01 18:18:42.456 IST"}
+{"level":"info","message":"Email sent:","timestamp":"2024-08-01 18:18:44.050 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 18:21:46.205 IST"}
+{"level":"info","message":"Disease fetched successfully","timestamp":"2024-08-01 18:21:46.225 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 18:21:46.240 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 18:21:46.267 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 18:21:46.299 IST"}
+{"level":"info","message":"Branch Holidays fetched successfully","timestamp":"2024-08-01 18:21:46.316 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 18:21:46.332 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 18:21:46.339 IST"}
+{"level":"info","message":"Branch Holidays fetched successfully","timestamp":"2024-08-01 18:21:46.373 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 18:21:46.383 IST"}
+{"level":"info","message":"Branch Holidays fetched successfully","timestamp":"2024-08-01 18:21:46.421 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 18:21:46.434 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 18:21:46.481 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 18:21:46.519 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 18:21:46.549 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 18:27:11.171 IST"}
+{"level":"info","message":"Branch Holidays fetched successfully","timestamp":"2024-08-01 18:27:11.202 IST"}
+{"level":"info","message":"Patient fetched successfully","timestamp":"2024-08-01 18:34:10.020 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 18:34:19.209 IST"}
+{"level":"info","message":"Disease fetched successfully","timestamp":"2024-08-01 18:34:19.231 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 18:34:19.239 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 18:34:19.273 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 18:34:19.301 IST"}
+{"level":"info","message":"Branch Holidays fetched successfully","timestamp":"2024-08-01 18:34:19.318 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 18:34:19.329 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 18:34:19.337 IST"}
+{"level":"info","message":"Branch Holidays fetched successfully","timestamp":"2024-08-01 18:34:19.379 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 18:34:19.384 IST"}
+{"level":"info","message":"Branch Holidays fetched successfully","timestamp":"2024-08-01 18:34:19.476 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 18:34:19.525 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 18:34:19.588 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 18:34:19.626 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 18:34:19.658 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 18:34:25.253 IST"}
+{"level":"info","message":"Disease fetched successfully","timestamp":"2024-08-01 18:34:30.137 IST"}
+{"level":"info","message":"Patient updated successfully","timestamp":"2024-08-01 18:34:47.810 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 18:34:47.849 IST"}
+{"level":"info","message":"Disease fetched successfully","timestamp":"2024-08-01 18:34:53.608 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 18:34:53.615 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 18:34:53.622 IST"}
+{"level":"info","message":"Branch Holidays fetched successfully","timestamp":"2024-08-01 18:34:53.690 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 18:34:53.696 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 18:34:53.701 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 18:34:53.760 IST"}
+{"level":"info","message":"Branch Holidays fetched successfully","timestamp":"2024-08-01 18:34:53.774 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 18:34:53.785 IST"}
+{"level":"info","message":"Branch Holidays fetched successfully","timestamp":"2024-08-01 18:34:53.835 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 18:34:53.838 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 18:34:53.870 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 18:34:53.897 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 18:34:53.921 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 18:34:53.940 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 18:34:57.537 IST"}
+{"level":"info","message":"Branch Holidays fetched successfully","timestamp":"2024-08-01 18:34:57.564 IST"}
+{"level":"info","message":"Appointment updated successfully","timestamp":"2024-08-01 18:35:05.997 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 18:35:06.335 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 18:35:06.350 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 18:35:06.387 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 18:35:06.404 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 18:35:06.420 IST"}
+{"level":"info","message":"SMS sent successfully:","timestamp":"2024-08-01 18:35:07.872 IST"}
+{"level":"info","message":"Email sent successfully","timestamp":"2024-08-01 18:35:09.058 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 18:58:55.128 IST"}
+{"level":"info","message":"Branch Holidays fetched successfully","timestamp":"2024-08-01 18:58:55.173 IST"}
+{"level":"info","message":"Appointment cancel successfully","timestamp":"2024-08-01 18:59:01.331 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 18:59:01.685 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 18:59:01.714 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 18:59:01.734 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 18:59:01.755 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 18:59:01.772 IST"}
+{"level":"info","message":"SMS sent successfully:","timestamp":"2024-08-01 18:59:03.078 IST"}
+{"level":"info","message":"Email sent successfully","timestamp":"2024-08-01 18:59:04.230 IST"}
+{"level":"info","message":"Patient details not found","timestamp":"2024-08-01 19:11:10.403 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 19:11:10.426 IST"}
+{"level":"info","message":"Appointment booked successfully","timestamp":"2024-08-01 19:11:24.911 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 19:11:25.183 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 19:11:25.206 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 19:11:25.232 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 19:11:25.252 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 19:11:25.275 IST"}
+{"level":"info","message":"SMS sent successfully:","timestamp":"2024-08-01 19:11:26.483 IST"}
+{"level":"info","message":"Email sent successfully","timestamp":"2024-08-01 19:11:27.649 IST"}
+{"level":"info","message":"Patient details not found","timestamp":"2024-08-01 19:42:52.831 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 19:42:52.853 IST"}
+{"level":"info","message":"Appointment booked successfully","timestamp":"2024-08-01 19:43:02.354 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 19:43:02.713 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 19:43:02.740 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 19:43:02.764 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 19:43:02.784 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 19:43:02.807 IST"}
+{"level":"info","message":"SMS sent successfully:","timestamp":"2024-08-01 19:43:04.103 IST"}
+{"level":"info","message":"Email sent successfully","timestamp":"2024-08-01 19:43:05.555 IST"}
+{"level":"info","message":"Patient details not found","timestamp":"2024-08-01 19:51:58.798 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 19:51:58.819 IST"}
+{"level":"info","message":"Appointment booked successfully","timestamp":"2024-08-01 19:52:06.668 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 19:52:06.932 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 19:52:06.964 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 19:52:06.981 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 19:52:07.002 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 19:52:07.022 IST"}
+{"level":"info","message":"Patient details not found","timestamp":"2024-08-01 19:56:42.850 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 19:56:42.870 IST"}
+{"level":"info","message":"Appointment booked successfully","timestamp":"2024-08-01 19:56:58.367 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 19:56:58.635 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 19:56:58.657 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 19:56:58.684 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 19:56:58.706 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 19:56:58.755 IST"}
+{"level":"info","message":"Disease fetched successfully","timestamp":"2024-08-01 21:25:21.391 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 21:25:21.436 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 21:25:21.440 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 21:25:21.497 IST"}
+{"level":"info","message":"Branch Holidays fetched successfully","timestamp":"2024-08-01 21:25:21.511 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 21:25:21.518 IST"}
+{"level":"info","message":"treatments fetched successfully","timestamp":"2024-08-01 21:25:21.534 IST"}
+{"level":"info","message":"Branch Holidays fetched successfully","timestamp":"2024-08-01 21:25:21.563 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 21:25:21.569 IST"}
+{"level":"info","message":"Branch Holidays fetched successfully","timestamp":"2024-08-01 21:25:21.620 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 21:25:21.624 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 21:25:21.657 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 21:25:21.701 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 21:25:21.720 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 21:25:21.742 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 21:25:22.589 IST"}
+{"level":"info","message":"Disease fetched successfully","timestamp":"2024-08-01 21:25:30.298 IST"}
+{"level":"info","message":"Patient updated successfully","timestamp":"2024-08-01 21:25:46.288 IST"}
+{"level":"info","message":"Patients fetched successfully","timestamp":"2024-08-01 21:25:46.325 IST"}

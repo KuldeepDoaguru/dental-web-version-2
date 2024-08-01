@@ -12,6 +12,7 @@ function BookAppointment() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { refreshTable, currentUser } = useSelector((state) => state.user);
+  const {currentBranch} = useSelector((state) => state.branch);
   const token = currentUser?.token;
   const branch = currentUser.branch_name;
   const [searchQuery, setSearchQuery] = useState("");
@@ -529,7 +530,7 @@ function BookAppointment() {
     console.log(filtered);
   }, [patientTreatmentDetails]);
 
-  console.log(searchDoctor);
+  console.log(currentBranch[0]);
 
   const handleDoctorSelect = (doctor) => {
     setSelectedDoctor(doctor); // Set the selected patient when it's clicked
@@ -751,6 +752,7 @@ function BookAppointment() {
         clinicAddress: branchDetail[0]?.branch_address,
         clinicEmail: branchDetail[0]?.branch_email,
         patient_Email: selectedPatient.emailid,
+        mobileno : selectedPatient?.mobileno,
         patient_Name: selectedPatient.patient_name,
         tp_id: patientTreatmentDetails[0]?.tp_id,
         patient_uhid: selectedPatient.uhid,
@@ -768,6 +770,9 @@ function BookAppointment() {
         payment_Status: bookData.payment_Status,
         appointment_created_by: currentUser.employee_name,
         appointment_created_by_emp_id: currentUser.employee_ID,
+        sharemail : currentBranch[0].sharemail,
+        sharewhatsapp : currentBranch[0].sharewhatsapp,
+        sharesms : currentBranch[0].sharesms
       };
 
       if (!isDoctorAvailable(selectedDateTime)) {

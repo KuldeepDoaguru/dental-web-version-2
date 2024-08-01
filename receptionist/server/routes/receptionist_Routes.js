@@ -73,9 +73,14 @@ const {
   updateSittingBillToPaid,
   ChangeStatusToPaidPatientBill,
   ChangeStatusToPaidOPDBill,
+  prescriptionOnMail,
+  sendWhatsapp,
+  sendSMS,
 } = require("../controller/receptionist_Controller");
 const authenticate = require("../middleware/authMiddleware");
 const router = express.Router();
+const multer = require("multer");
+const path = require("path");
 
 router.post("/add-patient", authenticate, addPatient);
 router.get("/get-disease", getDisease);
@@ -304,5 +309,25 @@ router.put("/ChangeStatusToPaidPatientBill/:bill_id/:branch",authenticate, Chang
 router.put("/ChangeStatusToPaidOPDBill/:appoint_id/:branch",authenticate, ChangeStatusToPaidOPDBill);
 router.get("/getInsuranceCompany/:branch" , getInsuranceCompany)
 router.get("/getPatientDetailsForBill/:branch/:uhid/:billId" , getPatientDetailsForBill)
+
+const prestorage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "prescription/"); // Define destination folder
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + path.extname(file.originalname));
+  },
+});
+
+const preUpload = multer({ storage: prestorage });
+router.post(
+  "/prescriptionOnMail",
+  authenticate,
+  preUpload.single("file"),
+  prescriptionOnMail
+);
+
+router.post("/sendWhatsapp", preUpload.single("media_url"), sendWhatsapp);
+router.post("/sendSMS", authenticate, sendSMS);
 
 module.exports = router;

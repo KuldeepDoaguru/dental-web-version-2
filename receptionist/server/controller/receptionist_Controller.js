@@ -6,6 +6,10 @@ dotenv.config();
 const nodemailer = require("nodemailer");
 const { logger } = require("./logger");
 const moment = require("moment-timezone");
+const twilio = require("twilio");
+const ACCOUNT_SID = process.env.ACCOUNT_SID;
+const AUTH_TOKEN = process.env.AUTH_TOKEN;
+const client = twilio(ACCOUNT_SID, AUTH_TOKEN);
 
 // const addPatient = (req,res) =>{
 //          try{
@@ -176,6 +180,9 @@ const addPatient = (req, res) => {
       address,
       patient_added_by,
       patient_added_by_emp_id,
+      sharemail,
+      sharewhatsapp,
+      sharesms
     } = req.body;
 
     // const created_at = new Date();
@@ -329,9 +336,8 @@ const addPatient = (req, res) => {
                         console.log("Appointment booked successfully");
 
                         // Send email if patient's email is available
-                        if (email) {
-                          // Formulate email subject
-                          const emailSubject = `Appointment Confirmation - ${clinicName}`;
+
+                        const emailSubject = `Appointment Confirmation - ${clinicName}`;
 
                           const appointmentDateTime = new Date(appDateTime);
                           const appointmentTime =
@@ -342,7 +348,7 @@ const addPatient = (req, res) => {
                             });
 
                           // Formulate email text
-                          const emailText =
+                          const msgText =
                             `Dear ${patient_Name.toUpperCase()},\n\n` +
                             `Your appointment at ${clinicName} has been booked successfully.\n\n` +
                             `Appointment Details:\n` +
@@ -359,13 +365,16 @@ const addPatient = (req, res) => {
                             `Thank you for choosing ${clinicName}.\n\n` +
                             `Best regards,\n` +
                             `${clinicName} Team`;
+                        if ((email && sharemail === "Yes")) {
+                          // Formulate email subject
+                          
 
                           const mailOptions = {
                             from: process.env.EMAILSENDER,
                             to: email,
                             cc: doctor_email,
                             subject: emailSubject,
-                            text: emailText,
+                            text: msgText,
                           };
 
                           transporter.sendMail(
@@ -376,13 +385,38 @@ const addPatient = (req, res) => {
                                 console.error("Error sending email:", emailErr);
                                 // Handle email sending error
                               } else {
-                                logger.info("Email sent:"); // Log success message
+                                
                                 console.log("Email sent:", info.response);
                                 // Handle email sent successfully
                               }
                             }
                           );
                         }
+
+                        if((mobile && sharesms === "Yes")){
+                          const  phoneNumber = `+91${mobile}`;
+
+                             client.messages.create({
+                              from: process.env.TWILIONUMBER,
+                              to: phoneNumber,
+                              body: msgText ,
+                            }).then(message => console.log("SMS sent successfully:", message.sid))
+                            .catch(error => console.log("Error sending SMS:", error));
+                   
+                        }
+                        if((mobile && sharewhatsapp === "Yes")){
+                          const  phoneNumber = `+91${mobile}`;
+              
+                             client.messages.create({
+                              body: msgText,
+                              from: process.env.TWILIONUMBERWHATSAPP,
+                              to: `whatsapp:${phoneNumber}`,
+                              
+                            }).then(message => console.log("WhatsApp message sent successfully:", message.sid))
+                            .catch(error => console.log("Error sending SMS:", error));
+                   
+                        }
+                        
                         logger.info(
                           "Patient and appointment added successfully"
                         ); // Log success message
@@ -639,6 +673,7 @@ const bookAppointment = (req, res) => {
       clinicAddress,
       clinicEmail,
       patient_Email,
+      mobileno,
       patient_uhid,
       patient_Name,
       tp_id,
@@ -655,6 +690,10 @@ const bookAppointment = (req, res) => {
       notes,
       appointment_created_by,
       appointment_created_by_emp_id,
+      sharemail,
+      sharewhatsapp,
+      sharesms
+
     } = req.body;
 
     // const created_at = new Date();
@@ -701,9 +740,7 @@ const bookAppointment = (req, res) => {
           logger.info("Appointment booked successfully");
           console.log("Appointment booked successfully");
 
-          if (patient_Email) {
-            // Formulate email subject
-            const emailSubject = `Appointment Confirmation - ${clinicName}`;
+          const emailSubject = `Appointment Confirmation - ${clinicName}`;
 
             const appointmentDateTime = new Date(appDateTime);
             const appointmentTime = appointmentDateTime.toLocaleTimeString(
@@ -712,7 +749,7 @@ const bookAppointment = (req, res) => {
             );
 
             // Formulate email text
-            const emailText =
+            const msgText =
               `Dear ${patient_Name.toUpperCase()},\n\n` +
               `Your appointment at ${clinicName} has been booked successfully.\n\n` +
               `Appointment Details:\n` +
@@ -730,12 +767,16 @@ const bookAppointment = (req, res) => {
               `Best regards,\n` +
               `${clinicName} Team`;
 
+          if ((patient_Email && sharemail === "Yes")) {
+            // Formulate email subject
+            
+
             const mailOptions = {
               from: process.env.EMAILSENDER,
               to: patient_Email,
               cc: doctor_email,
               subject: emailSubject,
-              text: emailText,
+              text: msgText,
             };
 
             transporter.sendMail(mailOptions, (emailErr, info) => {
@@ -744,11 +785,35 @@ const bookAppointment = (req, res) => {
                 console.error("Error sending email:", emailErr);
                 // Handle email sending error
               } else {
-                logger.info("Email sent successfully");
+                
                 console.log("Email sent:", info.response);
                 // Handle email sent successfully
               }
             });
+          }
+
+          if((mobileno && sharesms === "Yes")){
+            const  phoneNumber = `+91${mobileno}`;
+
+               client.messages.create({
+                from: process.env.TWILIONUMBER,
+                to: phoneNumber,
+                body: msgText ,
+              }).then(message => console.log("SMS sent successfully:", message.sid))
+              .catch(error => console.log("Error sending SMS:", error));
+     
+          }
+          if((mobileno && sharewhatsapp === "Yes")){
+            const  phoneNumber = `+91${mobileno}`;
+
+               client.messages.create({
+                body: msgText,
+                from: process.env.TWILIONUMBERWHATSAPP,
+                to: `whatsapp:${phoneNumber}`,
+                
+              }).then(message => console.log("WhatsApp message sent successfully:", message.sid))
+              .catch(error => console.log("Error sending SMS:", error));
+     
           }
 
           return res.status(200).json({
@@ -780,6 +845,7 @@ const updateAppointment = (req, res) => {
       clinicEmail,
       patient_name,
       patient_Email,
+      mobileno,
       appoint_id,
       doctorId,
       doctor_name,
@@ -789,6 +855,9 @@ const updateAppointment = (req, res) => {
       notes,
       appointment_updated_by,
       appointment_updated_by_emp_id,
+      sharemail,
+      sharewhatsapp,
+      sharesms
     } = req.body;
 
     const updated_at = new Date();
@@ -837,39 +906,41 @@ const updateAppointment = (req, res) => {
           logger.info("Appointment updated successfully");
           console.log("Appointment updated successfully");
 
-          if (patient_Email) {
+          const emailSubject = `Appointment Confirmation - ${clinicName}`;
+
+          const appointmentDateTime = new Date(appDateTime);
+          const appointmentTime = appointmentDateTime.toLocaleTimeString(
+            "en-US",
+            { hour: "numeric", minute: "2-digit", hour12: true }
+          );
+
+          // Formulate email text
+          const msgText =
+            `Dear ${patient_name.toUpperCase()},\n\n` +
+            `Your appointment at ${clinicName} has been edited successfully.\n\n` +
+            `Appointment Details:\n` +
+            `Doctor Name: ${doctor_name.toUpperCase()}\n` +
+            `Appointment Date and Time: ${appointmentDateTime.toDateString()} ${appointmentTime} \n` +
+            `Treatment Provided: ${treatment}\n\n` +
+            `Clinic Details:\n` +
+            `Name: ${clinicName}\n` +
+            `Contact: ${clinicContact}\n` +
+            `Address: ${clinicAddress}\n` +
+            `Email: ${clinicEmail}\n\n` +
+            `Thank you for choosing ${clinicName}.\n\n` +
+            `Best regards,\n` +
+            `${clinicName} Team`;
+
+          if ((patient_Email && sharemail === "Yes")) {
             // Formulate email subject
-            const emailSubject = `Appointment Confirmation - ${clinicName}`;
-
-            const appointmentDateTime = new Date(appDateTime);
-            const appointmentTime = appointmentDateTime.toLocaleTimeString(
-              "en-US",
-              { hour: "numeric", minute: "2-digit", hour12: true }
-            );
-
-            // Formulate email text
-            const emailText =
-              `Dear ${patient_name.toUpperCase()},\n\n` +
-              `Your appointment at ${clinicName} has been edited successfully.\n\n` +
-              `Appointment Details:\n` +
-              `Doctor Name: ${doctor_name.toUpperCase()}\n` +
-              `Appointment Date and Time: ${appointmentDateTime.toDateString()} ${appointmentTime} \n` +
-              `Treatment Provided: ${treatment}\n\n` +
-              `Clinic Details:\n` +
-              `Name: ${clinicName}\n` +
-              `Contact: ${clinicContact}\n` +
-              `Address: ${clinicAddress}\n` +
-              `Email: ${clinicEmail}\n\n` +
-              `Thank you for choosing ${clinicName}.\n\n` +
-              `Best regards,\n` +
-              `${clinicName} Team`;
+           
 
             const mailOptions = {
               from: process.env.EMAILSENDER,
               to: patient_Email,
               cc: doctor_email,
               subject: emailSubject,
-              text: emailText,
+              text: msgText,
             };
 
             transporter.sendMail(mailOptions, (emailErr, info) => {
@@ -878,11 +949,37 @@ const updateAppointment = (req, res) => {
                 console.error("Error sending email:", emailErr);
                 // Handle email sending error
               } else {
-                logger.info("Email sent successfully");
+                
                 console.log("Email sent:", info.response);
                 // Handle email sent successfully
               }
             });
+          }
+
+          if((mobileno && sharesms === "Yes")){
+            const  phoneNumber = `+91${mobileno}`;
+
+            
+               client.messages.create({
+                from: process.env.TWILIONUMBER,
+                to: phoneNumber,
+                body: msgText ,
+              }).then(message => console.log("SMS sent successfully:", message.sid))
+              .catch(error => console.log("Error sending SMS:", error));
+     
+          }
+
+          if((mobileno && sharewhatsapp === "Yes")){
+            const  phoneNumber = `+91${mobileno}`;
+
+               client.messages.create({
+                body: msgText,
+                from: process.env.TWILIONUMBERWHATSAPP,
+                to: `whatsapp:${phoneNumber}`,
+                
+              }).then(message => console.log("WhatsApp message sent successfully:", message.sid))
+              .catch(error => console.log("Error sending SMS:", error));
+     
           }
 
           return res.status(200).json({
@@ -1025,6 +1122,7 @@ const updateAppointmentStatusCancelOpd = (req, res) => {
       clinicEmail,
       patient_name,
       patient_Email,
+      mobileno,
       doctor_email,
       appDateTime,
       doctor_name,
@@ -1037,6 +1135,9 @@ const updateAppointmentStatusCancelOpd = (req, res) => {
       notes,
       appointment_updated_by,
       appointment_updated_by_emp_id,
+      sharemail,
+      sharewhatsapp,
+      sharesms
     } = req.body;
 
     const updated_at = new Date();
@@ -1076,38 +1177,40 @@ const updateAppointmentStatusCancelOpd = (req, res) => {
           logger.info("Appointment cancel successfully");
           console.log("Appointment cancel successfully");
 
-          if (patient_Email) {
+          const emailSubject = `Appointment Cancel Confirmation - ${clinicName}`;
+
+          const appointmentDateTime = new Date(appDateTime);
+          const appointmentTime = appointmentDateTime.toLocaleTimeString(
+            "en-US",
+            { hour: "numeric", minute: "2-digit", hour12: true }
+          );
+
+          // Formulate email text
+          const msgText =
+            `Dear ${patient_name.toUpperCase()},\n\n` +
+            `Your appointment at ${clinicName} has been cancel successfully.\n\n` +
+            `Appointment Details:\n` +
+            `Doctor Name: ${doctor_name.toUpperCase()}\n` +
+            `Appointment Date and Time: ${appointmentDateTime.toDateString()} ${appointmentTime} \n` +
+            `Treatment Provided: ${treatment}\n\n` +
+            `Clinic Details:\n` +
+            `Name: ${clinicName}\n` +
+            `Contact: ${clinicContact}\n` +
+            `Address: ${clinicAddress}\n` +
+            `Email: ${clinicEmail}\n\n` +
+            `Best regards,\n` +
+            `${clinicName} Team`;
+
+          if ((patient_Email && sharemail === "Yes")) {
             // Formulate email subject
-            const emailSubject = `Appointment Cancel Confirmation - ${clinicName}`;
-
-            const appointmentDateTime = new Date(appDateTime);
-            const appointmentTime = appointmentDateTime.toLocaleTimeString(
-              "en-US",
-              { hour: "numeric", minute: "2-digit", hour12: true }
-            );
-
-            // Formulate email text
-            const emailText =
-              `Dear ${patient_name.toUpperCase()},\n\n` +
-              `Your appointment at ${clinicName} has been cancel successfully.\n\n` +
-              `Appointment Details:\n` +
-              `Doctor Name: ${doctor_name.toUpperCase()}\n` +
-              `Appointment Date and Time: ${appointmentDateTime.toDateString()} ${appointmentTime} \n` +
-              `Treatment Provided: ${treatment}\n\n` +
-              `Clinic Details:\n` +
-              `Name: ${clinicName}\n` +
-              `Contact: ${clinicContact}\n` +
-              `Address: ${clinicAddress}\n` +
-              `Email: ${clinicEmail}\n\n` +
-              `Best regards,\n` +
-              `${clinicName} Team`;
+           
 
             const mailOptions = {
               from: process.env.EMAILSENDER,
               to: patient_Email,
               cc: doctor_email,
               subject: emailSubject,
-              text: emailText,
+              text: msgText,
             };
 
             transporter.sendMail(mailOptions, (emailErr, info) => {
@@ -1117,11 +1220,35 @@ const updateAppointmentStatusCancelOpd = (req, res) => {
                 console.error("Error sending email:", emailErr);
                 // Handle email sending error
               } else {
-                logger.info("Email sent successfully");
+                
                 console.log("Email sent:", info.response);
                 // Handle email sent successfully
               }
             });
+          }
+          if((mobileno && sharesms === "Yes")){
+            const  phoneNumber = `+91${mobileno}`;
+
+               client.messages.create({
+                from: process.env.TWILIONUMBER,
+                to: phoneNumber,
+                body: msgText ,
+              }).then(message => console.log("SMS sent successfully:", message.sid))
+              .catch(error => console.log("Error sending SMS:", error));
+     
+          }
+
+          if((mobileno && sharewhatsapp === "Yes")){
+            const  phoneNumber = `+91${mobileno}`;
+
+               client.messages.create({
+                body: msgText,
+                from: process.env.TWILIONUMBERWHATSAPP,
+                to: `whatsapp:${phoneNumber}`,
+                
+              }).then(message => console.log("WhatsApp message sent successfully:", message.sid))
+              .catch(error => console.log("Error sending SMS:", error));
+     
           }
           return res.status(200).json({
             success: true,
@@ -3881,6 +4008,96 @@ const getPatientDetailsForBill = (req, res) => {
   }
 };
 
+const prescriptionOnMail = (req, res) => {
+  try {
+    const { email, patient_name, subject, textMatter } = req.body;
+    const pdfPath = req.file.path;
+    const transporter = nodemailer.createTransport({
+      service: "Gmail",
+      auth: {
+        user: process.env.EMAILSENDER,
+        pass: process.env.EMAILPASSWORD,
+      },
+    });
+
+    const mailOptions = {
+      from: process.env.EMAILSENDER,
+      to: email,
+      subject: subject,
+      text: textMatter,
+      attachments: [
+        {
+          filename: "prescription.pdf",
+          path: pdfPath,
+          contentType: "application/pdf",
+        },
+      ],
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.error(error);
+        return res
+          .status(500)
+          .json("An error occurred while sending the email.");
+      } else {
+        console.log("OTP sent:", info.response);
+      }
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "internal server error" });
+  }
+};
+
+const sendSMS = async (req, res) => {
+  const { phoneNumber, message } = req.body;
+
+  try {
+    await client.messages.create({
+      from: process.env.TWILIONUMBER,
+      to: phoneNumber,
+      body: message,
+    });
+    res.send("Message sent successfully!");
+    console.log("Message has been sent");
+  } catch (error) {
+    console.error("Error sending SMS:", error);
+    res.status(500).send("Error sending SMS");
+  }
+};
+
+// send-whatsapp
+const sendWhatsapp = async (req, res) => {
+  const { phoneNumber, message } = req.body;
+  const mediaFile = req.file;
+  console.log("1018", mediaFile.filename);
+
+  if (!phoneNumber || !message || !mediaFile) {
+    return res
+      .status(400)
+      .json({ success: false, message: "All fields required" });
+  }
+  console.log("1019", mediaFile, phoneNumber, message);
+  const fileUrl = `http://localhost:8888/prescription/${mediaFile.filename}`;
+  console.log("1027", fileUrl.toString());
+  try {
+    const response = await client.messages.create({
+      body: message,
+      from: process.env.TWILIONUMBERWHATSAPP,
+      mediaUrl: [
+        "https://dentalgurusuperadmin.doaguru.com/branchHeadFootImg/1718777687071header.png",
+      ],
+      to: `whatsapp:+91${phoneNumber}`,
+    });
+    console.log("1027", response.body);
+    console.log("WhatsApp message sent successfully:", response.sid);
+    res.send("WhatsApp message sent successfully");
+  } catch (error) {
+    console.error("Error sending WhatsApp message:", error);
+    res.status(500).send("Error sending WhatsApp message");
+  }
+};
+
 module.exports = {
   addPatient,
   getDisease,
@@ -3954,5 +4171,8 @@ module.exports = {
   getPatientDetailsForBill,
   updateSittingBillToPaid,
   ChangeStatusToPaidPatientBill,
-  ChangeStatusToPaidOPDBill
+  ChangeStatusToPaidOPDBill,
+  prescriptionOnMail,
+  sendWhatsapp,
+  sendSMS
 };

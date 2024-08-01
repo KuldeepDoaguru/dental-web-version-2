@@ -13,6 +13,7 @@ import cogoToast from "cogo-toast";
 function EditAppointment({ onClose, appointmentInfo, allAppointmentData }) {
   const dispatch = useDispatch();
   const { currentUser } = useSelector((state) => state.user);
+  const {currentBranch} = useSelector((state) => state.branch);
   const [loading, setLoading] = useState(false);
   const token = currentUser?.token;
   const [show, setShow] = useState(false);
@@ -535,6 +536,7 @@ function EditAppointment({ onClose, appointmentInfo, allAppointmentData }) {
         clinicEmail: branchDetail[0]?.branch_email,
         patient_name: appointmentInfo.patient_name,
         patient_Email: appointmentInfo.emailid,
+        mobileno : appointmentInfo.mobileno,
         appoint_id: appointmentInfo.appoint_id,
         appDateTime: data.appointment_dateTime,
         doctor_name: selectedDoctor.employee_name,
@@ -544,6 +546,9 @@ function EditAppointment({ onClose, appointmentInfo, allAppointmentData }) {
         notes: data.notes,
         appointment_updated_by: data.appointment_updated_by,
         appointment_updated_by_emp_id: data.appointment_updated_by_emp_id,
+        sharemail : currentBranch[0].sharemail,
+        sharewhatsapp : currentBranch[0].sharewhatsapp,
+        sharesms : currentBranch[0].sharesms
       };
 
       if (!isDoctorAvailable(selectedDateTime)) {

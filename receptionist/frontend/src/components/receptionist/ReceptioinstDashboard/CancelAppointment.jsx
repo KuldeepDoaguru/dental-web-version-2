@@ -14,6 +14,7 @@ function CancleAppointment({ onClose, appointmentInfo, allAppointmentData }) {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const { currentUser } = useSelector((state) => state.user);
+  const {currentBranch} = useSelector((state) => state.branch);
   const token = currentUser?.token;
   const [show, setShow] = useState(false);
   const [searchDoctor, setSearchDoctor] = useState(
@@ -315,6 +316,7 @@ function CancleAppointment({ onClose, appointmentInfo, allAppointmentData }) {
       clinicEmail: branchDetail[0]?.branch_email,
       patient_name: appointmentInfo.patient_name,
       patient_Email: appointmentInfo.emailid,
+      mobileno : appointmentInfo.mobileno,
       doctor_email: selectedDoctor.employee_email,
       appDateTime: appointmentInfo.appointment_dateTime,
       doctor_name: appointmentInfo.assigned_doctor_name,
@@ -326,6 +328,9 @@ function CancleAppointment({ onClose, appointmentInfo, allAppointmentData }) {
       cancelReason: data.cancelReason,
       appointment_updated_by: currentUser.employee_name,
       appointment_updated_by_emp_id: currentUser.employee_ID,
+      sharemail : currentBranch[0].sharemail,
+        sharewhatsapp : currentBranch[0].sharewhatsapp,
+        sharesms : currentBranch[0].sharesms
     };
 
     //   try {

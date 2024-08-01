@@ -4,6 +4,7 @@ const cors = require("cors");
 const receptionist_Routes = require("./routes/receptionist_Routes");
 dotenv.config();
 const cron = require('node-cron');
+const path = require("path");
 
 
 // rest object
@@ -23,6 +24,7 @@ app.get("/", (req, res) => {
 const PORT = process.env.PORT || 4000;
 
 app.use('/api/v1/receptionist',receptionist_Routes);
+app.use("/prescription", express.static(path.join(__dirname, "prescription")));
 
 // Schedule the cron job to send appointment emails
 cron.schedule('0 8 * * *', () => {
