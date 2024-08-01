@@ -186,9 +186,9 @@ function PatientsDue() {
           <Sider />
         </div> */}
         <div className="col-lg-12 mt-2" id="">
-          {/* <div className="text-center">
-            <h3>All Patients Due Data</h3>
-          </div> */}
+          <div className="text-center">
+            <h3>All Patients Due Invoices</h3>
+          </div>
           <div className="row">
             <div className="col-lg-12" id="head">
               <nav class="shadow rounded navbar navbar-light bg-light">

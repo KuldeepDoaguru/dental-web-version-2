@@ -8,6 +8,8 @@ import CreditOPDBill from "./CreditOPDBill";
 import PatientsPaid from "./PatientsPaid";
 import PatientsDue from "./PatientsDue";
 import { useLocation,  useNavigate  } from "react-router-dom"; // Import these hooks
+import SittingBillDetails from "./SittingBillDetails";
+import SittingPaidBillDetails from "./SittingPaidBillDetails";
 
 
 function FinalInvoices() {
@@ -15,7 +17,7 @@ function FinalInvoices() {
     const location = useLocation();
   const navigate =  useNavigate ();
 
-  const [activeTab, setActiveTab] = useState('due');
+  const [activeTab, setActiveTab] = useState('dueSittingBill');
 
   useEffect(() => {
     const query = new URLSearchParams(location.search);
@@ -41,11 +43,35 @@ function FinalInvoices() {
           <Sider />
         </div>
         <div className="col-lg-11 mt-2" id="set">
-          <div className="text-center">
+          {/* <div className="text-center">
             <h3>All Patients Invoice</h3>
-          </div>
+          </div> */}
 
           <ul className="nav nav-tabs" id="myTab" role="tablist">
+      
+        <li className="nav-item" role="presentation">
+          <button
+             className={`nav-link nav-link1 ${activeTab === 'dueSittingBill' ? 'active' : ''}`}
+             id="dueSitting-tab"
+             type="button"
+             role="tab"
+             onClick={() => handleTabClick('dueSittingBill')}
+          >
+          Due Sitting Bill
+          </button>
+        </li>
+        <li className="nav-item" role="presentation">
+          <button
+             className={`nav-link nav-link1 ${activeTab === 'paidSittingBill' ? 'active' : ''}`}
+             id="paidSitting-tab"
+             type="button"
+             role="tab"
+             onClick={() => handleTabClick('paidSittingBill')}
+          >
+          Paid Sitting Bill
+          </button>
+        </li>
+
         <li className="nav-item" role="presentation">
           <button
            className={`nav-link nav-link1 ${activeTab === 'due' ? 'active' : ''}`}
@@ -70,6 +96,34 @@ function FinalInvoices() {
         </li>
        
         <div className="tab-content" id="myTabContent">
+          
+          <div
+             className={`tab-pane fade ${activeTab === 'dueSittingBill' ? 'show active' : ''}`}
+             id="dueSitting-tab-pane"
+             role="tabpanel"
+             aria-labelledby="dueSitting-tab"
+             tabIndex="0"
+          >
+            <ul className="list-group">
+              <li className="list-group-item" id="app">
+              <SittingBillDetails />
+              </li>
+            </ul>
+          </div>
+          <div
+             className={`tab-pane fade ${activeTab === 'paidSittingBill' ? 'show active' : ''}`}
+             id="paidSitting-tab-pane"
+             role="tabpanel"
+             aria-labelledby="paidSitting-tab"
+             tabIndex="0"
+          >
+            <ul className="list-group">
+              <li className="list-group-item" id="app">
+              <SittingPaidBillDetails />
+              </li>
+            </ul>
+          </div>
+
           <div
            className={`tab-pane fade ${activeTab === 'due' ? 'show active' : ''}`}
            id="due-tab-pane"

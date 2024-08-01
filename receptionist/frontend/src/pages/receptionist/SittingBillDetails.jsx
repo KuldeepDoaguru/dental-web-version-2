@@ -179,15 +179,15 @@ function SittingBillDetails() {
 
   return (
     <Wrapper>
-      <div className="header">
+      {/* <div className="header">
         <Header />
-      </div>
+      </div> */}
 
       <div className="row flex-nowrap ">
-        <div className="col-lg-1 col-1" id="hd">
+        {/* <div className="col-lg-1 col-1" id="hd">
           <Sider />
-        </div>
-        <div className="col-lg-11 mt-2" id="set">
+        </div> */}
+        <div className="col-lg-12 mt-2" id="">
           <div className="text-center">
             <h3>All Patients Sitting Bill Due Data</h3>
           </div>

@@ -110,8 +110,8 @@ const Sider = () => {
                       Invoices
                     </Link>
                   </li>
-                  <hr />
-                  <li>
+                  {/* <hr /> */}
+                  {/* <li>
                     <Link
                       to="/sitting-due-amount"
                       className={`link-div ${getSidebarClass(
@@ -131,7 +131,7 @@ const Sider = () => {
                     >
                       Paid Sitting Bill
                     </Link>
-                  </li>
+                  </li> */}
                   <hr />
                   {/* <li>
                     <Link
