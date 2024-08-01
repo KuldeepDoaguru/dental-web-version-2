@@ -229,9 +229,9 @@ function SittingCreditBill() {
           <Sider />
         </div> */}
         <div className="col-lg-12 mt-2" id="">
-          {/* <div className="text-center">
-            <h3>All Patients Sitting Bill Due Data</h3>
-          </div> */}
+          <div className="text-center">
+            <h3>All Patients Credit Sitting Bill</h3>
+          </div>
           <div className="row">
             <div className="col-lg-12" id="head">
               <nav class="shadow rounded navbar navbar-light bg-light">

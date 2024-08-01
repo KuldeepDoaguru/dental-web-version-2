@@ -215,9 +215,9 @@ function FinalCreditInvoice() {
           <Sider />
         </div> */}
         <div className="col-lg-12 mt-2" id="">
-          {/* <div className="text-center">
-            <h3>Patients Paid Data</h3>
-          </div> */}
+          <div className="text-center">
+            <h3>All Patients Credit Invoices </h3>
+          </div>
           <div className="row">
             <div className="col-lg-12" id="head">
               <nav class="shadow rounded navbar navbar-light bg-light">

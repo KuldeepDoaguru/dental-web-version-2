@@ -20,9 +20,9 @@ function AllCreditInvoice() {
           <Sider />
         </div>
         <div className="col-lg-11 mt-2" id="set">
-          <div className="text-center">
+          {/* <div className="text-center">
             <h3>All Patients Credit Invoice</h3>
-          </div>
+          </div> */}
 
           <ul className="nav nav-tabs" id="myTab" role="tablist">
         <li className="nav-item" role="presentation">

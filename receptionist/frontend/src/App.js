@@ -189,7 +189,7 @@ function App() {
           user.currentUser === null ? <UniversalLogin /> : <FinalInvoices />
         }
       />
-      <Route
+      {/* <Route
         path="/sitting-due-amount"
         element={
           user.currentUser === null ? (
@@ -198,8 +198,8 @@ function App() {
             <SittingBillDetails />
           )
         }
-      />
-      <Route
+      /> */}
+      {/* <Route
         path="/sitting-paid-amount"
         element={
           user.currentUser === null ? (
@@ -208,7 +208,7 @@ function App() {
             <SittingPaidBillDetails />
           )
         }
-      />
+      /> */}
       {/* <Route
         path="/paid_amount"
         element={
