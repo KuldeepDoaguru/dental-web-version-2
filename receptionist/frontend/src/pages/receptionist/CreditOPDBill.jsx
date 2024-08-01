@@ -473,7 +473,7 @@ function CreditOPDBill() {
                                     </button>
                                   )} */}
                                   
-                                  {data.payment_Status !== "paid"
+                                  {data.payment_Status === "Credit"
                                  &&
                                     <button
                                       className="btn"

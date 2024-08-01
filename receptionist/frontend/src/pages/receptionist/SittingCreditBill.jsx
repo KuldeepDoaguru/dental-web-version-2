@@ -358,7 +358,7 @@ function SittingCreditBill() {
                                 </td>
                                 <td>{item?.date?.split(" ")[0]}</td>
                                 <td>
-                                 {item.payment_status !== "paid"
+                                 {item.payment_status === "Credit"
                                  &&
                                     <button
                                       className="btn"

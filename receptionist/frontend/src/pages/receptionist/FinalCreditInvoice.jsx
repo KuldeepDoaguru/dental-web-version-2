@@ -355,7 +355,7 @@ function FinalCreditInvoice() {
                                 <td>{item.payment_status}</td>
                                 <td>
                                  
-                                {item.payment_status !== "paid"
+                                {item.payment_status === "Credit"
                                  &&
                                     <button
                                       className="btn"
