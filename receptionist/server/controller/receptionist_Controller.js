@@ -4055,7 +4055,7 @@ const sendSMS = async (req, res) => {
   try {
     await client.messages.create({
       from: process.env.TWILIONUMBER,
-      to: phoneNumber,
+      to: `+91${phoneNumber}`,
       body: message,
     });
     res.send("Message sent successfully!");
@@ -4090,6 +4090,30 @@ const sendWhatsapp = async (req, res) => {
       to: `whatsapp:+91${phoneNumber}`,
     });
     console.log("1027", response.body);
+    console.log("WhatsApp message sent successfully:", response.sid);
+    res.send("WhatsApp message sent successfully");
+  } catch (error) {
+    console.error("Error sending WhatsApp message:", error);
+    res.status(500).send("Error sending WhatsApp message");
+  }
+};
+const sendWhatsappTextOnly = async (req, res) => {
+  const { phoneNumber, message } = req.body;
+ 
+  
+
+  if (!phoneNumber || !message  ) {
+    return res
+      .status(400)
+      .json({ success: false, message: "All fields required" });
+  }
+  
+  try {
+    const response = await client.messages.create({
+      body: message,
+      from: process.env.TWILIONUMBERWHATSAPP,
+      to: `whatsapp:+91${phoneNumber}`,
+    });
     console.log("WhatsApp message sent successfully:", response.sid);
     res.send("WhatsApp message sent successfully");
   } catch (error) {
@@ -4174,5 +4198,6 @@ module.exports = {
   ChangeStatusToPaidOPDBill,
   prescriptionOnMail,
   sendWhatsapp,
-  sendSMS
+  sendSMS,
+  sendWhatsappTextOnly
 };

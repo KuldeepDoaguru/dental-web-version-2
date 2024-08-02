@@ -76,6 +76,7 @@ const {
   prescriptionOnMail,
   sendWhatsapp,
   sendSMS,
+  sendWhatsappTextOnly,
 } = require("../controller/receptionist_Controller");
 const authenticate = require("../middleware/authMiddleware");
 const router = express.Router();
@@ -328,6 +329,7 @@ router.post(
 );
 
 router.post("/sendWhatsapp", preUpload.single("media_url"), sendWhatsapp);
+router.post("/sendWhatsapptextonly", sendWhatsappTextOnly);
 router.post("/sendSMS", authenticate, sendSMS);
 
 module.exports = router;

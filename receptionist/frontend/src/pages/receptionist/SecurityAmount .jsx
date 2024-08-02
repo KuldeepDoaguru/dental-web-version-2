@@ -15,6 +15,7 @@ import animationData from "../../images/animation/loading-effect.json";
 
 function SecurityAmount() {
   const { refreshTable, currentUser } = useSelector((state) => state.user);
+  const {currentBranch} = useSelector((state) => state.branch);
   const branch = currentUser.branch_name;
   const [patients, setPatients] = useState([]);
   const token = currentUser?.token;
@@ -65,7 +66,7 @@ function SecurityAmount() {
       [name]: value,
     });
   };
-
+console.log(selected)
   const handleInput = async (event) => {
     const { name, value } = event.target;
     if (name === "appointment_id") {
@@ -209,6 +210,13 @@ function SecurityAmount() {
         }
       );
       setLoading(false);
+      if((filterForSecAmountDef[0].patient_number && currentBranch[0]?.sharesms === "Yes")){
+        refundBillDetailsSms()
+      }
+      if((filterForSecAmountDef[0].patient_number && currentBranch[0]?.sharewhatsapp === "Yes")){
+        RefundSendWhatsappTextOnly()
+      }
+      
       cogoToast.success("Amount Refunded Successfully");
       getSecurityAmountList();
       closeUpdatePopup();
@@ -240,6 +248,12 @@ function SecurityAmount() {
         }
       );
       setLoading(false);
+      if((filterForSecAmountDef[0].patient_number && currentBranch[0]?.sharesms === "Yes")){
+        billDetailsSms()
+      }
+      if((filterForSecAmountDef[0].patient_number && currentBranch[0]?.sharewhatsapp === "Yes")){
+        sendWhatsappTextOnly()
+      }
       cogoToast.success("Amount Paid Successfully");
       setData({
         ...data,
@@ -487,6 +501,92 @@ function SecurityAmount() {
     rendererSettings: {
       preserveAspectRatio: "xMidYMid slice",
     },
+  };
+
+  const formDetails = {
+    phoneNumber: filterForSecAmountDef[0]?.patient_number,
+    message: `Dear ${filterForSecAmountDef[0]?.patient_name}, UHID ${filterForSecAmountDef[0]?.uhid} you have successfully paid ${filterForSecAmountDef[0]?.amount}/- as security amount`,
+  };
+ 
+  const billDetailsSms = async () => {
+    try {
+      const { data } = await axios.post(
+        "http://localhost:4000/api/v1/receptionist/sendSMS",
+        formDetails,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      cogoToast.success("bill details sent successfully");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const sendWhatsappTextOnly = async () => {
+    try {
+    
+      const res = await axios.post(
+        "http://localhost:4000/api/v1/receptionist/sendWhatsapptextonly",
+        formDetails,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      // cogoToast.success(" sent successfully");
+      console.log("Whats app msg successfully");
+    } catch (error) {
+      console.error("Error sending PDF:", error);
+    }
+  };
+
+  const refundformDetails = {
+    phoneNumber: filterForSecAmountDef[0]?.patient_number,
+    message: `Dear ${filterForSecAmountDef[0]?.patient_name}, UHID ${filterForSecAmountDef[0]?.uhid} you have successfully Refunded ${filterForSecAmountDef[0]?.remaining_amount}/- from security amount`,
+  };
+
+  const refundBillDetailsSms = async () => {
+    try {
+      const { data } = await axios.post(
+        "http://localhost:4000/api/v1/receptionist/sendSMS",
+        refundformDetails,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      cogoToast.success("Message sent successfully");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const RefundSendWhatsappTextOnly = async () => {
+    try {
+    
+      const res = await axios.post(
+        "http://localhost:4000/api/v1/receptionist/sendWhatsapptextonly",
+        refundformDetails,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      // cogoToast.success(" sent successfully");
+      console.log("Whats app msg successfully");
+    } catch (error) {
+      console.error("Error sending PDF:", error);
+    }
   };
 
   return (

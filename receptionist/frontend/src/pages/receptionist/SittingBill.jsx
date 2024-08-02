@@ -1,17 +1,24 @@
 import axios from "axios";
 import { numToWords } from "num-to-words";
-import React, { useEffect, useState } from "react";
+import React, { useEffect,useRef, useState } from "react";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import { FaPrint } from "react-icons/fa6";
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
+import { SiGmail, SiGooglemessages } from "react-icons/si";
+import { IoLogoWhatsapp } from "react-icons/io";
+import cogoToast from "cogo-toast";
 
 const SittingBill = () => {
   const { tpid, sbid, treatment } = useParams();
+  const contentRef = useRef();
   const navigate = useNavigate();
   const [getPatientData, setGetPatientData] = useState([]);
   const { refreshTable, currentUser } = useSelector((state) => state.user);
+  const {currentBranch} = useSelector((state) => state.branch);
   const token = currentUser?.token;
   const branch = currentUser.branch_name;
   const [getExaminData, setGetExaminData] = useState([]);
@@ -164,6 +171,129 @@ const SittingBill = () => {
   const goBack = () => {
     navigate("/sitting-due-amount");
   };
+  const handleDownloadPdf = async () => {
+    const element = contentRef.current;
+    const canvas = await html2canvas(element);
+    const imgData = canvas.toDataURL("image/png");
+    const pdf = new jsPDF();
+    const imgWidth = 210; // A4 width in mm
+    const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+    pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
+    pdf.save("sitting bill.pdf");
+  };
+
+
+
+  const sendPrescriptionMail = async () => {
+    try {
+      const element = contentRef.current;
+      const canvas = await html2canvas(element);
+      const imgData = canvas.toDataURL("image/png");
+      const pdf = new jsPDF();
+      const imgWidth = 210; // A4 width in mm
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+      pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
+      const pdfData = pdf.output("blob");
+      console.log(pdfData);
+
+      const formData = new FormData();
+      formData.append("email", getPatientData[0]?.emailid);
+      formData.append("patient_name", getPatientData[0]?.patient_name);
+      formData.append(
+        "subject",
+        `${getPatientData[0]?.patient_name}, your sitting bill file`
+      );
+      formData.append(
+        "textMatter",
+        `Dear ${getPatientData[0]?.patient_name}, Please find the attached sitting bill file.`
+      );
+      formData.append("file", pdfData, "prescription.pdf");
+      for (let [key, value] of formData.entries()) {
+        console.log(key, value);
+      }
+      const response = await axios.post(
+        "http://localhost:4000/api/v1/receptionist/prescriptionOnMail",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      cogoToast.success("Sitting bill sent successfully");
+      console.log("PDF sent successfully:", response.data);
+    } catch (error) {
+      console.error("Error sending PDF:", error);
+    }
+  };
+
+  const sendPrescriptionWhatsapp = async () => {
+    try {
+      const element = contentRef.current;
+      const canvas = await html2canvas(element);
+      const imgData = canvas.toDataURL("image/png");
+      const pdf = new jsPDF();
+      const imgWidth = 210; // A4 width in mm
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+      pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
+      const pdfData = pdf.output("blob");
+      console.log(pdfData);
+
+      const formData = new FormData();
+      formData.append("phoneNumber", getPatientData[0]?.mobileno);
+      formData.append("message", "test message");
+      // Convert Blob to a File
+      const file = new File([pdfData], "sitting bill.pdf", {
+        type: "application/pdf",
+      });
+
+      formData.append("media_url", file);
+      for (let [key, value] of formData.entries()) {
+        console.log(key, value);
+      }
+
+      const res = await axios.post(
+        "http://localhost:4000/api/v1/receptionist/sendWhatsapp",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      cogoToast.success("sitting bill sent successfully");
+      console.log("PDF sent successfully");
+    } catch (error) {
+      console.error("Error sending PDF:", error);
+    }
+  };
+
+  const formDetails = {
+    phoneNumber: getPatientData[0]?.mobileno,
+    message: `Dear ${getPatientData[0]?.patient_name}, your bill generated for the sitting ${sittingBill[0]?.sitting_number} of treatment ${sittingBill[0]?.treatment}, sitting bill amount is ${sittingBill[0]?.sitting_amount}/-`,
+  };
+  const billDetailsSms = async () => {
+    try {
+      const { data } = await axios.post(
+        "http://localhost:4000/api/v1/receptionist/sendSMS",
+        formDetails,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      cogoToast.success("bill details sent successfully");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <>
       <Wrapper>
@@ -249,7 +379,7 @@ const SittingBill = () => {
              <FaPrint /> Print
             </button>
           </div>
-
+          <div ref={contentRef}>
           <div className="row">
             <div className="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
               <div className="clinic-logo">
@@ -262,7 +392,7 @@ const SittingBill = () => {
             </div>
           </div>
           <hr />
-        </div>
+        
         {/* patient details */}
         <div className="text-center">
           <h3>Invoice</h3>
@@ -570,6 +700,8 @@ const SittingBill = () => {
             <div className="text-termslong"></div>
           </div>
         </div>
+        </div>
+        </div>
         {/* print button */}
         <div className="container-fluid">
           <div className="d-flex justify-content-center align-items-center">
@@ -616,6 +748,68 @@ const SittingBill = () => {
             >
               Appointment Dashboard
             </button> */}
+              <div className="container-fluid">
+          <div className="text-center">
+            <button
+              className="btn btn-info no-print mx-3 mb-3 mt-2 text-white shadow"
+              style={{
+                backgroundColor: "#0dcaf0",
+                border: "#0dcaf0",
+              }}
+              onClick={handleDownloadPdf}
+            >
+              Download Sitting Bill
+            </button>
+            {/* <button
+              className="btn btn-info no-print text-white mt-2 mb-2"
+              onClick={handleTreatNavigate}
+              style={{
+                backgroundColor: "#0dcaf0",
+                border: "#0dcaf0",
+              }}
+            >
+              Treatment Dashboard
+            </button> */}
+            <br />
+            <span className="fs-5 fw-bold no-print"> Share on : </span>
+            {currentBranch[0]?.sharemail === "Yes" && (
+              <button
+                className="btn btn-info no-print mx-3 mb-3 mt-2 text-white shadow"
+                style={{
+                  backgroundColor: "#0dcaf0",
+                  border: "#0dcaf0",
+                }}
+                onClick={sendPrescriptionMail}
+              >
+                <SiGmail />
+              </button>
+            )}
+            {currentBranch[0]?.sharewhatsapp === "Yes" && (
+              <button
+                className="btn btn-info no-print mx-3 mb-3 mt-2 text-white shadow"
+                style={{
+                  backgroundColor: "#0dcaf0",
+                  border: "#0dcaf0",
+                }}
+                onClick={sendPrescriptionWhatsapp}
+              >
+                <IoLogoWhatsapp />
+              </button>
+            )}
+            {currentBranch[0]?.sharesms === "Yes" && (
+              <button
+                className="btn btn-info no-print mx-3 mb-3 mt-2 text-white shadow"
+                style={{
+                  backgroundColor: "#0dcaf0",
+                  border: "#0dcaf0",
+                }}
+                onClick={billDetailsSms}
+              >
+                <SiGooglemessages />
+              </button>
+            )}
+          </div>
+          </div>
           </div>
         </div>
       </Wrapper>
