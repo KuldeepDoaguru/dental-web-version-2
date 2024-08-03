@@ -77,6 +77,7 @@ const {
   sendWhatsapp,
   sendSMS,
   sendWhatsappTextOnly,
+  getPatientDeatilsByUhidFromSecurityAmt,
 } = require("../controller/receptionist_Controller");
 const authenticate = require("../middleware/authMiddleware");
 const router = express.Router();
@@ -310,6 +311,11 @@ router.put("/ChangeStatusToPaidPatientBill/:bill_id/:branch",authenticate, Chang
 router.put("/ChangeStatusToPaidOPDBill/:appoint_id/:branch",authenticate, ChangeStatusToPaidOPDBill);
 router.get("/getInsuranceCompany/:branch" , getInsuranceCompany)
 router.get("/getPatientDetailsForBill/:branch/:uhid/:billId" , getPatientDetailsForBill)
+router.get(
+  "/getPatientDeatilsByUhidFromSecurityAmt/:branch/:uhid",
+  authenticate,
+  getPatientDeatilsByUhidFromSecurityAmt
+);
 
 const prestorage = multer.diskStorage({
   destination: function (req, file, cb) {
