@@ -69,17 +69,33 @@ const PrintOpdBill = () => {
     window.print();
   };
 
-  const handleDownloadPdf = async () => {
-    const element = contentRef.current;
-    const canvas = await html2canvas(element);
-    const imgData = canvas.toDataURL("image/png");
-    const pdf = new jsPDF();
-    const imgWidth = 210; // A4 width in mm
-    const imgHeight = (canvas.height * imgWidth) / canvas.width;
+  // const handleDownloadPdf = async () => {
+  //   const element = contentRef.current;
+  //   const canvas = await html2canvas(element);
+  //   const imgData = canvas.toDataURL("image/png");
+  //   const pdf = new jsPDF();
+  //   const imgWidth = 210; // A4 width in mm
+  //   const imgHeight = (canvas.height * imgWidth) / canvas.width;
 
-    pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
-    pdf.save("sitting bill.pdf");
-  };
+  //   pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
+  //   pdf.save("sitting bill.pdf");
+  // };
+
+
+
+    // optimize code for reduce pdf size
+    const handleDownloadPdf = async () => {
+      const element = contentRef.current;
+      const canvas = await html2canvas(element, { scale: 2 }); // Increase the scale for better quality
+      const imgData = canvas.toDataURL("image/jpeg", 0.75); // Use JPEG with 75% quality
+  
+      const pdf = new jsPDF();
+      const imgWidth = 210; // A4 width in mm
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+  
+      pdf.addImage(imgData, "JPEG", 0, 0, imgWidth, imgHeight, undefined, 'FAST'); // Use 'FAST' for compression
+      pdf.save("sitting bill.pdf");
+    };
 
 
 
@@ -90,13 +106,13 @@ const PrintOpdBill = () => {
     }
     try {
       const element = contentRef.current;
-      const canvas = await html2canvas(element);
-      const imgData = canvas.toDataURL("image/png");
+     const canvas = await html2canvas(element, { scale: 2 }); // Increase the scale for better quality
+      const imgData = canvas.toDataURL("image/jpeg", 0.75); // Use JPEG with 75% quality
       const pdf = new jsPDF();
       const imgWidth = 210; // A4 width in mm
       const imgHeight = (canvas.height * imgWidth) / canvas.width;
 
-      pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
+      pdf.addImage(imgData, "JPEG", 0, 0, imgWidth, imgHeight, undefined, 'FAST'); // Use 'FAST' for compression
       const pdfData = pdf.output("blob");
       console.log(pdfData);
 
@@ -139,13 +155,13 @@ const PrintOpdBill = () => {
   const sendPrescriptionWhatsapp = async () => {
     try {
       const element = contentRef.current;
-      const canvas = await html2canvas(element);
-      const imgData = canvas.toDataURL("image/png");
+      const canvas = await html2canvas(element, { scale: 2 }); // Increase the scale for better quality
+      const imgData = canvas.toDataURL("image/jpeg", 0.75); // Use JPEG with 75% quality
       const pdf = new jsPDF();
       const imgWidth = 210; // A4 width in mm
       const imgHeight = (canvas.height * imgWidth) / canvas.width;
 
-      pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
+      pdf.addImage(imgData, "JPEG", 0, 0, imgWidth, imgHeight, undefined, 'FAST'); // Use 'FAST' for compression
       const pdfData = pdf.output("blob");
       console.log(pdfData);
 

@@ -223,29 +223,50 @@ const PatientBillsByTpid = () => {
         : total + Number(item.paid_amount),
     0
   );
+   
 
+  // its genrate very high size file
+
+  // const handleDownloadPdf = async () => {
+  //   const element = contentRef.current;
+  //   const canvas = await html2canvas(element);
+  //   const imgData = canvas.toDataURL("image/png");
+  //   const pdf = new jsPDF();
+  //   const imgWidth = 210; // A4 width in mm
+  //   const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+  //   pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
+  //   pdf.save("final bill.pdf");
+  // };
+
+   // optimize code for reduce pdf size
   const handleDownloadPdf = async () => {
     const element = contentRef.current;
-    const canvas = await html2canvas(element);
-    const imgData = canvas.toDataURL("image/png");
+    const canvas = await html2canvas(element, { scale: 2 }); // Increase the scale for better quality
+    const imgData = canvas.toDataURL("image/jpeg", 0.75); // Use JPEG with 75% quality
+
     const pdf = new jsPDF();
     const imgWidth = 210; // A4 width in mm
     const imgHeight = (canvas.height * imgWidth) / canvas.width;
 
-    pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
-    pdf.save("final bill.pdf");
+    pdf.addImage(imgData, "JPEG", 0, 0, imgWidth, imgHeight, undefined, 'FAST'); // Use 'FAST' for compression
+    pdf.save("sitting bill.pdf");
   };
 
   const sendPrescriptionMail = async () => {
+    if(!getPatientData[0]?.emailid){
+      alert("Email id not available")
+      return
+    }
     try {
       const element = contentRef.current;
-      const canvas = await html2canvas(element);
-      const imgData = canvas.toDataURL("image/png");
+      const canvas = await html2canvas(element, { scale: 2 }); // Increase the scale for better quality
+    const imgData = canvas.toDataURL("image/jpeg", 0.75); // Use JPEG with 75% quality
       const pdf = new jsPDF();
       const imgWidth = 210; // A4 width in mm
       const imgHeight = (canvas.height * imgWidth) / canvas.width;
 
-      pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
+      pdf.addImage(imgData, "JPEG", 0, 0, imgWidth, imgHeight, undefined, 'FAST'); // Use 'FAST' for compression
       const pdfData = pdf.output("blob");
       console.log(pdfData);
 
@@ -264,6 +285,7 @@ const PatientBillsByTpid = () => {
       for (let [key, value] of formData.entries()) {
         console.log(key, value);
       }
+      cogoToast.success("Treatment bill sending to email");
       const response = await axios.post(
         "http://localhost:4000/api/v1/receptionist/prescriptionOnMail",
         formData,
@@ -284,13 +306,13 @@ const PatientBillsByTpid = () => {
   const sendPrescriptionWhatsapp = async () => {
     try {
       const element = contentRef.current;
-      const canvas = await html2canvas(element);
-      const imgData = canvas.toDataURL("image/png");
+      const canvas = await html2canvas(element, { scale: 2 }); // Increase the scale for better quality
+    const imgData = canvas.toDataURL("image/jpeg", 0.75); // Use JPEG with 75% quality
       const pdf = new jsPDF();
       const imgWidth = 210; // A4 width in mm
       const imgHeight = (canvas.height * imgWidth) / canvas.width;
 
-      pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
+      pdf.addImage(imgData, "JPEG", 0, 0, imgWidth, imgHeight, undefined, 'FAST'); // Use 'FAST' for compression
       const pdfData = pdf.output("blob");
       console.log(pdfData);
 

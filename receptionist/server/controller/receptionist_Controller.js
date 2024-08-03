@@ -142,6 +142,16 @@ const transporter = nodemailer.createTransport({
   },
 });
 
+// const transporter = nodemailer.createTransport({
+//   host: "doaguru.com", 
+//   port: 465,  
+//   secure: true, 
+//   auth: {
+//     user: "info@doaguru.com",
+//     pass: "dgwebmail@132",
+//   },
+// });
+
 const addPatient = (req, res) => {
   try {
     const {
