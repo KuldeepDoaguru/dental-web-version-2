@@ -7,11 +7,17 @@ import { useSelector } from "react-redux";
 import moment from "moment";
 import { FaHome, FaPrint } from "react-icons/fa";
 import { IoMdArrowRoundBack } from "react-icons/io";
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
+import { SiGmail, SiGooglemessages } from "react-icons/si";
+import { IoLogoWhatsapp } from "react-icons/io";
 
 const PrintSecurityAmt = () => {
   const pdfRef = useRef();
+  const contentRef = useRef();
   const { SId } = useParams();
   const user = useSelector((state) => state.user);
+  const {currentBranch} = useSelector((state) => state.branch);
 
   const { refreshTable, currentUser } = useSelector((state) => state.user);
   const branch = currentUser.branch_name;
@@ -19,6 +25,8 @@ const PrintSecurityAmt = () => {
   const [getBranch, setGetBranch] = useState([]);
 
   const [data, setData] = useState("");
+
+  const [patientDetails,setPatientDetails] = useState([]);
 
   const navigate = useNavigate();
 
@@ -53,20 +61,156 @@ const PrintSecurityAmt = () => {
     }
   };
 
+  const getPatientTreatmentDetails = async (uhid) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:4000/api/v1/receptionist/getPatientDeatilsByUhidFromSecurityAmt/${branch}/${uhid}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      setPatientDetails(response.data.data);
+
+      // setSearchDoctor(patientTreatmentDetails[0]?.doctor_name)
+    } catch (error) {
+      setPatientDetails([]);
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     getBill();
     getBranchDetails();
   }, []);
 
+  useEffect(() => {
+    getPatientTreatmentDetails(data[0]?.uhid)
+  }, [data]);
+
   console.log(data);
+  console.log(patientDetails);
 
   const handlePrint = () => {
     window.print();
   };
 
+  const handleDownloadPdf = async () => {
+    const element = contentRef.current;
+    const canvas = await html2canvas(element);
+    const imgData = canvas.toDataURL("image/png");
+    const pdf = new jsPDF();
+    const imgWidth = 210; // A4 width in mm
+    const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+    pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
+    pdf.save("sitting bill.pdf");
+  };
+
+
+
+  const sendPrescriptionMail = async () => {
+    if(!patientDetails[0].emailid){
+      alert("Email id not available")
+      return
+    }
+    try {
+      const element = contentRef.current;
+      const canvas = await html2canvas(element);
+      const imgData = canvas.toDataURL("image/png");
+      const pdf = new jsPDF();
+      const imgWidth = 210; // A4 width in mm
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+      pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
+      const pdfData = pdf.output("blob");
+      console.log(pdfData);
+
+      const formData = new FormData();
+      formData.append("email", patientDetails[0]?.emailid);
+      formData.append("patient_name", patientDetails[0]?.patient_name);
+      formData.append(
+        "subject",
+        `${patientDetails[0]?.patient_name}, your Security Amount bill file`
+      );
+      formData.append(
+        "textMatter",
+        `Dear ${patientDetails[0]?.patient_name}, Please find the attached Security Amount bill file.`
+      );
+      formData.append("file", pdfData, "Security_Amount.pdf");
+      for (let [key, value] of formData.entries()) {
+        console.log(key, value);
+      }
+     
+      cogoToast.success("Security Amount bill Sending to email");
+      const response = await axios.post(
+        "http://localhost:4000/api/v1/receptionist/prescriptionOnMail",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      cogoToast.success("Security Amount Bill sent successfully");
+      console.log(response)
+      console.log("PDF sent successfully:", response.data);
+    } catch (error) {
+      console.error("Error sending PDF:", error);
+      cogoToast.error("Error to send bill");
+    }
+  };
+
+  const sendPrescriptionWhatsapp = async () => {
+    try {
+      const element = contentRef.current;
+      const canvas = await html2canvas(element);
+      const imgData = canvas.toDataURL("image/png");
+      const pdf = new jsPDF();
+      const imgWidth = 210; // A4 width in mm
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+      pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
+      const pdfData = pdf.output("blob");
+      console.log(pdfData);
+
+      const formData = new FormData();
+      formData.append("phoneNumber", patientDetails[0]?.mobileno);
+      formData.append("message", "test message");
+      // Convert Blob to a File
+      const file = new File([pdfData], "Security_Amount.pdf", {
+        type: "application/pdf",
+      });
+
+      formData.append("media_url", file);
+      for (let [key, value] of formData.entries()) {
+        console.log(key, value);
+      }
+
+      const res = await axios.post(
+        "http://localhost:4000/api/v1/receptionist/sendWhatsapp",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      cogoToast.success("Security Amount bill sent successfully");
+      console.log("PDF sent successfully");
+    } catch (error) {
+      console.error("Error sending PDF:", error);
+      cogoToast.error("Error to send Security Amount bill");
+    }
+  };
+
   return (
     <Container>
-      <div ref={pdfRef}>
+      <div ref={contentRef}>
         <div className="headimage">
           <img src={getBranch[0]?.head_img} alt="header" srcset="" />
         </div>
@@ -270,6 +414,68 @@ const PrintSecurityAmt = () => {
     Generate PDF
   </button> */}
       </div>
+      <div className="container-fluid">
+          <div className="text-center">
+            {/* <button
+              className="btn btn-info no-print mx-3 mb-3 mt-2 text-white shadow"
+              style={{
+                backgroundColor: "#0dcaf0",
+                border: "#0dcaf0",
+              }}
+              onClick={handleDownloadPdf}
+            >
+              Download Sitting Bill
+            </button> */}
+            {/* <button
+              className="btn btn-info no-print text-white mt-2 mb-2"
+              onClick={handleTreatNavigate}
+              style={{
+                backgroundColor: "#0dcaf0",
+                border: "#0dcaf0",
+              }}
+            >
+              Treatment Dashboard
+            </button> */}
+            <br />
+            <span className="fs-5 fw-bold no-print"> Share on : </span>
+            {currentBranch[0]?.sharemail === "Yes" && (
+              <button
+                className="btn btn-info no-print mx-3 mb-3 mt-2 text-white shadow"
+                style={{
+                  backgroundColor: "#0dcaf0",
+                  border: "#0dcaf0",
+                }}
+                onClick={sendPrescriptionMail}
+              >
+                <SiGmail />
+              </button>
+            )}
+            {currentBranch[0]?.sharewhatsapp === "Yes" && (
+              <button
+                className="btn btn-info no-print mx-1 mb-3 mt-2 text-white shadow"
+                style={{
+                  backgroundColor: "#0dcaf0",
+                  border: "#0dcaf0",
+                }}
+                onClick={sendPrescriptionWhatsapp}
+              >
+                <IoLogoWhatsapp />
+              </button>
+            )}
+            {/* {currentBranch[0]?.sharesms === "Yes" && (
+              <button
+                className="btn btn-info no-print mx-3 mb-3 mt-2 text-white shadow"
+                style={{
+                  backgroundColor: "#0dcaf0",
+                  border: "#0dcaf0",
+                }}
+                onClick={billDetailsSms}
+              >
+                <SiGooglemessages />
+              </button>
+            )} */}
+          </div>
+          </div>
     </Container>
   );
 };
@@ -348,6 +554,11 @@ const Container = styled.div`
     border-top: 2px solid black;
   }
   .btn-info {
+    @media print {
+      display: none;
+    }
+  }
+  .no-print {
     @media print {
       display: none;
     }

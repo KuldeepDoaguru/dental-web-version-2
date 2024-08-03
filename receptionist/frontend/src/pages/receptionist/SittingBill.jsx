@@ -213,6 +213,7 @@ const SittingBill = () => {
       for (let [key, value] of formData.entries()) {
         console.log(key, value);
       }
+      cogoToast.success("Sitting bill Sending to email");
       const response = await axios.post(
         "http://localhost:4000/api/v1/receptionist/prescriptionOnMail",
         formData,
@@ -224,9 +225,11 @@ const SittingBill = () => {
         }
       );
       cogoToast.success("Sitting bill sent successfully");
+      console.log(response)
       console.log("PDF sent successfully:", response.data);
     } catch (error) {
       console.error("Error sending PDF:", error);
+      cogoToast.error("Error to send Sitting bill");
     }
   };
 
@@ -269,6 +272,7 @@ const SittingBill = () => {
       console.log("PDF sent successfully");
     } catch (error) {
       console.error("Error sending PDF:", error);
+      cogoToast.error("Error to send Sitting bill");
     }
   };
 
@@ -288,9 +292,10 @@ const SittingBill = () => {
           },
         }
       );
-      cogoToast.success("bill details sent successfully");
+      cogoToast.success("Bill details sent successfully");
     } catch (error) {
       console.log(error);
+      cogoToast.error("Error to send Sitting bill Details");
     }
   };
 

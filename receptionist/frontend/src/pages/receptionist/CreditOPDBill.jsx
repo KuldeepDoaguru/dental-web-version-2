@@ -18,9 +18,12 @@ function CreditOPDBill() {
   const { refreshTable, currentUser } = useSelector((state) => state.user);
   const branch = currentUser.branch_name;
   const token = currentUser?.token;
-  const [selectedDate, setSelectedDate] = useState(
-    new Date().toISOString()?.split("T")[0]
-  ); // Initialize with today's date
+
+//  // Initialize with today's date
+//   const [selectedDate, setSelectedDate] = useState(
+//     new Date().toISOString()?.split("T")[0]
+//   );
+  
   const [appointmentsData, setAppointmentData] = useState([]);
 
   const [loadingEffect, setLoadingEffect] = useState(false);
@@ -31,17 +34,17 @@ function CreditOPDBill() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedDateAppData, setSelectedDateAppData] = useState([]);
 
-  const handleDateChange = (increment) => {
-    return () => {
-      if (selectedDate) {
-        const currentDate = new Date(selectedDate);
-        currentDate.setDate(currentDate?.getDate() + increment);
-        setSelectedDate(currentDate?.toISOString()?.split("T")[0]);
-      }
-    };
-  };
+  // const handleDateChange = (increment) => {
+  //   return () => {
+  //     if (selectedDate) {
+  //       const currentDate = new Date(selectedDate);
+  //       currentDate.setDate(currentDate?.getDate() + increment);
+  //       setSelectedDate(currentDate?.toISOString()?.split("T")[0]);
+  //     }
+  //   };
+  // };
 
-  console.log(selectedDateAppData);
+  
 
   const getAppointments = async () => {
     setLoadingEffect(true);
@@ -63,7 +66,7 @@ function CreditOPDBill() {
       //   (patient) => patient.treatment_provided === "OPD" && patient.appointment_status !=="Cancel"
       // );
       
-      setAppointmentData(filteredPatients);
+      setAppointmentData(filteredPatients.reverse());
       setLoadingEffect(false);
     } catch (error) {
       console.log(error);
@@ -71,17 +74,45 @@ function CreditOPDBill() {
     }
   };
 
-  useEffect(() => {
-    const filteredResults = appointmentsData.filter((row) =>
-      row?.created_at?.includes(selectedDate)
-    );
-    setSelectedDateAppData(filteredResults);
-    handleSearch({ target: { value: searchTerm } });
-  }, [appointmentsData, selectedDate]);
+  // if date wise data so use this function
+  // useEffect(() => {
+  //   const filteredResults = appointmentsData.filter((row) =>
+  //     row?.created_at?.includes(selectedDate)
+  //   );
+  //   setSelectedDateAppData(filteredResults);
+  //   handleSearch({ target: { value: searchTerm } });
+  // }, [appointmentsData, selectedDate]);
+
+  // useEffect(() => {
+  //   handleSearch({ target: { value: searchTerm } });
+  // }, [refreshTable, selectedDate]);
+  // useEffect(() => {
+  //   getAppointments();
+  // }, []);
+
+  // // Searching function
+  // const handleSearch = (event) => {
+  //   const searchTerm = event.target.value.toLowerCase();
+  //   setSearchTerm(searchTerm);
+  //   setCurrentPage(1); // Reset to the first page when searching
+
+  //   const filteredResults = appointmentsData.filter(
+  //     (row) =>
+  //       (row.patient_name.toLowerCase()?.includes(searchTerm.trim()) ||
+  //         row.mobileno?.includes(searchTerm.trim()) ||
+  //         row.uhid?.toLowerCase().includes(searchTerm.trim())) &&
+  //       row.created_at?.includes(selectedDate)
+  //   );
+
+  //   setFilteredData(filteredResults);
+  // };
+
+
+
 
   useEffect(() => {
     handleSearch({ target: { value: searchTerm } });
-  }, [refreshTable, selectedDate]);
+  }, [refreshTable]);
   useEffect(() => {
     getAppointments();
   }, []);
@@ -96,8 +127,7 @@ function CreditOPDBill() {
       (row) =>
         (row.patient_name.toLowerCase()?.includes(searchTerm.trim()) ||
           row.mobileno?.includes(searchTerm.trim()) ||
-          row.uhid?.toLowerCase().includes(searchTerm.trim())) &&
-        row.created_at?.includes(selectedDate)
+          row.uhid?.toLowerCase().includes(searchTerm.trim())) 
     );
 
     setFilteredData(filteredResults);
@@ -113,9 +143,9 @@ function CreditOPDBill() {
   const indexOfFirstRow = indexOfLastRow - rowsPerPage;
   const currentRows = searchTerm
     ? filteredData.slice(indexOfFirstRow, indexOfLastRow)
-    : selectedDateAppData.slice(indexOfFirstRow, indexOfLastRow);
+    : appointmentsData.slice(indexOfFirstRow, indexOfLastRow);
 
-  const totalPages = Math.ceil(selectedDateAppData.length / rowsPerPage);
+  const totalPages = Math.ceil(appointmentsData.length / rowsPerPage);
 
   const paginate = (pageNumber) => {
     if (pageNumber > 0 && pageNumber <= totalPages) {
@@ -126,7 +156,7 @@ function CreditOPDBill() {
   const pageNumbers = [];
   for (
     let i = 1;
-    i <= Math.ceil(selectedDateAppData.length / rowsPerPage);
+    i <= Math.ceil(appointmentsData.length / rowsPerPage);
     i++
   ) {
     pageNumbers.push(i);
@@ -324,7 +354,7 @@ function CreditOPDBill() {
                       </Form.Control>
                     </Form.Group>
                   </div>
-                  <div className="d-flex align-items-center">
+                  {/* <div className="d-flex align-items-center">
                     <FaArrowCircleLeft
                       style={{
                         fontSize: "35px",
@@ -347,9 +377,9 @@ function CreditOPDBill() {
                       }}
                       onClick={handleDateChange(1)}
                     />
-                  </div>
+                  </div> */}
                   <div>
-                    <h5>Total Patients - {selectedDateAppData.length}</h5>
+                    <h5>Total Patients - {appointmentsData.length}</h5>
                   </div>
 
                   {/* <div class="dropdown" id='drop'>
@@ -516,12 +546,12 @@ function CreditOPDBill() {
                             {" "}
                             Showing Page {currentPage} of {totalPages} from{" "}
                             {filteredData?.length} entries (filtered from{" "}
-                            {selectedDateAppData?.length} total entries){" "}
+                            {appointmentsData?.length} total entries){" "}
                           </>
                         ) : (
                           <>
                             Showing Page {currentPage} of {totalPages} from{" "}
-                            {selectedDateAppData?.length} entries
+                            {appointmentsData?.length} entries
                           </>
                         )}
                       </h4>
@@ -540,7 +570,7 @@ function CreditOPDBill() {
                         <Button
                           onClick={() => paginate(currentPage + 1)}
                           disabled={
-                            indexOfLastRow >= selectedDateAppData.length
+                            indexOfLastRow >= appointmentsData.length
                           }
                           variant="success"
                         >

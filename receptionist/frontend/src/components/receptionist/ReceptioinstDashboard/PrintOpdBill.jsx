@@ -8,11 +8,17 @@ import moment from "moment";
 import { FaPrint } from "react-icons/fa6";
 import { FaHome } from "react-icons/fa";
 import { IoMdArrowRoundBack } from "react-icons/io";
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
+import { SiGmail, SiGooglemessages } from "react-icons/si";
+import { IoLogoWhatsapp } from "react-icons/io";
 
 const PrintOpdBill = () => {
   const pdfRef = useRef();
   const { appointmentId } = useParams();
+  const contentRef = useRef();
   const user = useSelector((state) => state.user);
+  const {currentBranch} = useSelector((state) => state.branch);
 
   const { refreshTable, currentUser } = useSelector((state) => state.user);
   const branch = currentUser.branch_name;
@@ -63,9 +69,119 @@ const PrintOpdBill = () => {
     window.print();
   };
 
+  const handleDownloadPdf = async () => {
+    const element = contentRef.current;
+    const canvas = await html2canvas(element);
+    const imgData = canvas.toDataURL("image/png");
+    const pdf = new jsPDF();
+    const imgWidth = 210; // A4 width in mm
+    const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+    pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
+    pdf.save("sitting bill.pdf");
+  };
+
+
+
+  const sendPrescriptionMail = async () => {
+    if(!data.emailid){
+      alert("Email id not available")
+      return
+    }
+    try {
+      const element = contentRef.current;
+      const canvas = await html2canvas(element);
+      const imgData = canvas.toDataURL("image/png");
+      const pdf = new jsPDF();
+      const imgWidth = 210; // A4 width in mm
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+      pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
+      const pdfData = pdf.output("blob");
+      console.log(pdfData);
+
+      const formData = new FormData();
+      formData.append("email", data?.emailid);
+      formData.append("patient_name", data?.patient_name);
+      formData.append(
+        "subject",
+        `${data?.patient_name}, your OPD bill file`
+      );
+      formData.append(
+        "textMatter",
+        `Dear ${data?.patient_name}, Please find the attached OPD bill file.`
+      );
+      formData.append("file", pdfData, "OPD_bill.pdf");
+      for (let [key, value] of formData.entries()) {
+        console.log(key, value);
+      }
+     
+      cogoToast.success("OPD bill Sending to email");
+      const response = await axios.post(
+        "http://localhost:4000/api/v1/receptionist/prescriptionOnMail",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      cogoToast.success("OPD Bill sent successfully");
+      console.log(response)
+      console.log("PDF sent successfully:", response.data);
+    } catch (error) {
+      console.error("Error sending PDF:", error);
+      cogoToast.error("Error to send bill");
+    }
+  };
+
+  const sendPrescriptionWhatsapp = async () => {
+    try {
+      const element = contentRef.current;
+      const canvas = await html2canvas(element);
+      const imgData = canvas.toDataURL("image/png");
+      const pdf = new jsPDF();
+      const imgWidth = 210; // A4 width in mm
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+      pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
+      const pdfData = pdf.output("blob");
+      console.log(pdfData);
+
+      const formData = new FormData();
+      formData.append("phoneNumber", data?.mobileno);
+      formData.append("message", "test message");
+      // Convert Blob to a File
+      const file = new File([pdfData], "OPD bill.pdf", {
+        type: "application/pdf",
+      });
+
+      formData.append("media_url", file);
+      for (let [key, value] of formData.entries()) {
+        console.log(key, value);
+      }
+
+      const res = await axios.post(
+        "http://localhost:4000/api/v1/receptionist/sendWhatsapp",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      cogoToast.success("OPD bill sent successfully");
+      console.log("PDF sent successfully");
+    } catch (error) {
+      console.error("Error sending PDF:", error);
+      cogoToast.error("Error to send OPD bill");
+    }
+  };
+
   return (
     <Container>
-      <div ref={pdfRef}>
+      <div ref={contentRef}>
         <div className="headimage">
           <img src={getBranch[0]?.head_img} alt="header" srcset="" />
         </div>
@@ -362,6 +478,68 @@ const PrintOpdBill = () => {
     Generate PDF
   </button> */}
       </div>
+      <div className="container-fluid">
+          <div className="text-center">
+            {/* <button
+              className="btn btn-info no-print mx-3 mb-3 mt-2 text-white shadow"
+              style={{
+                backgroundColor: "#0dcaf0",
+                border: "#0dcaf0",
+              }}
+              onClick={handleDownloadPdf}
+            >
+              Download Sitting Bill
+            </button> */}
+            {/* <button
+              className="btn btn-info no-print text-white mt-2 mb-2"
+              onClick={handleTreatNavigate}
+              style={{
+                backgroundColor: "#0dcaf0",
+                border: "#0dcaf0",
+              }}
+            >
+              Treatment Dashboard
+            </button> */}
+            <br />
+            <span className="fs-5 fw-bold no-print"> Share on : </span>
+            {currentBranch[0]?.sharemail === "Yes" && (
+              <button
+                className="btn btn-info no-print mx-3 mb-3 mt-2 text-white shadow"
+                style={{
+                  backgroundColor: "#0dcaf0",
+                  border: "#0dcaf0",
+                }}
+                onClick={sendPrescriptionMail}
+              >
+                <SiGmail />
+              </button>
+            )}
+            {currentBranch[0]?.sharewhatsapp === "Yes" && (
+              <button
+                className="btn btn-info no-print mx-1 mb-3 mt-2 text-white shadow"
+                style={{
+                  backgroundColor: "#0dcaf0",
+                  border: "#0dcaf0",
+                }}
+                onClick={sendPrescriptionWhatsapp}
+              >
+                <IoLogoWhatsapp />
+              </button>
+            )}
+            {/* {currentBranch[0]?.sharesms === "Yes" && (
+              <button
+                className="btn btn-info no-print mx-3 mb-3 mt-2 text-white shadow"
+                style={{
+                  backgroundColor: "#0dcaf0",
+                  border: "#0dcaf0",
+                }}
+                onClick={billDetailsSms}
+              >
+                <SiGooglemessages />
+              </button>
+            )} */}
+          </div>
+          </div>
     </Container>
   );
 };
@@ -439,7 +617,12 @@ const Container = styled.div`
   .proc-detail {
     border-top: 2px solid black;
   }
-  .btn-info {
+  .btn-info{
+    @media print {
+      display: none;
+    }
+  }
+  .no-print{
     @media print {
       display: none;
     }

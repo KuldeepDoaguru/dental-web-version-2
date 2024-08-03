@@ -1354,6 +1354,7 @@ const getAppointmentById = (req, res) => {
         p.uhid,
         p.patient_name,
         p.mobileno,
+        p.emailid,
         p.dob,
         p.age,
         p.weight,
@@ -3965,6 +3966,57 @@ const getInsuranceCompany = (req, res) => {
   }
 };
 
+const getPatientDeatilsByUhidFromSecurityAmt = (req, res) => {
+  try {
+    const uhid = req.params.uhid;
+    const branch = req.params.branch;
+    const sql = `
+      SELECT 
+       p.tp_id,
+       p.uhid,
+       p.branch_name,
+       t.patient_name,
+       t.mobileno,
+       t.emailid
+      
+      FROM 
+      (SELECT * FROM security_amount WHERE uhid = ? ORDER BY tp_id DESC LIMIT 1) AS p
+      JOIN 
+      patient_details AS t ON p.uhid = t.uhid
+      WHERE
+      p.uhid = ? AND
+      p.branch_name = ?
+    `;
+
+    db.query(sql, [uhid, uhid, branch], (err, results) => {
+      if (err) {
+        logger.error("Error fetching Patient details");
+        console.error("Error fetching appointment from MySql:", err);
+        res.status(500).json({ error: "Error fetching Patient details" });
+      } else {
+        if (results.length === 0) {
+          logger.info("Patient details not found");
+          res.status(404).json({ message: "Patient details not found" });
+        } else {
+          logger.info("Patient details fetched successfully");
+          res.status(200).json({
+            data: results,
+            message: "Patient details fetched successfully",
+          });
+        }
+      }
+    });
+  } catch (error) {
+    logger.error("Error fetching Patient details from MySql:");
+    console.error("Error fetching Patient details from MySql:", error);
+    res.status(500).json({
+      success: false,
+      message: "Error in fetching Patient details",
+      error: error.message,
+    });
+  }
+};
+
 const getPatientDetailsForBill = (req, res) => {
   try {
     const branch = req.params.branch;
@@ -4027,7 +4079,7 @@ const prescriptionOnMail = (req, res) => {
       text: textMatter,
       attachments: [
         {
-          filename: "prescription.pdf",
+          filename: "Bill.pdf",
           path: pdfPath,
           contentType: "application/pdf",
         },
@@ -4042,6 +4094,9 @@ const prescriptionOnMail = (req, res) => {
           .json("An error occurred while sending the email.");
       } else {
         console.log("OTP sent:", info.response);
+        return res
+        .status(200)
+        .json("Email sent successfully");
       }
     });
   } catch (error) {
@@ -4199,5 +4254,6 @@ module.exports = {
   prescriptionOnMail,
   sendWhatsapp,
   sendSMS,
-  sendWhatsappTextOnly
+  sendWhatsappTextOnly,
+  getPatientDeatilsByUhidFromSecurityAmt
 };
