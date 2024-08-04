@@ -562,8 +562,66 @@ const getTreatmentViaId = (req, res) => {
   }
 };
 
-const getSuperAdminDetails = (req, res) => {
+const getSittingBill = (req, res) => {
   try {
+    const branch = req.params.branch;
+    const selectQuery =
+      "SELECT * FROM sitting_bill JOIN treatment_package ON treatment_package.tp_id = sitting_bill.tp_id JOIN patient_details ON patient_details.uhid = treatment_package.uhid WHERE sitting_bill.branch_name = ?";
+    db.query(selectQuery, branch, (err, result) => {
+      if (err) {
+        res
+          .status(400)
+          .json({ success: false, message: "Internal server error" });
+      }
+      res.status(200).send(result);
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Internal server error" });
+  }
+};
+
+const getLabDetails = (req, res) => {
+  try {
+    const { tpid } = req.params;
+
+    // Fetch data from the MySQL table based on tpid
+    const sql = `SELECT * FROM patient_lab_details WHERE tpid = ?`;
+
+    db.query(sql, tpid, (err, results) => {
+      if (err) {
+        // logger.registrationLogger.log(
+        //   "error",
+        //   "An error occurred while fetching data"
+        // );
+        res.status(400).json({ success: false, message: err.message });
+      } else {
+        // logger.registrationLogger.log(
+        //   "info",
+        //   "lab details fetched successfully"
+        // );
+        res.status(200).send(results);
+      }
+    });
+  } catch (error) {
+    // logger.registrationLogger.log("error", "internal server error");
+    console.error("Error fetching lab details:", error);
+    res
+      .status(500)
+      .json({ error: "Failed to fetch lab details from database" });
+  }
+};
+
+const getSittingBillDueBySittingId = (req, res) => {
+  try {
+    const { branch, sbid, tpid, treatment } = req.params;
+    const selectQuery =
+      "SELECT * FROM sitting_bill JOIN treatment_package ON treatment_package.tp_id = sitting_bill.tp_id JOIN patient_details ON patient_details.uhid = treatment_package.uhid WHERE sitting_bill.branch_name = ? AND sitting_bill.sitting_number = ? AND sitting_bill.tp_id = ? AND sitting_bill.treatment = ?";
+    db.query(selectQuery, [branch, sbid, tpid, treatment], (err, result) => {
+      if (err) {
+        res.status(400).json({ success: false, message: err.message });
+      }
+      res.status(200).send(result);
+    });
   } catch (error) {
     res.status(500).json({ success: false, message: "Internal server error" });
   }
@@ -592,4 +650,7 @@ module.exports = {
   downloadOPDReportByTime,
   getProcedureList,
   getTreatmentViaId,
+  getSittingBill,
+  getLabDetails,
+  getSittingBillDueBySittingId,
 };

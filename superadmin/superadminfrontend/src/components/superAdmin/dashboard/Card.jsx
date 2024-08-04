@@ -13,6 +13,8 @@ const Card = () => {
   const [treatValue, setTreatValue] = useState([]);
   const [transformStyle, setTransformStyle] = useState({});
   const user = useSelector((state) => state.user);
+  // alert(user.token);
+
   const [hoveredCardIndex, setHoveredCardIndex] = useState(null);
 
   const handleMouseMove = (index, e) => {

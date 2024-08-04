@@ -16,6 +16,7 @@ import ReactPaginate from "react-paginate";
 import TreatBills from "./BillsView/TreatBills";
 import LabBills from "./BillsView/LabBills";
 import OpdBills from "./BillsView/OpdBills";
+import SittingBills from "./BillsView/SittingBills";
 
 const AllBills = () => {
   const initialTab = localStorage.getItem("selectedTab") || "tab1";
@@ -67,6 +68,14 @@ const AllBills = () => {
                             OPD Bills
                           </Nav.Link>
                         </Nav.Item>
+                        <Nav.Item>
+                          <Nav.Link
+                            eventKey="tab4"
+                            className={`navlink shadow mx-2`}
+                          >
+                            Sitting Bills
+                          </Nav.Link>
+                        </Nav.Item>
                       </div>
                       <div>
                         {/* <p className="fw-bold">Total Lab - 09</p> */}
@@ -76,6 +85,7 @@ const AllBills = () => {
                       {selectedTab === "tab1" && <TreatBills />}
                       {selectedTab === "tab2" && <LabBills />}
                       {selectedTab === "tab3" && <OpdBills />}
+                      {selectedTab === "tab4" && <SittingBills />}
                     </div>
                   </div>
                 </div>

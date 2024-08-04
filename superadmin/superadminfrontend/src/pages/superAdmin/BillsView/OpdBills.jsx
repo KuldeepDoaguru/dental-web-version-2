@@ -107,7 +107,7 @@ const OpdBills = () => {
   });
 
   const totalOpdAmount = searchFilter.reduce((total, item) => {
-    return total + item.opd_amount;
+    return total + Number(item.opd_amount);
   }, 0);
 
   const billPerPage = 10;

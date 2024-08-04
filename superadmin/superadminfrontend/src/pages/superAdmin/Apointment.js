@@ -115,9 +115,10 @@ const Apointment = () => {
   const searchFilter = appointmentList.filter((lab) => {
     if (status && trimmedKeyword) {
       return (
-        lab.assigned_doctor_name === status &&
-        (lab.patient_name.toLowerCase().includes(trimmedKeyword) ||
-          lab.patient_uhid.toLowerCase().includes(trimmedKeyword))
+        (lab.assigned_doctor_name === status &&
+          (lab.patient_name.toLowerCase().includes(trimmedKeyword) ||
+            lab.patient_uhid.toLowerCase().includes(trimmedKeyword))) ||
+        lab.mobileno.toLowerCase().includes(trimmedKeyword)
       );
     } else if (status) {
       return lab.assigned_doctor_name === status;
@@ -176,7 +177,7 @@ const Apointment = () => {
                           <div className="col-xxl-7 col-xl-7 col-lg-7 col-md-6 col-sm-12 col-12">
                             <input
                               type="text"
-                              placeholder="Search Patient Name or Patient UHID"
+                              placeholder="Search Patient Name or Patient UHID or Mobile Number"
                               className="input w-100"
                               value={keyword}
                               onChange={handleKeywordChange}

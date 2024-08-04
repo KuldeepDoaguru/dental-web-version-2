@@ -20,6 +20,9 @@ const ClinicConfigSetting = () => {
   console.log(`User Name: ${branch.name}`);
   const [docPayment, setDocPayment] = useState();
   const [allowInsurance, setAllowInsurance] = useState();
+  const [shareWhatapps, setShareWhatapps] = useState();
+  const [shareEmail, setShareEmail] = useState();
+  const [shareSms, setShareSms] = useState();
   const [branchDetails, setBranchDetails] = useState([]);
   const [selected, setSelected] = useState("");
   const [showAddInsurance, setShowAddInsurance] = useState(false);
@@ -91,7 +94,19 @@ const ClinicConfigSetting = () => {
     try {
       const res = await axios.put(
         `http://localhost:7777/api/v1/super-admin/updateDoctorPaymentAllowSetting/${branch.name}`,
-        { doctor_payment: docPayment, allow_insurance: allowInsurance }
+        {
+          doctor_payment: docPayment,
+          allow_insurance: allowInsurance,
+          sharewhatsapp: shareWhatapps,
+          sharemail: shareEmail,
+          sharesms: shareSms,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
       );
       getBranchData();
       cogoToast.success("details updated successfully");
@@ -116,7 +131,13 @@ const ClinicConfigSetting = () => {
   const getInsuranceList = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:7777/api/v1/super-admin/getInsuranceList/${branch.name}`
+        `http://localhost:7777/api/v1/super-admin/getInsuranceList/${branch.name}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
       );
       setInsList(data);
     } catch (error) {
@@ -136,7 +157,13 @@ const ClinicConfigSetting = () => {
     try {
       const res = await axios.post(
         `http://localhost:7777/api/v1/super-admin/addInsuranceCompany/${branch.name}`,
-        addIns
+        addIns,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
       );
       cogoToast.success("insurance company added successfully");
       closeUpdatePopup();
@@ -152,7 +179,13 @@ const ClinicConfigSetting = () => {
     try {
       const res = await axios.put(
         `http://localhost:7777/api/v1/super-admin/updateInsuranceDetails/${selected.ins_id}/${branch.name}`,
-        upIns
+        upIns,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
       );
       closeUpdatePopup();
       getInsuranceList();
@@ -168,7 +201,13 @@ const ClinicConfigSetting = () => {
       const confirm = window.confirm("Are you sure you want to delete ?");
       if (confirm) {
         const del = await axios.delete(
-          `http://localhost:7777/api/v1/super-admin/deleteInsurance/${id}/${branch.name}`
+          `http://localhost:7777/api/v1/super-admin/deleteInsurance/${id}/${branch.name}`,
+          {
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${user.token}`,
+            },
+          }
         );
         cogoToast.success("insurance deleted successfully");
       }
@@ -239,6 +278,24 @@ const ClinicConfigSetting = () => {
                         {branchDetails[0]?.allow_insurance}
                       </span>
                     </h6>
+                    <h6 className="text-center mt-2 fw-bold text-success">
+                      Share Whatsapp :{" "}
+                      <span style={{ color: "#004aad" }}>
+                        {branchDetails[0]?.sharewhatsapp}
+                      </span>
+                    </h6>
+                    <h6 className="text-center mt-2 fw-bold text-success">
+                      Share Email :{" "}
+                      <span style={{ color: "#004aad" }}>
+                        {branchDetails[0]?.sharemail}
+                      </span>
+                    </h6>
+                    <h6 className="text-center mt-2 fw-bold text-success">
+                      Share SMS :{" "}
+                      <span style={{ color: "#004aad" }}>
+                        {branchDetails[0]?.sharesms}
+                      </span>
+                    </h6>
                   </div>
                   <form onSubmit={SubmitDocPaymentChange}>
                     <div className="container d-flex justify-content-center align-item-center mb-2">
@@ -262,6 +319,45 @@ const ClinicConfigSetting = () => {
                         name=""
                         id=""
                         onChange={(e) => setAllowInsurance(e.target.value)}
+                        className="p-1 rounded"
+                      >
+                        <option value="">--select--</option>
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                      </select>
+                    </div>
+                    <div className="container d-flex justify-content-center align-item-center mb-2">
+                      <h6 className="fw-bold mx-2">Share Whatsapp :</h6>
+                      <select
+                        name=""
+                        id=""
+                        onChange={(e) => setShareWhatapps(e.target.value)}
+                        className="p-1 rounded"
+                      >
+                        <option value="">--select--</option>
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                      </select>
+                    </div>
+                    <div className="container d-flex justify-content-center align-item-center mb-2">
+                      <h6 className="fw-bold mx-2">Share Email :</h6>
+                      <select
+                        name=""
+                        id=""
+                        onChange={(e) => setShareEmail(e.target.value)}
+                        className="p-1 rounded"
+                      >
+                        <option value="">--select--</option>
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                      </select>
+                    </div>
+                    <div className="container d-flex justify-content-center align-item-center mb-2">
+                      <h6 className="fw-bold mx-2">Share SMS :</h6>
+                      <select
+                        name=""
+                        id=""
+                        onChange={(e) => setShareSms(e.target.value)}
                         className="p-1 rounded"
                       >
                         <option value="">--select--</option>

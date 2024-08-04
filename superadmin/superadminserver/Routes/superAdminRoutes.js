@@ -1,5 +1,7 @@
 const express = require("express");
 const multer = require("multer");
+const fs = require("fs");
+const path = require("path");
 const {
   EnrollEmployee,
   EditEmployeeDetails,
@@ -25,6 +27,10 @@ const {
   getEmployeeDataByBranchAndId,
   resetPassword,
   sendOtpForLogin,
+  getDentalDataByTpid,
+  prescriptionOnMail,
+  sendWhatsapp,
+  sendSMS,
 } = require("../controllers/superAdminController");
 const {
   makeBills,
@@ -112,8 +118,12 @@ const {
   downloadOPDReportByTime,
   getProcedureList,
   getTreatmentViaId,
+  getSittingBill,
+  getLabDetails,
+  getSittingBillDueBySittingId,
 } = require("../controllers/superTreatController");
 // const multer = require("multer");
+const authenticate = require("../middleware/authMiddleware.js");
 
 const router = express.Router();
 
@@ -131,22 +141,35 @@ const profilePictureupload = multer({ storage: profilePicturestorage });
 router.post(
   "/enroll-employee",
   profilePictureupload.single("empProfilePicture"),
+  authenticate,
   EnrollEmployee
 );
-router.put("/EditEmployeeDetails/:emp_id", EditEmployeeDetails);
-router.get("/getEmployeeDetails/:branch/:empId", getEmployeeDataByBranchAndId);
-router.get("/getEmployeeDataByBranch/:branch", getEmployeeDataByBranch);
+router.put("/EditEmployeeDetails/:emp_id", authenticate, EditEmployeeDetails);
+router.get(
+  "/getEmployeeDetails/:branch/:empId",
+  authenticate,
+  getEmployeeDataByBranchAndId
+);
+router.get(
+  "/getEmployeeDataByBranch/:branch",
+  authenticate,
+  getEmployeeDataByBranch
+);
 router.post("/adminLoginUser", superAdminLoginUser);
 router.post("/sendOtp", sendOtp);
 router.post("/verifyOtp", verifyOtp);
 router.get("/getBranch", getBranch);
-router.post("/makeAppointents", makeAppointents);
-router.get("/getAppointmentData/:branch", appointmentData);
-router.get("/getAvailableEmp/:branch", getAvailableEmp);
-router.post("/addTreatment", addTreatment);
-router.get("/getTreatmentList", getTreatmentList);
-router.put("/updateTreatmentDetails/:id", updateTreatmentDetails);
-router.get("/getPatientDetailsByBranch/:branch", getPatientDetailsByBranch);
+router.post("/makeAppointents", authenticate, makeAppointents);
+router.get("/getAppointmentData/:branch", authenticate, appointmentData);
+router.get("/getAvailableEmp/:branch", authenticate, getAvailableEmp);
+router.post("/addTreatment", authenticate, addTreatment);
+router.get("/getTreatmentList", authenticate, getTreatmentList);
+router.put("/updateTreatmentDetails/:id", authenticate, updateTreatmentDetails);
+router.get(
+  "/getPatientDetailsByBranch/:branch",
+  authenticate,
+  getPatientDetailsByBranch
+);
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -162,48 +185,80 @@ const upload = multer({ storage: storage });
 router.post(
   "/purchaseInventory",
   upload.single("reciept_doc"),
+  authenticate,
   purchaseInventory
 );
-router.get("/getPurInventoryByBranch/:branch", getPurInventoryByBranch);
-router.post("/addEmployeeComplain", addEmployeeComplain);
-router.get("/getEmployeeComplainByBranch/:branch", getEmployeeComplainByBranch);
-router.put("/updateAppointData/:id", updateAppointData);
-router.delete("/deleteAppointData/:id", deleteAppointData);
+router.get(
+  "/getPurInventoryByBranch/:branch",
+  authenticate,
+  getPurInventoryByBranch
+);
+router.post("/addEmployeeComplain", authenticate, addEmployeeComplain);
+router.get(
+  "/getEmployeeComplainByBranch/:branch",
+  authenticate,
+  getEmployeeComplainByBranch
+);
+router.put("/updateAppointData/:id", authenticate, updateAppointData);
+router.delete("/deleteAppointData/:id", authenticate, deleteAppointData);
 router.put("/resetPassword", resetPassword);
 
 // ************************************************************************************************
 //bill and inventory routes
-router.post("/makeBills", makeBills);
-router.get("/getBillsByBranch/:branch", getBillsByBranch);
-router.delete("/deleteBills/:id", deleteBills);
-router.get("/getPurchaseInvByPurId/:branch/:id", getPurchaseInvByPurId);
+router.post("/makeBills", authenticate, makeBills);
+router.get("/getBillsByBranch/:branch", authenticate, getBillsByBranch);
+router.delete("/deleteBills/:id", authenticate, deleteBills);
+router.get(
+  "/getPurchaseInvByPurId/:branch/:id",
+  authenticate,
+  getPurchaseInvByPurId
+);
 router.put(
   "/updatePurInvoice/:branch/:id",
   upload.single("reciept_doc"),
+  authenticate,
   updatePurInvoice
 );
 
-router.delete("/deletePurInvoice/:branch/:id", deletePurInvoice);
+router.delete("/deletePurInvoice/:branch/:id", authenticate, deletePurInvoice);
 router.put(
   "/editEmployeeDetails/:branch/:empID",
   profilePictureupload.single("empProfilePicture"),
+  authenticate,
   editEmployeeDetails
 );
 
-router.get("/getPatientDataByBranchAndId/:pid", getPatientDataByBranchAndId);
+router.get(
+  "/getPatientDataByBranchAndId/:pid",
+  authenticate,
+  getPatientDataByBranchAndId
+);
 
 router.get(
   "/getPatientBillByBranchAndId/:branch/:pid",
+  authenticate,
   getPatientBillByBranchAndId
 );
-router.get("/getAppointmentByBranchAndId/:pid", getAppointmentByBranchAndId);
+router.get(
+  "/getAppointmentByBranchAndId/:pid",
+  authenticate,
+  getAppointmentByBranchAndId
+);
 
-router.get("/examinDetailsByPatId/:pid", examinDetailsByPatId);
-router.get("/getPaymentDetailsByPatId/:pid", getPaymentDetailsByPatId);
-router.get("/getPrescriptionDetailsById/:pid", getPrescriptionDetailsById);
-router.post("/insertTimelineEvent", insertTimelineEvent);
-router.get("/getPatientTimeline/:pid", getPatientTimeline);
-router.post("/addLab", addLab);
+router.get("/examinDetailsByPatId/:pid", authenticate, examinDetailsByPatId);
+router.get(
+  "/getPaymentDetailsByPatId/:pid",
+  authenticate,
+  getPaymentDetailsByPatId
+);
+router.get(
+  "/getPrescriptionDetailsById/:pid",
+  authenticate,
+  getPrescriptionDetailsById
+);
+router.post("/insertTimelineEvent", authenticate, insertTimelineEvent);
+router.get("/getPatientTimeline/:pid", authenticate, getPatientTimeline);
+router.post("/addLab", authenticate, addLab);
 
 const storagebranchHeadFootImg = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -222,97 +277,200 @@ router.put(
     { name: "head_img", maxCount: 1 },
     { name: "foot_img", maxCount: 1 },
   ]),
+  authenticate,
   updateBranchDetails
 );
-router.put("/updateBillDetailsByBillId/:bid", updateBillDetailsByBillId);
-router.get("/getBillBYBillId/:bid", getBillBYBillId);
-router.get("/downloadBillRecById/:file", downloadBillRecById);
-router.post("/downloadEarnReportByTime/:branch", downloadEarnReportByTime);
+router.put(
+  "/updateBillDetailsByBillId/:bid",
+  authenticate,
+  updateBillDetailsByBillId
+);
+router.get("/getBillBYBillId/:bid", authenticate, getBillBYBillId);
+router.get("/downloadBillRecById/:file", authenticate, downloadBillRecById);
+router.post(
+  "/downloadEarnReportByTime/:branch",
+  authenticate,
+  downloadEarnReportByTime
+);
 router.post(
   "/downloadExpenseReportByTime/:branch",
+  authenticate,
   downloadExpenseReportByTime
 );
 router.post(
   "/downloadAppointReportByTime/:branch",
+  authenticate,
   downloadAppointReportByTime
 );
 router.post(
   "/downloadBillingReportByTime/:branch",
+  authenticate,
   downloadBillingReportByTime
 );
 
-router.post("/downloadStaffReport/:branch", downloadStaffReport);
+router.post("/downloadStaffReport/:branch", authenticate, downloadStaffReport);
 
 //**************************************************************************************************** */
 //Attendance routes
 
-router.get("/getAttendanceDetails/:branch", getAttendanceDetails);
+router.get("/getAttendanceDetails/:branch", authenticate, getAttendanceDetails);
 router.post(
   "/downloadAttendanceReportByTime/:branch",
+  authenticate,
   downloadAttendanceReportByTime
 );
-router.get("/getBranchDetailsByBranch/:branch", getBranchDetailsByBranch);
-router.put("/updateBranchCalenderSetting/:branch", updateBranchCalenderSetting);
+router.get(
+  "/getBranchDetailsByBranch/:branch",
+  authenticate,
+  getBranchDetailsByBranch
+);
+router.put(
+  "/updateBranchCalenderSetting/:branch",
+  authenticate,
+  updateBranchCalenderSetting
+);
 router.put(
   "/updateDoctorPaymentAllowSetting/:branch",
+  authenticate,
   updateDoctorPaymentAllowSetting
 );
-router.post("/addBlockDays", addBlockDays);
-router.get("/getHolidays/:branch", getHolidays);
-router.put("/updateHolidays/:hid", updateHolidays);
-router.delete("/deleteHolidays/:hid", deleteHolidays);
-router.post("/addDrugs", addDrugs);
-router.get("/getDrugs/:branch", getDrugs);
-router.put("/updateDrugDetails/:did", updateDrugDetails);
-router.delete("/deleteDrug/:did", deleteDrug);
-router.post("/addPrescription", addPrescription);
-router.get("/getPrescription/:branch", getPrescription);
-router.put("/updatePrescriptionDetails/:prid", updatePrescriptionDetails);
-router.get("/getPrescriptionById/:prid", getPrescriptionById);
-router.delete("/deletePrescription/:prid", deletePrescription);
-router.delete("/deleteTreatment/:tid", deleteTreatment);
-router.post("/addNotifyCommunication", addNotifyCommunication);
-router.get("/getNotifyList", getNotifyList);
-router.put("/updateNotifyTagsDetails/:ntid", updateNotifyTagsDetails);
-router.delete("/deleteNotifyTags/:ntid", deleteNotifyTags);
-router.post("/addSuperAdminNotify", addSuperAdminNotify);
-router.get("/getSuperAdminNotify", getSuperAdminNotify);
-router.put("/markRead/:snid", markRead);
-router.get("/getComplainById/:cid", getComplainById);
-router.put("/updateComplaints/:cid", updateComplaints);
+router.post("/addBlockDays", authenticate, addBlockDays);
+router.get("/getHolidays/:branch", authenticate, getHolidays);
+router.put("/updateHolidays/:hid", authenticate, updateHolidays);
+router.delete("/deleteHolidays/:hid", authenticate, deleteHolidays);
+router.post("/addDrugs", authenticate, addDrugs);
+router.get("/getDrugs/:branch", authenticate, getDrugs);
+router.put("/updateDrugDetails/:did", authenticate, updateDrugDetails);
+router.delete("/deleteDrug/:did", authenticate, deleteDrug);
+router.post("/addPrescription", authenticate, addPrescription);
+router.get("/getPrescription/:branch", authenticate, getPrescription);
+router.put(
+  "/updatePrescriptionDetails/:prid",
+  authenticate,
+  updatePrescriptionDetails
+);
+router.get("/getPrescriptionById/:prid", authenticate, getPrescriptionById);
+router.delete("/deletePrescription/:prid", authenticate, deletePrescription);
+router.delete("/deleteTreatment/:tid", authenticate, deleteTreatment);
+router.post("/addNotifyCommunication", authenticate, addNotifyCommunication);
+router.get("/getNotifyList", authenticate, getNotifyList);
+router.put(
+  "/updateNotifyTagsDetails/:ntid",
+  authenticate,
+  updateNotifyTagsDetails
+);
+router.delete("/deleteNotifyTags/:ntid", authenticate, deleteNotifyTags);
+router.post("/addSuperAdminNotify", authenticate, addSuperAdminNotify);
+router.get("/getSuperAdminNotify", authenticate, getSuperAdminNotify);
+router.put("/markRead/:snid", authenticate, markRead);
+router.get("/getComplainById/:cid", authenticate, getComplainById);
+router.put("/updateComplaints/:cid", authenticate, updateComplaints);
 router.post(
   "/downloadEmployeeComplaintReport/:branch",
+  authenticate,
   downloadEmployeeComplaintReport
 );
 
 //**************************************************************************************************** */
 //Treatment routes
-router.get("/getTreatSuggest/:branch", getTreatSuggest);
-router.get("/getTreatmentViaUhid/:branch/:uhid", getTreatmentViaUhid);
-router.get("/getExaminationViaUhid/:branch/:uhid", getExaminationViaUhid);
-router.get("/getPrescriptionViaUhid/:branch/:uhid", getPrescriptionViaUhid);
-router.get("/get-patientBill-data/:patientUHID", getPatientBillUHID);
-router.get("/getLeaveList", getLeaveList);
-router.put("/approveLeave/:lid", approveLeave);
-router.get("/getLabList", getLabList);
-router.put("/updateLabDetails/:lid", updateLabDetails);
-router.delete("/labDelete/:lid", labDelete);
-router.post("/addLabTest", addLabTest);
-router.get("/getLabTest", getLabTest);
-router.put("/updateLabTestDetails/:ltid", updateLabTestDetails);
-router.delete("/labTestDelete/:ltid", labTestDelete);
-router.get("/getPatientLabTest", getPatientLabTest);
-router.get("/getPatientLabTestCompleted", getPatientLabTestCompleted);
-router.get("/getPatientLabTestByPatientId/:pid", getPatientLabTestByPatientId);
-router.get("/getLabData/:branch", getLabData);
-router.post("/downloadLabReportByTime/:branch", downloadLabReportByTime);
-router.post("/downloadOPDReportByTime/:branch", downloadOPDReportByTime);
-router.get("/getProcedureList", getProcedureList);
-router.get("/getTreatmentViaId/:tid", getTreatmentViaId);
+router.get("/getTreatSuggest/:branch", authenticate, getTreatSuggest);
+router.get(
+  "/getTreatmentViaUhid/:branch/:uhid",
+  authenticate,
+  getTreatmentViaUhid
+);
+router.get(
+  "/getExaminationViaUhid/:branch/:uhid",
+  authenticate,
+  getExaminationViaUhid
+);
+router.get(
+  "/getPrescriptionViaUhid/:branch/:uhid",
+  authenticate,
+  getPrescriptionViaUhid
+);
+router.get(
+  "/get-patientBill-data/:patientUHID",
+  authenticate,
+  getPatientBillUHID
+);
+router.get("/getLeaveList", authenticate, getLeaveList);
+router.put("/approveLeave/:lid", authenticate, approveLeave);
+router.get("/getLabList", authenticate, getLabList);
+router.put("/updateLabDetails/:lid", authenticate, updateLabDetails);
+router.delete("/labDelete/:lid", authenticate, labDelete);
+router.post("/addLabTest", authenticate, addLabTest);
+router.get("/getLabTest", authenticate, getLabTest);
+router.put("/updateLabTestDetails/:ltid", authenticate, updateLabTestDetails);
+router.delete("/labTestDelete/:ltid", authenticate, labTestDelete);
+router.get("/getPatientLabTest", authenticate, getPatientLabTest);
+router.get(
+  "/getPatientLabTestCompleted",
+  authenticate,
+  getPatientLabTestCompleted
+);
+router.get(
+  "/getPatientLabTestByPatientId/:pid",
+  authenticate,
+  getPatientLabTestByPatientId
+);
+router.get("/getLabData/:branch", authenticate, getLabData);
+router.post(
+  "/downloadLabReportByTime/:branch",
+  authenticate,
+  downloadLabReportByTime
+);
+router.post(
+  "/downloadOPDReportByTime/:branch",
+  authenticate,
+  downloadOPDReportByTime
+);
+router.get("/getProcedureList", authenticate, getProcedureList);
+router.get("/getTreatmentViaId/:tid", authenticate, getTreatmentViaId);
 router.post("/sendOtpForLogin", sendOtpForLogin);
-router.post("/addInsuranceCompany/:branch", addInsuranceCompany);
-router.get("/getInsuranceList/:branch", getInsuranceList);
-router.put("/updateInsuranceDetails/:ins/:branch", updateInsuranceDetails);
-router.delete("/deleteInsurance/:ins/:branch", deleteInsurance);
+router.post("/addInsuranceCompany/:branch", authenticate, addInsuranceCompany);
+router.get("/getInsuranceList/:branch", authenticate, getInsuranceList);
+router.put(
+  "/updateInsuranceDetails/:ins/:branch",
+  authenticate,
+  updateInsuranceDetails
+);
+router.delete("/deleteInsurance/:ins/:branch", authenticate, deleteInsurance);
+router.get("/getSittingBill/:branch", authenticate, getSittingBill);
+router.get("/getLabDetails/:tpid", authenticate, getLabDetails);
+router.get(
+  "/getSittingBillbyId/:branch/:sbid/:tpid/:treatment",
+  authenticate,
+  getSittingBillDueBySittingId
+);
+router.get(
+  "/getDentalDataByTpid/:tpid/:branch",
+  authenticate,
+  getDentalDataByTpid
+);
+const prestorage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "prescription/"); // Define destination folder
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + path.extname(file.originalname));
+  },
+});
+
+const preUpload = multer({ storage: prestorage });
+router.post(
+  "/prescriptionOnMail",
+  preUpload.single("file"),
+  authenticate,
+  prescriptionOnMail
+);
+
+router.post(
+  "/sendWhatsapp",
+  preUpload.single("media_url"),
+  authenticate,
+  sendWhatsapp
+);
+router.post("/sendSMS", authenticate, sendSMS);
 
 module.exports = router;

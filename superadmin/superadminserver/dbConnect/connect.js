@@ -6,7 +6,7 @@ const db = mysql.createConnection({
   host: "localhost",
   user: "root",
   password: "",
-  database: "dental_guru",
+  database: "dental_guru_version_2",
 });
 
 // Connect to the databases

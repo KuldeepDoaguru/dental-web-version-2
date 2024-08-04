@@ -911,7 +911,13 @@ const downloadEmployeeComplaintReport = (req, res) => {
 const updateDoctorPaymentAllowSetting = (req, res) => {
   try {
     const branch = req.params.branch;
-    const { doctor_payment, allow_insurance } = req.body;
+    const {
+      doctor_payment,
+      allow_insurance,
+      sharewhatsapp,
+      sharemail,
+      sharesms,
+    } = req.body;
     const selectQuery = "SELECT * FROM branches WHERE branch_name = ?";
     db.query(selectQuery, branch, (err, result) => {
       if (err) {
@@ -929,6 +935,21 @@ const updateDoctorPaymentAllowSetting = (req, res) => {
         if (allow_insurance) {
           updateFields.push("allow_insurance = ?");
           updateValues.push(allow_insurance);
+        }
+
+        if (sharewhatsapp) {
+          updateFields.push("sharewhatsapp = ?");
+          updateValues.push(sharewhatsapp);
+        }
+
+        if (sharemail) {
+          updateFields.push("sharemail = ?");
+          updateValues.push(sharemail);
+        }
+
+        if (sharesms) {
+          updateFields.push("sharesms = ?");
+          updateValues.push(sharesms);
         }
 
         const updateQuery = `UPDATE branches SET ${updateFields.join(

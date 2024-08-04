@@ -8,6 +8,8 @@ import { Nav } from "react-bootstrap";
 import TreatBillReport from "./BillReport/TreatBillReport";
 import LabReport from "./BillReport/LabReport";
 import OpdReport from "./BillReport/OpdReport";
+import SittingBills from "../BillsView/SittingBills";
+import SittingBillReport from "./BillReport/SittingBillReport";
 
 const BillingReport = () => {
   const initialTab = localStorage.getItem("selectedTab") || "tab1";
@@ -66,6 +68,14 @@ const BillingReport = () => {
                             OPD Bills
                           </Nav.Link>
                         </Nav.Item>
+                        <Nav.Item>
+                          <Nav.Link
+                            eventKey="tab4"
+                            className={`navlink shadow mx-2`}
+                          >
+                            Sitting Bills
+                          </Nav.Link>
+                        </Nav.Item>
                       </div>
                       <div>
                         {/* <p className="fw-bold">Total Lab - 09</p> */}
@@ -75,6 +85,7 @@ const BillingReport = () => {
                       {selectedTab === "tab1" && <TreatBillReport />}
                       {selectedTab === "tab2" && <LabReport />}
                       {selectedTab === "tab3" && <OpdReport />}
+                      {selectedTab === "tab4" && <SittingBillReport />}
                     </div>
                   </div>
                 </div>
