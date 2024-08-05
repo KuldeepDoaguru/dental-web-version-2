@@ -18,7 +18,7 @@ const Payment = () => {
   const getPaymentDetails = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:7777/api/v1/super-admin/getPaymentDetailsByPatId/${pid}`,
+        `https://dentalguru-superadmin.vimubds5.a2hosted.com/api/v1/super-admin/getPaymentDetailsByPatId/${pid}`,
         {
           headers: {
             "Content-Type": "multipart/form-data",

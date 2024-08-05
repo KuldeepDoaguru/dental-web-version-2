@@ -28,7 +28,7 @@ const Overview = () => {
   const getPresDetails = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:7777/api/v1/super-admin/getPrescriptionViaUhid/${branch.name}/${pid}`,
+        `https://dentalguru-superadmin.vimubds5.a2hosted.com/api/v1/super-admin/getPrescriptionViaUhid/${branch.name}/${pid}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -45,7 +45,7 @@ const Overview = () => {
   const getPendingBillDetails = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:7777/api/v1/super-admin/getPatientBillByBranchAndId/${branch.name}/${pid}`,
+        `https://dentalguru-superadmin.vimubds5.a2hosted.com/api/v1/super-admin/getPatientBillByBranchAndId/${branch.name}/${pid}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -65,7 +65,7 @@ const Overview = () => {
   const getAppointDetailsPat = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:7777/api/v1/super-admin/getAppointmentByBranchAndId/${pid}`,
+        `https://dentalguru-superadmin.vimubds5.a2hosted.com/api/v1/super-admin/getAppointmentByBranchAndId/${pid}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -83,7 +83,7 @@ const Overview = () => {
   const getExamineDetails = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:7777/api/v1/super-admin/getExaminationViaUhid/${branch.name}/${pid}`,
+        `https://dentalguru-superadmin.vimubds5.a2hosted.com/api/v1/super-admin/getExaminationViaUhid/${branch.name}/${pid}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -112,7 +112,7 @@ const Overview = () => {
   const fetchLatestTreatPatientData = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:7777/api/v1/super-admin/getTreatmentViaUhid/${branch.name}/${pid}`,
+        `https://dentalguru-superadmin.vimubds5.a2hosted.com/api/v1/super-admin/getTreatmentViaUhid/${branch.name}/${pid}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -204,7 +204,7 @@ const Overview = () => {
   const getPatBills = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:7777/api/v1/super-admin/get-patientBill-data/${pid}`,
+        `https://dentalguru-superadmin.vimubds5.a2hosted.com/api/v1/super-admin/get-patientBill-data/${pid}`,
         {
           headers: {
             "Content-Type": "application/json",

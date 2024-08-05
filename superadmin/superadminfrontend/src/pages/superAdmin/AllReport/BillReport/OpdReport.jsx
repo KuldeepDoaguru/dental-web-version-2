@@ -30,7 +30,7 @@ const OpdReport = () => {
     setLoading(true);
     try {
       const { data } = await axios.get(
-        `http://localhost:7777/api/v1/super-admin/getAppointmentData/${branch.name}`,
+        `https://dentalguru-superadmin.vimubds5.a2hosted.com/api/v1/super-admin/getAppointmentData/${branch.name}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -125,7 +125,7 @@ const OpdReport = () => {
   //   e.preventDefault();
   //   try {
   //     const { data } = await axios.post(
-  //       `http://localhost:7777/api/v1/super-admin/downloadOPDReportByTime/${branch.name}`,
+  //       `https://dentalguru-superadmin.vimubds5.a2hosted.com/api/v1/super-admin/downloadOPDReportByTime/${branch.name}`,
   //       { fromDate: fromDate, toDate: toDate },
   //       {
   //         headers: {

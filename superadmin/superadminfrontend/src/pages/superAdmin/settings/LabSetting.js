@@ -102,7 +102,7 @@ const LabSetting = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:7777/api/v1/super-admin/addLab",
+        "https://dentalguru-superadmin.vimubds5.a2hosted.com/api/v1/super-admin/addLab",
         addLabField,
         {
           headers: {
@@ -123,7 +123,7 @@ const LabSetting = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:7777/api/v1/super-admin/addLabTest",
+        "https://dentalguru-superadmin.vimubds5.a2hosted.com/api/v1/super-admin/addLabTest",
         addLabTestField,
         {
           headers: {
@@ -152,7 +152,7 @@ const LabSetting = () => {
   const getListLabDetails = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:7777/api/v1/super-admin/getLabList/${branch.name}`,
+        `https://dentalguru-superadmin.vimubds5.a2hosted.com/api/v1/super-admin/getLabList/${branch.name}`,
         {
           headers: {
             "Content-Type": "application/json",

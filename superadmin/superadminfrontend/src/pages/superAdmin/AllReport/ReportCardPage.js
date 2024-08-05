@@ -22,7 +22,7 @@
 //     const fetchTestCounts = async () => {
 //       try {
 //         const response = await axios.get(
-//           "http://localhost:7777/api/v1/super-admin/getPatientLabTest"
+//           "https://dentalguru-superadmin.vimubds5.a2hosted.com/api/v1/super-admin/getPatientLabTest"
 //         );
 //         if (response.status === 200) {
 //           const data = response.data;
@@ -257,7 +257,7 @@
 //     const fetchTestCounts = async () => {
 //       try {
 //         const response = await axios.get(
-//           "http://localhost:7777/api/v1/super-admin/getPatientLabTest"
+//           "https://dentalguru-superadmin.vimubds5.a2hosted.com/api/v1/super-admin/getPatientLabTest"
 //         );
 //         if (response.status === 200) {
 //           const data = response.data;
@@ -493,7 +493,7 @@ const ReportCardPage = () => {
     const fetchTestCounts = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:7777/api/v1/super-admin/getPatientLabTest/${branch.name}`,
+          `https://dentalguru-superadmin.vimubds5.a2hosted.com/api/v1/super-admin/getPatientLabTest/${branch.name}`,
           {
             headers: {
               "Content-Type": "application/json",

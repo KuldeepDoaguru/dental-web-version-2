@@ -28,7 +28,7 @@ const EmpDetailsRepo = () => {
     setLoading(true);
     try {
       const { data } = await axios.get(
-        `http://localhost:7777/api/v1/super-admin/getEmployeeDataByBranch/${branch.name}`,
+        `https://dentalguru-superadmin.vimubds5.a2hosted.com/api/v1/super-admin/getEmployeeDataByBranch/${branch.name}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -68,7 +68,7 @@ const EmpDetailsRepo = () => {
   const downloadEmployeeData = async () => {
     try {
       const { data } = await axios.post(
-        `http://localhost:7777/api/v1/super-admin/downloadStaffReport/${branch.name}`,
+        `https://dentalguru-superadmin.vimubds5.a2hosted.com/api/v1/super-admin/downloadStaffReport/${branch.name}`,
         {},
         {
           headers: {

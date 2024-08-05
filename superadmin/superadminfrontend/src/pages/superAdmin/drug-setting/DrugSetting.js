@@ -74,7 +74,7 @@ const DrugSetting = () => {
   const getDrugsData = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:7777/api/v1/super-admin/getDrugs/${branch.name}`,
+        `https://dentalguru-superadmin.vimubds5.a2hosted.com/api/v1/super-admin/getDrugs/${branch.name}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -92,7 +92,7 @@ const DrugSetting = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:7777/api/v1/super-admin/addDrugs",
+        "https://dentalguru-superadmin.vimubds5.a2hosted.com/api/v1/super-admin/addDrugs",
         addDrugs,
         {
           headers: {
@@ -114,7 +114,7 @@ const DrugSetting = () => {
     e.preventDefault();
     try {
       const response = await axios.put(
-        `http://localhost:7777/api/v1/super-admin/updateDrugDetails/${selected}`,
+        `https://dentalguru-superadmin.vimubds5.a2hosted.com/api/v1/super-admin/updateDrugDetails/${selected}`,
         upaAddDrugs,
         {
           headers: {
@@ -135,7 +135,7 @@ const DrugSetting = () => {
   const deleteDrug = async (id) => {
     try {
       const response = await axios.delete(
-        `http://localhost:7777/api/v1/super-admin/deleteDrug/${id}`,
+        `https://dentalguru-superadmin.vimubds5.a2hosted.com/api/v1/super-admin/deleteDrug/${id}`,
         {
           headers: {
             "Content-Type": "application/json",

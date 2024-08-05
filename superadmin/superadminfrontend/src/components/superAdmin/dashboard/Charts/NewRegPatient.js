@@ -53,7 +53,7 @@ const NewRegPatient = () => {
       setLoading(true);
       try {
         const response = await axios.get(
-          `http://localhost:7777/api/v1/super-admin/getAppointmentData/${branch.name}`,
+          `https://dentalguru-superadmin.vimubds5.a2hosted.com/api/v1/super-admin/getAppointmentData/${branch.name}`,
           {
             headers: {
               "Content-Type": "application/json",

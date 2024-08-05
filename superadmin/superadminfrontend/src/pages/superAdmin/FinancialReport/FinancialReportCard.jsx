@@ -35,7 +35,7 @@ const FinancialReportCard = () => {
   const getBillDetails = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:7777/api/v1/super-admin/getBillsByBranch/${branch.name}`,
+        `https://dentalguru-superadmin.vimubds5.a2hosted.com/api/v1/super-admin/getBillsByBranch/${branch.name}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -52,7 +52,7 @@ const FinancialReportCard = () => {
   const getPurchaseList = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:7777/api/v1/super-admin/getPurInventoryByBranch/${branch.name}`,
+        `https://dentalguru-superadmin.vimubds5.a2hosted.com/api/v1/super-admin/getPurInventoryByBranch/${branch.name}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -149,7 +149,7 @@ const FinancialReportCard = () => {
     e.preventDefault();
     try {
       const { data } = await axios.post(
-        `http://localhost:7777/api/v1/super-admin/downloadEarnReportByTime/${branch.name}`,
+        `https://dentalguru-superadmin.vimubds5.a2hosted.com/api/v1/super-admin/downloadEarnReportByTime/${branch.name}`,
         { fromDate: fromDate, toDate: toDate },
         {
           headers: {
@@ -182,7 +182,7 @@ const FinancialReportCard = () => {
   //   e.preventDefault();
   //   try {
   //     const { data } = await axios.post(
-  //       `http://localhost:7777/api/v1/super-admin/downloadExpenseReportByTime/${branch.name}`,
+  //       `https://dentalguru-superadmin.vimubds5.a2hosted.com/api/v1/super-admin/downloadExpenseReportByTime/${branch.name}`,
   //       { expensesfromDate: expensesfromDate, expensestoDate: expensestoDate },
   //       {
   //         headers: {

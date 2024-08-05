@@ -28,7 +28,7 @@ const UniversalLogin = () => {
     setLoading(true);
     try {
       const response = await axios.post(
-        "http://localhost:7777/api/v1/super-admin/sendOtpForLogin",
+        "https://dentalguru-superadmin.vimubds5.a2hosted.com/api/v1/super-admin/sendOtpForLogin",
         {
           email,
         }
@@ -44,7 +44,7 @@ const UniversalLogin = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:7777/api/v1/super-admin/adminLoginUser",
+        "https://dentalguru-superadmin.vimubds5.a2hosted.com/api/v1/super-admin/adminLoginUser",
         {
           email,
           password,
@@ -93,7 +93,7 @@ const UniversalLogin = () => {
       e.preventDefault();
       try {
         const response = await axios.post(
-          "http://localhost:7777/api/v1/super-admin/verifyOtp",
+          "https://dentalguru-superadmin.vimubds5.a2hosted.com/api/v1/super-admin/verifyOtp",
           {
             email,
             otp,

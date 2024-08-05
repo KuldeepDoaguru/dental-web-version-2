@@ -71,7 +71,7 @@ const TreatBills = () => {
     setLoading(true);
     try {
       const { data } = await axios.get(
-        `http://localhost:7777/api/v1/super-admin/getTreatSuggest/${branch.name}`,
+        `https://dentalguru-superadmin.vimubds5.a2hosted.com/api/v1/super-admin/getTreatSuggest/${branch.name}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -93,7 +93,7 @@ const TreatBills = () => {
   const deleteBillData = async (id) => {
     try {
       const response = await axios.delete(
-        `http://localhost:7777/api/v1/super-admin/deleteBills/${id}`,
+        `https://dentalguru-superadmin.vimubds5.a2hosted.com/api/v1/super-admin/deleteBills/${id}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -112,7 +112,7 @@ const TreatBills = () => {
   const getBillDetailsByBid = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:7777/api/v1/super-admin/getBillBYBillId/${selectedItem}`,
+        `https://dentalguru-superadmin.vimubds5.a2hosted.com/api/v1/super-admin/getBillBYBillId/${selectedItem}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -130,7 +130,7 @@ const TreatBills = () => {
     e.preventDefault();
     try {
       const response = await axios.put(
-        `http://localhost:7777/api/v1/super-admin/updateBillDetailsByBillId/${selectedItem}`,
+        `https://dentalguru-superadmin.vimubds5.a2hosted.com/api/v1/super-admin/updateBillDetailsByBillId/${selectedItem}`,
         upData,
         {
           headers: {

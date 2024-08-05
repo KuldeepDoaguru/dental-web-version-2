@@ -24,7 +24,7 @@ const ComplaintPage = () => {
   const getComplaints = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:7777/api/v1/super-admin/getComplainById/${cid.cid}`,
+        `https://dentalguru-superadmin.vimubds5.a2hosted.com/api/v1/super-admin/getComplainById/${cid.cid}`,
         {
           headers: {
             "Content-Type": "application/json",

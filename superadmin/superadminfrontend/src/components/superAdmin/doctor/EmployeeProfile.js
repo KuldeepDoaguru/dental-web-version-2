@@ -59,7 +59,7 @@ const EmployeeProfile = () => {
   const getBranchData = async () => {
     try {
       const { data } = await axios.get(
-        "http://localhost:7777/api/v1/super-admin/getBranch"
+        "https://dentalguru-superadmin.vimubds5.a2hosted.com/api/v1/super-admin/getBranch"
       );
       setBranchDetails(data);
     } catch (error) {
@@ -349,7 +349,7 @@ const EmployeeProfile = () => {
   const getEmployeeData = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:7777/api/v1/super-admin/getEmployeeDetails/${branch.name}/${eid}`,
+        `https://dentalguru-superadmin.vimubds5.a2hosted.com/api/v1/super-admin/getEmployeeDetails/${branch.name}/${eid}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -386,7 +386,7 @@ const EmployeeProfile = () => {
       console.log(inEmpData, empProfilePicture);
 
       const response = await axios.put(
-        `http://localhost:7777/api/v1/super-admin/editEmployeeDetails/${branch.name}/${eid}`,
+        `https://dentalguru-superadmin.vimubds5.a2hosted.com/api/v1/super-admin/editEmployeeDetails/${branch.name}/${eid}`,
         formData,
         {
           headers: {

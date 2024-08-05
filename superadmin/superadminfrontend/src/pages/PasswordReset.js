@@ -29,7 +29,7 @@ const PasswordReset = () => {
     setLoading(true);
     try {
       const response = await axios.post(
-        "http://localhost:7777/api/v1/super-admin/sendOtp",
+        "https://dentalguru-superadmin.vimubds5.a2hosted.com/api/v1/super-admin/sendOtp",
         {
           email,
         }
@@ -56,7 +56,7 @@ const PasswordReset = () => {
     setLoading(true);
     try {
       const response = await axios.post(
-        "http://localhost:7777/api/v1/super-admin/verifyOtp",
+        "https://dentalguru-superadmin.vimubds5.a2hosted.com/api/v1/super-admin/verifyOtp",
         {
           email,
           otp,
@@ -79,7 +79,7 @@ const PasswordReset = () => {
     setLoading(true);
     try {
       const response = await axios.put(
-        "http://localhost:7777/api/v1/super-admin/resetPassword",
+        "https://dentalguru-superadmin.vimubds5.a2hosted.com/api/v1/super-admin/resetPassword",
         {
           email,
           password: newPassword,

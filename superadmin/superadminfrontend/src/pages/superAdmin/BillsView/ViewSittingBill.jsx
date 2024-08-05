@@ -35,7 +35,7 @@ const ViewSittingBill = () => {
   const getBranchDetails = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:7777/api/v1/super-admin/getBranchDetailsByBranch/${branch.name}`,
+        `https://dentalguru-superadmin.vimubds5.a2hosted.com/api/v1/super-admin/getBranchDetailsByBranch/${branch.name}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -56,7 +56,7 @@ const ViewSittingBill = () => {
   const getPatientDetail = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:7777/api/v1/super-admin/getPatientDataByBranchAndId/${uhid}`,
+        `https://dentalguru-superadmin.vimubds5.a2hosted.com/api/v1/super-admin/getPatientDataByBranchAndId/${uhid}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -75,7 +75,7 @@ const ViewSittingBill = () => {
   const getLabAllData = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:7777/api/v1/super-admin/getLabDetails/${tpid}`,
+        `https://dentalguru-superadmin.vimubds5.a2hosted.com/api/v1/super-admin/getLabDetails/${tpid}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -93,7 +93,7 @@ const ViewSittingBill = () => {
   const getSittingBillbyId = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:7777/api/v1/super-admin/getSittingBillbyId/${branch.name}/${sitting}/${tpid}/${treatment}`,
+        `https://dentalguru-superadmin.vimubds5.a2hosted.com/api/v1/super-admin/getSittingBillbyId/${branch.name}/${sitting}/${tpid}/${treatment}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -112,7 +112,7 @@ const ViewSittingBill = () => {
   const getDoctorDetails = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:7777/api/v1/super-admin/getEmployeeDetails/${branch.name}/${sittingBill[0]?.doctor_id}`,
+        `https://dentalguru-superadmin.vimubds5.a2hosted.com/api/v1/super-admin/getEmployeeDetails/${branch.name}/${sittingBill[0]?.doctor_id}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -131,7 +131,7 @@ const ViewSittingBill = () => {
   const getExamineDetails = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:7777/api/v1/super-admin/getDentalDataByTpid/${tpid}/${branch.name}`,
+        `https://dentalguru-superadmin.vimubds5.a2hosted.com/api/v1/super-admin/getDentalDataByTpid/${tpid}/${branch.name}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -230,7 +230,7 @@ const ViewSittingBill = () => {
         console.log(key, value);
       }
       const response = await axios.post(
-        "http://localhost:7777/api/v1/super-admin/prescriptionOnMail",
+        "https://dentalguru-superadmin.vimubds5.a2hosted.com/api/v1/super-admin/prescriptionOnMail",
         formData,
         {
           headers: {
@@ -282,7 +282,7 @@ const ViewSittingBill = () => {
       }
 
       const res = await axios.post(
-        "http://localhost:7777/api/v1/super-admin/sendWhatsapp",
+        "https://dentalguru-superadmin.vimubds5.a2hosted.com/api/v1/super-admin/sendWhatsapp",
         formData,
         {
           headers: {
@@ -304,7 +304,7 @@ const ViewSittingBill = () => {
   const billDetailsSms = async () => {
     try {
       const { data } = await axios.post(
-        "http://localhost:7777/api/v1/super-admin/sendSMS",
+        "https://dentalguru-superadmin.vimubds5.a2hosted.com/api/v1/super-admin/sendSMS",
         formDetails,
         {
           headers: {

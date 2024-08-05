@@ -86,7 +86,7 @@ const LabTest = () => {
     setLoading(true);
     try {
       const { data } = await axios.get(
-        "http://localhost:7777/api/v1/super-admin/getLabTest",
+        "https://dentalguru-superadmin.vimubds5.a2hosted.com/api/v1/super-admin/getLabTest",
         {
           headers: {
             "Content-Type": "application/json",
@@ -112,7 +112,7 @@ const LabTest = () => {
     e.preventDefault();
     try {
       const response = await axios.put(
-        `http://localhost:7777/api/v1/super-admin/updateLabTestDetails/${selectedItem.lab_tid}`,
+        `https://dentalguru-superadmin.vimubds5.a2hosted.com/api/v1/super-admin/updateLabTestDetails/${selectedItem.lab_tid}`,
         upLabTestField,
         {
           headers: {
@@ -132,7 +132,7 @@ const LabTest = () => {
   const getListLabDetails = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:7777/api/v1/super-admin/getLabList/${branch.name}`,
+        `https://dentalguru-superadmin.vimubds5.a2hosted.com/api/v1/super-admin/getLabList/${branch.name}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -155,7 +155,7 @@ const LabTest = () => {
       const isConfirmed = window.confirm("Are you sure you want to delete?");
       if (isConfirmed) {
         const response = await axios.delete(
-          `http://localhost:7777/api/v1/super-admin/labTestDelete/${id}`,
+          `https://dentalguru-superadmin.vimubds5.a2hosted.com/api/v1/super-admin/labTestDelete/${id}`,
           {
             headers: {
               "Content-Type": "application/json",
@@ -219,7 +219,7 @@ const LabTest = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:7777/api/v1/super-admin/addLabTest",
+        "https://dentalguru-superadmin.vimubds5.a2hosted.com/api/v1/super-admin/addLabTest",
         addLabTestField,
         {
           headers: {

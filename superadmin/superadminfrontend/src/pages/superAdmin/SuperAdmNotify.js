@@ -28,7 +28,7 @@ const SuperAdmNotify = () => {
     setLoading(true);
     try {
       const { data } = await axios.get(
-        "http://localhost:7777/api/v1/super-admin/getSuperAdminNotify",
+        "https://dentalguru-superadmin.vimubds5.a2hosted.com/api/v1/super-admin/getSuperAdminNotify",
         {
           headers: {
             "Content-Type": "application/json",
@@ -56,7 +56,7 @@ const SuperAdmNotify = () => {
   const updateMarkRead = async (id) => {
     try {
       const response = await axios.put(
-        `http://localhost:7777/api/v1/super-admin/markRead/${id}`,
+        `https://dentalguru-superadmin.vimubds5.a2hosted.com/api/v1/super-admin/markRead/${id}`,
         {},
         {
           headers: {

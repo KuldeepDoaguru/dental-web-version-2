@@ -19,7 +19,7 @@ const Bill = () => {
   const getBillDetails = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:7777/api/v1/super-admin/get-patientBill-data/${pid}`,
+        `https://dentalguru-superadmin.vimubds5.a2hosted.com/api/v1/super-admin/get-patientBill-data/${pid}`,
         {
           headers: {
             "Content-Type": "application/json",

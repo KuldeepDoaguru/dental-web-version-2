@@ -75,7 +75,7 @@ const EditInventory = () => {
   const getInvListDetails = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:7777/api/v1/super-admin/getPurchaseInvByPurId/${branch.name}/${pid}`,
+        `https://dentalguru-superadmin.vimubds5.a2hosted.com/api/v1/super-admin/getPurchaseInvByPurId/${branch.name}/${pid}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -109,7 +109,7 @@ const EditInventory = () => {
     console.log(updateData, reciept_doc);
     try {
       const { data } = await axios.put(
-        `http://localhost:7777/api/v1/super-admin/updatePurInvoice/${branch.name}/${pid}`,
+        `https://dentalguru-superadmin.vimubds5.a2hosted.com/api/v1/super-admin/updatePurInvoice/${branch.name}/${pid}`,
         formData,
         {
           headers: {
