@@ -44,7 +44,7 @@ function PatintDuePaymentPrint() {
   const getPatientDetailsByBill = async () => {
     try {
       const response = axios.get(
-        `http://localhost:4000/api/v1/receptionist/getPatientDetailsForBill/${branch}/${uhid}/${bid}`,
+        `https://dentalguru-receptionist.vimubds5.a2hosted.com/api/v1/receptionist/getPatientDetailsForBill/${branch}/${uhid}/${bid}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -62,7 +62,7 @@ function PatintDuePaymentPrint() {
   const branchDetails = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:4000/api/v1/receptionist/getBranchDetailsByBranch/${branch}`
+        `https://dentalguru-receptionist.vimubds5.a2hosted.com/api/v1/receptionist/getBranchDetailsByBranch/${branch}`
       );
       setBranchData(data);
     } catch (error) {
@@ -73,7 +73,7 @@ function PatintDuePaymentPrint() {
   const secuirtyAmtBytpuhid = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:4000/api/v1/receptionist/getSecurityAmountDataByTPUHID/${tpid}/${uhid}`,
+        `https://dentalguru-receptionist.vimubds5.a2hosted.com/api/v1/receptionist/getSecurityAmountDataByTPUHID/${tpid}/${uhid}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -91,7 +91,7 @@ function PatintDuePaymentPrint() {
   const getBillDetails = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:4000/api/v1/receptionist/getPatientBillsAndSecurityAmountByBranch/${branch}/${bid}`,
+        `https://dentalguru-receptionist.vimubds5.a2hosted.com/api/v1/receptionist/getPatientBillsAndSecurityAmountByBranch/${branch}/${bid}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -180,7 +180,7 @@ function PatintDuePaymentPrint() {
     try {
       console.log(remainingSecurityAmount);
       const response = await axios.put(
-        `http://localhost:4000/api/v1/receptionist/updateRemainingSecurityAmount/${tpid}/${uhid}`,
+        `https://dentalguru-receptionist.vimubds5.a2hosted.com/api/v1/receptionist/updateRemainingSecurityAmount/${tpid}/${uhid}`,
         {
           remaining_amount: remainingSecurityAmount,
         },
@@ -212,7 +212,7 @@ function PatintDuePaymentPrint() {
     try {
       setLoading(true);
       const response = await axios.put(
-        `http://localhost:4000/api/v1/receptionist/makeBillPayment/${branch}/${bid}`,
+        `https://dentalguru-receptionist.vimubds5.a2hosted.com/api/v1/receptionist/makeBillPayment/${branch}/${bid}`,
         {
           paid_amount: updatedPaidAmt,
           payment_status: data.payment_mode === "Credit" ? "Credit" : "paid",
@@ -243,7 +243,7 @@ function PatintDuePaymentPrint() {
           transaction_Id: "",
           note: "",
         });
-        navigate(`/due_amount`);
+        navigate(`/patient-bill/${bid}/${tpid}`);
       } else {
         setLoading(false);
         cogoToast.success("Failed to paid bill");
@@ -272,7 +272,7 @@ function PatintDuePaymentPrint() {
   const updateTreatmentPackages = async () => {
     try {
       const res = await axios.put(
-        `http://localhost:4000/api/v1/receptionist/updateTreatmentStatus/${branch}/${tpid}`,
+        `https://dentalguru-receptionist.vimubds5.a2hosted.com/api/v1/receptionist/updateTreatmentStatus/${branch}/${tpid}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -289,12 +289,12 @@ function PatintDuePaymentPrint() {
   const updatePatientBill = async () => {
     try {
       const res = await axios.put(
-        `http://localhost:4000/api/v1/receptionist/completePatientBill/${tpid}/${branch}`
+        `https://dentalguru-receptionist.vimubds5.a2hosted.com/api/v1/receptionist/completePatientBill/${tpid}/${branch}`
       );
       console.log(res);
       updateTreatmentPackages();
       cogoToast.success("Treatment Completed");
-      navigate(`/due_amount`);
+      navigate(`/patient-bill/${bid}/${tpid}`);
     } catch (error) {
       console.log(error?.response?.data?.message);
       cogoToast.error(error?.response?.data?.message);

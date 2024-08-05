@@ -27,7 +27,7 @@ function SittingCreditBill() {
     setLoadingEffect(true);
     try {
       const { data } = await axios.get(
-        `http://localhost:4000/api/v1/receptionist/getSittingBillDue/${branch}`,
+        `https://dentalguru-receptionist.vimubds5.a2hosted.com/api/v1/receptionist/getSittingBillDue/${branch}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -57,7 +57,7 @@ function SittingCreditBill() {
     }
     try {
       const res = await axios.put(
-        `http://localhost:4000/api/v1/receptionist/updateSittingBillToPaid/${id}/${branch}`,
+        `https://dentalguru-receptionist.vimubds5.a2hosted.com/api/v1/receptionist/updateSittingBillToPaid/${id}/${branch}`,
         billUpdateForm,
         {
           headers: {

@@ -62,7 +62,7 @@ function Doctor() {
   const getDoctors = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:4000/api/v1/receptionist/get-doctors/${branch}`,
+        `https://dentalguru-receptionist.vimubds5.a2hosted.com/api/v1/receptionist/get-doctors/${branch}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -79,7 +79,7 @@ function Doctor() {
   const getPatient = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:4000/api/v1/receptionist/get-Patients/${branch}`,
+        `https://dentalguru-receptionist.vimubds5.a2hosted.com/api/v1/receptionist/get-Patients/${branch}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -97,7 +97,7 @@ function Doctor() {
   const getAppointments = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:4000/api/v1/receptionist/get-appointments/${branch}`,
+        `https://dentalguru-receptionist.vimubds5.a2hosted.com/api/v1/receptionist/get-appointments/${branch}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -115,7 +115,7 @@ function Doctor() {
   const getDoctorsWithLeave = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:4000/api/v1/receptionist/get-doctors-with-leave/${branch}`,
+        `https://dentalguru-receptionist.vimubds5.a2hosted.com/api/v1/receptionist/get-doctors-with-leave/${branch}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -132,7 +132,7 @@ function Doctor() {
   const getBranchDetail = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:4000/api/v1/receptionist/get-branch-detail/${branch}`
+        `https://dentalguru-receptionist.vimubds5.a2hosted.com/api/v1/receptionist/get-branch-detail/${branch}`
       );
       console.log(response);
       setBranchDetail(response.data.data);
@@ -143,7 +143,7 @@ function Doctor() {
   const getBranchHolidays = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:4000/api/v1/receptionist/get-branch-holidays/${branch}`,
+        `https://dentalguru-receptionist.vimubds5.a2hosted.com/api/v1/receptionist/get-branch-holidays/${branch}`,
         {
           headers: {
             "Content-Type": "application/json",

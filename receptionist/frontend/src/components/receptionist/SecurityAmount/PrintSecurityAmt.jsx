@@ -33,7 +33,7 @@ const PrintSecurityAmt = () => {
   const getBranchDetails = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:4000/api/v1/receptionist/getBranchDetailsByBranch/${branch}`
+        `https://dentalguru-receptionist.vimubds5.a2hosted.com/api/v1/receptionist/getBranchDetailsByBranch/${branch}`
       );
       console.log(data);
       setGetBranch(data);
@@ -45,7 +45,7 @@ const PrintSecurityAmt = () => {
   const getBill = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:4000/api/v1/receptionist/getSinglePatientSecurityAmt/${branch}/${SId}`,
+        `https://dentalguru-receptionist.vimubds5.a2hosted.com/api/v1/receptionist/getSinglePatientSecurityAmt/${branch}/${SId}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -64,7 +64,7 @@ const PrintSecurityAmt = () => {
   const getPatientTreatmentDetails = async (uhid) => {
     try {
       const response = await axios.get(
-        `http://localhost:4000/api/v1/receptionist/getPatientDeatilsByUhidFromSecurityAmt/${branch}/${uhid}`,
+        `https://dentalguru-receptionist.vimubds5.a2hosted.com/api/v1/receptionist/getPatientDeatilsByUhidFromSecurityAmt/${branch}/${uhid}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -152,7 +152,16 @@ const PrintSecurityAmt = () => {
       );
       formData.append(
         "textMatter",
-        `Dear ${patientDetails[0]?.patient_name}, Please find the attached Security Amount bill file.`
+        `Dear ${patientDetails[0]?.patient_name}, Please find the attached Security Amount bill file.\n`
+        +
+           `Clinic Details:\n` +
+        `Name: ${currentBranch[0]?.hospital_name}\n` +
+        `Contact: ${currentBranch[0]?.branch_contact}\n` +
+        `Address: ${currentBranch[0]?.branch_address}\n` +
+        `Email: ${currentBranch[0]?.branch_email}\n\n` +
+        `Thank you for choosing ${currentBranch[0]?.hospital_name}.\n\n` +
+        `Best regards,\n` +
+        `${currentBranch[0]?.hospital_name} Team`
       );
       formData.append("file", pdfData, "Security_Amount.pdf");
       for (let [key, value] of formData.entries()) {
@@ -161,7 +170,7 @@ const PrintSecurityAmt = () => {
      
       cogoToast.success("Security Amount bill Sending to email");
       const response = await axios.post(
-        "http://localhost:4000/api/v1/receptionist/prescriptionOnMail",
+        "https://dentalguru-receptionist.vimubds5.a2hosted.com/api/v1/receptionist/prescriptionOnMail",
         formData,
         {
           headers: {
@@ -206,7 +215,7 @@ const PrintSecurityAmt = () => {
       }
 
       const res = await axios.post(
-        "http://localhost:4000/api/v1/receptionist/sendWhatsapp",
+        "https://dentalguru-receptionist.vimubds5.a2hosted.com/api/v1/receptionist/sendWhatsapp",
         formData,
         {
           headers: {

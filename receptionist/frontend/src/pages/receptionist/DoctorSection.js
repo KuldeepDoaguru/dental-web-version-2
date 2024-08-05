@@ -32,7 +32,7 @@ function DoctorSection() {
   const getDoctorsWithLeave = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:4000/api/v1/receptionist/get-doctors-with-leave/${branch}`,
+        `https://dentalguru-receptionist.vimubds5.a2hosted.com/api/v1/receptionist/get-doctors-with-leave/${branch}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -50,7 +50,7 @@ function DoctorSection() {
     setLoadingEffect(true);
     try {
       const response = await axios.get(
-        `http://localhost:4000/api/v1/receptionist/get-doctors/${branch}`,
+        `https://dentalguru-receptionist.vimubds5.a2hosted.com/api/v1/receptionist/get-doctors/${branch}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -69,7 +69,7 @@ function DoctorSection() {
   const getBranchDetail = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:4000/api/v1/receptionist/get-branch-detail/${branch}`
+        `https://dentalguru-receptionist.vimubds5.a2hosted.com/api/v1/receptionist/get-branch-detail/${branch}`
       );
       console.log(response);
       setBranchDetail(response.data.data);

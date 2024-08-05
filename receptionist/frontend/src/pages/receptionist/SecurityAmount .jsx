@@ -123,7 +123,7 @@ console.log(selected)
     setLoadingEffect(true);
     try {
       const { data } = await axios.get(
-        `http://localhost:4000/api/v1/receptionist/getSecurityAmountDataByBranch/${branch}`,
+        `https://dentalguru-receptionist.vimubds5.a2hosted.com/api/v1/receptionist/getSecurityAmountDataByBranch/${branch}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -195,7 +195,7 @@ console.log(selected)
     try {
       setLoading(true);
       const response = await axios.put(
-        `http://localhost:4000/api/v1/receptionist/updateRefundAmount/${selected}`,
+        `https://dentalguru-receptionist.vimubds5.a2hosted.com/api/v1/receptionist/updateRefundAmount/${selected}`,
         {
           refund_by: currentUser.employee_name,
           payment_status: "Refunded",
@@ -238,7 +238,7 @@ console.log(selected)
     try {
       setLoading(true);
       const response = await axios.put(
-        `http://localhost:4000/api/v1/receptionist/updatePatientSecurityAmt/${selected}`,
+        `https://dentalguru-receptionist.vimubds5.a2hosted.com/api/v1/receptionist/updatePatientSecurityAmt/${selected}`,
         updatedData,
         {
           headers: {
@@ -293,7 +293,7 @@ console.log(selected)
   //     e.preventDefault();
   //     try {
   //       const response = await axios.put(
-  //         `http://localhost:4000/api/v1/receptionist/updateRefundAmount/${selected}`,
+  //         `https://dentalguru-receptionist.vimubds5.a2hosted.com/api/v1/receptionist/updateRefundAmount/${selected}`,
   //         {
   //           refund_date: date,
   //           refund_by: currentUser.employee_name,
@@ -324,7 +324,7 @@ console.log(selected)
   //     console.log(id);
   //     try {
   //       const { data } = await axios.get(
-  //         `http://localhost:4000/api/v1/receptionist/getSecurityAmountDataBySID/${id}`
+  //         `https://dentalguru-receptionist.vimubds5.a2hosted.com/api/v1/receptionist/getSecurityAmountDataBySID/${id}`
   //       );
   //       console.log(data);
   //       setOutStanding(data);
@@ -369,7 +369,7 @@ console.log(selected)
 
   //   const getPatient = async () =>{
   //     try{
-  //       const response = await axios.get(`http://localhost:4000/api/v1/receptionist/patient-securityAmt/${branch}`);
+  //       const response = await axios.get(`https://dentalguru-receptionist.vimubds5.a2hosted.com/api/v1/receptionist/patient-securityAmt/${branch}`);
   //       console.log(response);
   //       setPatients(response?.data?.data)
   //      }
@@ -505,13 +505,21 @@ console.log(selected)
 
   const formDetails = {
     phoneNumber: filterForSecAmountDef[0]?.patient_number,
-    message: `Dear ${filterForSecAmountDef[0]?.patient_name}, UHID ${filterForSecAmountDef[0]?.uhid} you have successfully paid ${filterForSecAmountDef[0]?.amount}/- as security amount`,
+    message: `Dear ${filterForSecAmountDef[0]?.patient_name}, UHID ${filterForSecAmountDef[0]?.uhid} you have successfully paid ${filterForSecAmountDef[0]?.amount}/- as security amount.\n` + 
+    `Clinic Details:\n` +
+    `Name: ${currentBranch[0]?.hospital_name}\n` +
+    `Contact: ${currentBranch[0]?.branch_contact}\n` +
+    `Address: ${currentBranch[0]?.branch_address}\n` +
+    `Email: ${currentBranch[0]?.branch_email}\n\n` +
+    `Thank you for choosing ${currentBranch[0]?.hospital_name}.\n\n` +
+    `Best regards,\n` +
+    `${currentBranch[0]?.hospital_name} Team`,
   };
  
   const billDetailsSms = async () => {
     try {
       const { data } = await axios.post(
-        "http://localhost:4000/api/v1/receptionist/sendSMS",
+        "https://dentalguru-receptionist.vimubds5.a2hosted.com/api/v1/receptionist/sendSMS",
         formDetails,
         {
           headers: {
@@ -530,7 +538,7 @@ console.log(selected)
     try {
     
       const res = await axios.post(
-        "http://localhost:4000/api/v1/receptionist/sendWhatsapptextonly",
+        "https://dentalguru-receptionist.vimubds5.a2hosted.com/api/v1/receptionist/sendWhatsapptextonly",
         formDetails,
         {
           headers: {
@@ -548,13 +556,21 @@ console.log(selected)
 
   const refundformDetails = {
     phoneNumber: filterForSecAmountDef[0]?.patient_number,
-    message: `Dear ${filterForSecAmountDef[0]?.patient_name}, UHID ${filterForSecAmountDef[0]?.uhid} you have successfully Refunded ${filterForSecAmountDef[0]?.remaining_amount}/- from security amount`,
+    message: `Dear ${filterForSecAmountDef[0]?.patient_name}, UHID ${filterForSecAmountDef[0]?.uhid} you have successfully Refunded ${filterForSecAmountDef[0]?.remaining_amount}/- from security amount.\n` +
+    `Clinic Details:\n` +
+    `Name: ${currentBranch[0]?.hospital_name}\n` +
+    `Contact: ${currentBranch[0]?.branch_contact}\n` +
+    `Address: ${currentBranch[0]?.branch_address}\n` +
+    `Email: ${currentBranch[0]?.branch_email}\n\n` +
+    `Thank you for choosing ${currentBranch[0]?.hospital_name}.\n\n` +
+    `Best regards,\n` +
+    `${currentBranch[0]?.hospital_name} Team`,
   };
 
   const refundBillDetailsSms = async () => {
     try {
       const { data } = await axios.post(
-        "http://localhost:4000/api/v1/receptionist/sendSMS",
+        "https://dentalguru-receptionist.vimubds5.a2hosted.com/api/v1/receptionist/sendSMS",
         refundformDetails,
         {
           headers: {
@@ -573,7 +589,7 @@ console.log(selected)
     try {
     
       const res = await axios.post(
-        "http://localhost:4000/api/v1/receptionist/sendWhatsapptextonly",
+        "https://dentalguru-receptionist.vimubds5.a2hosted.com/api/v1/receptionist/sendWhatsapptextonly",
         refundformDetails,
         {
           headers: {

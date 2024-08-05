@@ -73,7 +73,7 @@ const Timeline = () => {
   const getTimelineDetails = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:4000/api/v1/receptionist/getPatientTimeline/${branch}/${pid}`,
+        `https://dentalguru-receptionist.vimubds5.a2hosted.com/api/v1/receptionist/getPatientTimeline/${branch}/${pid}`,
         {
           headers: {
             "Content-Type": "application/json",

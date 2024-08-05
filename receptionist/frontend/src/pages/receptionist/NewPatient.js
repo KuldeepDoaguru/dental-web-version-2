@@ -28,7 +28,7 @@ function NewPatient() {
     setLoadingEffect(true);
     try {
       const response = await axios.get(
-        `http://localhost:4000/api/v1/receptionist/get-Patients/${branch}`,
+        `https://dentalguru-receptionist.vimubds5.a2hosted.com/api/v1/receptionist/get-Patients/${branch}`,
         {
           headers: {
             "Content-Type": "application/json",

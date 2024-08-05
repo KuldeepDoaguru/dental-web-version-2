@@ -40,7 +40,7 @@ function EditAppointment({ onClose, appointmentInfo, allAppointmentData }) {
   const getBranchDetail = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:4000/api/v1/receptionist/get-branch-detail/${branch}`
+        `https://dentalguru-receptionist.vimubds5.a2hosted.com/api/v1/receptionist/get-branch-detail/${branch}`
       );
       console.log(response);
       setBranchDetail(response.data.data);
@@ -52,7 +52,7 @@ function EditAppointment({ onClose, appointmentInfo, allAppointmentData }) {
   const getBranchHolidays = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:4000/api/v1/receptionist/get-branch-holidays/${branch}`,
+        `https://dentalguru-receptionist.vimubds5.a2hosted.com/api/v1/receptionist/get-branch-holidays/${branch}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -165,7 +165,7 @@ function EditAppointment({ onClose, appointmentInfo, allAppointmentData }) {
   const getTreatment = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:4000/api/v1/receptionist/get-treatments"
+        "https://dentalguru-receptionist.vimubds5.a2hosted.com/api/v1/receptionist/get-treatments"
       );
       console.log(response);
       setTreatment(response?.data?.data);
@@ -176,7 +176,7 @@ function EditAppointment({ onClose, appointmentInfo, allAppointmentData }) {
   const getDoctors = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:4000/api/v1/receptionist/get-doctors/${branch}`,
+        `https://dentalguru-receptionist.vimubds5.a2hosted.com/api/v1/receptionist/get-doctors/${branch}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -383,7 +383,7 @@ function EditAppointment({ onClose, appointmentInfo, allAppointmentData }) {
   const timelineData = async (id) => {
     try {
       const response = await axios.post(
-        "http://localhost:4000/api/v1/receptionist/insertTimelineEvent",
+        "https://dentalguru-receptionist.vimubds5.a2hosted.com/api/v1/receptionist/insertTimelineEvent",
         {
           type: "Edit Appointment",
           description: "Edit Appointment",
@@ -565,7 +565,7 @@ function EditAppointment({ onClose, appointmentInfo, allAppointmentData }) {
       try {
         setLoading(true);
         const response = await axios.put(
-          "http://localhost:4000/api/v1/receptionist/update-appointment",
+          "https://dentalguru-receptionist.vimubds5.a2hosted.com/api/v1/receptionist/update-appointment",
           newAppointment,
           {
             headers: {
@@ -620,7 +620,7 @@ function EditAppointment({ onClose, appointmentInfo, allAppointmentData }) {
   const getDoctorsWithLeave = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:4000/api/v1/receptionist/get-doctors-with-leave/${branch}`,
+        `https://dentalguru-receptionist.vimubds5.a2hosted.com/api/v1/receptionist/get-doctors-with-leave/${branch}`,
         {
           headers: {
             "Content-Type": "application/json",

@@ -45,7 +45,7 @@ const AppointTable = () => {
 
   const getDoctors = async ()=>{
     try{
-      const response = await axios.get(`http://localhost:4000/api/v1/receptionist/get-doctors/${branch}` ,
+      const response = await axios.get(`https://dentalguru-receptionist.vimubds5.a2hosted.com/api/v1/receptionist/get-doctors/${branch}` ,
       {
         headers: {
           'Content-Type': 'application/json',
@@ -63,7 +63,7 @@ const AppointTable = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:4000/api/v1/receptionist/insertTimelineEvent",
+        "https://dentalguru-receptionist.vimubds5.a2hosted.com/api/v1/receptionist/insertTimelineEvent",
         {
           type: "Appointment",
           description: "Appointment Cancel",
@@ -88,7 +88,7 @@ const AppointTable = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:4000/api/v1/receptionist/insertTimelineEvent",
+        "https://dentalguru-receptionist.vimubds5.a2hosted.com/api/v1/receptionist/insertTimelineEvent",
         {
           type: "Appointment",
           description: "Patient Check-In",
@@ -110,14 +110,14 @@ const AppointTable = () => {
   };
 
 
-console.log(appointmentsData);
-  // useEffect(() => {
-  //   const intervalId = setInterval(() => {
-  //     dispatch(toggleTableRefresh());
-  //   }, 5000);
+// console.log(appointmentsData);
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      dispatch(toggleTableRefresh());
+    }, 5000);
 
-  //   return () => clearInterval(intervalId);
-  // }, [dispatch]);
+    return () => clearInterval(intervalId);
+  }, [dispatch]);
 
    
 
@@ -181,7 +181,7 @@ console.log(appointmentsData);
   const getAppointments = async () => {
     
     try {
-      const response = await axios.get(`http://localhost:4000/api/v1/receptionist/get-appointments/${branch}` ,
+      const response = await axios.get(`https://dentalguru-receptionist.vimubds5.a2hosted.com/api/v1/receptionist/get-appointments/${branch}` ,
       {
         headers: {
           'Content-Type': 'application/json',
@@ -238,7 +238,7 @@ console.log(appointmentsData);
       setLoadingEffect(true)
       setLoading(true);
       // Send a PUT request to your backend endpoint to update the status
-      await axios.put(`http://localhost:4000/api/v1/receptionist/update-appointment-status`, { status: newStatus, appointmentId: appointmentId, appointment_updated_by: currentUser.employee_name, appointment_updated_by_emp_id: currentUser.employee_ID } ,
+      await axios.put(`https://dentalguru-receptionist.vimubds5.a2hosted.com/api/v1/receptionist/update-appointment-status`, { status: newStatus, appointmentId: appointmentId, appointment_updated_by: currentUser.employee_name, appointment_updated_by_emp_id: currentUser.employee_ID } ,
       {
         headers: {
           'Content-Type': 'application/json',
@@ -279,7 +279,7 @@ console.log(appointmentsData);
 
     try {
       // Send a PUT request to your backend endpoint to update the status
-      await axios.put(`http://localhost:4000/api/v1/receptionist/update-appointment-status-cancel`, {
+      await axios.put(`https://dentalguru-receptionist.vimubds5.a2hosted.com/api/v1/receptionist/update-appointment-status-cancel`, {
         status: newStatus,
         cancelReason: reason, appointmentId: appointmentId, appointment_updated_by: currentUser.employee_name, appointment_updated_by_emp_id: currentUser.employee_ID
       } ,

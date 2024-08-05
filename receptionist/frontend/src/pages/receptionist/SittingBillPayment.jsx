@@ -53,7 +53,7 @@ function SittingBillPayment() {
   const getPatient = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:4000/api/v1/receptionist/get-Patient-by-id/${branch}/${uhid}`,
+        `https://dentalguru-receptionist.vimubds5.a2hosted.com/api/v1/receptionist/get-Patient-by-id/${branch}/${uhid}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -71,7 +71,7 @@ function SittingBillPayment() {
   const branchDetails = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:4000/api/v1/receptionist/getBranchDetailsByBranch/${branch}`
+        `https://dentalguru-receptionist.vimubds5.a2hosted.com/api/v1/receptionist/getBranchDetailsByBranch/${branch}`
       );
       setBranchData(data);
     } catch (error) {
@@ -82,7 +82,7 @@ function SittingBillPayment() {
   const secuirtyAmtBytpuhid = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:4000/api/v1/receptionist/getSecurityAmountDataByTPUHID/${tpid}/${uhid}`,
+        `https://dentalguru-receptionist.vimubds5.a2hosted.com/api/v1/receptionist/getSecurityAmountDataByTPUHID/${tpid}/${uhid}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -101,7 +101,7 @@ function SittingBillPayment() {
   const getBillDetails = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:4000/api/v1/receptionist/getSittingBillDueBySittingId/${branch}/${sbid}`,
+        `https://dentalguru-receptionist.vimubds5.a2hosted.com/api/v1/receptionist/getSittingBillDueBySittingId/${branch}/${sbid}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -118,7 +118,7 @@ function SittingBillPayment() {
   const getAllSittingBill = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:4000/api/v1/receptionist/getPaidSittingBillbyTpid/${tpid}/${branch}`,
+        `https://dentalguru-receptionist.vimubds5.a2hosted.com/api/v1/receptionist/getPaidSittingBillbyTpid/${tpid}/${branch}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -202,7 +202,7 @@ function SittingBillPayment() {
     try {
       //   console.log(remainingSecurityAmount);
       const response = await axios.put(
-        `http://localhost:4000/api/v1/receptionist/updateRemainingSecurityAmount/${tpid}/${uhid}`,
+        `https://dentalguru-receptionist.vimubds5.a2hosted.com/api/v1/receptionist/updateRemainingSecurityAmount/${tpid}/${uhid}`,
         {
           remaining_amount: remainingSecurityAmount,
         },
@@ -261,7 +261,7 @@ function SittingBillPayment() {
   const updateBillforSitting = async () => {
     try {
       const res = await axios.put(
-        `http://localhost:4000/api/v1/receptionist/updateBillforSitting/${branch}/${tpid}`,
+        `https://dentalguru-receptionist.vimubds5.a2hosted.com/api/v1/receptionist/updateBillforSitting/${branch}/${tpid}`,
         billUpdateForm,
         {
           headers: {
@@ -300,7 +300,7 @@ function SittingBillPayment() {
     }
     try {
       const res = await axios.put(
-        `http://localhost:4000/api/v1/receptionist/updateSittingBillPayment/${sbid}/${branch}`,
+        `https://dentalguru-receptionist.vimubds5.a2hosted.com/api/v1/receptionist/updateSittingBillPayment/${sbid}/${branch}`,
         formDetails,
         {
           headers: {

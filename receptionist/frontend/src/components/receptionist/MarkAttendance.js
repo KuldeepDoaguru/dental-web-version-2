@@ -25,7 +25,7 @@ const MarkAttendance = () => {
   const getTodayAttendance = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:4000/api/v1/receptionist/getTodayAttendance/${branch_name}/${employee_ID}/${date}`,
+        `https://dentalguru-receptionist.vimubds5.a2hosted.com/api/v1/receptionist/getTodayAttendance/${branch_name}/${employee_ID}/${date}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -49,7 +49,7 @@ const MarkAttendance = () => {
     try {
       setLoading(true);
       const response = await axios.post(
-        "http://localhost:4000/api/v1/receptionist/markAttendanceLogin",
+        "https://dentalguru-receptionist.vimubds5.a2hosted.com/api/v1/receptionist/markAttendanceLogin",
         {
           branch_name,
           employee_ID,
@@ -95,7 +95,7 @@ const MarkAttendance = () => {
     try {
       setLoading(true);
       const response = await axios.put(
-        "http://localhost:4000/api/v1/receptionist/markAttendanceLogout",
+        "https://dentalguru-receptionist.vimubds5.a2hosted.com/api/v1/receptionist/markAttendanceLogout",
         {
           branch_name,
           employee_ID,

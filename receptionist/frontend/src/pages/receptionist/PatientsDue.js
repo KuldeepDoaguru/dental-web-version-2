@@ -24,7 +24,7 @@ function PatientsDue() {
     setLoadingEffect(true);
     try {
       const { data } = await axios.get(
-        `http://localhost:4000/api/v1/receptionist/getPatientBillsByBranch/${branch}`,
+        `https://dentalguru-receptionist.vimubds5.a2hosted.com/api/v1/receptionist/getPatientBillsByBranch/${branch}`,
         {
           headers: {
             "Content-Type": "application/json",

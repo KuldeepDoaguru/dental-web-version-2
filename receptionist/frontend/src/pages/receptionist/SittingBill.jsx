@@ -33,7 +33,7 @@ const SittingBill = () => {
   const getBranchDetails = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:4000/api/v1/receptionist/getBranchDetailsByBranch/${branch}`,
+        `https://dentalguru-receptionist.vimubds5.a2hosted.com/api/v1/receptionist/getBranchDetailsByBranch/${branch}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -61,7 +61,7 @@ const SittingBill = () => {
   const getPatientDetail = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:4000/api/v1/receptionist/getAppointmentsWithPatientDetailsById/${tpid}`,
+        `https://dentalguru-receptionist.vimubds5.a2hosted.com/api/v1/receptionist/getAppointmentsWithPatientDetailsById/${tpid}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -80,7 +80,7 @@ const SittingBill = () => {
   const getLabAllData = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:4000/api/v1/receptionist/lab-details/${tpid}`,
+        `https://dentalguru-receptionist.vimubds5.a2hosted.com/api/v1/receptionist/lab-details/${tpid}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -98,7 +98,7 @@ const SittingBill = () => {
   const getSittingBillbyId = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:4000/api/v1/receptionist/getSittingBillbyId/${branch}/${sbid}`,
+        `https://dentalguru-receptionist.vimubds5.a2hosted.com/api/v1/receptionist/getSittingBillbyId/${branch}/${sbid}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -117,7 +117,7 @@ const SittingBill = () => {
   const getDoctorDetails = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:4000/api/v1/receptionist/getEmployeeDetailsbyId/${branch}/${getPatientData[0]?.doctor_id}`,
+        `https://dentalguru-receptionist.vimubds5.a2hosted.com/api/v1/receptionist/getEmployeeDetailsbyId/${branch}/${getPatientData[0]?.doctor_id}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -136,7 +136,7 @@ const SittingBill = () => {
   const getExamineDetails = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:4000/api/v1/receptionist/getDentalDataByTpid/${tpid}/${branch}`,
+        `https://dentalguru-receptionist.vimubds5.a2hosted.com/api/v1/receptionist/getDentalDataByTpid/${tpid}/${branch}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -240,7 +240,15 @@ const SittingBill = () => {
       );
       formData.append(
         "textMatter",
-        `Dear ${getPatientData[0]?.patient_name}, Please find the attached sitting bill file.`
+        `Dear ${getPatientData[0]?.patient_name}, Please find the attached sitting bill file.\n` +
+        `Clinic Details:\n` +
+        `Name: ${currentBranch[0]?.hospital_name}\n` +
+        `Contact: ${currentBranch[0]?.branch_contact}\n` +
+        `Address: ${currentBranch[0]?.branch_address}\n` +
+        `Email: ${currentBranch[0]?.branch_email}\n\n` +
+        `Thank you for choosing ${currentBranch[0]?.hospital_name}.\n\n` +
+        `Best regards,\n` +
+        `${currentBranch[0]?.hospital_name} Team`
       );
       formData.append("file", pdfData, "prescription.pdf");
       for (let [key, value] of formData.entries()) {
@@ -248,7 +256,7 @@ const SittingBill = () => {
       }
       cogoToast.success("Sitting bill Sending to email");
       const response = await axios.post(
-        "http://localhost:4000/api/v1/receptionist/prescriptionOnMail",
+        "https://dentalguru-receptionist.vimubds5.a2hosted.com/api/v1/receptionist/prescriptionOnMail",
         formData,
         {
           headers: {
@@ -293,7 +301,7 @@ const SittingBill = () => {
       }
 
       const res = await axios.post(
-        "http://localhost:4000/api/v1/receptionist/sendWhatsapp",
+        "https://dentalguru-receptionist.vimubds5.a2hosted.com/api/v1/receptionist/sendWhatsapp",
         formData,
         {
           headers: {
@@ -316,7 +324,7 @@ const SittingBill = () => {
   const billDetailsSms = async () => {
     try {
       const { data } = await axios.post(
-        "http://localhost:4000/api/v1/receptionist/sendSMS",
+        "https://dentalguru-receptionist.vimubds5.a2hosted.com/api/v1/receptionist/sendSMS",
         formDetails,
         {
           headers: {

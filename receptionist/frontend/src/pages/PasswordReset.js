@@ -19,7 +19,7 @@ const PasswordReset = () => {
     try {
       setLoading(true);
       const response = await axios.post(
-        "http://localhost:4000/api/v1/receptionist/sendOtp",
+        "https://dentalguru-receptionist.vimubds5.a2hosted.com/api/v1/receptionist/sendOtp",
         {
           email,
         }
@@ -42,7 +42,7 @@ const PasswordReset = () => {
     try {
       setLoading(true);
       const response = await axios.post(
-        "http://localhost:4000/api/v1/receptionist/verifyOtp",
+        "https://dentalguru-receptionist.vimubds5.a2hosted.com/api/v1/receptionist/verifyOtp",
         {
           email,
           otp,
@@ -65,7 +65,7 @@ const PasswordReset = () => {
     try {
       setLoading(true);
       const response = await axios.put(
-        "http://localhost:4000/api/v1/receptionist/resetPassword",
+        "https://dentalguru-receptionist.vimubds5.a2hosted.com/api/v1/receptionist/resetPassword",
         {
           email,
           password: newPassword,

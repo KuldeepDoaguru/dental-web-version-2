@@ -32,7 +32,7 @@ const PrintOpdBill = () => {
   const getBranchDetails = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:4000/api/v1/receptionist/getBranchDetailsByBranch/${branch}`
+        `https://dentalguru-receptionist.vimubds5.a2hosted.com/api/v1/receptionist/getBranchDetailsByBranch/${branch}`
       );
       console.log(data);
       setGetBranch(data);
@@ -44,7 +44,7 @@ const PrintOpdBill = () => {
   const getBill = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:4000/api/v1/receptionist/get-appointment-by-id/${branch}/${appointmentId}`,
+        `https://dentalguru-receptionist.vimubds5.a2hosted.com/api/v1/receptionist/get-appointment-by-id/${branch}/${appointmentId}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -125,7 +125,15 @@ const PrintOpdBill = () => {
       );
       formData.append(
         "textMatter",
-        `Dear ${data?.patient_name}, Please find the attached OPD bill file.`
+        `Dear ${data?.patient_name}, Please find the attached OPD bill file.\n` +
+           `Clinic Details:\n` +
+        `Name: ${currentBranch[0]?.hospital_name}\n` +
+        `Contact: ${currentBranch[0]?.branch_contact}\n` +
+        `Address: ${currentBranch[0]?.branch_address}\n` +
+        `Email: ${currentBranch[0]?.branch_email}\n\n` +
+        `Thank you for choosing ${currentBranch[0]?.hospital_name}.\n\n` +
+        `Best regards,\n` +
+        `${currentBranch[0]?.hospital_name} Team`
       );
       formData.append("file", pdfData, "OPD_bill.pdf");
       for (let [key, value] of formData.entries()) {
@@ -134,7 +142,7 @@ const PrintOpdBill = () => {
      
       cogoToast.success("OPD bill Sending to email");
       const response = await axios.post(
-        "http://localhost:4000/api/v1/receptionist/prescriptionOnMail",
+        "https://dentalguru-receptionist.vimubds5.a2hosted.com/api/v1/receptionist/prescriptionOnMail",
         formData,
         {
           headers: {
@@ -168,6 +176,18 @@ const PrintOpdBill = () => {
       const formData = new FormData();
       formData.append("phoneNumber", data?.mobileno);
       formData.append("message", "test message");
+
+      // formData.append("message", `Dear ${data?.patient_name}, Please find the attached OPD bill file.\n` + 
+      //   `Clinic Details:\n` +
+      //   `Name: ${currentBranch[0]?.hospital_name}\n` +
+      //   `Contact: ${currentBranch[0]?.branch_contact}\n` +
+      //   `Address: ${currentBranch[0]?.branch_address}\n` +
+      //   `Email: ${currentBranch[0]?.branch_email}\n\n` +
+      //   `Thank you for choosing ${currentBranch[0]?.hospital_name}.\n\n` +
+      //   `Best regards,\n` +
+      //   `${currentBranch[0]?.hospital_name} Team`
+      // );
+
       // Convert Blob to a File
       const file = new File([pdfData], "OPD bill.pdf", {
         type: "application/pdf",
@@ -179,7 +199,7 @@ const PrintOpdBill = () => {
       }
 
       const res = await axios.post(
-        "http://localhost:4000/api/v1/receptionist/sendWhatsapp",
+        "https://dentalguru-receptionist.vimubds5.a2hosted.com/api/v1/receptionist/sendWhatsapp",
         formData,
         {
           headers: {
