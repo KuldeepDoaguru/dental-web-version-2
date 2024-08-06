@@ -73,6 +73,7 @@ const StaffLeave = () => {
       cogoToast.success("Leave Approved");
       setAfterAction(true);
       getLeaveList();
+      // window.location.reload();
     } catch (error) {
       console.log(error);
     }
@@ -95,11 +96,7 @@ const StaffLeave = () => {
         }
       );
       cogoToast.error("Leave Rejected");
-      // setAfterAction(true);
       getLeaveList();
-      // setInterval(() => {
-      //   getLeaveList();
-      // }, 2000);
       // window.location.reload();
     } catch (error) {
       console.log(error);
@@ -188,6 +185,7 @@ const StaffLeave = () => {
                           <table class="table table-bordered rounded shadow mt-2">
                             <thead className="table-head">
                               <tr>
+                                <th className="table-sno sticky">Leave ID</th>
                                 <th className="table-sno sticky">
                                   Employee ID
                                 </th>
@@ -211,6 +209,7 @@ const StaffLeave = () => {
                               {displayedAppointments.map((item) => (
                                 <>
                                   <tr className="table-row">
+                                    <td className="table-sno">{item.id}</td>
                                     <td className="table-sno">
                                       {item.employee_ID}
                                     </td>
@@ -226,8 +225,7 @@ const StaffLeave = () => {
                                     <td>{item.leave_reason}</td>
                                     <td>{item.created_at.split("T")[0]}</td>
                                     <td>
-                                      {item.leave_status !== "pending" ||
-                                      item.leave_status === null ? (
+                                      {item.leave_status !== "pending" ? (
                                         <button
                                           className={`btn ${
                                             item.leave_status === "Approved"

@@ -465,12 +465,7 @@ router.post(
   prescriptionOnMail
 );
 
-router.post(
-  "/sendWhatsapp",
-  preUpload.single("media_url"),
-  authenticate,
-  sendWhatsapp
-);
+router.post("/sendWhatsapp", preUpload.single("mediaFile"), sendWhatsapp);
 router.post("/sendSMS", authenticate, sendSMS);
 
 module.exports = router;

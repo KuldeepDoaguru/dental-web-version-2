@@ -118,7 +118,13 @@ const ClinicConfigSetting = () => {
   const getBranchData = async () => {
     try {
       const { data } = await axios.get(
-        `https://dentalguru-superadmin.vimubds5.a2hosted.com/api/v1/super-admin/getBranchDetailsByBranch/${branch.name}`
+        `https://dentalguru-superadmin.vimubds5.a2hosted.com/api/v1/super-admin/getBranchDetailsByBranch/${branch.name}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
       );
       setBranchDetails(data);
     } catch (error) {

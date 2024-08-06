@@ -83,7 +83,7 @@ const OpdRefundAmount = () => {
   // Format as 'YYYY-MM-DD'
   const formattedDate = `${date}-${month}-${year}`;
 
-  console.log(formattedDate.slice(3, 10));
+  console.log(formattedDate?.slice(3, 10));
 
   console.log(refundList);
   // const dateChange = moment(refundList[0].refund_date_time).format(
@@ -92,7 +92,7 @@ const OpdRefundAmount = () => {
   // console.log(dateChange);
 
   const filterAppointDataByMonth = refundList?.filter((item) => {
-    return item.refund_date_time.slice(3, 10) === formattedDate.slice(3, 10);
+    return item.refund_date_time?.slice(3, 10) === formattedDate?.slice(3, 10);
   });
 
   console.log(filterAppointDataByMonth);
@@ -147,7 +147,7 @@ const OpdRefundAmount = () => {
   console.log(error);
 
   const totalOpdRefundAmount = refundList.reduce((total, item) => {
-    return total + item.opd_amount;
+    return total + Number(item.opd_amount);
   }, 0);
 
   return (
@@ -241,7 +241,7 @@ const OpdRefundAmount = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        {filterAppointDataByMonth
+                        {refundList
                           ?.filter((item) => {
                             const billDate =
                               item.refund_date_time?.split(" ")[0];
@@ -284,11 +284,11 @@ const OpdRefundAmount = () => {
                                   {item.refund_by}
                                 </td> */}
                                 <td className="table-small">
-                                  {item.refund_date_time?.split(" ")[0]}{" "}
-                                  {moment(
+                                  {item.refund_date_time}{" "}
+                                  {/* {moment(
                                     item.refund_date_time?.split(" ")[1],
                                     "HH:mm:ss"
-                                  ).format("hh:mm A")}
+                                  ).format("hh:mm A")} */}
                                 </td>
                                 <td>{item.payment_Status}</td>
                               </tr>

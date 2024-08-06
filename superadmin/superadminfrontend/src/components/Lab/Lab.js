@@ -73,7 +73,7 @@ const Lab = () => {
   const getListLabDetails = async () => {
     setLoading(true);
     try {
-      const data = await axios.get(
+      const { data } = await axios.get(
         `https://dentalguru-superadmin.vimubds5.a2hosted.com/api/v1/super-admin/getLabList/${branch.name}`,
         {
           headers: {
@@ -83,8 +83,8 @@ const Lab = () => {
         }
       );
       setLoading(false);
-      setLabList(data.data);
-      console.log(data.data);
+      setLabList(data);
+      console.log(data);
     } catch (error) {
       setLoading(false);
       console.log(error);

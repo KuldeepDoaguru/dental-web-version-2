@@ -24,7 +24,7 @@ const LabBills = () => {
       setLoading(true);
       try {
         const response = await axios.get(
-          `https://dentalguru-superadmin.vimubds5.a2hosted.com/api/v1/super-admin/getLabData/${branch.name}`,
+          `https://dentalguru-superadmin.vimubds5.a2hosted.com/api/v1/super-admin/getPatientLabTest/${branch.name}`,
           {
             headers: {
               "Content-Type": "application/json",
@@ -151,7 +151,7 @@ const LabBills = () => {
                           <tr className="table-row">
                             <td className="table-sno">{item.testid}</td>
                             <td className="table-small">
-                              {item.authenticate_date?.split("T")[0]}
+                              {item.created_date?.split(" ")[0]}
                             </td>
                             <td>{item.test}</td>
                             <td className="table-small">
@@ -171,7 +171,7 @@ const LabBills = () => {
                             {/* <td className="table-small">{item.cost}</td> */}
                             <td className="table-small">{item.payment}</td>
                             <td>{item.payment_status}</td>
-                            <td>{item.test === null ? "Pending" : "Done"}</td>
+                            <td>{item.test_status}</td>
                             <td>
                               {item?.created_date
                                 ? moment(

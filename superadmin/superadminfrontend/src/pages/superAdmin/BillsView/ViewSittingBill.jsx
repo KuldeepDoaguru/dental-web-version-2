@@ -225,7 +225,7 @@ const ViewSittingBill = () => {
         "textMatter",
         `Dear ${getPatientData[0]?.patient_name}, Please find the attached sitting bill file.`
       );
-      formData.append("file", pdfData, "prescription.pdf");
+      formData.append("file", pdfData, "sitting_bill.pdf");
       for (let [key, value] of formData.entries()) {
         console.log(key, value);
       }
@@ -270,13 +270,16 @@ const ViewSittingBill = () => {
 
       const formData = new FormData();
       formData.append("phoneNumber", getPatientData[0]?.mobileno);
-      formData.append("message", "Sitting bill");
+      formData.append(
+        "message",
+        `Dear ${getPatientData[0]?.patient_name}, your bill generated for the sitting ${sittingBill[0]?.sitting_number} of treatment ${sittingBill[0]?.treatment}, sitting bill amount is ${sittingBill[0]?.sitting_amount}/-`
+      );
       // Convert Blob to a File
-      const file = new File([pdfData], "sitting bill.pdf", {
+      const file = new File([pdfData], "sitting_bill.pdf", {
         type: "application/pdf",
       });
 
-      formData.append("media_url", file);
+      formData.append("mediaFile", file);
       for (let [key, value] of formData.entries()) {
         console.log(key, value);
       }
@@ -286,7 +289,7 @@ const ViewSittingBill = () => {
         formData,
         {
           headers: {
-            "Content-Type": "application/json",
+            "Content-Type": "multipart/form-data",
             Authorization: `Bearer ${token}`,
           },
         }

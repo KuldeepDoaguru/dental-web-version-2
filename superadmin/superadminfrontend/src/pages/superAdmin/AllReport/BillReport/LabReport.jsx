@@ -8,6 +8,7 @@ import { utils, writeFile } from "xlsx";
 import moment from "moment";
 import Lottie from "react-lottie";
 import animationData from "../../../../animation/loading-effect.json";
+// import moment from "moment";
 
 const LabReport = () => {
   const location = useLocation();
@@ -234,7 +235,11 @@ const LabReport = () => {
                                   <tr className="table-row">
                                     <td className="table-sno">{item.testid}</td>
                                     <td className="table-small">
-                                      {item.created_date?.split("T")[0]}
+                                      {item.created_date?.split(" ")[0]}{" "}
+                                      {moment(
+                                        item.created_date?.split(" ")[1],
+                                        "HH:mm:ss"
+                                      ).format("hh:mm A")}
                                     </td>
                                     <td className="table-small">
                                       {item.patient_uhid}

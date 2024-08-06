@@ -346,7 +346,12 @@ const TreatBillReport = () => {
                               <tr className="table-row">
                                 <td className="table-sno">{item.bill_id}</td>
                                 <td className="table-small">
-                                  {item.bill_date?.split("T")[0]}
+                                  {/* {item.bill_date?.split("T")[0]} */}
+                                  {item.bill_date?.split(" ")[0]}{" "}
+                                  {moment(
+                                    item.bill_date?.split(" ")[1],
+                                    "HH:mm:ss"
+                                  ).format("hh:mm a")}
                                 </td>
                                 <td className="table-small">
                                   <Link
@@ -377,7 +382,13 @@ const TreatBillReport = () => {
                                     ? "Paid"
                                     : "Pending"}
                                 </td>
-                                <td>{item.payment_date_time}</td>
+                                <td>
+                                  {item.payment_date_time?.split(" ")[0]}{" "}
+                                  {moment(
+                                    item.payment_date_time?.split(" ")[1],
+                                    "HH:mm:ss"
+                                  ).format("hh:mm a")}
+                                </td>
                               </tr>
                             </>
                           ))}

@@ -19,6 +19,7 @@ const PatientDetailsLIst = () => {
   console.log(`User Name: ${branch.name}`);
   const [patList, setPatList] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [ptype, setPtype] = useState("");
   const [keyword, setkeyword] = useState("");
   const complaintsPerPage = 8; // Number of complaints per page
   const [currentPage, setCurrentPage] = useState(0); // Start from the first page
@@ -67,15 +68,30 @@ const PatientDetailsLIst = () => {
     setkeyword(e.target.value);
   };
 
+  const uniqueDoctor = [...new Set(patList?.map((item) => item.patient_type))];
+
   const trimmedKeyword = keyword.trim().toLowerCase();
   console.log(trimmedKeyword);
 
-  const searchFilter = patList.filter(
-    (lab) =>
-      lab.patient_name.toLowerCase().includes(trimmedKeyword) ||
-      lab.uhid.toLowerCase().includes(trimmedKeyword) ||
-      lab.mobileno.includes(trimmedKeyword)
-  );
+  const searchFilter = patList.filter((lab) => {
+    if (ptype && trimmedKeyword) {
+      return (lab.patient_type =
+        ptype &&
+        (lab.patient_name.toLowerCase().includes(trimmedKeyword) ||
+          lab.uhid.toLowerCase().includes(trimmedKeyword) ||
+          lab.mobileno.includes(trimmedKeyword)));
+    } else if (ptype) {
+      return lab.patient_type === ptype;
+    } else if (trimmedKeyword) {
+      return (
+        lab.patient_name.toLowerCase().includes(trimmedKeyword) ||
+        lab.uhid.toLowerCase().includes(trimmedKeyword) ||
+        lab.mobileno.includes(trimmedKeyword)
+      );
+    } else {
+      return true;
+    }
+  });
 
   const totalPages = Math.ceil(searchFilter.length / complaintsPerPage);
 
@@ -122,6 +138,27 @@ const PatientDetailsLIst = () => {
                     </div>
                     <div>
                       <h4>Total : {searchFilter.length}</h4>
+                    </div>
+                    <div className="d-flex">
+                      <div>
+                        <h4>Filter by patient type :</h4>
+                      </div>
+                      <div>
+                        <select
+                          name=""
+                          id=""
+                          value={ptype}
+                          onChange={(e) => setPtype(e.target.value)}
+                          className="form-control mx-2"
+                        >
+                          <option value="">-select-</option>
+                          {uniqueDoctor?.map((item) => (
+                            <>
+                              <option value={item}>{item}</option>
+                            </>
+                          ))}
+                        </select>
+                      </div>
                     </div>
                   </div>
 

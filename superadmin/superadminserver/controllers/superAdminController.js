@@ -1289,7 +1289,7 @@ const prescriptionOnMail = (req, res) => {
 const sendWhatsapp = async (req, res) => {
   const { phoneNumber, message } = req.body;
   const mediaFile = req.file;
-  console.log("1018", mediaFile.filename);
+  console.log("1018", mediaFile?.filename);
 
   if (!phoneNumber || !message || !mediaFile) {
     return res
@@ -1298,14 +1298,12 @@ const sendWhatsapp = async (req, res) => {
   }
   console.log("1019", mediaFile, phoneNumber, message);
   const fileUrl = `http://localhost:7777/prescription/${mediaFile.filename}`;
-  console.log("1027", fileUrl.toString());
+  console.log("1027", fileUrl);
   try {
     const response = await client.messages.create({
       body: message,
       from: process.env.TWILIONUMBERWHATSAPP,
-      mediaUrl: [
-        "https://dentalgurusuperadmin.doaguru.com/branchHeadFootImg/1718777687071header.png",
-      ],
+      mediaUrl: [fileUrl],
       to: `whatsapp:+91${phoneNumber}`,
     });
     console.log("1027", response.body);
