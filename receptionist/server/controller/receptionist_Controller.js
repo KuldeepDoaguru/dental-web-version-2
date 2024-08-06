@@ -2710,7 +2710,7 @@ const LoginReceptionist = (req, res) => {
           { id: user.employee_ID },
           process.env.JWT_SECRET,
           {
-            expiresIn: "7d",
+            expiresIn: "12h",
           }
         );
         logger.info("Login successful");

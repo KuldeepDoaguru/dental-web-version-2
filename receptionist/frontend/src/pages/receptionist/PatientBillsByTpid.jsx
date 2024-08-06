@@ -12,6 +12,7 @@ import jsPDF from "jspdf";
 import { SiGmail, SiGooglemessages } from "react-icons/si";
 import { IoLogoWhatsapp } from "react-icons/io";
 import cogoToast from "cogo-toast";
+import domtoimage from 'dom-to-image';
 // import numWords from "num-words";
 
 const PatientBillsByTpid = () => {
@@ -70,6 +71,10 @@ const PatientBillsByTpid = () => {
     getBranchDetails();
   }, []);
   // Get Patient Details END
+
+  const handleBack = ()=>{
+    navigate("/invoices?tab=paid")
+  }
 
   // Get Patient Examintion Details START
   const getExaminDetail = async () => {
@@ -250,8 +255,10 @@ const PatientBillsByTpid = () => {
     const imgHeight = (canvas.height * imgWidth) / canvas.width;
 
     pdf.addImage(imgData, "JPEG", 0, 0, imgWidth, imgHeight, undefined, 'FAST'); // Use 'FAST' for compression
-    pdf.save("sitting bill.pdf");
+    pdf.save("bill.pdf");
   };
+
+
 
   const sendPrescriptionMail = async () => {
     if(!getPatientData[0]?.emailid){
@@ -346,7 +353,7 @@ const PatientBillsByTpid = () => {
           },
         }
       );
-      cogoToast.success("sitting bill sent successfully");
+      cogoToast.success("Bill sent successfully");
       console.log("PDF sent successfully");
     } catch (error) {
       console.error("Error sending PDF:", error);
@@ -383,7 +390,8 @@ const PatientBillsByTpid = () => {
           <div className="d-flex justify-content-between align-items-center my-2 px-3 gap-2">
             <button
               className="btn btn-info no-print btn-lg shadow"
-              onClick={() => window.history.go(-1)}
+              // onClick={() => window.history.go(-1)}
+              onClick={handleBack}
             >
             <IoMdArrowRoundBack />   Back
             </button>

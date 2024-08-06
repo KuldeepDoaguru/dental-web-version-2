@@ -169,7 +169,7 @@ const SittingBill = () => {
   console.log(sittingBill);
 
   const goBack = () => {
-    navigate("/sitting-due-amount");
+    navigate("/invoices?tab=paidSittingBill");
   };
   const handleDownloadPdf = async () => {
     const element = contentRef.current;
@@ -414,7 +414,8 @@ const SittingBill = () => {
         <div className="d-flex justify-content-between align-items-center my-2 px-3 gap-2">
             <button
               className="btn btn-info no-print btn-lg shadow"
-              onClick={() => window.history.go(-1)}
+              // onClick={() => window.history.go(-1)}
+              onClick={goBack}
             >
             <IoMdArrowRoundBack />  Back
             </button>
