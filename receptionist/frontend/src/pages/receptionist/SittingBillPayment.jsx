@@ -192,6 +192,9 @@ function SittingBillPayment() {
     if (saAmt[0]?.remaining_amount >= billAmount[0]?.sitting_amount) {
       return saAmt[0]?.remaining_amount - billAmount[0]?.sitting_amount;
     }
+    else{
+      return 0;
+    }
   };
 
   const remainingSecurityAmount = remainingSecurityAmountCheck();
@@ -310,7 +313,10 @@ function SittingBillPayment() {
         }
       );
       cogoToast.success("successfully paid sitting bill");
-      updateRemainingSecurity();
+      if(data.payment_option === "security"){
+        updateRemainingSecurity();
+      }
+      
       updateBillforSitting();
       navigate(
         `/ViewPatientSittingBill/${tpid}/${sbid}/${billAmount[0]?.treatment}`
@@ -478,7 +484,7 @@ function SittingBillPayment() {
                       />
                     </div>
                   </div>
-                  {saAmt[0]?.payment_status === "pending" ? (
+                  {saAmt[0]?.payment_status === "pending" || !saAmt[0]?.remaining_amount ? (
                     <>
                       <div className="col-xxl-2 col-xl-2 col-lg-2 col-md-4 col-sm-12 col-12">
                         <div class="mb-3">
@@ -503,10 +509,13 @@ function SittingBillPayment() {
                           </label>
                           <input
                             type="text"
+                            // value={
+                            //   saAmt[0]?.remaining_amount === 0
+                            //     ? saAmt[0]?.amount
+                            //     : saAmt[0]?.remaining_amount
+                            // }
                             value={
-                              saAmt[0]?.remaining_amount === 0
-                                ? saAmt[0]?.amount
-                                : saAmt[0]?.remaining_amount
+                             saAmt[0]?.remaining_amount
                             }
                             readonly
                             class="form-control"
@@ -526,8 +535,14 @@ function SittingBillPayment() {
                         class="form-control"
                       >
                         <option value="">-select-</option>
-                        {saAmt[0]?.payment_status === "pending" &&
+                        {/* {saAmt[0]?.payment_status === "pending" &&
                         saAmt[0]?.remaining_amount === 0 ? (
+                          ""
+                        ) : (
+                          <option value="security">Pay security amount</option>
+                        )} */}
+                        {saAmt[0]?.payment_status === "pending" ||
+                        (saAmt[0]?.remaining_amount < billAmount[0]?.sitting_amount) || !saAmt[0]?.remaining_amount ? (
                           ""
                         ) : (
                           <option value="security">Pay security amount</option>
@@ -646,6 +661,10 @@ function SittingBillPayment() {
                       </div>
                     </>
                   )}
+                  {
+                    ((saAmt[0]?.remaining_amount < billAmount[0]?.sitting_amount) || !saAmt[0]?.remaining_amount) && 
+                    <p style={{color:"red"}}>* if Remaining Security amount is less than sitting amount so select Pay direct </p>
+                  }
                 </div>
               </form>
             </div>
