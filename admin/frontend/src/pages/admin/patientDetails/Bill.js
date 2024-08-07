@@ -18,7 +18,7 @@ const Bill = () => {
   const getBillDetails = async () => {
     try {
       const { data } = await axios.get(
-        `https://dentalguruadmin.doaguru.com/api/v1/admin/get-patientBill-data/${pid}`,
+        `https://dentalguru-admin.vimubds5.a2hosted.com/api/v1/admin/get-patientBill-data/${pid}`,
         {
           headers: {
             "Content-Type": "multipart/form-data",

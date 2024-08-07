@@ -42,7 +42,7 @@ const TreatmentTMAdmin = () => {
     setLoading(true);
     try {
       const response = await axios.get(
-        `https://dentalguruadmin.doaguru.com/api/v1/admin/getAppointmentData/${user.branch_name}`,
+        `https://dentalguru-admin.vimubds5.a2hosted.com/api/v1/admin/getAppointmentData/${user.branch_name}`,
         {
           headers: {
             "Content-Type": "multipart/form-data",
@@ -60,7 +60,7 @@ const TreatmentTMAdmin = () => {
 
   useEffect(() => {
     getAppointList();
-  }, [user.branch_name]);
+  }, []);
 
   useEffect(() => {
     const getDate = new Date();
@@ -73,11 +73,6 @@ const TreatmentTMAdmin = () => {
     );
     console.log(formattedDate);
 
-    // const formatByBranch = appointmentList?.filter(
-    //   (item) => item.branch_name === user.branch_name // Additional filter by some other property
-    // );
-
-    // console.log(formatByBranch);
     const filterForMonthlyAppointments = appointmentList?.filter((item) =>
       item.appointment_dateTime?.split("T")[0]?.includes(formattedDate)
     );
@@ -133,49 +128,44 @@ const TreatmentTMAdmin = () => {
     },
   };
 
-
-
-
-
   return (
     <Container>
       <div className="d-flex justify-content-center align-items-center pt-5">
-
-      {loading ? (
-            <Lottie options={defaultOptions} height={300} width={400}></Lottie>
-          ) : (
-            <>
-        <div id="chart">
-          {appointmentList.length > 0 ? (
-            <>
-              <ReactApexChart
-                options={chartData.options}
-                series={chartData.series}
-                type="pie"
-                width={480}
-              />
-            </>
-          ) : (
-            <>
-              {/* <p>No Data</p> */}
-              <ReactApexChart
-                options={{
-                  // Define options for the blank chart
-                  chart: {
-                    width: 380,
-                    type: "pie",
-                    foreColor: "#000000",
-                  },
-                }}
-                series={[0]}
-                type="pie"
-                width={380}
-              />
-            </>
-          )}
-        </div>
-        </>
-          )}
+        {loading ? (
+          <Lottie options={defaultOptions} height={300} width={400}></Lottie>
+        ) : (
+          <>
+            <div id="chart">
+              {appointmentList.length > 0 ? (
+                <>
+                  <ReactApexChart
+                    options={chartData.options}
+                    series={chartData.series}
+                    type="pie"
+                    width={480}
+                  />
+                </>
+              ) : (
+                <>
+                  {/* <p>No Data</p> */}
+                  <ReactApexChart
+                    options={{
+                      // Define options for the blank chart
+                      chart: {
+                        width: 380,
+                        type: "pie",
+                        foreColor: "#000000",
+                      },
+                    }}
+                    series={[0]}
+                    type="pie"
+                    width={380}
+                  />
+                </>
+              )}
+            </div>
+          </>
+        )}
       </div>
     </Container>
   );

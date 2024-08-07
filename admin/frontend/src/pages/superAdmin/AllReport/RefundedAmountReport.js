@@ -31,7 +31,7 @@
 //     const differenceInMilliseconds = to - from;
 //     const differenceInDays = differenceInMilliseconds / (1000 * 60 * 60 * 24);
 //     if (differenceInDays >= 30) {
-//       setError(true);  
+//       setError(true);
 //       cogoToast.error(
 //         "The difference between the dates should be less than 30 days"
 //       );
@@ -48,7 +48,7 @@
 //     setLoading(true);
 //     try {
 //       const { data } = await axios.get(
-//         `https://dentalguruadmin.doaguru.com/api/v1/admin/getRefundAmountData/${branch}`,
+//         `https://dentalguru-admin.vimubds5.a2hosted.com/api/v1/admin/getRefundAmountData/${branch}`,
 //         {
 //           headers: {
 //             "Content-Type": "application/json",
@@ -138,9 +138,6 @@
 //     window.URL.revokeObjectURL(link.href);
 //   };
 
-  
-
-
 //   console.log(error);
 
 //   return (
@@ -205,7 +202,7 @@
 //                                 >
 //                                   Download Report
 //                                 </button>
-                              
+
 //                               </div>
 //                             </form>
 //                           </div>
@@ -265,7 +262,7 @@
 //                                               billDate <= toDateCorrectFormat
 //                                             );
 //                                           } else {
-//                                             return true; 
+//                                             return true;
 //                                           }
 //                                         })
 //                                         .map((item) => (
@@ -363,18 +360,15 @@
 //   }
 // `;
 
-
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { Dropdown, Nav } from "react-bootstrap";
-
 
 import { IoMdArrowRoundBack } from "react-icons/io";
 import SiderAdmin from "../../admin/SiderAdmin";
 import HeaderAdmin from "../../admin/HeaderAdmin";
 import OpdRefundAmount from "../../admin/All-Report/RefundAmount/OpdRefundAmount";
 import Refundamount from "../../admin/All-Report/RefundAmount/Refundamount";
-
 
 const RefundedAmountReport = () => {
   const initialTab = localStorage.getItem("selectedTab") || "tab1";
@@ -394,7 +388,10 @@ const RefundedAmountReport = () => {
               <div className="col-lg-1 col-md-1 col-1 p-0">
                 <SiderAdmin />
               </div>
-              <div className="col-lg-11 col-md-11 col-11 ps-0 mx-3" style={{marginTop:"5rem"}}>
+              <div
+                className="col-lg-11 col-md-11 col-11 ps-0 mx-3"
+                style={{ marginTop: "5rem" }}
+              >
                 <div className="container-fluid mt-3">
                   {/* <div className="d-flex justify-content-between mx-2">
                     <BranchSelector />
@@ -481,7 +478,7 @@ const Container = styled.div`
   }
 
   .navlink.active {
-    background-color: #f53237 !important;
+    background-color: #1abc9c !important;
     border-radius: 1rem;
     color: white !important;
   }
@@ -500,7 +497,7 @@ const Container = styled.div`
 
   .select-style {
     border: none;
-    background-color:#1abc9c;
+    background-color: #1abc9c;
     font-weight: bold;
     color: white;
   }

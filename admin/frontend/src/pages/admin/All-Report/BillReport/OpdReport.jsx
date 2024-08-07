@@ -13,7 +13,7 @@ const OpdReport = () => {
   const location = useLocation();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.currentUser);
- 
+
   const branch = user.branch_name;
   console.log(`User Name: ${branch.name}`);
   const [opdBills, setOpdBills] = useState([]);
@@ -25,7 +25,7 @@ const OpdReport = () => {
     setLoading(true);
     try {
       const { data } = await axios.get(
-        `https://dentalguruadmin.doaguru.com/api/v1/admin/getAppointmentData/${branch}`,
+        `https://dentalguru-admin.vimubds5.a2hosted.com/api/v1/admin/getAppointmentData/${branch}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -41,8 +41,6 @@ const OpdReport = () => {
       console.log(error);
     }
   };
-
-  
 
   const goBack = () => {
     window.history.go(-1);
@@ -74,34 +72,6 @@ const OpdReport = () => {
 
   console.log(filterBillDataByMonth);
 
-  // const downloadBillingData = async (e) => {
-  //   e.preventDefault();
-  //   try {
-  //     const { data } = await axios.post(
-  //       `https://dentalguruadmin.doaguru.com/api/v1/admin/downloadOPDReportByTime/${branch}`,
-  //       { fromDate: fromDate, toDate: toDate },
-  //       {
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //           Authorization: `Bearer ${user.token}`,
-  //         },
-  //       }
-  //     );
-  //     console.log(data);
-
-  //     if (Array.isArray(data)) {
-  //       const workbook = utils.book_new();
-  //       const worksheet = utils.json_to_sheet(data);
-  //       utils.book_append_sheet(workbook, worksheet, `Billing Report`);
-  //       writeFile(workbook, `${fromDate} - ${toDate}-billing-report.xlsx`);
-  //       console.log(data);
-  //     } else {
-  //       console.error("data is not an array");
-  //     }
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
   const exportToExcel = (e) => {
     e.preventDefault();
     const csvRows = [];
@@ -128,9 +98,7 @@ const OpdReport = () => {
     link.click();
     window.URL.revokeObjectURL(link.href);
   };
-  
-  
-  
+
   const defaultOptions = {
     loop: true,
     autoplay: true,
@@ -142,7 +110,7 @@ const OpdReport = () => {
 
   useEffect(() => {
     getBillDetailsList();
-  }, [branch.name]);
+  }, []);
 
   console.log(fromDate, toDate);
 
@@ -173,17 +141,25 @@ const OpdReport = () => {
                       onChange={(e) => setToDate(e.target.value)}
                     />
                   </div>
-                  <button className="btn btn-warning mx-2" type="submit">
+                  <button
+                    className="btn btn-warning mx-2 text-light"
+                    style={{ backgroundColor: "#1abc9c" }}
+                    type="submit"
+                  >
                     Download Report
                   </button>
                 </div>
               </form>
             </div>
             <div className="container-fluid mt-3">
-            {loading ? (
-            <Lottie options={defaultOptions} height={300} width={400}></Lottie>
-          ) : (
-            <>
+              {loading ? (
+                <Lottie
+                  options={defaultOptions}
+                  height={300}
+                  width={400}
+                ></Lottie>
+              ) : (
+                <>
                   <div class="table-responsive rounded">
                     <table class="table table-bordered rounded shadow">
                       <thead className="table-head">
@@ -284,8 +260,8 @@ const OpdReport = () => {
                       </tbody>
                     </table>
                   </div>
-                  </>
-  )}
+                </>
+              )}
             </div>
           </div>
         </div>

@@ -7,13 +7,11 @@ import styled from "styled-components";
 import animationData from "../animation/loading-effect.json";
 import Lottie from "react-lottie";
 
-
 const OpdBills = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.currentUser);
   const branch = user.branch_name;
   const [loading, setLoading] = useState(false);
-  
   const [appointmentList, setAppointmentList] = useState([]);
   const [keyword, setkeyword] = useState("");
   const [currentPage, setCurrentPage] = useState(0);
@@ -23,7 +21,7 @@ const OpdBills = () => {
       setLoading(true);
       try {
         const response = await axios.get(
-          `https://dentalguruadmin.doaguru.com/api/v1/admin/getAppointmentData/${branch}`,
+          `https://dentalguru-admin.vimubds5.a2hosted.com/api/v1/admin/getAppointmentData/${branch}`,
           {
             headers: {
               "Content-Type": "application/json",
@@ -40,9 +38,7 @@ const OpdBills = () => {
     };
 
     getAppointList();
-  }, [branch]);
-
- 
+  }, []);
 
   const todayDate = new Date();
 
@@ -74,14 +70,13 @@ const OpdBills = () => {
     const lowerKeyword = keyword.toLowerCase().trim();
     return (
       opd.patient_name.toLowerCase().trim().includes(lowerKeyword) ||
-      opd.patient_uhid.toLowerCase().trim().includes(lowerKeyword) 
+      opd.patient_uhid.toLowerCase().trim().includes(lowerKeyword)
     );
   });
 
   const totalBillAmount = searchFilter.reduce((total, item) => {
-    return total + item.opd_amount;
+    return total + Number(item.opd_amount);
   }, 0);
-
 
   const opdPerPage = 10;
 
@@ -119,20 +114,23 @@ const OpdBills = () => {
               value={keyword}
               onChange={(e) => setkeyword(e.target.value.toLowerCase())}
             />
-         
-           <p className="fw-bold">Total OPD Bills : {appointmentList.length}</p>
+
+            <p className="fw-bold">
+              Total OPD Bills : {appointmentList.length}
+            </p>
           </div>
         </div>
 
         {loading ? (
-            <Lottie options={defaultOptions} height={300} width={400}></Lottie>
-          ) : (
-            <>
-         
+          <Lottie options={defaultOptions} height={300} width={400}></Lottie>
+        ) : (
+          <>
             {displayedAppointments?.length > 0 ? (
               <>
                 <div class="table-responsive rounded mt-4">
-                <h4 className="mb-3 ">Total Received Amount :- {totalBillAmount}/-</h4>
+                  <h4 className="mb-3 ">
+                    Total Received Amount :- {totalBillAmount}/-
+                  </h4>
                   <table class="table table-bordered rounded shadow">
                     <thead className="table-head">
                       <tr>
@@ -188,10 +186,8 @@ const OpdBills = () => {
                 <h1>No Bill Found</h1>
               </>
             )}
-  </>
-          )}
-
-         
+          </>
+        )}
       </Container>
     </>
   );

@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-// import Navbar from "./PatientProfileFiles/Navbar";
-// import Header from "../../../components/Header";
-// import Sider from "../../../components/Sider";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { useParams } from "react-router-dom";
@@ -25,7 +22,7 @@ const AdminPatientProfile = () => {
   const patientProfileData = async () => {
     try {
       const { data } = await axios.get(
-        `https://dentalguruadmin.doaguru.com/api/v1/admin/getPatientDataByBranchAndId/${pid}`,
+        `https://dentalguru-admin.vimubds5.a2hosted.com/api/v1/admin/getPatientDataByBranchAndId/${pid}`,
         {
           headers: {
             "Content-Type": "multipart/form-data",
@@ -43,7 +40,7 @@ const AdminPatientProfile = () => {
   const getOngoingTreat = async () => {
     try {
       const { data } = await axios.get(
-        `https://dentalguruadmin.doaguru.com/api/v1/admin/getPatientBillByBranchAndId/${user.branch_name}/${pid}`,
+        `https://dentalguru-admin.vimubds5.a2hosted.com/api/v1/admin/getPatientBillByBranchAndId/${user.branch_name}/${pid}`,
         {
           headers: {
             "Content-Type": "multipart/form-data",
@@ -82,14 +79,17 @@ const AdminPatientProfile = () => {
         <div className="col-lg-1 col-md-2 col-1" id="sider">
           <SiderAdmin />
         </div>
-        <div className="col-lg-11 col-md-10 col-11" style={{marginTop:"5rem"}}>
+        <div
+          className="col-lg-11 col-md-10 col-11"
+          style={{ marginTop: "5rem" }}
+        >
           <div className="container-fluid mt-3">
             <div className="d-flex justify-content-between">
               {/* <BranchSelector /> */}
             </div>
-          <button className="btn btn-success" onClick={goBack}>
-                    <IoMdArrowRoundBack /> Back
-                  </button>
+            <button className="btn btn-success" onClick={goBack}>
+              <IoMdArrowRoundBack /> Back
+            </button>
           </div>
           <div className="row g-2">
             <div className="col-xxl-3 col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12">
@@ -101,6 +101,50 @@ const AdminPatientProfile = () => {
                 </div>
                 <div className="container">
                   <ul className="list-unstyled w-100">
+                    <li>
+                      <div>
+                        <div className="row">
+                          <div className="col-xl-5 col-lg-5 col-md-6 col-sm-6 col-12">
+                            <strong>Patient Type :</strong>
+                          </div>
+                          <div className="col-xl-7 col-lg-7 col-md-6 col-sm-6 col-12">
+                            <span className="">
+                              {patientData?.patient_type}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </li>
+                    {patientData?.patient_type === "Credit" && (
+                      <li>
+                        <div>
+                          <div className="row">
+                            <div className="col-xl-5 col-lg-5 col-md-6 col-sm-6 col-12">
+                              <strong>Credit By :</strong>
+                            </div>
+                            <div className="col-xl-7 col-lg-7 col-md-6 col-sm-6 col-12">
+                              <span className="">{patientData?.credit_By}</span>
+                            </div>
+                          </div>
+                        </div>
+                      </li>
+                    )}
+                    {patientData?.patient_type === "Credit" && (
+                      <li>
+                        <div>
+                          <div className="row">
+                            <div className="col-xl-5 col-lg-5 col-md-6 col-sm-6 col-12">
+                              <strong>Beneficiary Id :</strong>
+                            </div>
+                            <div className="col-xl-7 col-lg-7 col-md-6 col-sm-6 col-12">
+                              <span className="">
+                                {patientData?.beneficiary_Id}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </li>
+                    )}
                     <li>
                       <div>
                         <div className="row">

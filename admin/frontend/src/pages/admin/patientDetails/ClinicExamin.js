@@ -21,7 +21,7 @@ const ClinicExamin = () => {
       //   `http://localhost:7777/api/v1/super-admin/examinDetailsByPatId/${pid}`
       // );
       const respsData = await axios.get(
-        `https://dentalguruadmin.doaguru.com/api/v1/admin/getExaminationViaUhid/${branch}/${pid}`,
+        `https://dentalguru-admin.vimubds5.a2hosted.com/api/v1/admin/getExaminationViaUhid/${branch}/${pid}`,
         {
           headers: {
             "Content-Type": "multipart/form-data",

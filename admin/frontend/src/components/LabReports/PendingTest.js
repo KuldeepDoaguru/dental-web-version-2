@@ -20,7 +20,7 @@ const PendingTest = () => {
     const fetchPatientDetails = async () => {
       try {
         const response = await axios.get(
-          `https://dentalguruadmin.doaguru.com/api/v1/admin/getPatientLabTest`,
+          `https://dentalguru-admin.vimubds5.a2hosted.com/api/v1/admin/getPatientLabTest`,
           {
             headers: {
               "Content-Type": "multipart/form-data",
@@ -37,18 +37,20 @@ const PendingTest = () => {
     fetchPatientDetails();
   }, []);
 
-     // Filter the patient details to include only those with a "pending" status
- const pendingPatients = patientDetails?.filter(patient => patient.test_status === "pending");
+  // Filter the patient details to include only those with a "pending" status
+  const pendingPatients = patientDetails?.filter(
+    (patient) => patient.test_status === "pending"
+  );
 
- // Apply search and date filters to the pending patients
- const filteredPatients = pendingPatients?.filter((patient) => {
-   const fullName = `${patient.patient_name}`.toLowerCase();
-   const formattedDate = moment(patient.created_date).format("YYYY-MM-DD");
-   return (
-     fullName.includes(searchQuery.toLowerCase()) &&
-     (!dateFilter || formattedDate === dateFilter)
-   );
- });
+  // Apply search and date filters to the pending patients
+  const filteredPatients = pendingPatients?.filter((patient) => {
+    const fullName = `${patient.patient_name}`.toLowerCase();
+    const formattedDate = moment(patient.created_date).format("YYYY-MM-DD");
+    return (
+      fullName.includes(searchQuery.toLowerCase()) &&
+      (!dateFilter || formattedDate === dateFilter)
+    );
+  });
 
   const goBack = () => {
     window.history.go(-1);
@@ -124,65 +126,65 @@ const PendingTest = () => {
                   style={{ maxHeight: "700px", overflowY: "auto" }}
                 >
                   {filteredPatients.length === 0 ? (
-          <div className='mb-2 fs-4 fw-bold text-center'>No pending test available</div>
-          ) : (
+                    <div className="mb-2 fs-4 fw-bold text-center">
+                      No pending test available
+                    </div>
+                  ) : (
+                    <>
+                      <table className="table table-bordered">
+                        <thead>
+                          <tr>
+                            <th>ID</th>
+                            <th>Patient UHID </th>
+                            <th>Patient Name </th>
+                            <th> Age </th>
+                            <th> Gender </th>
+                            <th>Branch Name </th>
+                            <th>Assigned Doctor Name</th>
+                            <th>Lab Name</th>
+                            <th>Created Date</th>
+                            <th>Patient Tests </th>
+                            <th>Tests Status </th>
+                          </tr>
+                        </thead>
 
-<>
-                  <table className="table table-bordered">
-                    <thead>
-                      <tr>
-                        <th>ID</th>
-                        <th>Patient UHID </th>
-                        <th>Patient Name </th>
-                        <th> Age </th>
-                        <th> Gender </th>
-                        <th>Branch Name </th>
-                        <th>Assigned Doctor Name</th>
-                        <th>Lab Name</th>
-                        <th>Created Date</th>
-                        <th>Patient Tests </th>
-                        <th>Tests Status </th>
-                      </tr>
-                    </thead>
-
-                    <tbody>
-                      {filteredPatients.map((patient, index) => (
-                        <>
-                          {patient.test_status === "pending" && (
-                            <tr key={patient.testid}>
-                              <td>{index + 1}</td>
-                              <td>{patient.patient_uhid}</td>
-                              <td>{patient.patient_name}</td>
-                              <td>{patient.age}</td>
-                              <td>{patient.gender}</td>
-                              <td>{patient.branch_name}</td>
-
-                              <td>{patient.assigned_doctor_name}</td>
-                              <td>{patient.lab_name}</td>
-                              <td>
-                                {moment(patient.created_date).format(
-                                  "DD/MM/YYYY"
-                                )}
-                              </td>
-                              <td>{patient.test}</td>
-
+                        <tbody>
+                          {filteredPatients.map((patient, index) => (
+                            <>
                               {patient.test_status === "pending" && (
-                                <td>
-                                  <p className="text-danger fw-bold">
-                                    {patient.test_status}
-                                  </p>
-                                </td>
+                                <tr key={patient.testid}>
+                                  <td>{index + 1}</td>
+                                  <td>{patient.patient_uhid}</td>
+                                  <td>{patient.patient_name}</td>
+                                  <td>{patient.age}</td>
+                                  <td>{patient.gender}</td>
+                                  <td>{patient.branch_name}</td>
+
+                                  <td>{patient.assigned_doctor_name}</td>
+                                  <td>{patient.lab_name}</td>
+                                  <td>
+                                    {moment(patient.created_date).format(
+                                      "DD/MM/YYYY"
+                                    )}
+                                  </td>
+                                  <td>{patient.test}</td>
+
+                                  {patient.test_status === "pending" && (
+                                    <td>
+                                      <p className="text-danger fw-bold">
+                                        {patient.test_status}
+                                      </p>
+                                    </td>
+                                  )}
+                                </tr>
                               )}
-                            </tr>
-                          )}
-                        </>
-                        // Wrap the entire row inside a conditional statement based on test status
-                      ))}
-                    </tbody>
-                  </table>
-                  </>
-          )
-        }
+                            </>
+                            // Wrap the entire row inside a conditional statement based on test status
+                          ))}
+                        </tbody>
+                      </table>
+                    </>
+                  )}
                 </div>
               </div>
 

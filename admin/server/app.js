@@ -11,7 +11,7 @@ dotenv.config();
 const app = express();
 app.use(express.static("reciept_doc"));
 app.use(express.static("empProfilePicture"));
-app.use(express.static(join(__dirname, "build")));
+// app.use(express.static(join(__dirname, "build")));
 
 // middlewares
 app.use(cors());
@@ -26,12 +26,12 @@ app.use(
 );
 app.get("*", (req, res, next) => {
   // If the request is for an API route, skip serving the React HTML file
-  if (req.url.startsWith('/api')) {
+  if (req.url.startsWith("/api")) {
     return next();
   }
-  
+
   // Otherwise, serve the React HTML file
-  res.sendFile(join(__dirname, "build", "index.html"));
+  // res.sendFile(join(__dirname, "build", "index.html"));
 });
 
 // rest api

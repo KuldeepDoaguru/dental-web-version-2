@@ -41,7 +41,7 @@ const TotalApsTMAdmin = () => {
       setLoading(true);
       try {
         const response = await axios.get(
-          `https://dentalguruadmin.doaguru.com/api/v1/admin/getAppointmentData/${user.branch_name}`,
+          `https://dentalguru-admin.vimubds5.a2hosted.com/api/v1/admin/getAppointmentData/${user.branch_name}`,
           {
             headers: {
               "Content-Type": "multipart/form-data",
@@ -58,7 +58,7 @@ const TotalApsTMAdmin = () => {
     };
 
     getAppointList();
-  }, [user.branch_name]);
+  }, []);
 
   const getDate = new Date();
   const year = getDate.getFullYear();
@@ -91,34 +91,33 @@ const TotalApsTMAdmin = () => {
     },
   };
 
-
   return (
     <>
       <Container>
         <div className="container-fluid mt-4" id="main">
-        {loading ? (
+          {loading ? (
             <Lottie options={defaultOptions} height={300} width={400}></Lottie>
           ) : (
             <>
-          <BarChart
-            width={390}
-            height={300}
-            data={data}
-            margin={{
-              top: 5,
-              right: 10,
-              left: -20,
-              bottom: 5,
-            }}
-          >
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="date" />
-            <YAxis />
-            <Tooltip />
-            <Legend />
-            <Bar dataKey="patients" fill="#40407a" />
-          </BarChart>
-          </>
+              <BarChart
+                width={390}
+                height={300}
+                data={data}
+                margin={{
+                  top: 5,
+                  right: 10,
+                  left: -20,
+                  bottom: 5,
+                }}
+              >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="date" />
+                <YAxis />
+                <Tooltip />
+                <Legend />
+                <Bar dataKey="patients" fill="#40407a" />
+              </BarChart>
+            </>
           )}
         </div>
       </Container>

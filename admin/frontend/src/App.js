@@ -49,6 +49,7 @@ import PendingTest from "./components/LabReports/PendingTest";
 import Compleated from "./components/LabReports/Compleated";
 import AdminAllBills from "./pages/AdminAllBills";
 import RefundedAmountReport from "./pages/superAdmin/AllReport/RefundedAmountReport";
+import ViewSittingBill from "./pages/BillsView/ViewSittingBill";
 
 const App = () => {
   const user = useSelector((state) => state.user);
@@ -444,6 +445,16 @@ const App = () => {
             path="/Compleated"
             element={
               user.currentUser === null ? <UniversalLogin /> : <Compleated />
+            }
+          />
+          <Route
+            path="/ViewSittingBill/:tpid/:sitting/:treatment/:appoint_id/:uhid"
+            element={
+              user.currentUser === null ? (
+                <UniversalLogin />
+              ) : (
+                <ViewSittingBill />
+              )
             }
           />
           <Route

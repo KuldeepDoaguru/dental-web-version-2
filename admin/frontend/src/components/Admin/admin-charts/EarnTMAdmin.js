@@ -41,7 +41,7 @@ const EarnTMAdmin = () => {
       setLoading(true);
       try {
         const response = await axios.get(
-          `https://dentalguruadmin.doaguru.com/api/v1/admin/getBillsByBranch/${user.branch_name}`,
+          `https://dentalguru-admin.vimubds5.a2hosted.com/api/v1/admin/getBillsByBranch/${user.branch_name}`,
           {
             headers: {
               "Content-Type": "multipart/form-data",
@@ -58,7 +58,7 @@ const EarnTMAdmin = () => {
     };
 
     getAppointList();
-  }, [user.branch_name]);
+  }, []);
 
   console.log(appointmentList);
 
@@ -114,48 +114,47 @@ const EarnTMAdmin = () => {
     },
   };
 
-
   console.log(data);
 
   return (
     <>
       <Container>
         <div className="container-fluid mt-4" id="main">
-        {loading ? (
+          {loading ? (
             <Lottie options={defaultOptions} height={300} width={400}></Lottie>
           ) : (
             <>
-          <BarChart
-            width={400}
-            height={300}
-            data={data}
-            margin={{
-              top: 5,
-              right: 10,
-              left: -40,
-              bottom: 5,
-            }}
-          >
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="date" />
-            <YAxis yAxisId="left" />
-            <YAxis yAxisId="right" orientation="right" />
-            <Tooltip />
-            <Legend />
-            <Bar
-              dataKey="patients"
-              fill="#40407a"
-              yAxisId="left"
-              name="Patients"
-            />
-            <Bar
-              dataKey="Amount"
-              fill="#c23616"
-              yAxisId="right"
-              name="Amount"
-            />
-          </BarChart>
-          </>
+              <BarChart
+                width={400}
+                height={300}
+                data={data}
+                margin={{
+                  top: 5,
+                  right: 10,
+                  left: -40,
+                  bottom: 5,
+                }}
+              >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="date" />
+                <YAxis yAxisId="left" />
+                <YAxis yAxisId="right" orientation="right" />
+                <Tooltip />
+                <Legend />
+                <Bar
+                  dataKey="patients"
+                  fill="#40407a"
+                  yAxisId="left"
+                  name="Patients"
+                />
+                <Bar
+                  dataKey="Amount"
+                  fill="#c23616"
+                  yAxisId="right"
+                  name="Amount"
+                />
+              </BarChart>
+            </>
           )}
         </div>
       </Container>

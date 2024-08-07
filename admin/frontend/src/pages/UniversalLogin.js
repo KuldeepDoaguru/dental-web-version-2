@@ -4,7 +4,6 @@ import styled from "styled-components";
 import { IoEye, IoEyeOffOutline } from "react-icons/io5";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
-// import { setBranch } from "../redux/slices/BranchSlicer";
 import { setUser } from "../redux/slices/UserSlicer";
 import cogoToast from "cogo-toast";
 
@@ -13,11 +12,6 @@ const UniversalLogin = () => {
   const navigate = useNavigate();
   const user = useSelector((state) => state.user.currentUser);
   console.log(user);
-
-  // console.log(`User Name: ${user.name}, User ID: ${user.id}`);
-  // console.log("User State:", user);
-  // const branch = useSelector((state) => state.branch);
-  // console.log(`User Name: ${branch.name}`);
   const [branchList, setBranchList] = useState(null);
   const [selectedBranch, setSelectedBranch] = useState();
   const [email, setEmail] = useState("");
@@ -25,14 +19,10 @@ const UniversalLogin = () => {
   const [show, setShow] = useState(false);
   const [loading, setloading] = useState(false);
 
-  // const HandleChange = (event) => {
-  //   setBranchList(event.target.value);
-  // };
-
   const getBranchList = async () => {
     try {
       const response = await axios.get(
-        "https://dentalguruadmin.doaguru.com/api/v1/admin/getBranch"
+        "https://dentalguru-admin.vimubds5.a2hosted.com/api/v1/admin/getBranch"
       );
       console.log(response.data);
       setBranchList(response.data);
@@ -42,41 +32,25 @@ const UniversalLogin = () => {
   };
 
   console.log(branchList);
-  // const branchData = {
-  //   name:
-  //     selectedBranch ||
-  //     (branchList?.length > 0 ? branchList[0].branch_name : ""),
-  // };
-  // localStorage.setItem("branchName", JSON.stringify(branchData));
-  // dispatch(setBranch(branchData));
 
   const adminLogin = async (e) => {
     e.preventDefault();
     try {
-      setloading(true)
+      setloading(true);
       const response = await axios.post(
-        "https://dentalguruadmin.doaguru.com/api/v1/admin/adminLoginUser",
+        "https://dentalguru-admin.vimubds5.a2hosted.com/api/v1/admin/adminLoginUser",
         {
           email,
           password,
           branch_name: selectedBranch,
         }
       );
-      // console.log(response.data.user.employee_ID);
-      // const userData = {
-      //   name: response.data.user.email,
-      //   id: response.data.user.employee_ID,
-      //   branch: response.data.user.branch,
-      //   employee_name: response.data.user.employee_name,
-      //   employee_mobile: response.data.user.employee_mobile,
-      //   employee_designation: response.data.user.employee_designation,
-      // };
-      // localStorage.setItem("userData", JSON.stringify(userData));
+
       dispatch(setUser(response.data.user));
       cogoToast.success("Login Successful");
       navigate("/admin-dashboard");
     } catch (error) {
-      setloading(false)
+      setloading(false);
       console.log("Axios error:", error);
       cogoToast.error(error.response.data.message);
     }
@@ -186,9 +160,9 @@ const UniversalLogin = () => {
                             <button
                               type="submit"
                               className="btn btn-primary btn-lg"
-                              disabled = {loading}
+                              disabled={loading}
                             >
-                               {loading ? "Loding..." : "Login"}
+                              {loading ? "Loding..." : "Login"}
                             </button>
                           </div>
                           {/* <div className="col-sm-12 col-md-10 text-center ms-4">

@@ -1,17 +1,13 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-
 import { Dropdown, Nav } from "react-bootstrap";
-// import BillTypeData from "../../components/superAdmin/BillType/BillTypeData";
-
-
-// import "bootstrap/dist/css/bootstrap.min.css";
 import ReactPaginate from "react-paginate";
 import TreatBills from "./BillsView/TreatBills";
 import LabBills from "./BillsView/LabBills";
 import OpdBills from "./BillsView/OpdBills";
 import HeaderAdmin from "./admin/HeaderAdmin";
 import SiderAdmin from "./admin/SiderAdmin";
+import SittingBill from "./BillsView/SittingBill";
 
 const AdminAllBills = () => {
   const initialTab = localStorage.getItem("selectedTab") || "tab1";
@@ -27,7 +23,10 @@ const AdminAllBills = () => {
               <div className="col-lg-1 col-md-1 col-1 p-0">
                 <SiderAdmin />
               </div>
-              <div className="col-lg-11 col-md-11 col-11 ps-0 mx-3" style={{marginTop:"5rem"}}>
+              <div
+                className="col-lg-11 col-md-11 col-11 ps-0 mx-3"
+                style={{ marginTop: "5rem" }}
+              >
                 {/* <div className="container-fluid mt-3">
                   <div className="d-flex justify-content-between mx-2">
                     <BranchSelector />
@@ -63,6 +62,14 @@ const AdminAllBills = () => {
                             OPD Bills
                           </Nav.Link>
                         </Nav.Item>
+                        <Nav.Item>
+                          <Nav.Link
+                            eventKey="tab4"
+                            className={`navlink shadow mx-2`}
+                          >
+                            Sitting Bills
+                          </Nav.Link>
+                        </Nav.Item>
                       </div>
                       <div>
                         {/* <p className="fw-bold">Total Lab - 09</p> */}
@@ -72,6 +79,7 @@ const AdminAllBills = () => {
                       {selectedTab === "tab1" && <TreatBills />}
                       {selectedTab === "tab2" && <LabBills />}
                       {selectedTab === "tab3" && <OpdBills />}
+                      {selectedTab === "tab4" && <SittingBill />}
                     </div>
                   </div>
                 </div>
@@ -100,7 +108,7 @@ const Container = styled.div`
 
   .popup-container.active {
     display: flex;
-    background-color: #00000075;
+    background-color: #1abc9c;
   }
 
   .popup {
@@ -111,7 +119,7 @@ const Container = styled.div`
   }
 
   .navlink.active {
-    background-color: #f53237 !important;
+    background-color: #1abc9c !important;
     border-radius: 1rem;
     color: white !important;
   }
@@ -123,11 +131,11 @@ const Container = styled.div`
   }
 
   th {
-    background-color:#1abc9c;
+    background-color: #1abc9c;
     color: white;
     white-space: nowrap;
   }
-  td{
+  td {
     white-space: nowrap;
   }
 
@@ -171,20 +179,19 @@ const Container = styled.div`
     border-radius: 20px;
     box-sizing: border-box;
     transition: border-color 0.3s ease;
- 
-            @media (min-width: 1279px) and (max-width: 1600px){
-              width: 45%;
-            }
-            @media (min-width: 1024px) and (max-width: 1279px){
-              width: 60%;
-            }
-            @media (min-width: 768px) and (max-width: 1023px){
-              width: 100%;
-            }
+
+    @media (min-width: 1279px) and (max-width: 1600px) {
+      width: 45%;
+    }
+    @media (min-width: 1024px) and (max-width: 1279px) {
+      width: 60%;
+    }
+    @media (min-width: 768px) and (max-width: 1023px) {
+      width: 100%;
+    }
   }
 
   input:focus {
     border-color: #007bff; /* Change border color on focus */
   }
-
 `;

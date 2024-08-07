@@ -21,12 +21,12 @@ const AdminEmpDetailReport = () => {
   console.log(user);
   const [doctorList, setDoctorList] = useState([]);
   const [designation, setDesignation] = useState("");
-  const [loading,setLoading] = useState("");
+  const [loading, setLoading] = useState("");
   const getDocDetailsList = async () => {
     setLoading(true);
     try {
       const { data } = await axios.get(
-        `https://dentalguruadmin.doaguru.com/api/v1/admin/getEmployeeDataByBranch/${user.branch_name}`,
+        `https://dentalguru-admin.vimubds5.a2hosted.com/api/v1/admin/getEmployeeDataByBranch/${user.branch_name}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -54,7 +54,8 @@ const AdminEmpDetailReport = () => {
   const downloadEmployeeData = async () => {
     try {
       const { data } = await axios.post(
-        `https://dentalguruadmin.doaguru.com/api/v1/admin/downloadStaffReport/${user.branch_name}`,{},
+        `https://dentalguru-admin.vimubds5.a2hosted.com/api/v1/admin/downloadStaffReport/${user.branch_name}`,
+        {},
         {
           headers: {
             "Content-Type": "application/json",
@@ -90,7 +91,6 @@ const AdminEmpDetailReport = () => {
     },
   };
 
-
   return (
     <>
       <Container>
@@ -101,7 +101,10 @@ const AdminEmpDetailReport = () => {
               <div className="col-lg-1 col-1 p-0">
                 <SiderAdmin />
               </div>
-              <div className="col-lg-11 col-11 ps-0" style={{marginTop:"4rem"}}>
+              <div
+                className="col-lg-11 col-11 ps-0"
+                style={{ marginTop: "4rem" }}
+              >
                 <div className="container-fluid mt-3">
                   <div className="d-flex justify-content-between">
                     {/* <BranchSelector /> */}
@@ -109,9 +112,9 @@ const AdminEmpDetailReport = () => {
                 </div>
                 <div className="container-fluid mt-3">
                   <div className="container-fluid">
-                  <button className="btn btn-success" onClick={goBack}>
-                    <IoMdArrowRoundBack /> Back
-                  </button>
+                    <button className="btn btn-success" onClick={goBack}>
+                      <IoMdArrowRoundBack /> Back
+                    </button>
                     <div className="row mt-3">
                       {/* <div className="col-1"></div> */}
 
@@ -126,7 +129,8 @@ const AdminEmpDetailReport = () => {
                         <div className="d-flex justify-content-between mb-2 mt-4">
                           <div className="d-flex justify-content-between">
                             <button
-                              className="btn btn-warning mx-2"
+                              className="btn btn-warning mx-2 text-light"
+                              style={{ backgroundColor: "#1abc9c" }}
                               onClick={downloadEmployeeData}
                             >
                               Download Report
@@ -135,7 +139,10 @@ const AdminEmpDetailReport = () => {
 
                           <div className="d-flex justify-content-between">
                             <div>
-                              <button className="btn btn-info">
+                              <button
+                                className="btn btn-warning mx-2 text-light"
+                                style={{ backgroundColor: "#1abc9c" }}
+                              >
                                 Filter by Designation
                               </button>
                             </div>
@@ -151,7 +158,7 @@ const AdminEmpDetailReport = () => {
                                 <option value="admin">Admin</option>
                                 <option value="doctor">Doctor</option>
                                 <option value="lab attendant">
-                                Lab Attendant
+                                  Lab Attendant
                                 </option>
                                 <option value="helper">Helper</option>
                                 <option value="consultant">Consultant</option>
@@ -164,77 +171,85 @@ const AdminEmpDetailReport = () => {
                           </div>
                         </div>
                         {loading ? (
-            <Lottie options={defaultOptions} height={300} width={400}></Lottie>
-          ) : (
-            <>
-                        <div class="table-responsive mt-4">
-                          <table class="table table-bordered">
-                            <thead className="table-head">
-                              <tr>
-                                <th className="thead">Emp ID</th>
-                                <th className="thead">Name</th>
-                                <th className="thead">Mobile</th>
-                                <th className="thead">Email</th>
-                                <th className="thead">Designation</th>
-                                <th className="thead">Role</th>
-                                <th className="thead">Salary</th>
-                                <th className="thead">Address</th>
-                                <th>Profile Picture</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {doctorList
-                                ?.filter((val) => {
-                                  if (designation === "") {
-                                    return true;
-                                  } else if (
-                                    val.employee_designation
-                                      .toLowerCase()
-                                      .includes(designation.toLowerCase())
-                                  ) {
-                                    return val;
-                                  }
-                                })
-                                .map((item) => (
-                                  <>
-                                    <tr className="table-row">
-                                      <td className="thead">
-                                        {item.employee_ID}
-                                      </td>
-                                      <td className="thead">
-                                        {item.employee_name}
-                                      </td>
-                                      <td className="thead">
-                                        {item.employee_mobile}
-                                      </td>
+                          <Lottie
+                            options={defaultOptions}
+                            height={300}
+                            width={400}
+                          ></Lottie>
+                        ) : (
+                          <>
+                            <div class="table-responsive mt-4">
+                              <table class="table table-bordered">
+                                <thead className="table-head">
+                                  <tr>
+                                    <th className="thead">Emp ID</th>
+                                    <th className="thead">Name</th>
+                                    <th className="thead">Mobile</th>
+                                    <th className="thead">Email</th>
+                                    <th className="thead">Designation</th>
+                                    <th className="thead">Role</th>
+                                    <th className="thead">Salary</th>
+                                    <th className="thead">Address</th>
+                                    <th>Profile Picture</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  {doctorList
+                                    ?.filter((val) => {
+                                      if (designation === "") {
+                                        return true;
+                                      } else if (
+                                        val.employee_designation
+                                          .toLowerCase()
+                                          .includes(designation.toLowerCase())
+                                      ) {
+                                        return val;
+                                      }
+                                    })
+                                    .map((item) => (
+                                      <>
+                                        <tr className="table-row">
+                                          <td className="thead">
+                                            {item.employee_ID}
+                                          </td>
+                                          <td className="thead">
+                                            {item.employee_name}
+                                          </td>
+                                          <td className="thead">
+                                            {item.employee_mobile}
+                                          </td>
 
-                                      <td className="thead">
-                                        {item.employee_email}
-                                      </td>
-                                      <td className="thead">
-                                        {item.employee_designation}
-                                      </td>
-                                      <td className="thead">
-                                        {item.employee_role}
-                                      </td>
-                                      <td className="thead">{item.salary}</td>
-                                      <td className="thead">{item.address}</td>
-                                      <td>
-                                        <div className="smallImg">
-                                          <img
-                                            src={item.employee_picture}
-                                            alt="profile"
-                                          />
-                                        </div>
-                                      </td>
-                                    </tr>
-                                  </>
-                                ))}
-                            </tbody>
-                          </table>
-                        </div>
-                        </>
-  )}          
+                                          <td className="thead">
+                                            {item.employee_email}
+                                          </td>
+                                          <td className="thead">
+                                            {item.employee_designation}
+                                          </td>
+                                          <td className="thead">
+                                            {item.employee_role}
+                                          </td>
+                                          <td className="thead">
+                                            {item.salary}
+                                          </td>
+                                          <td className="thead">
+                                            {item.address}
+                                          </td>
+                                          <td>
+                                            <div className="smallImg">
+                                              <img
+                                                src={item.employee_picture}
+                                                alt="profile"
+                                              />
+                                            </div>
+                                          </td>
+                                        </tr>
+                                      </>
+                                    ))}
+                                </tbody>
+                              </table>
+                            </div>
+                          </>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -261,7 +276,7 @@ const Container = styled.div`
     color: white;
     white-space: nowrap;
   }
-  td{
+  td {
     white-space: nowrap;
   }
 
@@ -271,7 +286,7 @@ const Container = styled.div`
       width: auto;
     }
   }
-  .table-responsive{
+  .table-responsive {
     height: 30rem;
   }
 `;

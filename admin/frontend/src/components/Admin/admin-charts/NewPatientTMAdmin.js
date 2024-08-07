@@ -41,7 +41,7 @@ const NewPatientTMAdmin = () => {
     const getAppointList = async () => {
       try {
         const { data } = await axios.get(
-          `https://dentalguruadmin.doaguru.com/api/v1/admin/getPatientDetailsByBranch/${user.branch_name}`,
+          `https://dentalguru-admin.vimubds5.a2hosted.com/api/v1/admin/getPatientDetailsByBranch/${user.branch_name}`,
           {
             headers: {
               "Content-Type": "multipart/form-data",
@@ -59,7 +59,7 @@ const NewPatientTMAdmin = () => {
     };
 
     getAppointList();
-  }, [user.branch_name]);
+  }, []);
 
   console.log(appointmentList);
 
@@ -69,26 +69,7 @@ const NewPatientTMAdmin = () => {
   const lastDay = new Date(year, month, 0).getDate(); // Last day of the current month
   const formattedDate = `${year}-${month}`;
 
-  // Group appointments by date and count appointments for each day
-  const dailyAppointments = appointmentList?.reduce((acc, appointment) => {
-    const date = appointment.created_at.split("T")[0];
-    acc[date] = acc[date] ? acc[date] + 1 : 1;
-    return acc;
-  }, {});
-
   const processedAppointments = {};
-
-  Object.entries(dailyAppointments).forEach(([key, value]) => {
-    const date = key.split(" ")[0];
-    if (processedAppointments[date]) {
-      processedAppointments[date] += value;
-    } else {
-      processedAppointments[date] = value;
-    }
-  });
-
-  console.log("Processed Appointments:", processedAppointments);
-  // Create an array containing data for all days of the month
   const data = Array.from({ length: lastDay }, (_, index) => {
     const day = String(index + 1).padStart(2, "0");
     const date = `${formattedDate}-${day}`;
@@ -100,8 +81,6 @@ const NewPatientTMAdmin = () => {
 
   console.log("Final data array:", data);
 
-  // Create an array containing data for all days of the month
-  
   const defaultOptions = {
     loop: true,
     autoplay: true,
@@ -111,34 +90,33 @@ const NewPatientTMAdmin = () => {
     },
   };
 
-
   return (
     <>
       <Container>
         <div className="container-fluid mt-4" id="main">
-        {loading ? (
+          {loading ? (
             <Lottie options={defaultOptions} height={300} width={400}></Lottie>
           ) : (
             <>
-          <BarChart
-            width={380}
-            height={300}
-            data={data}
-            margin={{
-              top: 5,
-              right: 10,
-              left: 0,
-              bottom: 5,
-            }}
-          >
-            <CartesianGrid strokeDasharray="3 3" />
-            <XAxis dataKey="date" />
-            <YAxis />
-            <Tooltip />
-            <Legend />
-            <Bar dataKey="patients" fill="#40407a" />
-          </BarChart>
-          </>
+              <BarChart
+                width={380}
+                height={300}
+                data={data}
+                margin={{
+                  top: 5,
+                  right: 10,
+                  left: 0,
+                  bottom: 5,
+                }}
+              >
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="date" />
+                <YAxis />
+                <Tooltip />
+                <Legend />
+                <Bar dataKey="patients" fill="#40407a" />
+              </BarChart>
+            </>
           )}
         </div>
       </Container>

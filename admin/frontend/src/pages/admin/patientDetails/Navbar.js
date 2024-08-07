@@ -373,7 +373,7 @@ const Wrapper = styled.div`
   } */
 
   .nav-link {
-    background-color: #22a6b3;
+    background-color: #1abc9c;
     color: #000;
     margin-left: 1px;
   }

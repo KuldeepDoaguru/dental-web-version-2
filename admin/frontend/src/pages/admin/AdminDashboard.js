@@ -1,19 +1,5 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import Card from "../../components/superAdmin/dashboard/Card";
-import AveragePatientChart from "../../components/superAdmin/dashboard/Charts/AveragePatientChart";
-import PatientStatisticChart from "../../components/superAdmin/dashboard/Charts/PatientStatisticChart";
-import Header from "../../components/Header";
-import Sider from "../../components/Sider";
-import AppointmentChart from "../../components/superAdmin/dashboard/Charts/AppointmentChart";
-import EarningChart from "../../components/superAdmin/dashboard/Charts/EarningChart";
-import { FcAlarmClock } from "react-icons/fc";
-import { IoIosArrowDropdownCircle } from "react-icons/io";
-import ClinicActivity from "../../components/superAdmin/dashboard/ClinicActivity";
-import MostTakenTreat from "../../components/superAdmin/dashboard/Charts/MostTakenTreat";
-import NewRegPatient from "../../components/superAdmin/dashboard/Charts/NewRegPatient";
-import ExpenseChart from "../../components/superAdmin/dashboard/Charts/ExpenseChart";
-import ComplaintsEmp from "../../components/superAdmin/dashboard/ComplaintsEmp";
 import HeaderAdmin from "./HeaderAdmin";
 import SiderAdmin from "./SiderAdmin";
 import AdminCards from "../../components/Admin/dashboard/AdminCards";
@@ -47,7 +33,10 @@ const AdminDashboard = () => {
             <div className="col-lg-1 col-md-2 col-1 p-0">
               <SiderAdmin />
             </div>
-            <div className="col-lg-11 col-md-10 col-11 ps-0" style={{marginTop:"6rem"}}>
+            <div
+              className="col-lg-11 col-md-10 col-11 ps-0"
+              style={{ marginTop: "6rem" }}
+            >
               <div className="row d-flex justify-content-between mx-3">
                 <div className="col-xl-6 col-lg-6 col-12 col-md-6 mt-4">
                   <h3> Welcome to DentalGuru </h3>
@@ -90,7 +79,7 @@ const AdminDashboard = () => {
                           ))}
                     </ul>
                   </div>
-                  </div>
+                </div>
               </div>
               <AdminCards />
               <div className="container-fluid pb-3">
@@ -139,7 +128,6 @@ const AdminDashboard = () => {
                   {/* <div className="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                     <AdminComplaintsSec />
                   </div> */}
-                  
                 </div>
               </div>
             </div>

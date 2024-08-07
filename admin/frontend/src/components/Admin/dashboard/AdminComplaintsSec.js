@@ -13,7 +13,7 @@ const AdminComplaintsSec = () => {
   const getEmpComByBranch = async () => {
     try {
       const { data } = await axios.get(
-        `https://dentalguruadmin.doaguru.com/api/v1/admin/getEmployeeComplainByBranch/${user.branch_name}`,
+        `https://dentalguru-admin.vimubds5.a2hosted.com/api/v1/admin/getEmployeeComplainByBranch/${user.branch_name}`,
         {
           headers: {
             "Content-Type": "multipart/form-data",
@@ -30,7 +30,7 @@ const AdminComplaintsSec = () => {
 
   useEffect(() => {
     getEmpComByBranch();
-  }, [user.branch_name]);
+  }, []);
 
   console.log(complaints);
 

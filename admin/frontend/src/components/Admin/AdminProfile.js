@@ -107,7 +107,7 @@ const AdminProfile = () => {
   const getEmployeeData = async () => {
     try {
       const { data } = await axios.get(
-        `https://dentalguruadmin.doaguru.com/api/v1/admin/getEmployeeDetails/${branch}/${user.employee_ID}`,
+        `https://dentalguru-admin.vimubds5.a2hosted.com/api/v1/admin/getEmployeeDetails/${branch}/${user.employee_ID}`,
         {
           headers: {
             "Content-Type": "multipart/form-data",
@@ -140,7 +140,7 @@ const AdminProfile = () => {
       console.log(inEmpData, empProfilePicture);
 
       const response = await axios.put(
-        `https://dentalguruadmin.doaguru.com//api/v1/admin/editEmployeeDetails/${branch}/${user.employee_ID}`,
+        `https://dentalguru-admin.vimubds5.a2hosted.com//api/v1/admin/editEmployeeDetails/${branch}/${user.employee_ID}`,
         formData,
         {
           headers: {
@@ -167,7 +167,10 @@ const AdminProfile = () => {
               <div className="col-lg-1 col-1 p-0">
                 <SiderAdmin />
               </div>
-              <div className="col-lg-11 col-11 ps-0" style={{marginTop:"4rem"}}>
+              <div
+                className="col-lg-11 col-11 ps-0"
+                style={{ marginTop: "4rem" }}
+              >
                 <div className="container-fluid mt-3">
                   <div className="d-flex justify-content-between">
                     {/* <BranchSelector /> */}

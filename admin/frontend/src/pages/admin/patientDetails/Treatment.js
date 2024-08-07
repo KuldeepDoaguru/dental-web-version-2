@@ -25,7 +25,7 @@ const Treatment = () => {
       // );
 
       const resps = await axios.get(
-        `https://dentalguruadmin.doaguru.com/api/v1/admin/getTreatmentViaUhid/${branch}/${pid}`,
+        `https://dentalguru-admin.vimubds5.a2hosted.com/api/v1/admin/getTreatmentViaUhid/${branch}/${pid}`,
         {
           headers: {
             "Content-Type": "multipart/form-data",
@@ -62,7 +62,7 @@ const Treatment = () => {
                     <th>Treatment</th>
                     <th>Total Sitting</th>
                     <th>Current Sitting</th>
-                  
+
                     <th>Treatment Status</th>
                     {/* <th>Payment Status</th> */}
                   </tr>
@@ -76,7 +76,7 @@ const Treatment = () => {
                         <td>{item.treatment_name}</td>
                         <td>{item.total_sitting}</td>
                         <td>{item.current_sitting}</td>
-                     
+
                         <td>{item.treatment_status}</td>
                       </tr>
                     </>

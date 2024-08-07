@@ -1,23 +1,12 @@
-
-
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import styled from "styled-components";
-
 import { IoMdArrowRoundBack } from "react-icons/io";
-import { useDispatch ,useSelector} from "react-redux";
-
+import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import moment from "moment";
-
 import cogoToast from "cogo-toast";
-
-// import BranchDetails from "../components/BranchDetails";
-// import ApplyLeave from "../components/btModal/ApplyLeave";
-
-import { useNavigate } from 'react-router-dom';
-
-
+import { useNavigate } from "react-router-dom";
 import MarkAttendance from "./MarkAttendance";
 import ApplyLeave from "./ApplyLeave";
 import { IoArrowBackSharp } from "react-icons/io5";
@@ -25,11 +14,11 @@ import HeaderAdmin from "./HeaderAdmin";
 import SiderAdmin from "./SiderAdmin";
 
 const AttendanceLeave = () => {
-    const navigate = useNavigate();
-     const currentUser = useSelector((state) => state.user.currentUser);
-    const  branch = currentUser.branch_name;
-    const employeeName = currentUser.employee_name;
-    const employeeId = currentUser.employee_ID;
+  const navigate = useNavigate();
+  const currentUser = useSelector((state) => state.user.currentUser);
+  const branch = currentUser.branch_name;
+  const employeeName = currentUser.employee_name;
+  const employeeId = currentUser.employee_ID;
   const [attendRepo, setAttendRepo] = useState([]);
   const [currentDate, setCurrentDate] = useState(new Date());
   const [daysInMonth, setDaysInMonth] = useState([]);
@@ -37,76 +26,67 @@ const AttendanceLeave = () => {
   const [formattedDate, setFormattedDate] = useState("");
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
-  const [leavesData,setLeaveData] = useState([]);
-  const [loading , setLoading] = useState(false);
-
+  const [leavesData, setLeaveData] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const [Attendance, setAttendance] = useState([]);
- 
 
-  
   const token = currentUser?.token;
 
-
   const getAttendance = async () => {
-     
-    try{
-        const response = await axios.get(`https://dentalguruadmin.doaguru.com/api/v1/admin/getAttendancebyempId/${branch}/${employeeId}`,
+    try {
+      const response = await axios.get(
+        `https://dentalguru-admin.vimubds5.a2hosted.com/api/v1/admin/getAttendancebyempId/${branch}/${employeeId}`,
         {
           headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-        }});
-        setAttendance(response?.data?.data)
-      }
-      catch(error){
-        console.log(error)
-      }
-  }
-  
- useEffect(() => {
-  
-   // Set up interval to fetch data every X seconds
-   const interval = setInterval(() => {
-    getAttendance();
-  }, 3000); // Fetch data every 5 seconds (adjust as needed)
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setAttendance(response?.data?.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-  // Clear interval on component unmount
-  return () => clearInterval(interval);
-  },[])
+  useEffect(() => {
+    // Set up interval to fetch data every X seconds
+    const interval = setInterval(() => {
+      getAttendance();
+    }, 3000);
+
+    // Clear interval on component unmount
+    return () => clearInterval(interval);
+  }, []);
 
   const getLeaves = async () => {
-     
-    try{
-        const response = await axios.get(`https://dentalguruadmin.doaguru.com/api/v1/admin/get-leaves/${branch}/${employeeId}`,
+    try {
+      const response = await axios.get(
+        `https://dentalguru-admin.vimubds5.a2hosted.com/api/v1/admin/get-leaves/${branch}/${employeeId}`,
         {
           headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
-        }});
-        setLeaveData(response?.data?.data)
-        console.log(leavesData);
-      }
-      catch(error){
-        console.log(error)
-      }
-  }
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setLeaveData(response?.data?.data);
+      console.log(leavesData);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-  useEffect(()=>{
-   
-     // Set up interval to fetch data every X seconds
-     const interval = setInterval(() => {
-       getLeaves(); 
-      }, 3000); // Fetch data every 5 seconds (adjust as needed)
-  
-      // Clear interval on component unmount
-      return () => clearInterval(interval);
-  },[])
+  useEffect(() => {
+    // Set up interval to fetch data every X seconds
+    const interval = setInterval(() => {
+      getLeaves();
+    }, 3000);
 
-
-
-
-
+    // Clear interval on component unmount
+    return () => clearInterval(interval);
+  }, []);
 
   const generateDaysInMonth = (fromDate, toDate) => {
     const currentDate = new Date();
@@ -172,61 +152,64 @@ const AttendanceLeave = () => {
     window.history.go(-1);
   };
 
-// Helper function to format a single date string in the desired format
-const formatDate = (dateString) => {
+  // Helper function to format a single date string in the desired format
+  const formatDate = (dateString) => {
     const date = new Date(dateString);
     const options = { year: "numeric", month: "long", day: "numeric" };
     return date.toLocaleDateString("en-GB", options);
-};
+  };
   return (
     <>
       <Container>
-      <div className='header'>
-          <HeaderAdmin/>
-          </div>
-    
-    <div className="row mrgnzero">
-      <div className="col-lg-1 col-md-1 col-1" id="sider">
-        <SiderAdmin />
-      </div>
-              <div className="col-lg-11 col-md-11 col-11" id="set" style={{marginTop:"5rem"}}>
-                <div className="container-fluid mt-3">
-                  <div className="">
-                    {/* <BranchDetails /> */}
-                  </div>
-                </div>
+        <div className="header">
+          <HeaderAdmin />
+        </div>
 
-                <div className="container-fluid" >
-                  <div className="row d-flex justify-content-between">
-                    <div className="col-lg-3">
-                  <div className="fs-1 text-black d-print-none mx-2" onClick={goBack} style={{ cursor: "pointer" }}>
+        <div className="row mrgnzero">
+          <div className="col-lg-1 col-md-1 col-1" id="sider">
+            <SiderAdmin />
+          </div>
+          <div
+            className="col-lg-11 col-md-11 col-11"
+            id="set"
+            style={{ marginTop: "5rem" }}
+          >
+            <div className="container-fluid mt-3">
+              <div className="">{/* <BranchDetails /> */}</div>
+            </div>
+
+            <div className="container-fluid">
+              <div className="row d-flex justify-content-between">
+                <div className="col-lg-3">
+                  <div
+                    className="fs-1 text-black d-print-none mx-2"
+                    onClick={goBack}
+                    style={{ cursor: "pointer" }}
+                  >
                     <IoArrowBackSharp />
                   </div>
-                  </div>
-                  <div className="col-lg-9 text-end">
-                  <MarkAttendance/>
-                  </div>
-                
-                 
-                 
-                  </div>
-                 
-                  <div className="container-fluid">
-                    <div className="row mt-3">
-                      <div className="col-12">
-                        <nav class="navbar navbar-expand-lg bg-body-tertiary">
-                          <div class="container d-flex justify-content-center main">
-                            <h2 className="">Attendance and Leave Details</h2>
-                          </div>
-                          <div className="btnn">
-                          <ApplyLeave/>
-                          </div>
-                        </nav>
+                </div>
+                <div className="col-lg-9 text-end">
+                  <MarkAttendance />
+                </div>
+              </div>
+
+              <div className="container-fluid">
+                <div className="row mt-3">
+                  <div className="col-12">
+                    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+                      <div class="container d-flex justify-content-center main">
+                        <h2 className="">Attendance and Leave Details</h2>
                       </div>
-                      <div className="container-fluid">
-                        <div className="container-fluid">
-                          <div className="d-flex justify-content-between mb-2 mt-4">
-                            {/* <form>
+                      <div className="btnn">
+                        <ApplyLeave />
+                      </div>
+                    </nav>
+                  </div>
+                  <div className="container-fluid">
+                    <div className="container-fluid">
+                      <div className="d-flex justify-content-between mb-2 mt-4">
+                        {/* <form>
                               <div className="d-flex justify-content-between">
                                 <div>
                                   <input
@@ -257,10 +240,8 @@ const formatDate = (dateString) => {
                                 </button>
                               </div>
                             </form> */}
-                            
-                           
-                          </div>
-                          {/* <div class="table-responsive">
+                      </div>
+                      {/* <div class="table-responsive">
                             <table class="table table-bordered">
                               <thead className="table-head">
                                 <tr>
@@ -329,90 +310,104 @@ const formatDate = (dateString) => {
                               </tbody>
                             </table>
                           </div> */}
-                          
-                           
-                           <div className="mt-5">
-                            <div className="mt-5 text-center">
-                             <h4>Attendance details</h4>
-                            </div>
-                          <div className="table-container">
-                            <table className="table table-bordered">
-                              <thead className="table-head">
-                                <tr>
-                                  <th>Sr. no.</th>
-                                  <th>Date</th>
-                                  <th>Login Time</th>
-                                  <th>Logout Time</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                {Attendance?.map((item,index) => {
 
-                        
-                                
-                                    return(
-                                        <tr
-                                        className="table-row"
-                                        key={item?.attendance_id}
-                                      >
-                                        <td>{index+1}</td>
-                                        <td>{item?.date ? moment(item?.date).format('DD/MM/YYYY') : ""} </td>
-                                        <td>{item?.allday_shift_login_time ? moment(item?.allday_shift_login_time, 'HH:mm:ss.SSSSSS').format('hh:mm A') : ""} </td>
-                                        <td> {item?.allday_shift_logout_time ? moment(item?.allday_shift_logout_time, 'HH:mm:ss.SSSSSS').format('hh:mm A') : ""}</td>
-                                       
-                                      </tr>
-                                    )
-                                  
-                        })}
-                              </tbody>
-                            </table>
-                          </div>
-                          </div>
-                          
-                          <div className="mt-5">
-                            <div className="mt-5 text-center">
-                             <h4>Leave details</h4>
-                            </div>
-                          <div className="table-container">
-                            <table className="table table-bordered">
-                              <thead className="table-head">
-                                <tr>
-                                  <th>Sr. no.</th>
-                                  <th>Leave Date</th>
-                                  <th>Leave Reason</th>
-                                  <th>Leave Status</th>
-                                  <th>Created At</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                {leavesData?.map((item,index) => {
+                      <div className="mt-5">
+                        <div className="mt-5 text-center">
+                          <h4>Attendance details</h4>
+                        </div>
+                        <div className="table-container">
+                          <table className="table table-bordered">
+                            <thead className="table-head">
+                              <tr>
+                                <th>Sr. no.</th>
+                                <th>Date</th>
+                                <th>Login Time</th>
+                                <th>Logout Time</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {Attendance?.map((item, index) => {
+                                return (
+                                  <tr
+                                    className="table-row"
+                                    key={item?.attendance_id}
+                                  >
+                                    <td>{index + 1}</td>
+                                    <td>
+                                      {item?.date
+                                        ? moment(item?.date).format(
+                                            "DD/MM/YYYY"
+                                          )
+                                        : ""}{" "}
+                                    </td>
+                                    <td>
+                                      {item?.allday_shift_login_time
+                                        ? moment(
+                                            item?.allday_shift_login_time,
+                                            "HH:mm:ss.SSSSSS"
+                                          ).format("hh:mm A")
+                                        : ""}{" "}
+                                    </td>
+                                    <td>
+                                      {" "}
+                                      {item?.allday_shift_logout_time
+                                        ? moment(
+                                            item?.allday_shift_logout_time,
+                                            "HH:mm:ss.SSSSSS"
+                                          ).format("hh:mm A")
+                                        : ""}
+                                    </td>
+                                  </tr>
+                                );
+                              })}
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
 
-                                    // Split the leave_dates string into an array of date strings
-                            const leaveDatesArray = item?.leave_dates.split(",");
+                      <div className="mt-5">
+                        <div className="mt-5 text-center">
+                          <h4>Leave details</h4>
+                        </div>
+                        <div className="table-container">
+                          <table className="table table-bordered">
+                            <thead className="table-head">
+                              <tr>
+                                <th>Sr. no.</th>
+                                <th>Leave Date</th>
+                                <th>Leave Reason</th>
+                                <th>Leave Status</th>
+                                <th>Created At</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {leavesData?.map((item, index) => {
+                                // Split the leave_dates string into an array of date strings
+                                const leaveDatesArray =
+                                  item?.leave_dates.split(",");
 
-                            // Format each date in the array using the formatDate function
-                            const formattedLeaveDates = leaveDatesArray
-                                .map((dateString) => formatDate(dateString))
-                                .join(", "); // Join the formatted dates back into a single string
-                                    return(
-                                        <tr
-                                        className="table-row"
-                                        key={item?.id}
-                                      >
-                                        <td>{index+1}</td>
-                                        <td>{formattedLeaveDates}</td>
-                                        <td>{item?.leave_reason}</td>
-                                        <td>{item?.leave_status}</td>
-                                        <td>{item?.created_at ? moment(item?.created_at.split("T")[0]).format('DD/MM/YYYY') : ""} </td>
-                                       
-                                      </tr>
-                                    )
-                                  
-                        })}
-                              </tbody>
-                            </table>
-                          </div>
-                          </div>
+                                // Format each date in the array using the formatDate function
+                                const formattedLeaveDates = leaveDatesArray
+                                  .map((dateString) => formatDate(dateString))
+                                  .join(", "); // Join the formatted dates back into a single string
+                                return (
+                                  <tr className="table-row" key={item?.id}>
+                                    <td>{index + 1}</td>
+                                    <td>{formattedLeaveDates}</td>
+                                    <td>{item?.leave_reason}</td>
+                                    <td>{item?.leave_status}</td>
+                                    <td>
+                                      {item?.created_at
+                                        ? moment(
+                                            item?.created_at.split("T")[0]
+                                          ).format("DD/MM/YYYY")
+                                        : ""}{" "}
+                                    </td>
+                                  </tr>
+                                );
+                              })}
+                            </tbody>
+                          </table>
                         </div>
                       </div>
                     </div>
@@ -420,7 +415,8 @@ const formatDate = (dateString) => {
                 </div>
               </div>
             </div>
-         
+          </div>
+        </div>
       </Container>
     </>
   );
@@ -429,25 +425,22 @@ const formatDate = (dateString) => {
 export default AttendanceLeave;
 const Container = styled.div`
   .table-container {
-  max-height: 400px;
-  overflow-y: auto;
-  
-}
-.table-head{
-  position: sticky;
-  top: 0;
-  z-index: 1; /* Ensure the header stays on top of the table body */
-  padding-bottom: 20px;
-
-}
+    max-height: 400px;
+    overflow-y: auto;
+  }
+  .table-head {
+    position: sticky;
+    top: 0;
+    z-index: 1; /* Ensure the header stays on top of the table body */
+    padding-bottom: 20px;
+  }
 
   .table {
     overflow-x: auto;
     th {
-      background-color:#1abc9c;
+      background-color: #1abc9c;
       color: white;
       min-width: 7rem;
-      
     }
     td {
       font-weight: bold;
@@ -458,11 +451,11 @@ const Container = styled.div`
     width: 0;
   }
   .table tbody {
-  padding-top: 40px; /* Adjust based on the height of the table header */
-}
+    padding-top: 40px; /* Adjust based on the height of the table header */
+  }
   .select-style {
     border: none;
-    background-color:#1abc9c;
+    background-color: #1abc9c;
     font-weight: bold;
     color: white;
   }
@@ -477,22 +470,19 @@ const Container = styled.div`
   .mrgnzero {
     margin-right: 0rem;
   }
-  .header{
-  position: fixed;
-  min-width: 100%;
-  z-index: 100;
-}
-.main{
-  @media (min-width: 768px) and (max-width: 1020px) {
-    margin-left: -3rem;
+  .header {
+    position: fixed;
+    min-width: 100%;
+    z-index: 100;
+  }
+  .main {
+    @media (min-width: 768px) and (max-width: 1020px) {
+      margin-left: -3rem;
     }
-    
-}
-.btnn{
-  @media (min-width: 768px) and (max-width: 1020px) {
-    margin-left: -9rem;
+  }
+  .btnn {
+    @media (min-width: 768px) and (max-width: 1020px) {
+      margin-left: -9rem;
     }
-    
-}
-
+  }
 `;

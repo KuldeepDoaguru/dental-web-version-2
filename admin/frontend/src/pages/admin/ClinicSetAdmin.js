@@ -17,7 +17,10 @@ const ClinicSetAdmin = () => {
               <div className="col-lg-1 col-1 p-0">
                 <SiderAdmin />
               </div>
-              <div className="col-lg-11 col-11 ps-0"style={{marginTop:"6rem"}} >
+              <div
+                className="col-lg-11 col-11 ps-0"
+                style={{ marginTop: "6rem" }}
+              >
                 <div className="container-fluid mt-3">
                   <div className="container-fluid">
                     <div className="row mt-3">
@@ -35,16 +38,6 @@ const ClinicSetAdmin = () => {
                         {/* <div className="col-1"></div> */}
                         <div className="col-12">
                           <div class="row g-5">
-                            {/* <div class="col-xl-3 col-lg-3 col-md-5 col-sm-12">
-                              <Link to="/admin-lab-setting">
-                                <div className="card">
-                                  <div class="card-body d-flex justify-content-center text-dark  align-items-center">
-                                    <h4 className="text-dark ">Lab</h4>
-                                  </div>
-                                </div>
-                              </Link>
-                            </div> */}
-
                             <div class="col-xl-3 col-lg-3 col-md-5 col-sm-12 col-12">
                               <Link to="/admin-calender-setting">
                                 <div className="card">
@@ -80,7 +73,7 @@ const ClinicSetAdmin = () => {
                                 </div>
                               </Link>
                             </div> */}
-{/* 
+                            {/* 
                             <div class="col-xl-3 col-lg-3 col-md-5 col-sm-12">
                               <Link to="/admin-prescription-templates">
                                 <div className="card">

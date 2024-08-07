@@ -24,7 +24,7 @@ const MarkAttendance = () => {
   const getTodayAttendance = async () => {
     try {
       const response = await axios.get(
-        `https://dentalguruadmin.doaguru.com/api/v1/admin/getTodayAttendance/${branch_name}/${employee_ID}/${date}`,
+        `https://dentalguru-admin.vimubds5.a2hosted.com/api/v1/admin/getTodayAttendance/${branch_name}/${employee_ID}/${date}`,
         {
           headers: {
             "Content-Type": "multipart/form-data",
@@ -54,7 +54,7 @@ const MarkAttendance = () => {
     const availability = "yes";
     try {
       const response = await axios.post(
-        "https://dentalguruadmin.doaguru.com/api/v1/admin/markAttendanceLogin",
+        "https://dentalguru-admin.vimubds5.a2hosted.com/api/v1/admin/markAttendanceLogin",
         {
           branch_name,
           employee_ID,
@@ -96,7 +96,7 @@ const MarkAttendance = () => {
     const availability = "no";
     try {
       const response = await axios.put(
-        "https://dentalguruadmin.doaguru.com/api/v1/admin/markAttendanceLogout",
+        "https://dentalguru-admin.vimubds5.a2hosted.com/api/v1/admin/markAttendanceLogout",
         {
           branch_name,
           employee_ID,

@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import styled from "styled-components";
-// import Sider from "../../../components/Sider";
-// import Header from "../../../components/Header";
 import { IoMdArrowRoundBack } from "react-icons/io";
-// import BranchSelector from "../../../components/BranchSelector";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import { utils, writeFile } from "xlsx";
@@ -14,7 +11,6 @@ import animationData from "../../../animation/loading-effect.json";
 
 import moment from "moment";
 import cogoToast from "cogo-toast";
-
 
 const Refundamount = () => {
   const user = useSelector((state) => state.user.currentUser);
@@ -50,7 +46,7 @@ const Refundamount = () => {
     setLoading(true);
     try {
       const { data } = await axios.get(
-        `https://dentalguruadmin.doaguru.com/api/v1/admin/getRefundAmountData/${branch}`,
+        `https://dentalguru-admin.vimubds5.a2hosted.com/api/v1/admin/getRefundAmountData/${branch}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -69,7 +65,9 @@ const Refundamount = () => {
 
   useEffect(() => {
     getRefundList();
-  }, [branch]);
+  }, []);
+
+  console.log(refundList);
 
   const todayDate = new Date();
 
@@ -83,7 +81,7 @@ const Refundamount = () => {
 
   console.log(formattedDate.slice(3, 10));
 
-  console.log(refundList);
+  console.log(refundList[0]?.refund_date?.split(" ")[0].slice(5, 10));
 
   const filterAppointDataByMonth = refundList?.filter((item) => {
     return (
@@ -173,7 +171,8 @@ const Refundamount = () => {
                     />
                   </div>
                   <button
-                    className="btn btn-warning mx-2"
+                    className="btn btn-warning mx-2 text-light"
+                    style={{ backgroundColor: "#1abc9c" }}
                     type="submit"
                     disabled={error}
                   >
@@ -216,7 +215,7 @@ const Refundamount = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        {filterAppointDataByMonth
+                        {refundList
                           ?.filter((item) => {
                             const billDate = item.refund_date?.split(" ")[0]; // Extracting the date part
                             if (fromDate && toDate) {

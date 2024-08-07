@@ -20,7 +20,7 @@ const Compleated = () => {
     const fetchPatientDetails = async () => {
       try {
         const { data } = await axios.get(
-          `https://dentalguruadmin.doaguru.com/api/v1/admin/getPatientLabTestCompleted`,
+          `https://dentalguru-admin.vimubds5.a2hosted.com/api/v1/admin/getPatientLabTestCompleted`,
           {
             headers: {
               "Content-Type": "multipart/form-data",
@@ -37,19 +37,20 @@ const Compleated = () => {
     fetchPatientDetails();
   }, []);
 
-     // Filter the patient details to include only those with a "donetest" status
- const donetestPatients = patientDetails?.filter(patient => patient.test_status === "done");
+  // Filter the patient details to include only those with a "donetest" status
+  const donetestPatients = patientDetails?.filter(
+    (patient) => patient.test_status === "done"
+  );
 
- // Apply search and date filters to the donetest patients
- const filteredPatients = donetestPatients?.filter((patient) => {
-   const fullName = `${patient.patient_name}`.toLowerCase();
-   const formattedDate = moment(patient.created_date).format("YYYY-MM-DD");
-   return (
-     fullName.includes(searchQuery.toLowerCase()) &&
-     (!dateFilter || formattedDate === dateFilter)
-   );
- });
-    
+  // Apply search and date filters to the donetest patients
+  const filteredPatients = donetestPatients?.filter((patient) => {
+    const fullName = `${patient.patient_name}`.toLowerCase();
+    const formattedDate = moment(patient.created_date).format("YYYY-MM-DD");
+    return (
+      fullName.includes(searchQuery.toLowerCase()) &&
+      (!dateFilter || formattedDate === dateFilter)
+    );
+  });
 
   const goBack = () => {
     window.history.go(-1);
@@ -124,72 +125,71 @@ const Compleated = () => {
                   className=""
                   style={{ maxHeight: "700px", overflowY: "auto" }}
                 >
-{filteredPatients.length === 0 ? (
-          <div className='mb-2 fs-4 fw-bold text-center'>No done test available</div>
-          ) : (
+                  {filteredPatients.length === 0 ? (
+                    <div className="mb-2 fs-4 fw-bold text-center">
+                      No done test available
+                    </div>
+                  ) : (
+                    <>
+                      <table className="table table-bordered">
+                        <thead>
+                          <tr>
+                            <th>ID</th>
+                            <th>Patient UHID </th>
+                            <th>Patient Name </th>
+                            <th> Age </th>
+                            <th> Gender </th>
+                            <th>Branch Name </th>
+                            <th>Assigned Doctor Name</th>
+                            <th>Lab Name</th>
+                            <th>Created Date</th>
+                            <th>Patient Tests </th>
+                            <th>Total Payment</th>
+                            <th>Payment Status</th>
+                            <th>Tests Status </th>
+                          </tr>
+                        </thead>
 
-<>
-
-                  <table className="table table-bordered">
-                    <thead>
-                      <tr>
-                        <th>ID</th>
-                        <th>Patient UHID </th>
-                        <th>Patient Name </th>
-                        <th> Age </th>
-                        <th> Gender </th>
-                        <th>Branch Name </th>
-                        <th>Assigned Doctor Name</th>
-                        <th>Lab Name</th>
-                        <th>Created Date</th>
-                        <th>Patient Tests </th>
-                        <th>Total Payment</th>
-                        <th>Payment Status</th>
-                        <th>Tests Status </th>
-                      </tr>
-                    </thead>
-
-                    <tbody>
-                      {filteredPatients.map((patient, index) => (
-                        <>
-                          {patient.test_status === "done" && (
-                            <tr key={patient.testid}>
-                              <td>{index + 1}</td>
-                              <td>{patient.patient_uhid}</td>
-                              <td>{patient.patient_name}</td>
-                              <td>{patient.age}</td>
-                              <td>{patient.gender}</td>
-                              <td>{patient.branch_name}</td>
-
-                              <td>{patient.assigned_doctor_name}</td>
-                              <td>{patient.lab_name}</td>
-                              <td>
-                                {moment(patient.created_date).format(
-                                  "DD/MM/YYYY"
-                                )}
-                              </td>
-                              <td>{patient.test}</td>
-
-                              <td>{patient.payment}</td>
-                              <td>{patient.payment_status}</td>
-
+                        <tbody>
+                          {filteredPatients.map((patient, index) => (
+                            <>
                               {patient.test_status === "done" && (
-                                <td>
-                                  <p className="text-success fw-bold">
-                                    {patient.test_status}
-                                  </p>
-                                </td>
+                                <tr key={patient.testid}>
+                                  <td>{index + 1}</td>
+                                  <td>{patient.patient_uhid}</td>
+                                  <td>{patient.patient_name}</td>
+                                  <td>{patient.age}</td>
+                                  <td>{patient.gender}</td>
+                                  <td>{patient.branch_name}</td>
+
+                                  <td>{patient.assigned_doctor_name}</td>
+                                  <td>{patient.lab_name}</td>
+                                  <td>
+                                    {moment(patient.created_date).format(
+                                      "DD/MM/YYYY"
+                                    )}
+                                  </td>
+                                  <td>{patient.test}</td>
+
+                                  <td>{patient.payment}</td>
+                                  <td>{patient.payment_status}</td>
+
+                                  {patient.test_status === "done" && (
+                                    <td>
+                                      <p className="text-success fw-bold">
+                                        {patient.test_status}
+                                      </p>
+                                    </td>
+                                  )}
+                                </tr>
                               )}
-                            </tr>
-                          )}
-                        </>
-                        // Wrap the entire row inside a conditional statement based on test status
-                      ))}
-                    </tbody>
-                  </table>
-                  </>
-          )
-        }
+                            </>
+                            // Wrap the entire row inside a conditional statement based on test status
+                          ))}
+                        </tbody>
+                      </table>
+                    </>
+                  )}
                 </div>
               </div>
 

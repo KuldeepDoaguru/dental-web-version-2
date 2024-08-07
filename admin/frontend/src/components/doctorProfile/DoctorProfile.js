@@ -4,12 +4,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 
-const DoctorProfile = ({refresh}) => {
+const DoctorProfile = ({ refresh }) => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.currentUser);
- 
+
   const branch = user.branch_name;
-  
+
   const { eid } = useParams();
   console.log(eid);
   const [empData, setEmpData] = useState([]);
@@ -17,7 +17,7 @@ const DoctorProfile = ({refresh}) => {
   const getEmployeeData = async () => {
     try {
       const { data } = await axios.get(
-        `https://dentalguruadmin.doaguru.com/api/v1/admin/getEmployeeDetails/${branch}/${eid}`,
+        `https://dentalguru-admin.vimubds5.a2hosted.com/api/v1/admin/getEmployeeDetails/${branch}/${eid}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -60,13 +60,13 @@ const DoctorProfile = ({refresh}) => {
                   <div className="row">
                     <div className="col-6">
                       <p>
-                        <strong style= {{ color: "#1abc9c" }}>
+                        <strong style={{ color: "#1abc9c" }}>
                           Speciality :{" "}
                         </strong>
                         {empData[0]?.speciality}
                       </p>
                       <p>
-                        <strong style= {{ color: "#1abc9c" }}>
+                        <strong style={{ color: "#1abc9c" }}>
                           Language :{" "}
                         </strong>
                         {empData[0]?.language}

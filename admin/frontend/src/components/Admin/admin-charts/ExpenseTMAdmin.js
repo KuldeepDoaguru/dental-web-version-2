@@ -37,7 +37,7 @@ const ExpenseTMAdmin = () => {
     const getAppointList = async () => {
       try {
         const response = await axios.get(
-          `https://dentalguruadmin.doaguru.com/api/v1/admin/getPurInventoryByBranch/${user.branch_name}`,
+          `https://dentalguru-admin.vimubds5.a2hosted.com/api/v1/admin/getPurInventoryByBranch/${user.branch_name}`,
           {
             headers: {
               "Content-Type": "multipart/form-data",
@@ -52,7 +52,7 @@ const ExpenseTMAdmin = () => {
     };
 
     getAppointList();
-  }, [user.branch_name]);
+  }, []);
 
   const getDate = new Date();
   const year = getDate.getFullYear();
@@ -125,12 +125,7 @@ const ExpenseTMAdmin = () => {
               yAxisId="left"
               name="Patients"
             /> */}
-            <Bar
-              dataKey="Amount"
-              fill="#40407a"
-              yAxisId="left"
-              name="Amount"
-            />
+            <Bar dataKey="Amount" fill="#40407a" yAxisId="left" name="Amount" />
           </BarChart>
         </div>
       </Container>

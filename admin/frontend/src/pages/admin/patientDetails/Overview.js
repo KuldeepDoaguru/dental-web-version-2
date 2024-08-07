@@ -70,7 +70,7 @@ const Overview = () => {
   const getAppointDetailsPat = async () => {
     try {
       const { data } = await axios.get(
-        `https://dentalguruadmin.doaguru.com/api/v1/admin/getAppointmentByBranchAndId/${branch}/${pid}`,
+        `https://dentalguru-admin.vimubds5.a2hosted.com/api/v1/admin/getAppointmentByBranchAndId/${branch}/${pid}`,
         {
           headers: {
             "Content-Type": "multipart/form-data",
@@ -163,7 +163,7 @@ const Overview = () => {
   const fetchLatestDentalPatientData = async () => {
     try {
       const { data } = await axios.get(
-        `https://dentalguruadmin.doaguru.com/api/v1/admin/getExaminationViaUhid/${branch}/${pid}`,
+        `https://dentalguru-admin.vimubds5.a2hosted.com/api/v1/admin/getExaminationViaUhid/${branch}/${pid}`,
         {
           headers: {
             "Content-Type": "multipart/form-data",
@@ -186,7 +186,7 @@ const Overview = () => {
   const fetchLatestTreatPatientData = async () => {
     try {
       const { data } = await axios.get(
-        `https://dentalguruadmin.doaguru.com/api/v1/admin/getTreatmentViaUhid/${branch}/${pid}`,
+        `https://dentalguru-admin.vimubds5.a2hosted.com/api/v1/admin/getTreatmentViaUhid/${branch}/${pid}`,
         {
           headers: {
             "Content-Type": "multipart/form-data",
@@ -208,7 +208,7 @@ const Overview = () => {
   const fetchLatestPrescriptionPatientData = async () => {
     try {
       const { data } = await axios.get(
-        `https://dentalguruadmin.doaguru.com/api/v1/admin/getPrescriptionViaUhid/${branch}/${pid}`,
+        `https://dentalguru-admin.vimubds5.a2hosted.com/api/v1/admin/getPrescriptionViaUhid/${branch}/${pid}`,
         {
           headers: {
             "Content-Type": "multipart/form-data",
@@ -230,7 +230,7 @@ const Overview = () => {
   const fetchLatestBillPatientData = async () => {
     try {
       const response = await axios.get(
-        `https://dentalguruadmin.doaguru.com/api/v1/admin/get-patientBill-data/${pid}`,
+        `https://dentalguru-admin.vimubds5.a2hosted.com/api/v1/admin/get-patientBill-data/${pid}`,
         {
           headers: {
             "Content-Type": "multipart/form-data",

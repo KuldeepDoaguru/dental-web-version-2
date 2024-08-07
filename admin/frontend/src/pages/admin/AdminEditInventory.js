@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-// import Header from "../../Header";
-// import Sider from "../../Sider";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { IoMdArrowRoundBack } from "react-icons/io";
 // import BranchSelector from "../../BranchSelector";
@@ -76,7 +74,7 @@ const AdminEditInventory = () => {
   const getInvListDetails = async () => {
     try {
       const { data } = await axios.get(
-        `https://dentalguruadmin.doaguru.com/api/v1/admin/getPurchaseInvByPurId/${branch.name}/${pid}`,
+        `https://dentalguru-admin.vimubds5.a2hosted.com/api/v1/admin/getPurchaseInvByPurId/${branch.name}/${pid}`,
         {
           headers: {
             "Content-Type": "multipart/form-data",
@@ -93,7 +91,7 @@ const AdminEditInventory = () => {
 
   useEffect(() => {
     getInvListDetails();
-  }, [branch.name]);
+  }, []);
 
   console.log(purInvDetails);
 
@@ -110,7 +108,7 @@ const AdminEditInventory = () => {
     console.log(updateData, reciept_doc);
     try {
       const { data } = await axios.put(
-        `https://dentalguruadmin.doaguru.com//api/v1/admin/updatePurInvoice/${branch.name}/${pid}`,
+        `https://dentalguru-admin.vimubds5.a2hosted.com//api/v1/admin/updatePurInvoice/${branch.name}/${pid}`,
         formData,
         {
           headers: {

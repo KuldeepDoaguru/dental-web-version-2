@@ -21,7 +21,7 @@ const MarkAttendance = () => {
   const getTodayAttendance = async () => {
     try {
       const response = await axios.get(
-        `https://dentalguruadmin.doaguru.com/api/v1/admin/getTodayAttendance/${branch_name}/${employee_ID}/${date}`,
+        `https://dentalguru-admin.vimubds5.a2hosted.com/api/v1/admin/getTodayAttendance/${branch_name}/${employee_ID}/${date}`,
         {
           headers: {
             "Content-Type": "multipart/form-data",

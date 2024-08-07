@@ -17,14 +17,14 @@ const getBranch = (req, res) => {
     const getQuery = "SELECT * FROM branches";
     db.query(getQuery, (err, result) => {
       if (err) {
-          logger.registrationLogger.log("error", "failed to fetched branch data");
+        logger.registrationLogger.log("error", "failed to fetched branch data");
         res.status(500).send(err);
       }
       logger.registrationLogger.log("info", "branch data fetched successfully");
       res.status(200).send(result);
     });
   } catch (error) {
-      logger.registrationLogger.log("error", "Internal server error");
+    logger.registrationLogger.log("error", "Internal server error");
     console.log(error);
     res.status(500).json({
       success: false,
@@ -86,7 +86,7 @@ const EnrollEmployee = (req, res) => {
       empAddress,
     ];
     if (requiredFields.some((field) => !field)) {
-        logger.registrationLogger.log("error", "All fields are required");
+      logger.registrationLogger.log("error", "All fields are required");
       return res.status(400).json({ error: "All fields are required" });
     }
 
@@ -102,7 +102,7 @@ const EnrollEmployee = (req, res) => {
 
     db.query(highestEmpIDQuery, [pattern], (err, result) => {
       if (err) {
-          logger.registrationLogger.log("error", "Error getting last emp ID");
+        logger.registrationLogger.log("error", "Error getting last emp ID");
         console.error("Error getting highest empID:", err);
         res.status(500).json({ error: "Internal server error" });
       } else {
@@ -118,13 +118,16 @@ const EnrollEmployee = (req, res) => {
 
         db.query(checkUserQuery, [empEmail], (err, result) => {
           if (err) {
-              logger.registrationLogger.log("error", "Error checking if user exists");
+            logger.registrationLogger.log(
+              "error",
+              "Error checking if user exists"
+            );
             console.error("Error checking if user exists in MySQL:", err);
             res.status(500).json({ error: "Internal server error" });
           } else {
             // Check if there are any rows in the result
             if (result.length > 0) {
-                logger.registrationLogger.log("error", "User already exists");
+              logger.registrationLogger.log("error", "User already exists");
               return res.status(400).json({
                 error: "User already exists.",
               });
@@ -158,10 +161,10 @@ const EnrollEmployee = (req, res) => {
                 availability,
                 imageUrl,
                 employee_education,
-      speciality,
-      language,
-      experience,
-      type_of
+                speciality,
+                language,
+                experience,
+                type_of,
               ];
 
               db.query(
@@ -169,11 +172,17 @@ const EnrollEmployee = (req, res) => {
                 insertUserParams,
                 (insertErr, insertResult) => {
                   if (insertErr) {
-                      logger.registrationLogger.log("error", "Error inserting user");
+                    logger.registrationLogger.log(
+                      "error",
+                      "Error inserting user"
+                    );
                     console.error("Error inserting user:", insertErr);
                     res.status(500).json({ error: "Internal server error" });
                   } else {
-                      logger.registrationLogger.log("info", "Employee registered successfully");
+                    logger.registrationLogger.log(
+                      "info",
+                      "Employee registered successfully"
+                    );
                     console.log("User registered successfully");
                     return res.status(200).json({
                       success: true,
@@ -188,7 +197,7 @@ const EnrollEmployee = (req, res) => {
       }
     });
   } catch (error) {
-      logger.registrationLogger.log("error", "Internal server error");
+    logger.registrationLogger.log("error", "Internal server error");
     console.log(error);
     res.status(500).json({
       success: false,
@@ -203,14 +212,20 @@ const getEmployeeData = (req, res) => {
     const getQuery = `SELECT * FROM employee_register`;
     db.query(getQuery, (err, result) => {
       if (err) {
-          logger.registrationLogger.log("error", "error in fetching employee details");
+        logger.registrationLogger.log(
+          "error",
+          "error in fetching employee details"
+        );
         res.status(400).send({ message: "error in fetching employee" });
       }
-      logger.registrationLogger.log("info", "employee data fetched successfully");
+      logger.registrationLogger.log(
+        "info",
+        "employee data fetched successfully"
+      );
       res.json(result);
     });
   } catch (error) {
-      logger.registrationLogger.log("error", "Internal server error");
+    logger.registrationLogger.log("error", "Internal server error");
     console.log(error);
     res.status(500).json({
       success: false,
@@ -262,7 +277,7 @@ const editEmployeeDetails = (req, res) => {
     const getQuery = `SELECT * FROM employee_register WHERE branch_name = ? AND employee_ID = ?`;
     db.query(getQuery, [branch, empId], (err, result) => {
       if (err) {
-          logger.registrationLogger.log("error", "invalid branch or employee ID");
+        logger.registrationLogger.log("error", "invalid branch or employee ID");
         return res.status(500).json({
           success: false,
           message: "Internal server error",
@@ -399,13 +414,19 @@ const editEmployeeDetails = (req, res) => {
           [...updateValues, branch, empId],
           (err, result) => {
             if (err) {
-                logger.registrationLogger.log("error", "Failed to update employee details");
+              logger.registrationLogger.log(
+                "error",
+                "Failed to update employee details"
+              );
               return res.status(500).json({
                 success: false,
                 message: "Failed to update details",
               });
             } else {
-                logger.registrationLogger.log("info", "employee details updated successfully");
+              logger.registrationLogger.log(
+                "info",
+                "employee details updated successfully"
+              );
               return res.status(200).json({
                 success: true,
                 message: "Details updated successfully",
@@ -414,7 +435,7 @@ const editEmployeeDetails = (req, res) => {
           }
         );
       } else {
-          logger.registrationLogger.log("error", "user not found");
+        logger.registrationLogger.log("error", "user not found");
         return res.status(404).json({
           success: false,
           message: "User not found",
@@ -422,7 +443,7 @@ const editEmployeeDetails = (req, res) => {
       }
     });
   } catch (error) {
-      logger.registrationLogger.log("error", "internal server error");
+    logger.registrationLogger.log("error", "internal server error");
     console.log(error);
     res.status(400).json({ success: false, message: "Internal Server Error" });
   }
@@ -432,14 +453,14 @@ const adminLoginUser = async (req, res) => {
   try {
     const { email, password, branch_name } = req.body;
     if (!branch_name) {
-        logger.registrationLogger.log("error", "Please select branch");
+      logger.registrationLogger.log("error", "Please select branch");
       return res.status(404).json({
         success: false,
         message: "Please select branch",
       });
     }
     if (!email || !password) {
-        logger.registrationLogger.log("error", "Invalid email or password");
+      logger.registrationLogger.log("error", "Invalid email or password");
       return res.status(404).json({
         success: false,
         message: "Invalid email or password",
@@ -451,7 +472,7 @@ const adminLoginUser = async (req, res) => {
       [email],
       (err, result) => {
         if (err) {
-            logger.registrationLogger.log("error", "invalid employee email");
+          logger.registrationLogger.log("error", "invalid employee email");
           console.log(err);
           return res.status(500).json({
             success: false,
@@ -459,7 +480,10 @@ const adminLoginUser = async (req, res) => {
           });
         }
         if (result.length === 0) {
-            logger.registrationLogger.log("error", "Email is not registered please contact team for furthur assistance");
+          logger.registrationLogger.log(
+            "error",
+            "Email is not registered please contact team for furthur assistance"
+          );
           return res.status(500).json({
             success: false,
             message:
@@ -471,7 +495,7 @@ const adminLoginUser = async (req, res) => {
 
         const match = bcrypt.compareSync(password, user.employee_password);
         if (!match) {
-            logger.registrationLogger.log("error", "invalid password");
+          logger.registrationLogger.log("error", "invalid password");
           return res.status(401).json({
             success: "false",
             message: "Invalid password",
@@ -479,14 +503,20 @@ const adminLoginUser = async (req, res) => {
         }
 
         if (!user.employee_role.includes("admin")) {
-            logger.registrationLogger.log("error", "please login with admin email");
+          logger.registrationLogger.log(
+            "error",
+            "please login with admin email"
+          );
           return res.status(401).json({
             success: "false",
             message: "Please login with admin email",
           });
         }
         if (user.branch_name !== branch_name) {
-            logger.registrationLogger.log("error", "please login with your branch");
+          logger.registrationLogger.log(
+            "error",
+            "please login with your branch"
+          );
           return res.status(401).json({
             success: "false",
             message: "Please login with your branch",
@@ -494,7 +524,10 @@ const adminLoginUser = async (req, res) => {
         }
 
         if (user.employee_status !== "Approved") {
-            logger.registrationLogger.log("error", "your email is not approved please contact team for furthur assistance");
+          logger.registrationLogger.log(
+            "error",
+            "your email is not approved please contact team for furthur assistance"
+          );
           return res.status(401).json({
             success: "false",
             message:
@@ -505,10 +538,14 @@ const adminLoginUser = async (req, res) => {
         // const token = JWT.sign({ id: user.employee_ID }, process.env.JWT_SECRET, {
         //   expiresIn: "7d",
         // });
-        const token = JWT.sign({ id: user.employee_ID }, process.env.JWT_SECRET, {
-          expiresIn: "60s", // Set expiration to 60 seconds
-        });
-        
+        const token = JWT.sign(
+          { id: user.employee_ID },
+          process.env.JWT_SECRET,
+          {
+            expiresIn: "7d", // Set expiration to 60 seconds
+          }
+        );
+
         logger.registrationLogger.log("info", "Login successful");
         res.status(200).json({
           success: "true",
@@ -528,7 +565,7 @@ const adminLoginUser = async (req, res) => {
       }
     );
   } catch (error) {
-      logger.registrationLogger.log("error", "Internal server error");
+    logger.registrationLogger.log("error", "Internal server error");
     console.log(error);
     res
       .status(500)
@@ -555,15 +592,13 @@ const sendOtp = (req, res) => {
   const OTP = generateOTP(6);
 
   try {
-     const transporter = nodemailer.createTransport({
-    host: "doaguru.com", 
-    port: 465,  
-    secure: true, 
-    auth: {
-      user: "info@doaguru.com",
-      pass: "dgwebmail@132",
-    },
-  });
+    const transporter = nodemailer.createTransport({
+      service: "Gmail",
+      auth: {
+        user: process.env.EMAILSENDER,
+        pass: process.env.EMAILPASSWORD,
+      },
+    });
 
     const mailOptions = {
       from: "info@doaguru.com",
@@ -574,7 +609,10 @@ const sendOtp = (req, res) => {
 
     transporter.sendMail(mailOptions, (error, info) => {
       if (error) {
-          logger.registrationLogger.log("error", "An error occured while sending the email");
+        logger.registrationLogger.log(
+          "error",
+          "An error occured while sending the email"
+        );
         console.error(error);
         return res
           .status(500)
@@ -585,7 +623,7 @@ const sendOtp = (req, res) => {
         const selectQuery = "SELECT * FROM otpcollections WHERE email = ?";
         db.query(selectQuery, email, (err, result) => {
           if (err) {
-              logger.registrationLogger.log("error", "invalid email");
+            logger.registrationLogger.log("error", "invalid email");
             res.status(400).json({ success: false, message: err.message });
           }
           if (result && result.length > 0) {
@@ -593,7 +631,7 @@ const sendOtp = (req, res) => {
               "UPDATE otpcollections SET code = ? WHERE email = ?";
             db.query(updateQuery, [OTP, email], (upErr, upResult) => {
               if (upErr) {
-                  logger.registrationLogger.log("error", "invalid email or otp");
+                logger.registrationLogger.log("error", "invalid email or otp");
                 res
                   .status(400)
                   .json({ success: false, message: upErr.message });
@@ -608,7 +646,7 @@ const sendOtp = (req, res) => {
               [email, OTP],
               (err, result) => {
                 if (err) {
-                    logger.registrationLogger.log("error", "Failed to store OTP");
+                  logger.registrationLogger.log("error", "Failed to store OTP");
                   console.error(err);
                   return res
                     .status(500)
@@ -623,105 +661,11 @@ const sendOtp = (req, res) => {
       }
     });
   } catch (error) {
-      logger.registrationLogger.log("error", "Internal server error");
+    logger.registrationLogger.log("error", "Internal server error");
     console.log(error);
     res.status(500).json("An error occurred.");
   }
 };
-
-// const sendOtpEmail = (req, res) => {
-//   const { email } = req.body;
-
-//   // random otp
-//   function generateOTP(length) {
-//     const chars = "0123456789";
-//     let otp = "";
-
-//     for (let i = 0; i < length; i++) {
-//       const randomIndex = Math.floor(Math.random() * chars.length);
-//       otp += chars[randomIndex];
-//     }
-
-//     return otp;
-//   }
-
-//   const OTP = generateOTP(6);
-
-//   try {
-//      const transporter = nodemailer.createTransport({
-//     host: "doaguru.com", 
-//     port: 465,  
-//     secure: true, 
-//     auth: {
-//       user: "info@doaguru.com",
-//       pass: "dgwebmail@132",
-//     },
-//   });
-
-//     // Check if email exists in the employee_register table
-//     const selectQuery =
-//       "SELECT * FROM employee_register WHERE employee_email = ?";
-//     db.query(selectQuery, email, (err, result) => {
-//       if (err) {
-//         res.status(400).json({ success: false, message: err.message });
-//       }
-
-//       if (result && result.length > 0) {
-//         // Email exists in employee_register table
-//         // Insert or update OTP in otpcollections table
-//         const insertQuery =
-//           "INSERT INTO otpcollections (email, code) VALUES (?, ?) ON DUPLICATE KEY UPDATE code = VALUES(code)";
-//         db.query(insertQuery, [email, OTP], (insertErr, insertResult) => {
-//           if (insertErr) {
-//             return res
-//               .status(500)
-//               .json({ success: false, message: "Failed to store OTP" });
-//           }
-//           // Send OTP via email
-//           sendOtpByEmail(email, OTP, res);
-//         });
-//       } else {
-//         // Email does not exist in employee_register table
-//         res
-//           .status(404)
-//           .json({ message: "Email not found in the employee register" });
-//       }
-//     });
-//   } catch (error) {
-//     console.log(error);
-//     res.status(500).json("An error occurred.");
-//   }
-// };
-
-// // Function to send OTP via email
-// const sendOtpByEmail = (email, OTP, res) => {
-//   const transporter = nodemailer.createTransport({
-//     host: "doaguru.com", 
-//     port: 465,  
-//     secure: true, 
-//     auth: {
-//       user: "info@doaguru.com",
-//       pass: "dgwebmail@132",
-//     },
-//   });
-
-//   const mailOptions = {
-//       from: "info@doaguru.com",
-//       to: email,
-//       subject: "OTP for Password Reset",
-//       text: `Your OTP for Password Reset is: ${OTP}`,
-//     };
-
-//   transporter.sendMail(mailOptions, (error, info) => {
-//     if (error) {
-//       console.error(error);
-//       return res.status(500).json("An error occurred while sending the email.");
-//     } else {
-//       console.log("OTP sent:", info.response);
-//       res.status(200).json({ message: "OTP sent successfully" });
-//     }
-//   });
-// };
 
 const sendOtpEmail = (req, res) => {
   const { email } = req.body;
@@ -731,11 +675,11 @@ const sendOtpEmail = (req, res) => {
 
   db.query(selectQuery, email, (err, result) => {
     if (err) {
-        logger.registrationLogger.log("error", "invalid email");
+      logger.registrationLogger.log("error", "invalid email");
       return res.status(400).json({ success: false, message: err.message });
     } else {
       if (!result || result.length === 0) {
-          logger.registrationLogger.log("error", "email not found");
+        logger.registrationLogger.log("error", "email not found");
         return res
           .status(404)
           .json({ success: false, message: "Email not found" });
@@ -759,25 +703,26 @@ const sendOtpEmail = (req, res) => {
 
         try {
           const transporter = nodemailer.createTransport({
-    host: "doaguru.com", 
-    port: 465,  
-    secure: true, 
-    auth: {
-      user: "info@doaguru.com",
-      pass: "dgwebmail@132",
-    },
-  });
+            service: "Gmail",
+            auth: {
+              user: process.env.EMAILSENDER,
+              pass: process.env.EMAILPASSWORD,
+            },
+          });
 
-    const mailOptions = {
-      from: "info@doaguru.com",
-      to: email,
-      subject: "OTP for Password Reset",
-      text: `Your OTP for Password Reset is: ${OTP}`,
-    };
+          const mailOptions = {
+            from: "info@doaguru.com",
+            to: email,
+            subject: "OTP for Password Reset",
+            text: `Your OTP for Password Reset is: ${OTP}`,
+          };
 
           transporter.sendMail(mailOptions, (error, info) => {
             if (error) {
-                logger.registrationLogger.log("error", "An error occured while sending the email");
+              logger.registrationLogger.log(
+                "error",
+                "An error occured while sending the email"
+              );
               console.error(error);
               return res.status(500).json({
                 success: false,
@@ -790,7 +735,10 @@ const sendOtpEmail = (req, res) => {
                 "INSERT INTO otpcollections (email, code) VALUES (?, ?) ON DUPLICATE KEY UPDATE code = VALUES(code)";
               db.query(updateQuery, [email, OTP], (upErr, upResult) => {
                 if (upErr) {
-                    logger.registrationLogger.log("error", "invalid otp or email");
+                  logger.registrationLogger.log(
+                    "error",
+                    "invalid otp or email"
+                  );
                   return res
                     .status(400)
                     .json({ success: false, message: upErr.message });
@@ -803,7 +751,7 @@ const sendOtpEmail = (req, res) => {
             }
           });
         } catch (error) {
-            logger.registrationLogger.log("error", "Internal server error");
+          logger.registrationLogger.log("error", "Internal server error");
           console.log(error);
           return res
             .status(500)
@@ -822,18 +770,18 @@ const verifyOtp = (req, res) => {
       [email, otp],
       (err, result) => {
         if (err) {
-            logger.registrationLogger.log("error", "invalid email or otp");
+          logger.registrationLogger.log("error", "invalid email or otp");
           return res
             .status(500)
             .json({ success: false, message: "Internal server error" });
         }
         if (result.length > 0) {
-            logger.registrationLogger.log("info", "OTP verification successful");
+          logger.registrationLogger.log("info", "OTP verification successful");
           return res
             .status(200)
             .json({ success: true, message: "Otp verification  success" });
         } else {
-            logger.registrationLogger.log("error", "invalid email or OTP");
+          logger.registrationLogger.log("error", "invalid email or OTP");
           return res
             .status(404)
             .json({ success: false, message: "Invalid email or OTP" });
@@ -841,7 +789,7 @@ const verifyOtp = (req, res) => {
       }
     );
   } catch (error) {
-      logger.registrationLogger.log("error", "Internal server error");
+    logger.registrationLogger.log("error", "Internal server error");
     console.log(error);
     res.status(500).json({ success: false, message: "Internal server error" });
   }
@@ -855,7 +803,7 @@ const resetPassword = (req, res) => {
       "SELECT * FROM employee_register WHERE employee_email = ?";
     db.query(selectQuery, email, (err, result) => {
       if (err) {
-          logger.registrationLogger.log("error", "invalid email");
+        logger.registrationLogger.log("error", "invalid email");
         res.status(400).json({ success: false, message: err.message });
       }
       if (result && result.length) {
@@ -865,12 +813,15 @@ const resetPassword = (req, res) => {
         const updateQuery = `UPDATE employee_register SET employee_password = ? WHERE employee_email = ?`;
         db.query(updateQuery, [hashedPassword, email], (err, result) => {
           if (err) {
-              logger.registrationLogger.log("error", "invalid email or password");
+            logger.registrationLogger.log("error", "invalid email or password");
             return res
               .status(400)
               .json({ success: false, message: err.message });
           } else {
-              logger.registrationLogger.log("info", "Details updated successfully");
+            logger.registrationLogger.log(
+              "info",
+              "Details updated successfully"
+            );
             return res.status(200).json({
               success: true,
               message: "Details updated successfully",
@@ -878,14 +829,14 @@ const resetPassword = (req, res) => {
           }
         });
       } else {
-          logger.registrationLogger.log("error", "email not found");
+        logger.registrationLogger.log("error", "email not found");
         return res
           .status(404)
           .json({ success: false, message: "email not found" });
       }
     });
   } catch (error) {
-      logger.registrationLogger.log("error", "Internal server error");
+    logger.registrationLogger.log("error", "Internal server error");
     console.log(error);
     res.status(500).send({ success: false, message: "Internal server error" });
   }
@@ -935,21 +886,23 @@ const appointmentData = (req, res) => {
   }
 };
 
-
 const getAvailableEmp = (req, res) => {
   try {
     const branch = req.params.branch;
     const getQuery = "SELECT * FROM employee_attendance WHERE branch = ?";
     db.query(getQuery, branch, (err, result) => {
       if (err) {
-          logger.registrationLogger.log("error", "invalid branch");
+        logger.registrationLogger.log("error", "invalid branch");
         res.status(400).json({ success: false, message: err.message });
       }
-      logger.registrationLogger.log("info", "available employee's data fetched successfully");
+      logger.registrationLogger.log(
+        "info",
+        "available employee's data fetched successfully"
+      );
       res.status(200).send(result);
     });
   } catch (error) {
-      logger.registrationLogger.log("error", "Internal server error");
+    logger.registrationLogger.log("error", "Internal server error");
     console.log(error);
     res.status(500).json({ success: false, message: "Internal server error" });
   }
@@ -988,17 +941,18 @@ const getPatientDetailsByBranch = (req, res) => {
 const getBillsByBranch = (req, res) => {
   try {
     const branch = req.params.branch;
-    const selectQuery = "SELECT * FROM patient_bills WHERE branch_name = ? ORDER BY bill_date DESC";
+    const selectQuery =
+      "SELECT * FROM patient_bills WHERE branch_name = ? ORDER BY bill_date DESC";
     db.query(selectQuery, branch, (err, result) => {
       if (err) {
-          logger.registrationLogger.log("error", "invalid branch");
+        logger.registrationLogger.log("error", "invalid branch");
         res.status(400).send({ success: false, error: err.message });
       }
       logger.registrationLogger.log("info", "bill data fetched successfully");
       res.status(200).send(result);
     });
   } catch (error) {
-      logger.registrationLogger.log("error", "Internal server error");
+    logger.registrationLogger.log("error", "Internal server error");
     console.log(error);
     res.status(400).json({ success: false, message: "Internal Server Error" });
   }
@@ -1010,14 +964,17 @@ const getPurInventoryByBranch = (req, res) => {
     const getQuery = "SELECT * FROM purchase_inventory WHERE branch_name = ?";
     db.query(getQuery, branch, (err, result) => {
       if (err) {
-          logger.registrationLogger.log("error", "invalid branch");
+        logger.registrationLogger.log("error", "invalid branch");
         res.status(400).send({ success: false, message: err.message });
       }
-      logger.registrationLogger.log("info", "purchase inventory fetched successfully");
+      logger.registrationLogger.log(
+        "info",
+        "purchase inventory fetched successfully"
+      );
       res.status(200).send(result);
     });
   } catch (error) {
-      logger.registrationLogger.log("error", "Internal server error");
+    logger.registrationLogger.log("error", "Internal server error");
     console.log(error);
     res.status(500).send({ success: false, message: "Internal server error" });
   }
@@ -1029,14 +986,17 @@ const getEmployeeComplainByBranch = (req, res) => {
     const getQuery = "SELECT * FROM employee_complaints WHERE branch_name = ?";
     db.query(getQuery, branch, (err, result) => {
       if (err) {
-          logger.registrationLogger.log("error", "invalid branch");
+        logger.registrationLogger.log("error", "invalid branch");
         res.status(400).send({ success: false, error: err.message });
       }
-      logger.registrationLogger.log("info", "employee complaint fetched successfully");
+      logger.registrationLogger.log(
+        "info",
+        "employee complaint fetched successfully"
+      );
       res.status(200).send(result);
     });
   } catch (error) {
-      logger.registrationLogger.log("error", "internal server error");
+    logger.registrationLogger.log("error", "internal server error");
     console.log(error);
     res.status(500).send({ success: false, message: "Internal server error" });
   }
@@ -1064,7 +1024,7 @@ const updateAppointData = (req, res) => {
     const selectQuery = "SELECT * FROM appointments WHERE appoint_id";
     db.query(selectQuery, appointId, (err, result) => {
       if (err) {
-          logger.registrationLogger.log("error", "invalid appoint ID");
+        logger.registrationLogger.log("error", "invalid appoint ID");
         res.status(400).json({ success: false, message: err.message });
       }
       if (result && result.length > 0) {
@@ -1140,13 +1100,16 @@ const updateAppointData = (req, res) => {
 
         db.query(updateQuery, [...updateValues, appointId], (err, result) => {
           if (err) {
-              logger.registrationLogger.log("error", "Failed to update details");
+            logger.registrationLogger.log("error", "Failed to update details");
             return res.status(500).json({
               success: false,
               message: "Failed to update details",
             });
           } else {
-              logger.registrationLogger.log("info", "Appointment details updated successfully");
+            logger.registrationLogger.log(
+              "info",
+              "Appointment details updated successfully"
+            );
             return res.status(200).json({
               success: true,
               message: "Appointment Details updated successfully",
@@ -1154,7 +1117,7 @@ const updateAppointData = (req, res) => {
           }
         });
       } else {
-          logger.registrationLogger.log("error", "Appointment not found");
+        logger.registrationLogger.log("error", "Appointment not found");
         return res.status(404).json({
           success: false,
           message: "Appointment not found",
@@ -1162,7 +1125,7 @@ const updateAppointData = (req, res) => {
       }
     });
   } catch (error) {
-      logger.registrationLogger.log("error", "Internal server error");
+    logger.registrationLogger.log("error", "Internal server error");
     console.log(error);
     res.status(500).json({ success: false, message: "Internal server error" });
   }
@@ -1174,16 +1137,19 @@ const deleteAppointData = (req, res) => {
     const deleteQuery = "DELETE FROM appointments WHERE appoint_id = ?";
     db.query(deleteQuery, appointID, (err, result) => {
       if (err) {
-          logger.registrationLogger.log("error", "invalid appointment ID");
+        logger.registrationLogger.log("error", "invalid appointment ID");
         res.status(500).json({ success: false, message: err.message });
       }
-      logger.registrationLogger.log("info", "Appointment data deleted successfully");
+      logger.registrationLogger.log(
+        "info",
+        "Appointment data deleted successfully"
+      );
       res
         .status(200)
         .send({ success: true, message: "Data deleted successfully" });
     });
   } catch (error) {
-      logger.registrationLogger.log("error", "Internal server error");
+    logger.registrationLogger.log("error", "Internal server error");
     console.log(error);
     res.status(500).json({ success: false, message: "Internal server error" });
   }
@@ -1198,17 +1164,22 @@ const insertTimelineEvent = (req, res) => {
       insertQuery,
       [type, description, branch, patientId],
       (err, result) => {
-          
         if (err) {
-            logger.registrationLogger.log("error", "Failed to insert data in patient timeline");
+          logger.registrationLogger.log(
+            "error",
+            "Failed to insert data in patient timeline"
+          );
           res.status(400).json({ success: false, message: err.message });
         }
-        logger.registrationLogger.log("info", "data inserted in the patient timeline");
+        logger.registrationLogger.log(
+          "info",
+          "data inserted in the patient timeline"
+        );
         res.status(200).json({ success: true, result: result });
       }
     );
   } catch (error) {
-      logger.registrationLogger.log("error", "Internal server error");
+    logger.registrationLogger.log("error", "Internal server error");
     console.log(error);
     res.status(500).json({ success: false, message: err.message });
   }
@@ -1220,14 +1191,14 @@ const deleteBills = (req, res) => {
     const deleteQuery = "DELETE FROM patient_bills WHERE bill_id = ?";
     db.query(deleteQuery, billId, (err, result) => {
       if (err) {
-          logger.registrationLogger.log("error", "invalid bill ID");
+        logger.registrationLogger.log("error", "invalid bill ID");
         res.status(400).json({ success: false, message: err.message });
       }
       logger.registrationLogger.log("info", "bill deleted successfully");
       res.status(200).json({ success: true, message: "Successfully deleted" });
     });
   } catch (error) {
-      logger.registrationLogger.log("error", "Internal server error");
+    logger.registrationLogger.log("error", "Internal server error");
     console.log(error);
     res.status(500).json({ success: false, message: "Internal Server Error" });
   }
@@ -1239,14 +1210,17 @@ const getBillBYBillId = (req, res) => {
     const selectQuery = "SELECT * FROM patient_bills WHERE bill_id = ?";
     db.query(selectQuery, bid, (err, result) => {
       if (err) {
-          logger.registrationLogger.log("error", "invalid bill ID");
+        logger.registrationLogger.log("error", "invalid bill ID");
         res.status(400).json({ success: false, message: err.message });
       }
-      logger.registrationLogger.log("info", "bill details fetched successfully");
+      logger.registrationLogger.log(
+        "info",
+        "bill details fetched successfully"
+      );
       res.status(200).send(result);
     });
   } catch (error) {
-      logger.registrationLogger.log("error", "internal server error");
+    logger.registrationLogger.log("error", "internal server error");
     console.log(error);
     res.status(500).json({ success: false, message: "Internal server error" });
   }
@@ -1273,7 +1247,7 @@ const updateBillDetailsByBillId = (req, res) => {
     const selectQuery = "SELECT * FROM patient_bills WHERE bill_id = ?";
     db.query(selectQuery, bid, (err, result) => {
       if (err) {
-          logger.registrationLogger.log("error", "invalid bill ID");
+        logger.registrationLogger.log("error", "invalid bill ID");
         return res.status(400).json({ success: false, message: err.message });
       }
       if (result && result.length > 0) {
@@ -1351,13 +1325,16 @@ const updateBillDetailsByBillId = (req, res) => {
 
         db.query(updateQuery, [...updateValues, bid], (err, result) => {
           if (err) {
-              logger.registrationLogger.log("error", "Failed to update details");
+            logger.registrationLogger.log("error", "Failed to update details");
             return res.status(500).json({
               success: false,
               message: "Failed to update details",
             });
           } else {
-              logger.registrationLogger.log("info", "Bill details updated successfully");
+            logger.registrationLogger.log(
+              "info",
+              "Bill details updated successfully"
+            );
             return res.status(200).json({
               success: true,
               message: "Bill Details updated successfully",
@@ -1365,7 +1342,7 @@ const updateBillDetailsByBillId = (req, res) => {
           }
         });
       } else {
-          logger.registrationLogger.log("error", "bill not found");
+        logger.registrationLogger.log("error", "bill not found");
         return res.status(404).json({
           success: false,
           message: "Bill not found",
@@ -1373,7 +1350,7 @@ const updateBillDetailsByBillId = (req, res) => {
       }
     });
   } catch (error) {
-      logger.registrationLogger.log("error", "internal server error");
+    logger.registrationLogger.log("error", "internal server error");
     console.log(error);
     res.status(400).json({ success: false, message: error.message });
   }
@@ -1387,14 +1364,14 @@ const deletePurInvoice = (req, res) => {
       "DELETE FROM purchase_inventory WHERE branch_name = ? AND pur_id = ?";
     db.query(deleteQuery, [branch, purchaseId], (err, result) => {
       if (err) {
-          logger.registrationLogger.log("error", "invalid branch or purchase ID");
+        logger.registrationLogger.log("error", "invalid branch or purchase ID");
         res.status(400).json({ success: false, message: err.message });
       }
       logger.registrationLogger.log("info", "Purchase deleted successfully");
       res.status(200).send("Purchase Deleted Successfully");
     });
   } catch (error) {
-      logger.registrationLogger.log("error", "internal server error");
+    logger.registrationLogger.log("error", "internal server error");
     console.log(error);
     res.status(500).json({ success: false, message: "Internal Server Error" });
   }
@@ -1413,18 +1390,18 @@ const downloadBillRecById = (req, res) => {
 
       const fileStream = fs.createReadStream(filePath);
       fileStream.on("error", (error) => {
-          logger.registrationLogger.log("error", "Error reading file");
+        logger.registrationLogger.log("error", "Error reading file");
         console.error("Error reading file:", error);
         res.status(500).send("Internal server error");
       });
       fileStream.pipe(res);
     } else {
-        logger.registrationLogger.log("error", "File not found");
+      logger.registrationLogger.log("error", "File not found");
       console.log("File not found:", file); // Add this line for debugging
       res.status(404).send("File not found");
     }
   } catch (error) {
-      logger.registrationLogger.log("error", "internal server error");
+    logger.registrationLogger.log("error", "internal server error");
     console.log(error);
     res.status(500).json({ success: false, message: "Internal server error" });
   }
@@ -1463,13 +1440,13 @@ const applyLeave = (req, res) => {
 
     db.query(addLeaveQuery, addLeaveParams, (err, Result) => {
       if (err) {
-          logger.registrationLogger.log("error", "Error in apply leave");
+        logger.registrationLogger.log("error", "Error in apply leave");
         console.error("Error in apply leave:", err);
         return res
           .status(500)
           .json({ success: false, message: "Internal server error" });
       } else {
-          logger.registrationLogger.log("info", "Leave application successful");
+        logger.registrationLogger.log("info", "Leave application successful");
         console.log("Leave apply successfully");
         return res.status(200).json({
           success: true,
@@ -1478,7 +1455,7 @@ const applyLeave = (req, res) => {
       }
     });
   } catch (error) {
-      logger.registrationLogger.log("error", "internal server error");
+    logger.registrationLogger.log("error", "internal server error");
     console.error("Error in apply leave:", error);
     return res.status(500).json({
       success: false,
@@ -1497,18 +1474,21 @@ const getLeaves = (req, res) => {
 
     db.query(sql, [branch, employee_Id], (err, results) => {
       if (err) {
-          logger.registrationLogger.log("error", "invalid branch or empployee ID");
+        logger.registrationLogger.log(
+          "error",
+          "invalid branch or empployee ID"
+        );
         console.error("Error fetching leaves from MySql:", err);
         res.status(500).json({ error: "Error fetching leaves" });
       } else {
-          logger.registrationLogger.log("info", "Leaves fetched successfully");
+        logger.registrationLogger.log("info", "Leaves fetched successfully");
         res
           .status(200)
           .json({ data: results, message: "leaves fetched successfully" });
       }
     });
   } catch (error) {
-      logger.registrationLogger.log("error", "internal server error");
+    logger.registrationLogger.log("error", "internal server error");
     console.error("Error fetching leaves from MySql:", error);
     res.status(500).json({
       success: false,
@@ -1548,7 +1528,7 @@ const MarkAttendanceLogin = (req, res) => {
 
     db.query(checkQuery, checkParams, (err, result) => {
       if (err) {
-          logger.registrationLogger.log("error", "Error in checking attendance");
+        logger.registrationLogger.log("error", "Error in checking attendance");
         console.error("Error in checking attendance:", err);
         return res.status(500).json({
           success: false,
@@ -1557,7 +1537,10 @@ const MarkAttendanceLogin = (req, res) => {
       }
 
       if (result.length > 0) {
-          logger.registrationLogger.log("error", "Attendance for this employee on today's date and login time already exists");
+        logger.registrationLogger.log(
+          "error",
+          "Attendance for this employee on today's date and login time already exists"
+        );
         return res.status(400).json({
           success: false,
           message:
@@ -1590,14 +1573,14 @@ const MarkAttendanceLogin = (req, res) => {
 
       db.query(addQuery, addParams, (err, result) => {
         if (err) {
-            logger.registrationLogger.log("error", "Error in marking login");
+          logger.registrationLogger.log("error", "Error in marking login");
           console.error("Error in marking login", err);
           return res.status(500).json({
             success: false,
             message: "Internal server error",
           });
         } else {
-            logger.registrationLogger.log("info", "Login marked successfully");
+          logger.registrationLogger.log("info", "Login marked successfully");
           console.log("login marked successfully");
           return res.status(200).json({
             success: true,
@@ -1607,7 +1590,7 @@ const MarkAttendanceLogin = (req, res) => {
       });
     });
   } catch (error) {
-      logger.registrationLogger.log("error", "internal server error");
+    logger.registrationLogger.log("error", "internal server error");
     console.error("Error in marking login:", error);
     return res.status(500).json({
       success: false,
@@ -1639,7 +1622,7 @@ const MarkAttendanceLogout = (req, res) => {
 
     db.query(checkQuery, checkParams, (err, result) => {
       if (err) {
-          logger.registrationLogger.log("error", "Error in checking attendance");
+        logger.registrationLogger.log("error", "Error in checking attendance");
         console.error("Error in checking attendance:", err);
         return res.status(500).json({
           success: false,
@@ -1648,7 +1631,10 @@ const MarkAttendanceLogout = (req, res) => {
       }
 
       if (result.length > 0) {
-          logger.registrationLogger.log("error", "Attendance for this employee on today's date and logout time already exists");
+        logger.registrationLogger.log(
+          "error",
+          "Attendance for this employee on today's date and logout time already exists"
+        );
         return res.status(400).json({
           success: false,
           message:
@@ -1666,14 +1652,14 @@ const MarkAttendanceLogout = (req, res) => {
 
       db.query(updateQuery, updateParams, (err, result) => {
         if (err) {
-            logger.registrationLogger.log("error", "Error in marking logout");
+          logger.registrationLogger.log("error", "Error in marking logout");
           console.error("Error in marking logout", err);
           return res.status(500).json({
             success: false,
             message: "Internal server error",
           });
         } else {
-            logger.registrationLogger.log("info", "Logout marked successfully");
+          logger.registrationLogger.log("info", "Logout marked successfully");
           console.log("Logout marked successfully");
           return res.status(200).json({
             success: true,
@@ -1683,7 +1669,7 @@ const MarkAttendanceLogout = (req, res) => {
       });
     });
   } catch (error) {
-      logger.registrationLogger.log("error", "internal server error");
+    logger.registrationLogger.log("error", "internal server error");
     console.error("Error in marking logout:", error);
     return res.status(500).json({
       success: false,
@@ -1704,11 +1690,14 @@ const getTodayAttendance = (req, res) => {
 
     db.query(sql, [branch, employee_ID, date], (err, results) => {
       if (err) {
-          logger.registrationLogger.log("error", "invalid input details");
+        logger.registrationLogger.log("error", "invalid input details");
         console.error("Error fetching attendance from MySql:", err);
         res.status(500).json({ error: "Error fetching Branch  attendance" });
       } else {
-          logger.registrationLogger.log("info", "attendance fetched successfully");
+        logger.registrationLogger.log(
+          "info",
+          "attendance fetched successfully"
+        );
         res.status(200).json({
           data: results,
           message: " attendance fetched successfully",
@@ -1716,7 +1705,7 @@ const getTodayAttendance = (req, res) => {
       }
     });
   } catch (error) {
-      logger.registrationLogger.log("error", "Internal server error");
+    logger.registrationLogger.log("error", "Internal server error");
     console.error("Error fetching  attendance from MySql:", error);
     res.status(500).json({
       success: false,
@@ -1736,11 +1725,14 @@ const getAttendancebyempId = (req, res) => {
 
     db.query(sql, [branch, employee_ID], (err, results) => {
       if (err) {
-          logger.registrationLogger.log("error", "error fetching attendance");
+        logger.registrationLogger.log("error", "error fetching attendance");
         console.error("Error fetching attendance from MySql:", err);
         res.status(500).json({ error: "Error fetching Branch  attendance" });
       } else {
-          logger.registrationLogger.log("info", "attendance fetched successfully");
+        logger.registrationLogger.log(
+          "info",
+          "attendance fetched successfully"
+        );
         res.status(200).json({
           data: results,
           message: " attendance fetched successfully",
@@ -1748,7 +1740,7 @@ const getAttendancebyempId = (req, res) => {
       }
     });
   } catch (error) {
-      logger.registrationLogger.log("error", "Internal server error");
+    logger.registrationLogger.log("error", "Internal server error");
     console.error("Error fetching  attendance from MySql:", error);
     res.status(500).json({
       success: false,
@@ -1763,15 +1755,18 @@ const getLeaveList = (req, res) => {
     const selectQuery = "SELECT * FROM employee_leave ORDER BY created_at DESC";
     db.query(selectQuery, (err, result) => {
       if (err) {
-          logger.registrationLogger.log("error", "failed to fetch leave list");
+        logger.registrationLogger.log("error", "failed to fetch leave list");
         return res.status(400).json({ success: false, message: err.message });
       } else {
-          logger.registrationLogger.log("info", "leave list fetched successfully");
+        logger.registrationLogger.log(
+          "info",
+          "leave list fetched successfully"
+        );
         return res.status(200).send(result);
       }
     });
   } catch (error) {
-      logger.registrationLogger.log("error", "internal server error");
+    logger.registrationLogger.log("error", "internal server error");
     console.log(error);
 
     res.status(500).json({ success: false, message: "internal server error" });
@@ -1786,17 +1781,17 @@ const approveLeave = (req, res) => {
       "UPDATE employee_leave SET leave_status = ? WHERE id = ?";
     db.query(updateQuery, [status, lid], (err, result) => {
       if (err) {
-          logger.registrationLogger.log("error", "invalid leave ID");
+        logger.registrationLogger.log("error", "invalid leave ID");
         return res.status(400).json({ success: false, message: err.message });
       } else {
-          logger.registrationLogger.log("info", "Leave approved successfully");
+        logger.registrationLogger.log("info", "Leave approved successfully");
         return res
           .status(200)
           .json({ success: true, message: "leave approved successfully" });
       }
     });
   } catch (error) {
-      logger.registrationLogger.log("error", "internal server error");
+    logger.registrationLogger.log("error", "internal server error");
     console.log(error);
     es.status(500).json({ success: false, message: "internal server error" });
   }
@@ -1809,7 +1804,7 @@ const getLabData = (req, res) => {
       "SELECT * FROM patient_lab_test_details JOIN patient_lab_details ON patient_lab_details.testid = patient_lab_test_details.testid WHERE branch_name = ? AND patient_lab_test_details.payment_status = 'done'";
     db.query(selectQuery, branch, (err, result) => {
       if (err) {
-        res.status(400).json({ success: false, message: err.message }); 
+        res.status(400).json({ success: false, message: err.message });
       }
       res.status(200).send(result);
     });
@@ -1818,38 +1813,37 @@ const getLabData = (req, res) => {
   }
 };
 
-
-const getRefundAmountData = (req, res)=>{
+const getRefundAmountData = (req, res) => {
   try {
-    const selectQuery = "SELECT * FROM security_amount WHERE refund_amount IS NOT NULL";
-    db.query(selectQuery, (err, result)=>{
-      if(err){
-        res.status(400).json({success:false, message:err.message})
+    const selectQuery =
+      "SELECT * FROM security_amount WHERE refund_amount IS NOT NULL ORDER BY sa_id DESC";
+    db.query(selectQuery, (err, result) => {
+      if (err) {
+        res.status(400).json({ success: false, message: err.message });
       }
-      res.status(200).send(result)
-    })
+      res.status(200).send(result);
+    });
   } catch (error) {
     console.log(error);
-    res.status(500).json({success:false, message:"Internal server error"})
+    res.status(500).json({ success: false, message: "Internal server error" });
   }
-}
-const getRefundOpdAmountData = (req, res)=>{
+};
+const getRefundOpdAmountData = (req, res) => {
   try {
-      const branch = req.params.branch;
-    const selectQuery = "SELECT * FROM appointments JOIN patient_details ON patient_details.uhid = appointments.patient_uhid WHERE appointments.branch_name = ? AND appointments.payment_Status = 'Refund'";
-    db.query(selectQuery, branch, (err, result)=>{
-      if(err){
-        res.status(400).json({success:false, message:err.message})
+    const branch = req.params.branch;
+    const selectQuery =
+      "SELECT * FROM appointments JOIN patient_details ON patient_details.uhid = appointments.patient_uhid WHERE appointments.branch_name = ? AND appointments.payment_Status = 'Refund' ORDER BY appoint_id DESC";
+    db.query(selectQuery, branch, (err, result) => {
+      if (err) {
+        res.status(400).json({ success: false, message: err.message });
       }
-      res.status(200).send(result)
-    })
+      res.status(200).send(result);
+    });
   } catch (error) {
     console.log(error);
-    res.status(500).json({success:false, message:"Internal server error"})
+    res.status(500).json({ success: false, message: "Internal server error" });
   }
-}
-
-
+};
 
 module.exports = {
   getBranch,
@@ -1875,15 +1869,15 @@ module.exports = {
   deletePurInvoice,
   downloadBillRecById,
   sendOtpEmail,
-    applyLeave,
+  applyLeave,
   getLeaves,
   MarkAttendanceLogin,
   MarkAttendanceLogout,
   getTodayAttendance,
   getAttendancebyempId,
-    approveLeave,
+  approveLeave,
   getLeaveList,
   getLabData,
-  getRefundOpdAmountData,getRefundAmountData
-   
+  getRefundOpdAmountData,
+  getRefundAmountData,
 };

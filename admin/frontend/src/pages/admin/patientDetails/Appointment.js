@@ -4,8 +4,6 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
-// import Calendar from "react-calendar";
-// import "react-calendar/dist/Calendar.css";
 
 const Appointment = () => {
   const dispatch = useDispatch();
@@ -20,7 +18,7 @@ const Appointment = () => {
   const getAppointDetailsPat = async () => {
     try {
       const { data } = await axios.get(
-        `https://dentalguruadmin.doaguru.com/api/v1/admin/getAppointmentByBranchAndId/${branch}/${pid}`,
+        `https://dentalguru-admin.vimubds5.a2hosted.com/api/v1/admin/getAppointmentByBranchAndId/${branch}/${pid}`,
         {
           headers: {
             "Content-Type": "multipart/form-data",

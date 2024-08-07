@@ -62,7 +62,7 @@ const AdminNotifyTemp = () => {
   const getNotifyList = async () => {
     try {
       const { data } = await axios.get(
-        "https://dentalguruadmin.doaguru.com/api/v1/admin/getNotifyList",
+        "https://dentalguru-admin.vimubds5.a2hosted.com/api/v1/admin/getNotifyList",
         {
           headers: {
             "Content-Type": "multipart/form-data",
@@ -81,7 +81,7 @@ const AdminNotifyTemp = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "https://dentalguruadmin.doaguru.com/api/v1/admin/addNotifyCommunication",
+        "https://dentalguru-admin.vimubds5.a2hosted.com/api/v1/admin/addNotifyCommunication",
         notiDetails,
         {
           headers: {
@@ -102,7 +102,7 @@ const AdminNotifyTemp = () => {
     e.preventDefault();
     try {
       const response = await axios.put(
-        `https://dentalguruadmin.doaguru.com/api/v1/admin/updateNotifyTagsDetails/${selected}`,
+        `https://dentalguru-admin.vimubds5.a2hosted.com/api/v1/admin/updateNotifyTagsDetails/${selected}`,
         upNotiDetails,
         {
           headers: {
@@ -122,7 +122,7 @@ const AdminNotifyTemp = () => {
   const deleteNotifyTags = async (id) => {
     try {
       const response = await axios.delete(
-        `https://dentalguruadmin.doaguru.com/api/v1/admin/deleteNotifyTags/${id}`,
+        `https://dentalguru-admin.vimubds5.a2hosted.com/api/v1/admin/deleteNotifyTags/${id}`,
         {
           headers: {
             "Content-Type": "multipart/form-data",

@@ -8,12 +8,11 @@ import styled from "styled-components";
 import animationData from "../animation/loading-effect.json";
 import Lottie from "react-lottie";
 
-
 const LabBills = () => {
   const dispatch = useDispatch();
-  const user =  useSelector((state) => state.user.currentUser);
+  const user = useSelector((state) => state.user.currentUser);
   const branch = user.branch_name;
- 
+
   const [appointmentList, setAppointmentList] = useState([]);
   const [loading, setLoading] = useState(false);
   const [keyword, setkeyword] = useState("");
@@ -24,7 +23,7 @@ const LabBills = () => {
       setLoading(true);
       try {
         const response = await axios.get(
-          `https://dentalguruadmin.doaguru.com/api/v1/admin/getLabData/${branch}`,
+          `https://dentalguru-admin.vimubds5.a2hosted.com/api/v1/admin/getLabData/${branch}`,
           {
             headers: {
               "Content-Type": "application/json",
@@ -41,9 +40,7 @@ const LabBills = () => {
     };
 
     getAppointList();
-  }, [branch]);
-
-  
+  }, []);
 
   const todayDate = new Date();
 
@@ -69,15 +66,14 @@ const LabBills = () => {
   const searchFilter = appointmentList.filter((lab) => {
     const lowerKeyword = keyword.toLowerCase().trim();
     return (
-        lab.patient_name.toLowerCase().trim().includes(lowerKeyword) ||
-        lab.patient_uhid.toLowerCase().trim().includes(lowerKeyword)
+      lab.patient_name.toLowerCase().trim().includes(lowerKeyword) ||
+      lab.patient_uhid.toLowerCase().trim().includes(lowerKeyword)
     );
   });
 
   const totalBillAmount = searchFilter.reduce((total, item) => {
     return total + item.payment;
   }, 0);
-
 
   const labPerPage = 10;
 
@@ -104,7 +100,6 @@ const LabBills = () => {
     },
   };
 
-
   return (
     <>
       <Container>
@@ -117,19 +112,23 @@ const LabBills = () => {
               value={keyword}
               onChange={(e) => setkeyword(e.target.value.toLowerCase())}
             />
-            
-            <p className="fw-bold">Total Lab Bills : {appointmentList.length}</p>
+
+            <p className="fw-bold">
+              Total Lab Bills : {appointmentList.length}
+            </p>
           </div>
         </div>
 
         {loading ? (
-            <Lottie options={defaultOptions} height={300} width={400}></Lottie>
-          ) : (
-            <>
+          <Lottie options={defaultOptions} height={300} width={400}></Lottie>
+        ) : (
+          <>
             {displayedAppointments?.length > 0 ? (
               <>
                 <div class="table-responsive rounded mt-4">
-                <h4 className="mb-3">Total Received Amount :- {totalBillAmount}/-</h4>
+                  <h4 className="mb-3">
+                    Total Received Amount :- {totalBillAmount}/-
+                  </h4>
                   <table class="table table-bordered rounded shadow">
                     <thead className="table-head">
                       <tr>
@@ -169,7 +168,7 @@ const LabBills = () => {
                             <td className="table-small">{item.payment}</td>
                             <td>{item.payment_status}</td>
                             <td>
-                            {item?.created_date
+                              {item?.created_date
                                 ? moment(
                                     item?.created_date,
                                     "YYYY-MM-DDTHH:mm"
@@ -205,9 +204,8 @@ const LabBills = () => {
                 <h1>No Bill Found</h1>
               </>
             )}
-              </>
-          )}
-          
+          </>
+        )}
       </Container>
     </>
   );
@@ -260,4 +258,3 @@ const PaginationContainer = styled.div`
     border: 1px solid #004aad;
   }
 `;
-

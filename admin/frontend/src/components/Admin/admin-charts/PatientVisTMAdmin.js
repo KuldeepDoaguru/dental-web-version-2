@@ -17,7 +17,7 @@ import Lottie from "react-lottie";
 
 const PatientVisTMAdmin = () => {
   const dispatch = useDispatch();
-  const user =  useSelector((state) => state.user.currentUser);
+  const user = useSelector((state) => state.user.currentUser);
   const branch = user.branch_name;
   const [loading, setLoading] = useState(false);
   console.log(branch);
@@ -30,7 +30,7 @@ const PatientVisTMAdmin = () => {
       setLoading(true);
       try {
         const response = await axios.get(
-          `https://dentalguruadmin.doaguru.com/api/v1/admin/getAppointmentData/${branch}`,
+          `https://dentalguru-admin.vimubds5.a2hosted.com/api/v1/admin/getAppointmentData/${branch}`,
           {
             headers: {
               "Content-Type": "application/json",
@@ -47,14 +47,15 @@ const PatientVisTMAdmin = () => {
     };
 
     getAppointList();
-  }, [branch]);
+  }, []);
 
- 
+  console.log(appointmentList);
+
   const getDate = new Date();
   const year = getDate.getFullYear();
   const month = String(getDate.getMonth() + 1).padStart(2, "0");
   const firstDay = `${year}-${month}-01`;
-  const lastDay = new Date(year, month, 0).getDate(); // Last day of the current month
+  const lastDay = new Date(year, month, 0).getDate();
   const formattedDate = `${year}-${month}`;
   console.log(formattedDate);
 
@@ -66,7 +67,7 @@ const PatientVisTMAdmin = () => {
   );
 
   console.log(filterByTreated);
-  // Group appointments by date and count appointments for each day
+
   const dailyAppointments = filterByTreated.reduce((acc, appointment) => {
     const date = appointment.appointment_dateTime?.split("T")[0];
     acc[date] = acc[date] ? acc[date] + 1 : 1;
@@ -75,18 +76,17 @@ const PatientVisTMAdmin = () => {
 
   console.log(dailyAppointments);
 
-  let totalAmountPerDay = {}; // Object to store total amount for each day
+  let totalAmountPerDay = {};
 
   filterByTreated.forEach((item) => {
     if (item.appointment_dateTime) {
-      // Ensure payment_date_time is not null or undefined
       const date = item.appointment_dateTime.split("T")[0];
       totalAmountPerDay[date] =
         (totalAmountPerDay[date] || 0) + parseInt(item.opd_amount);
     }
   });
   console.log(totalAmountPerDay);
-  // Create an array containing data for all days of the month
+
   const data = Array.from({ length: lastDay }, (_, index) => {
     const day = String(index + 1).padStart(2, "0");
     const date = `${formattedDate}-${day}`;
@@ -120,14 +120,13 @@ const PatientVisTMAdmin = () => {
     },
   };
 
-
   return (
     <Wrapper>
       <div className="container-fluid mt-4" id="main">
-      {loading ? (
-            <Lottie options={defaultOptions} height={300} width={400}></Lottie>
-          ) : (
-            <>
+        {loading ? (
+          <Lottie options={defaultOptions} height={300} width={400}></Lottie>
+        ) : (
+          <>
             <div className="row">
               <div className="col-12 d-flex justify-content-center">
                 <BarChart
@@ -171,8 +170,8 @@ const PatientVisTMAdmin = () => {
                 </BarChart>
               </div>
             </div>
-            </>
-          )}
+          </>
+        )}
       </div>
     </Wrapper>
   );

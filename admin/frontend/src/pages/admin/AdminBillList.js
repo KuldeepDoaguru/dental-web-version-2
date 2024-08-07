@@ -61,7 +61,7 @@ const AdminBillList = () => {
   const getBillDetailsList = async () => {
     try {
       const { data } = await axios.get(
-        `https://dentalguruadmin.doaguru.com/api/v1/admin/getBillsByBranch/${user.branch_name}`,
+        `https://dentalguru-admin.vimubds5.a2hosted.com/api/v1/admin/getBillsByBranch/${user.branch_name}`,
         {
           headers: {
             "Content-Type": "multipart/form-data",
@@ -79,7 +79,7 @@ const AdminBillList = () => {
   const deleteBillData = async (id) => {
     try {
       const response = await axios.delete(
-        `https://dentalguruadmin.doaguru.com/api/v1/admin/deleteBills/${id}`,
+        `https://dentalguru-admin.vimubds5.a2hosted.com/api/v1/admin/deleteBills/${id}`,
         {
           headers: {
             "Content-Type": "multipart/form-data",
@@ -98,7 +98,7 @@ const AdminBillList = () => {
   const getBillDetailsByBid = async () => {
     try {
       const { data } = await axios.get(
-        `https://dentalguruadmin.doaguru.com/api/v1/admin/getBillBYBillId/${selectedItem}`,
+        `https://dentalguru-admin.vimubds5.a2hosted.com/api/v1/admin/getBillBYBillId/${selectedItem}`,
         {
           headers: {
             "Content-Type": "multipart/form-data",
@@ -116,7 +116,7 @@ const AdminBillList = () => {
     e.preventDefault();
     try {
       const response = await axios.put(
-        `https://dentalguruadmin.doaguru.com/api/v1/admin/updateBillDetailsByBillId/${selectedItem}`,
+        `https://dentalguru-admin.vimubds5.a2hosted.com/api/v1/admin/updateBillDetailsByBillId/${selectedItem}`,
         upData,
         {
           headers: {
@@ -159,14 +159,6 @@ const AdminBillList = () => {
   const formattedDate = `${year}-${month}-${date}`;
 
   console.log(formattedDate.slice(0, 7));
-
-  // const filterBillDataByMonth = listBills?.filter((item) => {
-  //   return (
-  //     item.bill_date?.split("T")[0].slice(0, 7) === formattedDate.slice(0, 7)
-  //   );
-  // });
-
-  // console.log(filterBillDataByMonth);
 
   const totalPages = Math.ceil(listBills.length / itemsPerPage);
 
@@ -215,7 +207,10 @@ const AdminBillList = () => {
               <div className="col-lg-1 col-md-2 col-1 p-0">
                 <SiderAdmin />
               </div>
-              <div className="col-lg-11 col-md-10 col-11 ps-0" style={{marginTop:"5rem"}}>
+              <div
+                className="col-lg-11 col-md-10 col-11 ps-0"
+                style={{ marginTop: "5rem" }}
+              >
                 <div className="container-fluid mt-3">
                   <div className="d-flex justify-content-between">
                     {/* <BranchSelector /> */}

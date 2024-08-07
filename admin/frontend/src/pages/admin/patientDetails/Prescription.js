@@ -22,7 +22,7 @@ const Prescription = () => {
       //   `http://localhost:7777/api/v1/super-admin/getPrescriptionDetailsById/${pid}`
       // );
       const { data } = await axios.get(
-        `https://dentalguruadmin.doaguru.com/api/v1/admin/getPrescriptionViaUhid/${branch}/${pid}`,
+        `https://dentalguru-admin.vimubds5.a2hosted.com/api/v1/admin/getPrescriptionViaUhid/${branch}/${pid}`,
         {
           headers: {
             "Content-Type": "multipart/form-data",

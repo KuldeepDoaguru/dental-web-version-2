@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import styled from "styled-components";
-// import Sider from "../../../components/Sider";
-// import Header from "../../../components/Header";
 import { IoMdArrowRoundBack } from "react-icons/io";
-// import BranchSelector from "../../../components/BranchSelector";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import { utils, writeFile } from "xlsx";
@@ -15,11 +12,10 @@ import animationData from "../../../animation/loading-effect.json";
 import moment from "moment";
 import cogoToast from "cogo-toast";
 
-
 const OpdRefundAmount = () => {
   const user = useSelector((state) => state.user.currentUser);
   const branch = user.branch_name;
- 
+
   const [refundList, setRefundList] = useState([]);
   const location = useLocation();
   const [fromDate, setFromDate] = useState("");
@@ -50,7 +46,7 @@ const OpdRefundAmount = () => {
     setLoading(true);
     try {
       const { data } = await axios.get(
-        `https://dentalguruadmin.doaguru.com/api/v1/admin/getRefundOpdAmountData/${branch}`,
+        `https://dentalguru-admin.vimubds5.a2hosted.com/api/v1/admin/getRefundOpdAmountData/${branch}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -81,16 +77,12 @@ const OpdRefundAmount = () => {
   // Format as 'YYYY-MM-DD'
   const formattedDate = `${date}-${month}-${year}`;
 
-  console.log(formattedDate.slice(3, 10));
+  console.log(formattedDate?.slice(3, 10));
 
   console.log(refundList);
-  // const dateChange = moment(refundList[0].refund_date_time).format(
-  //   "DD-MM-YYYY"
-  // );
-  // console.log(dateChange);
 
   const filterAppointDataByMonth = refundList?.filter((item) => {
-    return item.refund_date_time.slice(3, 10) === formattedDate.slice(3, 10);
+    return item.refund_date_time?.slice(3, 10) === formattedDate?.slice(3, 10);
   });
 
   console.log(filterAppointDataByMonth);
@@ -174,7 +166,8 @@ const OpdRefundAmount = () => {
                     />
                   </div>
                   <button
-                    className="btn btn-warning mx-2"
+                    className="btn btn-warning mx-2 text-light"
+                    style={{ backgroundColor: "#1abc9c" }}
                     type="submit"
                     disabled={error}
                   >
@@ -217,7 +210,7 @@ const OpdRefundAmount = () => {
                         </tr>
                       </thead>
                       <tbody>
-                        {filterAppointDataByMonth
+                        {refundList
                           ?.filter((item) => {
                             const billDate =
                               item.refund_date_time?.split(" ")[0];
@@ -258,11 +251,20 @@ const OpdRefundAmount = () => {
                                   {item.refund_by}
                                 </td> */}
                                 <td className="table-small">
-                                  {item.refund_date_time?.split(" ")[0]}{" "}
-                                  {moment(
-                                    item.refund_date_time?.split(" ")[1],
-                                    "HH:mm:ss"
-                                  ).format("hh:mm A")}
+                                  {item.refund_date_time ? (
+                                    <>
+                                      {" "}
+                                      {
+                                        item.refund_date_time?.split(" ")[0]
+                                      }{" "}
+                                      {moment(
+                                        item.refund_date_time?.split(" ")[1],
+                                        "HH:mm:ss"
+                                      ).format("hh:mm A")}
+                                    </>
+                                  ) : (
+                                    "-"
+                                  )}{" "}
                                 </td>
                                 <td>{item.payment_Status}</td>
                               </tr>
@@ -291,7 +293,7 @@ const Container = styled.div`
   }
 
   th {
-    background-color:#1abc9c;
+    background-color: #1abc9c;
     color: white;
     position: sticky;
     white-space: nowrap;
@@ -306,7 +308,7 @@ const Container = styled.div`
   .sticky {
     position: sticky;
     top: 0;
-    background-color:#1abc9c;
+    background-color: #1abc9c;
     color: white;
     z-index: 1;
   }

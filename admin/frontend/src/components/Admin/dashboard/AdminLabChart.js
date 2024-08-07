@@ -31,19 +31,18 @@ const CustomTooltip = ({ active, payload, label }) => {
 
 const AdminLabChart = () => {
   const dispatch = useDispatch();
-  const user =  useSelector((state) => state.user.currentUser);
+  const user = useSelector((state) => state.user.currentUser);
   const branch = user.branch_name;
- 
+
   const [appointmentList, setAppointmentList] = useState([]);
   const [loading, setLoading] = useState(false);
-
 
   useEffect(() => {
     const getAppointList = async () => {
       setLoading(true);
       try {
         const response = await axios.get(
-          `https://dentalguruadmin.doaguru.com/api/v1/admin/getLabData/${branch}`,
+          `https://dentalguru-admin.vimubds5.a2hosted.com/api/v1/admin/getLabData/${branch}`,
           {
             headers: {
               "Content-Type": "application/json",
@@ -60,9 +59,8 @@ const AdminLabChart = () => {
     };
 
     getAppointList();
-  }, [branch]);
+  }, []);
 
-  
   const getDate = new Date();
   const year = getDate.getFullYear();
   const month = String(getDate.getMonth() + 1).padStart(2, "0");
@@ -120,14 +118,13 @@ const AdminLabChart = () => {
     },
   };
 
-
   // console.log(data);
 
   return (
     <>
       <Container>
         <div className="container-fluid mt-4" id="main">
-        {loading ? (
+          {loading ? (
             <Lottie options={defaultOptions} height={300} width={400}></Lottie>
           ) : (
             <>
@@ -170,7 +167,7 @@ const AdminLabChart = () => {
                   name="Amount"
                 />
               </BarChart>
-              </>
+            </>
           )}
         </div>
       </Container>

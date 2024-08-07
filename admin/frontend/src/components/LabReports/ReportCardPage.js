@@ -25,7 +25,7 @@ const ReportCardPage = () => {
     const fetchTestCounts = async () => {
       try {
         const response = await axios.get(
-          "https://dentalguruadmin.doaguru.com/api/v1/admin/getPatientLabTest",
+          "https://dentalguru-admin.vimubds5.a2hosted.com/api/v1/admin/getPatientLabTest",
           {
             headers: {
               "Content-Type": "multipart/form-data",
@@ -37,7 +37,9 @@ const ReportCardPage = () => {
           const data = response.data;
           // Filter data for oral, pathology, and radiology tests
           const oralTests = data.filter((item) => item.lab_name === "oral");
-          const pathologyTests = data.filter((item) => item.lab_name === "pathology");
+          const pathologyTests = data.filter(
+            (item) => item.lab_name === "pathology"
+          );
           const radiologyTests = data.filter(
             (item) => item.lab_name === "radiology"
           );
@@ -51,7 +53,7 @@ const ReportCardPage = () => {
           // Update state with test counts
           setTestCounts({
             oral: oralTests.length,
-           pathology:pathologyTests.length,
+            pathology: pathologyTests.length,
             radiology: radiologyTests.length,
             doneTest: doneTests,
             pendingTest: pendingTests,

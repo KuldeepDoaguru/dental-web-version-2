@@ -19,7 +19,7 @@ const HeaderAdmin = () => {
   const getNotifyDetails = async () => {
     try {
       const { data } = await axios.get(
-        "https://dentalguruadmin.doaguru.com/api/v1/admin/getSuperAdminNotify",
+        "https://dentalguru-admin.vimubds5.a2hosted.com/api/v1/admin/getSuperAdminNotify",
         {
           headers: {
             "Content-Type": "application/json",
@@ -35,15 +35,13 @@ const HeaderAdmin = () => {
         navigate("/");
         dispatch(clearUser());
       }
-
-      
     }
   };
 
   const updateMarkRead = async (id) => {
     try {
       const response = await axios.put(
-        `https://dentalguruadmin.doaguru.com/api/v1/admin/markRead/${id}`,
+        `https://dentalguru-admin.vimubds5.a2hosted.com/api/v1/admin/markRead/${id}`,
         {},
         {
           headers: {
@@ -53,7 +51,6 @@ const HeaderAdmin = () => {
         }
       );
       getNotifyDetails();
-    
     } catch (error) {
       // console.log(error);
     }
@@ -85,7 +82,6 @@ const HeaderAdmin = () => {
     dispatch(clearUser());
   };
 
-
   const logoutHandleByToken = () => {
     alert("Token Expired! You have been logged out");
     dispatch(clearUser());
@@ -114,10 +110,7 @@ const HeaderAdmin = () => {
               />
             </Link>
             <li style={{ listStyle: "none" }}>
-              <Link
-                className="nav-link active text-white mt-2  fs-5"
-                to="/"
-              >
+              <Link className="nav-link active text-white mt-2  fs-5" to="/">
                 DentalGuru
               </Link>
             </li>
@@ -136,10 +129,11 @@ const HeaderAdmin = () => {
               className="collapse navbar-collapse"
               id="navbarSupportedContent"
             >
-
               <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
-              <p className='  text-white   fs-6 mt-1' >Welcome {user.employee_name} ({user.employee_ID})</p>
-            
+                <p className="  text-white   fs-6 mt-1">
+                  Welcome {user.employee_name} ({user.employee_ID})
+                </p>
+
                 <li className="nav-item mx-3">
                   <Link to="/admin-clinic-setting">
                     <IoSettings className="icon" />
@@ -163,14 +157,18 @@ const HeaderAdmin = () => {
                     </li>
                     <hr className="dropdown-divider" />
                     <li>
-                      <Link className="dropdown-item" to="/attendance-dashboard">
-                      Attendance
+                      <Link
+                        className="dropdown-item"
+                        to="/attendance-dashboard"
+                      >
+                        Attendance
                       </Link>
                     </li>
                     <hr className="dropdown-divider" />
                     <li>
                       <Link className="dropdown-item" to="/leave-management">
-                      Leave Detail                      </Link>
+                        Leave Detail{" "}
+                      </Link>
                     </li>
                     <li>
                       <hr className="dropdown-divider" />
@@ -233,7 +231,7 @@ const HeaderAdmin = () => {
                     })}
                   </ul>
                 </li> */}
-                    <li className="nav-item dropdown" id="bell">
+                <li className="nav-item dropdown" id="bell">
                   <a
                     className="nav-link"
                     href="/"
@@ -246,10 +244,15 @@ const HeaderAdmin = () => {
                   </a>
                   {filterForRead.length == 0 ? (
                     <>
-                      <ul className="dropdown-menu first-dropdown " style={{marginLeft:"-7rem"}}>
+                      <ul
+                        className="dropdown-menu first-dropdown "
+                        style={{ marginLeft: "-7rem" }}
+                      >
                         {" "}
                         <Link to="/admin-notification" className="mx-2">
-                          <button className="btn btn-info w-75">view all</button>
+                          <button className="btn btn-info w-75">
+                            view all
+                          </button>
                         </Link>
                       </ul>
                     </>
@@ -280,10 +283,7 @@ const HeaderAdmin = () => {
                                 >
                                   Mark as Read
                                 </button>
-                                <Link
-                                  to="/admin-notification"
-                                  className="mx-2"
-                                >
+                                <Link to="/admin-notification" className="mx-2">
                                   <button className="btn btn-info">
                                     view all
                                   </button>
@@ -297,7 +297,6 @@ const HeaderAdmin = () => {
                     </ul>
                   )}
                 </li>
-             
               </ul>
             </div>
           </div>
@@ -349,11 +348,10 @@ const Wrapper = styled.div`
   .navbar {
     background-color: #1abc9c;
     box-shadow: 1px 1px 6px black;
-     position: fixed; 
+    position: fixed;
     min-width: 100%;
     z-index: 100;
     /* margin-bottom: 4rem; */
-  
   }
 
   ul {

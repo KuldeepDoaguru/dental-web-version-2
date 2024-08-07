@@ -12,9 +12,9 @@ import Lottie from "react-lottie";
 const TreatBills = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.currentUser);
-  
+
   const branch = user.branch_name;
- 
+
   const [loading, setLoading] = useState(false);
   const [listBills, setListBills] = useState([]);
   const [showPopup, setShowPopup] = useState(false);
@@ -26,7 +26,7 @@ const TreatBills = () => {
   // const [itemsPerPage] = useState(10);
 
   const [currentPage, setCurrentPage] = useState(0); // Start from the first page
-  
+
   const [upData, setUpData] = useState({
     bill_date: "",
     uhid: "",
@@ -42,7 +42,6 @@ const TreatBills = () => {
     payment_status: "",
     payment_date_time: "",
   });
-  
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -54,7 +53,6 @@ const TreatBills = () => {
     setShowPopup(true);
   };
 
-
   const closeUpdatePopup = () => {
     setShowPopup(false);
   };
@@ -63,7 +61,7 @@ const TreatBills = () => {
     setLoading(true);
     try {
       const { data } = await axios.get(
-        `https://dentalguruadmin.doaguru.com/api/v1/admin/getTreatSuggest/${branch}`,
+        `https://dentalguru-admin.vimubds5.a2hosted.com/api/v1/admin/getTreatSuggest/${branch}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -85,7 +83,7 @@ const TreatBills = () => {
   const deleteBillData = async (id) => {
     try {
       const response = await axios.delete(
-        `https://dentalguruadmin.doaguru.com/api/v1/admin/deleteBills/${id}`,
+        `https://dentalguru-admin.vimubds5.a2hosted.com/api/v1/admin/deleteBills/${id}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -105,7 +103,7 @@ const TreatBills = () => {
     setLoading(true);
     try {
       const { data } = await axios.get(
-        `https://dentalguruadmin.doaguru.com/api/v1/admin/getBillBYBillId/${selectedItem}`,
+        `https://dentalguru-admin.vimubds5.a2hosted.com/api/v1/admin/getBillBYBillId/${selectedItem}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -125,7 +123,7 @@ const TreatBills = () => {
     e.preventDefault();
     try {
       const response = await axios.put(
-        `https://dentalguruadmin.doaguru.com/api/v1/admin/updateBillDetailsByBillId/${selectedItem}`,
+        `https://dentalguru-admin.vimubds5.a2hosted.com/api/v1/admin/updateBillDetailsByBillId/${selectedItem}`,
         upData,
         {
           headers: {
@@ -145,7 +143,7 @@ const TreatBills = () => {
 
   useEffect(() => {
     getBillDetailsList();
-  }, [branch]);
+  }, []);
 
   useEffect(() => {
     getBillDetailsByBid();
@@ -172,13 +170,11 @@ const TreatBills = () => {
   useEffect(() => {
     setCurrentPage(0);
   }, [keyword]);
-  
 
   // const searchFilter = listBills.filter((lab) =>
   //   lab.patient_name.toLowerCase().trim().includes(keyword.toLowerCase().trim())
   // );
 
-  
   const searchFilter = listBills.filter((bill) => {
     const lowerKeyword = keyword.toLowerCase().trim();
     return (
@@ -213,7 +209,6 @@ const TreatBills = () => {
     },
   };
 
-
   const displayedAppointments = filterAppointDataByMonth();
   return (
     <>
@@ -228,81 +223,25 @@ const TreatBills = () => {
               value={keyword}
               onChange={(e) => setkeyword(e.target.value.toLowerCase())}
             />
-             
-              <p className="fw-bold mb-3">Total Treatment Bills : {listBills.length}</p>
+
+            <p className="fw-bold mb-3">
+              Total Treatment Bills : {listBills.length}
+            </p>
           </div>
-        
-          <div>
-            {/* <button
-                        className="btn btn-success"
-                        // onClick={() => openAddEmployeePopup()}
-                      >
-                        Add Employee
-                      </button> */}
-          </div>
+
+          <div></div>
         </div>
         {loading ? (
-            <Lottie options={defaultOptions} height={300} width={400}></Lottie>
-          ) : (
-            <>
+          <Lottie options={defaultOptions} height={300} width={400}></Lottie>
+        ) : (
+          <>
             {displayedAppointments?.length > 0 ? (
               <>
-  
-
-                {/* <div class="table-responsive rounded mt-4">
-                  <table class="table table-bordered rounded shadow">
-                    <thead className="table-head">
-                      <tr>
-                        <th className="table-sno">Bill ID</th>
-                        <th>Bill Date</th>
-                        <th className="table-small">Patient UHID</th>
-                        <th className="table-small">Treatment Package ID</th>
-                        <th className="table-small">Patient Name</th>
-                        <th className="table-small">Patient Mobile</th>
-                        <th className="table-small">Patient Email</th>
-                        <th className="table-small">Total Amount</th>
-                        <th>Paid Amount</th>
-                        <th>Payment Status</th>
-                        <th>Payment Date</th>
-                        <th> Amount</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {displayedAppointments?.map((item) => (
-                        <>
-                          <tr className="table-row">
-                            <td className="table-sno">{item.bill_id}</td>
-                            <td className="table-small">
-                              {item.bill_date?.split("T")[0]}
-                            </td>
-                            <td className="table-small">
-                              <Link
-                                to={`/patient-profile/${item.uhid}`}
-                                style={{ textDecoration: "none" }}
-                              >
-                                {item.uhid}
-                              </Link>
-                            </td>
-                            <td className="table-small">{item.tp_id}</td>
-                            <td className="table-small">{item.patient_name}</td>
-                            <td>{item.patient_mobile}</td>
-                            <td>{item.patient_email}</td>
-                            <td className="table-small">{item.total_amount}</td>
-                            <td className="table-small">{item.paid_amount}</td>
-                            <td>{item.payment_status}</td>
-                            <td>{item?.payment_date_time}</td>
-                            <td>
-                              <td>{item.total_amount - item.paid_amount}</td>
-                            </td>
-                          </tr>
-                        </>
-                      ))}
-                    </tbody>
-                  </table>
-                </div> */}
-   <div class="table-responsive rounded mt-4">
-   <h4 className="mb-3 mx-3">Total Received Amount :- {totalBillAmount}/-</h4>
-        <table class="table table-bordered rounded shadow mx-3">
+                <div class="table-responsive rounded mt-4">
+                  <h4 className="mb-3 mx-3">
+                    Total Received Amount :- {totalBillAmount}/-
+                  </h4>
+                  <table class="table table-bordered rounded shadow mx-3">
                     <thead className="table-head">
                       <tr>
                         <th className="table-sno">Bill ID</th>
@@ -343,7 +282,11 @@ const TreatBills = () => {
                             <td className="table-small">{item.total_amount}</td>
                             <td className="table-small">{item.paid_amount}</td>
                             <td>{item.pay_by_sec_amt}</td>
-                            <td>{item.payment_status ? item.payment_status : 'pending'}</td>
+                            <td>
+                              {item.payment_status
+                                ? item.payment_status
+                                : "pending"}
+                            </td>
                             <td>{item?.payment_date_time}</td>
                             <td>
                               <td>
@@ -359,7 +302,7 @@ const TreatBills = () => {
                       ))}
                     </tbody>
                   </table>
-                  </div>
+                </div>
 
                 <PaginationContainer>
                   <ReactPaginate
@@ -374,44 +317,14 @@ const TreatBills = () => {
                     activeClassName={"active"}
                   />
                 </PaginationContainer>
-                {/* <div className="pagination">
-                          <ul>
-                            <li>
-                              <button
-                                onClick={() =>
-                                  handlePageChange(currentPage - 1)
-                                }
-                                disabled={currentPage === 1}
-                                className="btn btn-danger"
-                              >
-                                Previous
-                              </button>
-                            </li>
-                            {renderPaginationButtons()}
-                            <li>
-                              <button
-                                onClick={() =>
-                                  handlePageChange(currentPage + 1)
-                                }
-                                disabled={currentPage === totalPages}
-                                className="btn btn-info"
-                              >
-                                Next
-                              </button>
-                            </li>
-                          </ul>
-                        </div> */}
-                       
               </>
             ) : (
               <>
                 <h1>No Bill Found</h1>
               </>
             )}
-  </>
-          )}
-            
-        
+          </>
+        )}
 
         {/* ********************************************************************************************* */}
         {/* pop-up for creating notice */}
@@ -687,6 +600,4 @@ const PaginationContainer = styled.div`
     border-radius: 5px;
     border: 1px solid #004aad;
   }
-  
-  
 `;

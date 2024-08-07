@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-// import Header from "../../../components/Header";
-// import Sider from "../../../components/Sider";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import Branches from "../../Branches";
-// import BranchSelector from "../../../components/BranchSelector";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { utils, writeFile } from "xlsx";
@@ -25,7 +22,7 @@ const AdminInventoryReport = () => {
   const getPurchaseList = async () => {
     try {
       const { data } = await axios.get(
-        `https://dentalguruadmin.doaguru.com/api/v1/admin/getPurInventoryByBranch/${user.branch_name}`,
+        `https://dentalguru-admin.vimubds5.a2hosted.com/api/v1/admin/getPurInventoryByBranch/${user.branch_name}`,
         {
           headers: {
             "Content-Type": "multipart/form-data",
@@ -65,7 +62,7 @@ const AdminInventoryReport = () => {
     e.preventDefault();
     try {
       const { data } = await axios.post(
-        `https://dentalguruadmin.doaguru.com/api/v1/admin/downloadExpenseReportByTime/${user.branch_name}`,
+        `https://dentalguru-admin.vimubds5.a2hosted.com/api/v1/admin/downloadExpenseReportByTime/${user.branch_name}`,
         { fromDate: fromDate, toDate: toDate },
         {
           headers: {

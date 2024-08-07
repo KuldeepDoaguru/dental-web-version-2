@@ -19,7 +19,7 @@ const LabPatientReport = () => {
   const [patientDetails, setPatientDetails] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [dateFilter, setDateFilter] = useState("");
-  const [loading,setLoading] = useState("");
+  const [loading, setLoading] = useState("");
   const goBack = () => {
     window.history.go(-1);
   };
@@ -29,7 +29,7 @@ const LabPatientReport = () => {
       setLoading(true);
       try {
         const response = await axios.get(
-          `https://dentalguruadmin.doaguru.com/api/v1/admin/getPatientLabTest`,
+          `https://dentalguru-admin.vimubds5.a2hosted.com/api/v1/admin/getPatientLabTest`,
           {
             headers: {
               "Content-Type": "multipart/form-data",
@@ -48,28 +48,21 @@ const LabPatientReport = () => {
     fetchPatientDetails();
   }, []);
 
-  // const filteredPatients = patientDetails.filter((patient) => {
-  //   const fullName =
-  //     `${patient.patient_name} ${patient.assigned_doctor_name}`.toLowerCase();
-  //   const formattedDate = moment(patient.created_date).format("YYYY-MM-DD");
-  //   return (
-  //     fullName.includes(searchQuery.toLowerCase()) &&
-  //     (!dateFilter || formattedDate === dateFilter)
-  //   );
-  // });
-
   const filteredPatients = patientDetails.filter((patient) => {
-    const fullName = `${patient.patient_name} ${patient.patient_uhid}`.toLowerCase().trim();
-    const formattedDate = moment(patient.created_date).format("YYYY-MM-DD").trim();
+    const fullName = `${patient.patient_name} ${patient.patient_uhid}`
+      .toLowerCase()
+      .trim();
+    const formattedDate = moment(patient.created_date)
+      .format("YYYY-MM-DD")
+      .trim();
     const trimmedSearchQuery = searchQuery.toLowerCase().trim();
     const trimmedDateFilter = dateFilter ? dateFilter.trim() : null;
-    
+
     return (
       fullName.includes(trimmedSearchQuery) &&
       (!trimmedDateFilter || formattedDate === trimmedDateFilter)
     );
   });
-  
 
   const navigate = useNavigate();
 
@@ -154,7 +147,10 @@ const LabPatientReport = () => {
               <div className="col-lg-1 col-1 p-0">
                 <SiderAdmin />
               </div>
-              <div className="col-lg-11 col-11 ps-0" style={{marginTop:"6rem"}}>
+              <div
+                className="col-lg-11 col-11 ps-0"
+                style={{ marginTop: "6rem" }}
+              >
                 <IoArrowBackSharp
                   className="fs-1 text-black d-print-none mx-3"
                   onClick={goBack}
@@ -197,80 +193,98 @@ const LabPatientReport = () => {
                             </div>
                           </div>
                           {loading ? (
-            <Lottie options={defaultOptions} height={300} width={400}></Lottie>
-          ) : (
-            <>
-            {filteredPatients.length === 0 ? (
-          <div className='mb-2 fs-4 fw-bold text-center'>No report list available</div>
-          ) : (
+                            <Lottie
+                              options={defaultOptions}
+                              height={300}
+                              width={400}
+                            ></Lottie>
+                          ) : (
+                            <>
+                              {filteredPatients.length === 0 ? (
+                                <div className="mb-2 fs-4 fw-bold text-center">
+                                  No report list available
+                                </div>
+                              ) : (
+                                <>
+                                  <div className="res-table">
+                                    <table className="table table-bordered">
+                                      <thead>
+                                        <tr>
+                                          <th className="sticky">Test ID</th>
+                                          <th className="sticky">
+                                            Patient UHID{" "}
+                                          </th>
+                                          <th className="sticky">
+                                            Patient Name{" "}
+                                          </th>
+                                          <th className="sticky"> Age </th>
+                                          <th className="sticky"> Gender </th>
+                                          <th className="sticky">
+                                            Branch Name{" "}
+                                          </th>
+                                          <th className="sticky">
+                                            Assigned Doctor Name
+                                          </th>
+                                          <th className="sticky">Lab Name</th>
+                                          <th className="sticky">
+                                            Created Date
+                                          </th>
+                                          <th className="sticky">
+                                            Patient Tests{" "}
+                                          </th>
+                                          <th className="sticky">
+                                            Tests Status{" "}
+                                          </th>
+                                        </tr>
+                                      </thead>
 
-<>
-                          <div className="res-table">
-                            <table className="table table-bordered">
-                              <thead>
-                                <tr>
-                                  <th className="sticky">Test ID</th>
-                                  <th className="sticky">Patient UHID </th>
-                                  <th className="sticky">Patient Name </th>
-                                  <th className="sticky"> Age </th>
-                                  <th className="sticky"> Gender </th>
-                                  <th className="sticky">Branch Name </th>
-                                  <th className="sticky">
-                                    Assigned Doctor Name
-                                  </th>
-                                  <th className="sticky">Lab Name</th>
-                                  <th className="sticky">Created Date</th>
-                                  <th className="sticky">Patient Tests </th>
-                                  <th className="sticky">Tests Status </th>
-                                </tr>
-                              </thead>
+                                      <tbody>
+                                        {filteredPatients.map(
+                                          (patient, index) => (
+                                            <>
+                                              <tr key={patient.testid}>
+                                                <td>{patient.testid}</td>
+                                                <td>{patient.patient_uhid}</td>
+                                                <td>{patient.patient_name}</td>
+                                                <td>{patient.age}</td>
+                                                <td>{patient.gender}</td>
+                                                <td>{patient.branch_name}</td>
 
-                              <tbody>
-                                {filteredPatients.map((patient, index) => (
-                                  <>
-                                    <tr key={patient.testid}>
-                                      <td>{patient.testid}</td>
-                                      <td>{patient.patient_uhid}</td>
-                                      <td>{patient.patient_name}</td>
-                                      <td>{patient.age}</td>
-                                      <td>{patient.gender}</td>
-                                      <td>{patient.branch_name}</td>
+                                                <td>
+                                                  {patient.assigned_doctor_name}
+                                                </td>
+                                                <td>{patient.lab_name}</td>
+                                                <td>
+                                                  {moment(
+                                                    patient.created_date
+                                                  ).format("DD/MM/YYYY")}
+                                                </td>
+                                                <td>{patient.test}</td>
+                                                {patient.test_status ===
+                                                  "done" && (
+                                                  <td className=" text-success fw-bold">
+                                                    {patient.test_status}
+                                                  </td>
+                                                )}
 
-                                      <td>{patient.assigned_doctor_name}</td>
-                                      <td>{patient.lab_name}</td>
-                                      <td>
-                                        {moment(patient.created_date).format(
-                                          "DD/MM/YYYY"
+                                                {patient.test_status ===
+                                                  "pending" && (
+                                                  <td className=" text-danger fw-bold">
+                                                    {patient.test_status}
+                                                  </td>
+                                                )}
+                                              </tr>
+                                            </>
+                                            // Wrap the entire row inside a conditional statement based on test status
+                                          )
                                         )}
-                                      </td>
-                                      <td>{patient.test}</td>
-                                      {patient.test_status === "done" && (
-                                        <td className=" text-success fw-bold">
-                                         
-                                            {patient.test_status}
-                                          
-                                        </td>
-                                      )}
-
-                                      {patient.test_status === "pending" && (
-                                        <td className=" text-danger fw-bold">
-                                        
-                                            {patient.test_status}
-                                         
-                                        </td>
-                                      )}
-                                    </tr>
-                                  </>
-                                  // Wrap the entire row inside a conditional statement based on test status
-                                ))}
-                              </tbody>
-                            </table>
-                          </div>
-                          </>
-          )
-        }
-                          </>
-  )}
+                                      </tbody>
+                                    </table>
+                                  </div>
+                                </>
+                              )}
+                            </>
+                          )}
                         </div>
 
                         <div className="d-flex justify-content-center">
@@ -311,7 +325,7 @@ const Container = styled.div`
     position: sticky;
     white-space: nowrap;
   }
-  td{
+  td {
     white-space: nowrap;
   }
 
@@ -335,16 +349,15 @@ const Container = styled.div`
     border-radius: 20px;
     box-sizing: border-box;
     transition: border-color 0.3s ease;
- 
-            @media (min-width: 1279px) and (max-width: 1600px){
-              width: 45%;
-            }
-            @media (min-width: 1024px) and (max-width: 1279px){
-              width: 60%;
-            }
-            @media (min-width: 768px) and (max-width: 1023px){
-              width: 100%;
-            }
-  }
 
+    @media (min-width: 1279px) and (max-width: 1600px) {
+      width: 45%;
+    }
+    @media (min-width: 1024px) and (max-width: 1279px) {
+      width: 60%;
+    }
+    @media (min-width: 768px) and (max-width: 1023px) {
+      width: 100%;
+    }
+  }
 `;

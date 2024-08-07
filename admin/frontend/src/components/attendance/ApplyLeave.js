@@ -33,7 +33,7 @@ const ApplyLeave = () => {
   const getLeaves = async () => {
     try {
       const response = await axios.get(
-        `https://dentalguruadmin.doaguru.com/api/v1/admin/get-leaves/${branch}/${employeeId}`,
+        `https://dentalguru-admin.vimubds5.a2hosted.com/api/v1/admin/get-leaves/${branch}/${employeeId}`,
         {
           headers: {
             "Content-Type": "multipart/form-data",
@@ -103,7 +103,7 @@ const ApplyLeave = () => {
       };
       try {
         const response = await axios.post(
-          "https://dentalguruadmin.doaguru.com/api/v1/admin/apply-leave",
+          "https://dentalguru-admin.vimubds5.a2hosted.com/api/v1/admin/apply-leave",
           updatedFormData,
           {
             headers: {

@@ -1,6 +1,5 @@
 import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
-
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import cogoToast from "cogo-toast";
@@ -18,16 +17,16 @@ const AdminManageStaff = () => {
   const dispatch = useDispatch();
   const fileinput = useRef(null);
   const user = useSelector((state) => state.user.currentUser);
-  
+
   const branch = user.branch_name;
-  
+
   const [doctorList, setDoctorList] = useState([]);
   const [keyword, setkeyword] = useState("");
 
   const [empProfilePicture, setEmpProfilePicture] = useState(null);
   const [error, setError] = useState(false);
   const [morningError, setMorningError] = useState("");
-  
+
   const [inEmpData, setInEmpData] = useState({
     branch: branch,
     empName: "",
@@ -97,9 +96,7 @@ const AdminManageStaff = () => {
   console.log(empProfilePicture);
   console.log(inEmpData);
 
-  const 
-  
-   handleInputChange = (event) => {
+  const handleInputChange = (event) => {
     const { name, value, type, checked } = event.target;
 
     if (type === "checkbox") {
@@ -278,7 +275,7 @@ const AdminManageStaff = () => {
     try {
       setLoading(true);
       const { data } = await axios.get(
-        `https://dentalguruadmin.doaguru.com/api/v1/admin/getEmployeeDataByBranch/${branch}`,
+        `https://dentalguru-admin.vimubds5.a2hosted.com/api/v1/admin/getEmployeeDataByBranch/${branch}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -299,11 +296,9 @@ const AdminManageStaff = () => {
     getDocDetailsList();
   }, []);
 
-  
-
   useEffect(() => {
     getDocDetailsList();
-  }, [branch]);
+  }, []);
 
   console.log(doctorList);
 
@@ -364,7 +359,7 @@ const AdminManageStaff = () => {
       console.log(inEmpData, empProfilePicture);
 
       const { data } = await axios.post(
-        "https://dentalguruadmin.doaguru.com/api/v1/admin/enroll-employee",
+        "https://dentalguru-admin.vimubds5.a2hosted.com/api/v1/admin/enroll-employee",
         formData,
         {
           headers: {
@@ -416,9 +411,9 @@ const AdminManageStaff = () => {
 
   const addEmployeeTimeline = async () => {
     try {
-      setLoading(true)
+      setLoading(true);
       const response = await axios.post(
-        `https://dentalguruadmin.doaguru.com/api/v1/admin/addSuperAdminNotify`,
+        `https://dentalguru-admin.vimubds5.a2hosted.com/api/v1/admin/addSuperAdminNotify`,
         {
           branch_name: branch,
           title: "New Employee Registered",
@@ -434,11 +429,10 @@ const AdminManageStaff = () => {
           },
         }
       );
-      
     } catch (error) {
       // console.log(`error employee TimeLine ${error}`);
       cogoToast.error(`error employee TimeLine ${error}`);
-      setLoading(false)
+      setLoading(false);
     }
   };
   const defaultOptions = {
@@ -459,7 +453,6 @@ const AdminManageStaff = () => {
     );
   });
 
-
   console.log(inEmpData);
 
   return (
@@ -472,7 +465,10 @@ const AdminManageStaff = () => {
               <div className="col-lg-1 col-1 p-0">
                 <SiderAdmin />
               </div>
-              <div className="col-lg-11 col-11 ps-0" style={{marginTop:"6rem"}}>
+              <div
+                className="col-lg-11 col-11 ps-0"
+                style={{ marginTop: "6rem" }}
+              >
                 {/* <div className="container-fluid mt-3">
                   <div className="d-flex justify-content-between">
                     <BranchSelector />
@@ -480,20 +476,21 @@ const AdminManageStaff = () => {
                 </div> */}
                 <div className="container-fluid mt-3 response">
                   <h2 className="text-center">Manage Employee</h2>
-                  <div className="d-flex justify-content-between align-items-center
-                  ">
+                  <div
+                    className="d-flex justify-content-between align-items-center
+                  "
+                  >
                     <div className="w-50">
                       {/* <label>Employee Name :</label> */}
                       <input
                         type="text"
                         placeholder="Search employee name or emp_id or mobile number"
-                        className="input"
+                        className="input w-100"
                         value={keyword}
                         onChange={(e) =>
                           setkeyword(e.target.value.toLowerCase())
                         }
                       />
-                     
                     </div>
                     <div>
                       <button
@@ -502,101 +499,106 @@ const AdminManageStaff = () => {
                       >
                         Add Employee
                       </button>
-                      <p className="fw-bold">Total Employees : {doctorList.length}</p>
+                      <p className="fw-bold">
+                        Total Employees : {doctorList.length}
+                      </p>
                     </div>
                   </div>
 
                   {loading ? (
-            <Lottie options={defaultOptions} height={300} width={400}></Lottie>
-          ) : (
-            <>
-            {filteredDoctorList.length === 0 ? (
-          <div className='mb-2 fs-4 fw-bold text-center'>No Manage Employee available</div>
-          ) : (
+                    <Lottie
+                      options={defaultOptions}
+                      height={300}
+                      width={400}
+                    ></Lottie>
+                  ) : (
+                    <>
+                      {filteredDoctorList.length === 0 ? (
+                        <div className="mb-2 fs-4 fw-bold text-center">
+                          No Manage Employee available
+                        </div>
+                      ) : (
+                        <>
+                          <div class="table-responsive mt-4">
+                            <table class="table table-bordered">
+                              <thead className="table-head">
+                                <tr>
+                                  <th className="thead sticky">Emp ID</th>
+                                  <th className="thead sticky">Name</th>
+                                  <th className="thead sticky">Mobile</th>
+                                  <th className="thead sticky">Email</th>
+                                  <th className="thead sticky">Designation</th>
+                                  <th className="thead sticky">Role</th>
+                                  <th className="thead sticky">Salary</th>
+                                  <th className="thead sticky">Address</th>
+                                  <th className="sticky">Profile Picture</th>
+                                  <th
+                                    className="sticky"
+                                    style={{ minWidth: "10rem" }}
+                                  >
+                                    Actions
+                                  </th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {filteredDoctorList.map((item) => (
+                                  <>
+                                    <tr className="table-row">
+                                      <td className="thead">
+                                        {item.employee_ID}
+                                      </td>
+                                      <td className="thead">
+                                        {item.employee_name}
+                                      </td>
+                                      <td className="thead">
+                                        {item.employee_mobile}
+                                      </td>
 
-<>
-                      <div class="table-responsive mt-4">
-                        <table class="table table-bordered">
-                          <thead className="table-head">
-                            <tr>
-                              <th className="thead sticky">Emp ID</th>
-                              <th className="thead sticky">Name</th>
-                              <th className="thead sticky">Mobile</th>
-                              <th className="thead sticky">Email</th>
-                              <th className="thead sticky">Designation</th>
-                              <th className="thead sticky">Role</th>
-                              <th className="thead sticky">Salary</th>
-                              <th className="thead sticky">Address</th>
-                              <th className="sticky">Profile Picture</th>
-                              <th
-                                className="sticky"
-                                style={{ minWidth: "10rem" }}
-                              >
-                                Actions
-                              </th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                          {filteredDoctorList.map((item) => (
-                                <>
-                                  <tr className="table-row">
-                                    <td className="thead">
-                                      {item.employee_ID}
-                                    </td>
-                                    <td className="thead">
-                                      {item.employee_name}
-                                    </td>
-                                    <td className="thead">
-                                      {item.employee_mobile}
-                                    </td>
-
-                                    <td className="thead">
-                                      {item.employee_email}
-                                    </td>
-                                    <td className="thead">
-                                      {item.employee_designation}
-                                    </td>
-                                    <td className="thead">
-                                      {item.employee_role}
-                                    </td>
-                                    <td className="thead">{item.salary}</td>
-                                    <td className="thead">{item.address}</td>
-                                    <td>
-                                      <div className="smallImg">
-                                        <img
-                                          src={item.employee_picture}
-                                          alt="profile"
-                                        />
-                                      </div>
-                                    </td>
-                                    <td
-                                      className=""
-                                      style={{ minWidth: "13rem" }}
-                                    >
-                                      <Link
-                                        to={`/employee-profile/${item.employee_ID}`}
+                                      <td className="thead">
+                                        {item.employee_email}
+                                      </td>
+                                      <td className="thead">
+                                        {item.employee_designation}
+                                      </td>
+                                      <td className="thead">
+                                        {item.employee_role}
+                                      </td>
+                                      <td className="thead">{item.salary}</td>
+                                      <td className="thead">{item.address}</td>
+                                      <td>
+                                        <div className="smallImg">
+                                          <img
+                                            src={item.employee_picture}
+                                            alt="profile"
+                                          />
+                                        </div>
+                                      </td>
+                                      <td
+                                        className=""
+                                        style={{ minWidth: "13rem" }}
                                       >
-                                        <button className="btn btn-warning">
-                                          Edit/View
-                                        </button>
-                                      </Link>
+                                        <Link
+                                          to={`/employee-profile/${item.employee_ID}`}
+                                        >
+                                          <button className="btn btn-warning">
+                                            Edit/View
+                                          </button>
+                                        </Link>
 
-                                      {/* <button className="btn btn-danger mx-1">
+                                        {/* <button className="btn btn-danger mx-1">
                                     Delete
                                   </button> */}
-                                    </td>
-                                  </tr>
-                                </>
-                              ))}
-                          </tbody>
-                        </table>
-                      </div>
-                      </>
-          )
-        }
-                      </>
-          )}
-                   
+                                      </td>
+                                    </tr>
+                                  </>
+                                ))}
+                              </tbody>
+                            </table>
+                          </div>
+                        </>
+                      )}
+                    </>
+                  )}
                 </div>
               </div>
             </div>
@@ -681,7 +683,7 @@ const AdminManageStaff = () => {
                     </div>
                     <div className="col-xxl-3 col-xl-3 col-lg-3 col-md-3 col-sm-12 col-12">
                       <div class="mb-3">
-                        <label 
+                        <label
                           for="exampleFormControlInput1"
                           class="form-label"
                         >
@@ -1141,26 +1143,27 @@ const AdminManageStaff = () => {
                       <label class="form-check-label" for="flexCheckDefault">
                         Lab Attendent
                       </label>
-                    </div>           
+                    </div>
                     {inEmpData.empDesignation === "doctor" && (
                       <>
-                    <div class="form-check">
-                      <input
-                        class="form-check-input"
-                        type="checkbox"
-                        id="flexCheckDefault"
-                        name="doctor"
-                        value={inEmpData.empRole}
-                        onChange={handleCheckChange}
-                      />
-                      <label class="form-check-label" for="flexCheckDefault">
-                        Doctor
-                      </label>
-                    </div>
-                    </>
+                        <div class="form-check">
+                          <input
+                            class="form-check-input"
+                            type="checkbox"
+                            id="flexCheckDefault"
+                            name="doctor"
+                            value={inEmpData.empRole}
+                            onChange={handleCheckChange}
+                          />
+                          <label
+                            class="form-check-label"
+                            for="flexCheckDefault"
+                          >
+                            Doctor
+                          </label>
+                        </div>
+                      </>
                     )}
-
-
                   </div>
                   <div className="d-flex">
                     <div className="mb-3">
@@ -1195,12 +1198,12 @@ const AdminManageStaff = () => {
                 </div>
 
                 <div className="d-flex justify-content-center">
-                  <button type="submit" className="btn btn-success"
-               
-                    disabled = {loading}
-                    >
-                       
-                               {loading ? "Saving..." : "Save"}
+                  <button
+                    type="submit"
+                    className="btn btn-success"
+                    disabled={loading}
+                  >
+                    {loading ? "Saving..." : "Save"}
                   </button>
                   <button
                     type="button"
@@ -1329,29 +1332,28 @@ const Container = styled.div`
     border-radius: 20px;
     box-sizing: border-box;
     transition: border-color 0.3s ease;
- 
-            @media (min-width: 1279px) and (max-width: 1600px){
-              width: 70%;
-            }
-            @media (min-width: 1024px) and (max-width: 1279px){
-              width: 100%;
-            }
-            @media (min-width: 768px) and (max-width: 1023px){
-              width: 145%;
-            }
-  }
 
+    @media (min-width: 1279px) and (max-width: 1600px) {
+      width: 70%;
+    }
+    @media (min-width: 1024px) and (max-width: 1279px) {
+      width: 100%;
+    }
+    @media (min-width: 768px) and (max-width: 1023px) {
+      width: 145%;
+    }
+  }
 
   .input:focus {
     border-color: #007bff; /* Change border color on focus */
   }
-  .response{
-    @media (min-width: 1024px) and (max-width: 1279px){
-              width: 95%;
-            }
-    @media (min-width: 768px) and (max-width: 1023px){
+  .response {
+    @media (min-width: 1024px) and (max-width: 1279px) {
+      width: 95%;
+    }
+    @media (min-width: 768px) and (max-width: 1023px) {
       width: 90%;
       margin-left: 3rem;
-            }
-   }
+    }
+  }
 `;
