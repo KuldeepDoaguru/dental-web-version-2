@@ -19,10 +19,10 @@ const AttendanceLeave = () => {
   const navigate = useNavigate();
   const user = useSelector((state) => state.user.currentUser);
   const { refreshTable } = useSelector((state) => state.user);
-  console.log(
-    `User Name: ${user.name}, User ID: ${user.id}, branch: ${user.branch}`
-  );
-  console.log("User State:", user);
+  // console.log(
+  //   `User Name: ${user.name}, User ID: ${user.id}, branch: ${user.branch}`
+  // );
+  // console.log("User State:", user);
   const token = user.token;
   const branch = user.branch_name;
   const employeeName = user.employee_name;
@@ -44,7 +44,7 @@ const AttendanceLeave = () => {
   const getAttendance = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:8888/api/doctor/getAttendancebyempId/${branch}/${employeeId}`,
+        `http://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/getAttendancebyempId/${branch}/${employeeId}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -68,7 +68,7 @@ const AttendanceLeave = () => {
   const getLeaves = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:8888/api/doctor/get-leaves/${branch}/${employeeId}`,
+        `http://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/get-leaves/${branch}/${employeeId}`,
         {
           headers: {
             "Content-Type": "application/json",

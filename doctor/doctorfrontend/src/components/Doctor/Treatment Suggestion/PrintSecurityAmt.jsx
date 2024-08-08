@@ -34,7 +34,7 @@ const PrintSecurityAmt = () => {
     console.log(user.id);
     try {
       const viewDoc = await axios.get(
-        ` http://localhost:8888/api/doctor/getBranchDetails/${branch}`,
+        ` http://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/getBranchDetails/${branch}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -56,7 +56,7 @@ const PrintSecurityAmt = () => {
     const getSecurityAmtID = async () => {
       try {
         const resps = await axios.get(
-          `http://localhost:8888/api/doctor/getAllSecurityAmounts/${sa_id}/${branch}`,
+          `http://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/getAllSecurityAmounts/${sa_id}/${branch}`,
           {
             headers: {
               "Content-Type": "application/json",

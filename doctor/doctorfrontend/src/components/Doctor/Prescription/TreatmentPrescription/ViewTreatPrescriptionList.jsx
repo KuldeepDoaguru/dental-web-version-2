@@ -27,7 +27,7 @@ const ViewTreatPrescriptionList = () => {
   const getBranchDetails = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:8888/api/doctor/getBranchDetails/${branch}`,
+        `http://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/getBranchDetails/${branch}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -48,7 +48,7 @@ const ViewTreatPrescriptionList = () => {
   const getPatientDetail = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:8888/api/doctor/getAppointmentsWithPatientDetailsById/${tpid}`,
+        `http://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/getAppointmentsWithPatientDetailsById/${tpid}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -65,7 +65,7 @@ const ViewTreatPrescriptionList = () => {
   const getLabAllData = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:8888/api/doctor/lab-details/${tpid}`,
+        `http://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/lab-details/${tpid}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -91,7 +91,7 @@ const ViewTreatPrescriptionList = () => {
   const getExaminDetail = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:8888/api/doctor/getDentalDataByTpid/${tpid}/${branch}`,
+        `http://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/getDentalDataByTpid/${tpid}/${branch}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -115,7 +115,7 @@ const ViewTreatPrescriptionList = () => {
   const getTreatDetail = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:8888/api/doctor/getTreatmentDetailsViaSitting/${branch}/${tpid}/${sitting}/${treatment}`,
+        `http://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/getTreatmentDetailsViaSitting/${branch}/${tpid}/${sitting}/${treatment}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -140,7 +140,7 @@ const ViewTreatPrescriptionList = () => {
   const getTreatPrescriptionByAppointId = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:8888/api/doctor/getTreatPrescriptionByAppointId/${appoint_id}/${tpid}/${treatment}`,
+        `http://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/getTreatPrescriptionByAppointId/${appoint_id}/${tpid}/${treatment}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -164,7 +164,7 @@ const ViewTreatPrescriptionList = () => {
   const getTreatmentSuggestAppointId = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:8888/api/doctor/getTreatmentData/${appoint_id}/${tpid}/${branch}/${sitting}`,
+        `http://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/getTreatmentData/${appoint_id}/${tpid}/${branch}/${sitting}`,
         {
           headers: {
             "Content-Type": "application/json",

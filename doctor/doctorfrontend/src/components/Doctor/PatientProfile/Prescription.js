@@ -20,7 +20,7 @@ const Prescription = () => {
       //   `http://localhost:7777/api/v1/super-admin/getPrescriptionDetailsById/${pid}`
       // );
       const response = await axios.get(
-        `http://localhost:8888/api/doctor/getPrescriptionPatientProfile/${uhid}`,
+        `http://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/getPrescriptionPatientProfile/${uhid}`,
         {
           headers: {
             "Content-Type": "application/json",

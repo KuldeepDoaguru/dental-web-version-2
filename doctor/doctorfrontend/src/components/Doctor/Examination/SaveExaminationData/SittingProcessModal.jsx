@@ -44,7 +44,7 @@ const SittingProcessModal = ({ onClose, selectedData, uhid, appoint_id }) => {
   const timelineForSitting = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:8888/api/doctor/insertTimelineEvent",
+        "http://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/insertTimelineEvent",
         {
           type: "Sitting Considered",
           description: `${formData.current_sitting} Sitting Started`,
@@ -69,7 +69,7 @@ const SittingProcessModal = ({ onClose, selectedData, uhid, appoint_id }) => {
   const updateTreatmentStatus = async () => {
     try {
       const res = await axios.put(
-        `http://localhost:8888/api/doctor/updateTreatmentStatus/${branch}/${selectedData.tp_id}`,
+        `http://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/updateTreatmentStatus/${branch}/${selectedData.tp_id}`,
         { package_status: "ongoing" },
         {
           headers: {
@@ -92,7 +92,7 @@ const SittingProcessModal = ({ onClose, selectedData, uhid, appoint_id }) => {
     setLoading(true);
     try {
       const { data } = await axios.put(
-        `http://localhost:8888/api/doctor/updateTreatSitting/${branch}/${selectedData.ts_id}`,
+        `http://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/updateTreatSitting/${branch}/${selectedData.ts_id}`,
         formData,
         {
           headers: {

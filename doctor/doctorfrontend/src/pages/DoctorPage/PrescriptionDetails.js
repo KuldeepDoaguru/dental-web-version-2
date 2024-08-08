@@ -57,7 +57,7 @@ const PrescriptionDetails = () => {
     setLoading(true);
     try {
       const { data } = await axios.get(
-        `http://localhost:8888/api/doctor/prescriptionList/${branch}/${doctorId}`,
+        `http://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/prescriptionList/${branch}/${doctorId}`,
         {
           headers: {
             "Content-Type": "application/json",

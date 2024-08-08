@@ -26,7 +26,7 @@ const Treatment = () => {
       // );
 
       const resps = await axios.get(
-        `http://localhost:8888/api/doctor/getTreatmentViaUhid/${branch}/${uhid}`,
+        `http://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/getTreatmentViaUhid/${branch}/${uhid}`,
         {
           headers: {
             "Content-Type": "application/json",

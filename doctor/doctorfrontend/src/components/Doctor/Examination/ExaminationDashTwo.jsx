@@ -35,7 +35,7 @@ const ExaminationDashTwo = () => {
   const getPatientById = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:8888/api/doctor/get-Patient-by-id/${branch}/${uhid}`,
+        `http://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/get-Patient-by-id/${branch}/${uhid}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -59,7 +59,7 @@ const ExaminationDashTwo = () => {
   const timelineForExamination = async (cat) => {
     try {
       const response = await axios.post(
-        "http://localhost:8888/api/doctor/insertTimelineEvent",
+        "http://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/insertTimelineEvent",
         {
           type: "Examination",
           description: `Selected Category ${cat}`,
@@ -83,7 +83,7 @@ const ExaminationDashTwo = () => {
     console.log(updatedTreatData);
     try {
       const { data } = await axios.post(
-        "http://localhost:8888/api/doctor/addTreatPackageDetails",
+        "http://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/addTreatPackageDetails",
         updatedTreatData,
         {
           headers: {

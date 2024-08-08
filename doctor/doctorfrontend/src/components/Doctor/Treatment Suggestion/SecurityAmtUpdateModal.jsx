@@ -46,7 +46,7 @@ const SecurityAmtUpdateModal = ({ onClose, selectedData, grandTotal }) => {
     // alert("timeline");
     try {
       const response = await axios.post(
-        "http://localhost:8888/api/doctor/insertTimelineEvent",
+        "http://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/insertTimelineEvent",
         {
           type: "Secuirty Amount Update",
           description: `${formData.amount} Secuirty Amount Updated`,
@@ -73,7 +73,7 @@ const SecurityAmtUpdateModal = ({ onClose, selectedData, grandTotal }) => {
     setLoading(true);
     try {
       const response = await axios.put(
-        `http://localhost:8888/api/doctor/updateSecurityAmountForRemainingAmount/${selectedData.sa_id}`,
+        `http://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/updateSecurityAmountForRemainingAmount/${selectedData.sa_id}`,
         formData,
         {
           headers: {

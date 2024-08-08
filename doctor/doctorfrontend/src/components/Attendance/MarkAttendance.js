@@ -25,7 +25,7 @@ const MarkAttendance = () => {
   const getTodayAttendance = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:8888/api/doctor/getTodayAttendance/${branch_name}/${employee_ID}/${date}`,
+        `http://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/getTodayAttendance/${branch_name}/${employee_ID}/${date}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -56,7 +56,7 @@ const MarkAttendance = () => {
     // Format current time for login
     try {
       const response = await axios.post(
-        "http://localhost:8888/api/doctor/markAttendanceLogin",
+        "http://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/markAttendanceLogin",
         {
           branch_name,
           employee_ID,
@@ -98,7 +98,7 @@ const MarkAttendance = () => {
     const availability = "no";
     try {
       const response = await axios.put(
-        "http://localhost:8888/api/doctor/markAttendanceLogout",
+        "http://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/markAttendanceLogout",
         {
           branch_name,
           employee_ID,

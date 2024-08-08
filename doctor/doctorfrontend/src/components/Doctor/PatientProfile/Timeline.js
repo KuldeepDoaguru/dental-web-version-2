@@ -18,7 +18,7 @@ const Timeline = () => {
   const getTimelineDetails = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:8888/api/doctor/getPatientTimeline/${branch}/${uhid}`,
+        `http://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/getPatientTimeline/${branch}/${uhid}`,
         {
           headers: {
             "Content-Type": "application/json",

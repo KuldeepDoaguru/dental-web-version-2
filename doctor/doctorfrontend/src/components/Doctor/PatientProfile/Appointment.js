@@ -19,7 +19,7 @@ const Appointment = () => {
   const getAppointDetailsPat = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:8888/api/doctor/getAllAppointmentByPatientId/${uhid}/${branch}`,
+        `http://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/getAllAppointmentByPatientId/${uhid}/${branch}`,
         {
           headers: {
             "Content-Type": "application/json",

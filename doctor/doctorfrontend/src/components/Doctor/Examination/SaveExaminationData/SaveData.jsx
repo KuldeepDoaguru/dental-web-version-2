@@ -29,7 +29,7 @@ const SaveData = ({ id, tpid }) => {
   const getData = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:8888/api/doctor/getDentalDataByID/${id}/${tpid}`,
+        `http://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/getDentalDataByID/${id}/${tpid}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -63,7 +63,7 @@ const SaveData = ({ id, tpid }) => {
   const timelineForDelete = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:8888/api/doctor/insertTimelineEvent",
+        "http://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/insertTimelineEvent",
         {
           type: "Examination",
           description: "Add Teeth Pediatric DentalX",
@@ -89,7 +89,7 @@ const SaveData = ({ id, tpid }) => {
     e.preventDefault();
     try {
       const response = await axios.put(
-        `http://localhost:8888/api/doctor/updatedentalPediatric/${id}`,
+        `http://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/updatedentalPediatric/${id}`,
         formData,
         {
           headers: {
@@ -131,7 +131,7 @@ const SaveData = ({ id, tpid }) => {
 
       if (confirmed) {
         const res = await axios.delete(
-          `http://localhost:8888/api/doctor/deleteDentalPediatric/${id}`,
+          `http://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/deleteDentalPediatric/${id}`,
           {
             headers: {
               "Content-Type": "application/json",

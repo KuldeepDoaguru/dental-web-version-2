@@ -96,7 +96,7 @@ const BookSittingAppointment = ({
   const getBranchDetail = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:8888/api/doctor/get-branch-detail/${branch_name}`,
+        `http://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/get-branch-detail/${branch_name}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -114,7 +114,7 @@ const BookSittingAppointment = ({
   const getBranchHolidays = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:8888/api/doctor/get-branch-holidays/${branch_name}`,
+        `http://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/get-branch-holidays/${branch_name}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -176,7 +176,7 @@ const BookSittingAppointment = ({
   const getDoctorsWithLeave = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:8888/api/doctor/get-doctors-with-leave/${branch_name}`,
+        `http://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/get-doctors-with-leave/${branch_name}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -193,7 +193,7 @@ const BookSittingAppointment = ({
   const getDoctorAppoint = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:8888/api/doctor/getAppointmentsViaDocId/${branch_name}/${employee_ID}`,
+        `http://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/getAppointmentsViaDocId/${branch_name}/${employee_ID}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -263,7 +263,7 @@ const BookSittingAppointment = ({
   const timelineForNextSittingBooking = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:8888/api/doctor/insertTimelineEvent",
+        "http://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/insertTimelineEvent",
         {
           type: "Booking for Next Sitting",
           description: "Next Sitting Scheduled Successfully",
@@ -404,7 +404,7 @@ const BookSittingAppointment = ({
       setLoading(false);
       try {
         const response = await axios.post(
-          "http://localhost:8888/api/doctor/bookSittingAppointment",
+          "http://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/bookSittingAppointment",
           data,
           {
             headers: {
@@ -443,7 +443,7 @@ const BookSittingAppointment = ({
   const timelineData = async (id) => {
     try {
       const response = await axios.post(
-        "http://localhost:8888/api/doctor/insertTimelineEvent",
+        "http://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/insertTimelineEvent",
         {
           type: "Book Sitting Appointment",
           description: "Book Sitting Appointment",

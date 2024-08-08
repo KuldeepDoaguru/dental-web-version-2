@@ -28,7 +28,7 @@ const Print_Oral_Blood = () => {
   const fetchPatientDetails = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:8888/api/doctor/get-patient-details-by-id/${id}`,
+        `http://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/get-patient-details-by-id/${id}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -45,7 +45,7 @@ const Print_Oral_Blood = () => {
   const fetchPatientTestDetails = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:8888/api/doctor/get-patient-test-details-by-id/${id}`,
+        `http://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/get-patient-test-details-by-id/${id}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -62,7 +62,7 @@ const Print_Oral_Blood = () => {
   const fetchNotes = async () => {
     try {
       const response = await axios.get(
-        `http://localhost:8888/api/doctor/getpatienttest-notes/${id}`,
+        `http://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/getpatienttest-notes/${id}`,
         {
           headers: {
             "Content-Type": "application/json",

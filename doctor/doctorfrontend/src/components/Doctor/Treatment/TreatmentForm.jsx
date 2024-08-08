@@ -55,7 +55,7 @@ const TreatmentForm = () => {
     setLoading(true);
     try {
       const { data } = await axios.get(
-        `http://localhost:8888/api/doctor/getOnlyExaminv/${tp_id}/${tsid}`,
+        `http://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/getOnlyExaminv/${tp_id}/${tsid}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -77,9 +77,9 @@ const TreatmentForm = () => {
     try {
       let endpoint;
       if (sitCheck.length > 0) {
-        endpoint = `http://localhost:8888/api/doctor/getExaminedataByIdandexamineAfterSitOne/${tsid}/${tp_id}`;
+        endpoint = `http://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/getExaminedataByIdandexamineAfterSitOne/${tsid}/${tp_id}`;
       } else {
-        endpoint = `http://localhost:8888/api/doctor/getExaminedataByIdandexamine/${tsid}/${tp_id}`;
+        endpoint = `http://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/getExaminedataByIdandexamine/${tsid}/${tp_id}`;
       }
 
       const { data } = await axios.get(endpoint, {
@@ -306,7 +306,7 @@ const TreatmentForm = () => {
   const timelineForTreatForm = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:8888/api/doctor/insertTimelineEvent",
+        "http://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/insertTimelineEvent",
         {
           type: "Treatment Procedure",
           description:
@@ -437,7 +437,7 @@ const TreatmentForm = () => {
   const treatmentStatsUpdate = async () => {
     try {
       const response = await axios.put(
-        `http://localhost:8888/api/doctor/updateTreatSittingStatus/${branch}/${tsid}`,
+        `http://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/updateTreatSittingStatus/${branch}/${tsid}`,
         { treatment_status: treatStats },
         {
           headers: {
@@ -483,7 +483,7 @@ const TreatmentForm = () => {
   const generateBillSitting = async () => {
     try {
       const res = await axios.post(
-        `http://localhost:8888/api/doctor/generateSittingBill/${tp_id}/${branch}`,
+        `http://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/generateSittingBill/${tp_id}/${branch}`,
         sittingForm
       );
       cogoToast.success("sitting bill generate successfully");
@@ -496,7 +496,7 @@ const TreatmentForm = () => {
     setLoading(true);
     try {
       const res = await axios.post(
-        `http://localhost:8888/api/doctor/insertTreatmentData/${tsid}/${appoint_id}/${tp_id}`,
+        `http://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/insertTreatmentData/${tsid}/${appoint_id}/${tp_id}`,
         formDetails,
         {
           headers: {
@@ -551,7 +551,7 @@ const TreatmentForm = () => {
   const getPatientDetail = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:8888/api/doctor/getAppointmentsWithPatientDetailsById/${tp_id}`,
+        `http://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/getAppointmentsWithPatientDetailsById/${tp_id}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -603,7 +603,7 @@ const TreatmentForm = () => {
   const getSecurityAmt = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:8888/api/doctor/getSecurityAmountByAppointmentId/${tp_id}`,
+        `http://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/getSecurityAmountByAppointmentId/${tp_id}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -648,7 +648,7 @@ const TreatmentForm = () => {
   const updateAmountAfterPayViaSecAmount = async () => {
     try {
       const res = await axios.put(
-        `http://localhost:8888/api/doctor/updateRecSecAmountAfterPayment/${tp_id}`,
+        `http://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/updateRecSecAmountAfterPayment/${tp_id}`,
         {
           sec_rec_amt:
             lastTreatment?.pending_amount <= 0
@@ -689,7 +689,7 @@ const TreatmentForm = () => {
   const timelineForMakePayViaSecurity = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:8888/api/doctor/insertTimelineEvent",
+        "http://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/insertTimelineEvent",
         {
           type: "Security Amount Used",
           description: `${
@@ -717,7 +717,7 @@ const TreatmentForm = () => {
     } else {
       try {
         const res = await axios.put(
-          `http://localhost:8888/api/doctor/updateSecurityAmountAfterPayment/${tp_id}`,
+          `http://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/updateSecurityAmountAfterPayment/${tp_id}`,
           { remaining_amount: remaining_amount },
           {
             headers: {
