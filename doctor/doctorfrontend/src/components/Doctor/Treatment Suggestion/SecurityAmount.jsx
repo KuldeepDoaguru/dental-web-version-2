@@ -50,7 +50,7 @@ const SecurityAmount = () => {
   const updateAppointmentData = async () => {
     try {
       const res = await axios.put(
-        `http://localhost:8888/api/doctor/updateAppointmentPath/${id}/${branch}`,
+        `https://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/updateAppointmentPath/${id}/${branch}`,
         {
           currentPath: `/SecurityAmount/${id}/${tpid}`,
           tpid: tpid,
@@ -70,7 +70,7 @@ const SecurityAmount = () => {
   const newGetFetchData = async () => {
     try {
       const resps = await axios.get(
-        `http://localhost:8888/api/doctor/patient-security/${id}/${branch}`,
+        `https://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/patient-security/${id}/${branch}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -101,7 +101,7 @@ const SecurityAmount = () => {
   const getListTreatment = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:8888/api/doctor/getTreatList/${branch}/${tpid}`,
+        `https://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/getTreatList/${branch}/${tpid}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -165,6 +165,7 @@ const SecurityAmount = () => {
       setLoading(false);
       cogoToast.success("Security Amount Added");
       updateAppointmentData();
+      navigate(`/prescription-generate/${tpid}/${id}`);
       setFormData({
         // branch_name: "",
         date: "",
@@ -189,7 +190,7 @@ const SecurityAmount = () => {
   const timelineForSecuirty = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:8888/api/doctor/insertTimelineEvent",
+        "https://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/insertTimelineEvent",
         {
           type: "Secuirty Amount",
           description: `${formData.amount} Secuirty Amount Added`,
@@ -232,7 +233,7 @@ const SecurityAmount = () => {
   const insertCorrectData = async () => {
     try {
       const resp = await axios.post(
-        `http://localhost:8888/api/doctor/addSecurityAmount`,
+        `https://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/addSecurityAmount`,
         formsCorrect,
         {
           headers: {
@@ -254,7 +255,7 @@ const SecurityAmount = () => {
   const getSecurityAmt = async () => {
     try {
       const resdata = await axios.get(
-        `http://localhost:8888/api/doctor/getSecurityAmountByAppointmentId/${tpid}`,
+        `https://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/getSecurityAmountByAppointmentId/${tpid}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -285,7 +286,7 @@ const SecurityAmount = () => {
   //   };
 
   //   try {
-  //     const response = await axios.put(`http://localhost:8888/api/doctor/update-security-amount/${sa_id}`, updatedata);
+  //     const response = await axios.put(`https://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/update-security-amount/${sa_id}`, updatedata);
 
   //     console.log(response.data);
 

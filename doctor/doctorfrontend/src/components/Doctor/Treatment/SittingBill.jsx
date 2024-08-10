@@ -1,12 +1,21 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
+import numWords from "num-words";
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
+import { SiGmail, SiGooglemessages } from "react-icons/si";
+import { IoLogoWhatsapp } from "react-icons/io";
+import cogoToast from "cogo-toast";
 
 const SittingBill = () => {
-  const { tpid, sitting, treatment } = useParams();
+  const { tpid, sitting, appoint_id, treatment } = useParams();
+  console.log(useParams());
+
+  const contentRef = useRef();
   const navigate = useNavigate();
   const [getPatientData, setGetPatientData] = useState([]);
   const user = useSelector((state) => state.user);
@@ -14,17 +23,21 @@ const SittingBill = () => {
   console.log(user);
   const branch = user.currentUser.branch_name;
   console.log(branch);
+  const branchData = useSelector((state) => state.branch.currentBranch);
+  console.log(branchData);
   const [getExaminData, setGetExaminData] = useState([]);
   const [getTreatData, setGetTreatData] = useState([]);
   const [getTreatMedicine, setGetTreatMedicine] = useState([]);
   const [getTreatSug, setGetTreatSug] = useState([]);
   const [getBranch, setGetBranch] = useState([]);
   const [getLabData, setGetLabData] = useState([]);
+  const [sittingBill, setSittingBill] = useState([]);
+  const [getDocDetails, setGetDocDetails] = useState([]);
 
   const getBranchDetails = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:8888/api/doctor/getBranchDetails/${branch}`,
+        `https://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/getBranchDetails/${branch}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -45,7 +58,7 @@ const SittingBill = () => {
   const getPatientDetail = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:8888/api/doctor/getAppointmentsWithPatientDetailsById/${tpid}`,
+        `https://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/getAppointmentsWithPatientDetailsById/${tpid}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -59,10 +72,12 @@ const SittingBill = () => {
     }
   };
 
+  console.log(getPatientData[0]?.doctor_id);
+
   const getLabAllData = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:8888/api/doctor/lab-details/${tpid}`,
+        `https://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/lab-details/${tpid}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -77,85 +92,223 @@ const SittingBill = () => {
     }
   };
 
+  const getSittingBillbyId = async () => {
+    try {
+      const { data } = await axios.get(
+        `https://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/getSittingBillbyId/${branch}/${sitting}/${tpid}/${appoint_id}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setSittingBill(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  console.log(sittingBill);
+  const eid = getPatientData[0]?.doctor_id;
+  console.log(eid);
+
+  const getDoctorDetails = async () => {
+    try {
+      const { data } = await axios.get(
+        `https://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/getEmployeeDetailsbyId/${branch}/${eid}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setGetDocDetails(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  console.log(getDocDetails);
+
+  const getExamineDetails = async () => {
+    try {
+      const res = await axios.get(
+        `https://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/getDentalDataByTpid/${tpid}/${branch}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(res.data);
+      setGetExaminData(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  console.log(getExaminData);
+
   useEffect(() => {
     getPatientDetail();
     getBranchDetails();
     getLabAllData();
+    getSittingBillbyId();
+    // getDoctorDetails();
+    getExamineDetails();
   }, []);
+
+  useEffect(() => {
+    getDoctorDetails();
+  }, [getPatientData]);
 
   const goBack = () => {
     window.history.go(-1);
+  };
+
+  const handleButton = async () => {
+    try {
+      window.print();
+    } catch (error) {
+      console.log("Error updating sitting count", error);
+    }
+  };
+
+  const handleTreatNavigate = () => {
+    try {
+      navigate(`/TreatmentDashBoard/${tpid}/${appoint_id}`);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleDownloadPdf = async () => {
+    const element = contentRef.current;
+    const canvas = await html2canvas(element);
+    const imgData = canvas.toDataURL("image/png");
+    const pdf = new jsPDF();
+    const imgWidth = 210; // A4 width in mm
+    const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+    pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
+    pdf.save("sitting bill.pdf");
+  };
+
+  const sendPrescriptionMail = async () => {
+    try {
+      const element = contentRef.current;
+      const canvas = await html2canvas(element);
+      const imgData = canvas.toDataURL("image/png");
+      const pdf = new jsPDF();
+      const imgWidth = 210; // A4 width in mm
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+      pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
+      const pdfData = pdf.output("blob");
+      console.log(pdfData);
+
+      const formData = new FormData();
+      formData.append("email", getPatientData[0]?.emailid);
+      formData.append("patient_name", getPatientData[0]?.patient_name);
+      formData.append(
+        "subject",
+        `${getPatientData[0]?.patient_name}, your sitting bill file`
+      );
+      formData.append(
+        "textMatter",
+        `Dear ${getPatientData[0]?.patient_name}, Please find the attached sitting bill file.`
+      );
+      formData.append("file", pdfData, "prescription.pdf");
+      for (let [key, value] of formData.entries()) {
+        console.log(key, value);
+      }
+      const response = await axios.post(
+        "https://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/prescriptionOnMail",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      cogoToast.success("Sitting bill sent successfully");
+      console.log("PDF sent successfully:", response.data);
+    } catch (error) {
+      console.error("Error sending PDF:", error);
+    }
+  };
+
+  const sendPrescriptionWhatsapp = async () => {
+    try {
+      const element = contentRef.current;
+      const canvas = await html2canvas(element);
+      const imgData = canvas.toDataURL("image/png");
+      const pdf = new jsPDF();
+      const imgWidth = 210; // A4 width in mm
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+      pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
+      const pdfData = pdf.output("blob");
+      console.log(pdfData);
+
+      const formData = new FormData();
+      formData.append("phoneNumber", getPatientData[0]?.mobileno);
+      formData.append("message", "test message");
+      // Convert Blob to a File
+      const file = new File([pdfData], "sitting bill.pdf", {
+        type: "application/pdf",
+      });
+
+      formData.append("media_url", file);
+      for (let [key, value] of formData.entries()) {
+        console.log(key, value);
+      }
+
+      const res = await axios.post(
+        "https://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/sendWhatsapp",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      cogoToast.success("sitting bill sent successfully");
+      console.log("PDF sent successfully");
+    } catch (error) {
+      console.error("Error sending PDF:", error);
+    }
+  };
+  const formDetails = {
+    phoneNumber: getPatientData[0]?.mobileno,
+    message: `Dear ${getPatientData[0]?.patient_name}, your bill generated for the sitting ${sittingBill[0]?.sitting_number} of treatment ${sittingBill[0]?.treatment}, sitting bill amount is ${sittingBill[0]?.sitting_amount}/-`,
+  };
+  const billDetailsSms = async () => {
+    try {
+      const { data } = await axios.post(
+        "https://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/sendSMS",
+        formDetails,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      cogoToast.success("bill details sent successfully");
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <>
       <Wrapper>
         {/* branch details */}
-        {/* <div className="container-fluid">
-          <div className="row">
-            <div className="col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-4 col-4">
-              <div className="clinic-logo">
-                <img
-                  src="https://res.cloudinary.com/dq5upuxm8/image/upload/v1708075638/dental%20guru/Login-page_1_cwadmt.png"
-                  alt=""
-                  className="img-fluid"
-                />
-              </div>
-            </div>
-            <div className="col-xxl-8 col-xl-8 col-lg-8 col-md-8 col-sm-8 col-8">
-              <div className="header-left">
-                <h3 className="text-center">Invoice</h3>
-                <hr />
-                <h6>
-                  <strong>Clinic Name :</strong>{" "}
-                  <span
-                    className="fw-bold text-capitalize"
-                    style={{ color: "#00b894" }}
-                  >
-                    {getBranch[0]?.hospital_name}
-                  </span>
-                </h6>
-                <hr />
-                <h6>
-                  <strong>Branch Name :</strong>{" "}
-                  <span
-                    className="fw-bold text-capitalize"
-                    style={{ color: "#00b894" }}
-                  >
-                    {getBranch[0]?.branch_name}
-                  </span>
-                </h6>
-                <hr />
-                <h6>
-                  <strong>Address :</strong>{" "}
-                  <span
-                    className="fw-bold text-capitalize"
-                    style={{ color: "#00b894" }}
-                  >
-                    {getBranch[0]?.branch_address}
-                  </span>
-                </h6>
-                <hr />
-                <h6>
-                  <strong>Phone No. :</strong>{" "}
-                  <span
-                    className="fw-bold text-capitalize"
-                    style={{ color: "#00b894" }}
-                  >
-                    {getBranch[0]?.branch_contact}
-                  </span>
-                </h6>
-                <hr />
-                <h6>
-                  <strong>Email ID :</strong>{" "}
-                  <span className="fw-bold" style={{ color: "#00b894" }}>
-                    {getBranch[0]?.branch_email}
-                  </span>
-                </h6>
-              </div>
-            </div>
-          </div>
-          <hr />
-        </div> */}
+
         <div className="container-fluid">
           <div className="d-flex justify-content-between">
             <button
@@ -174,12 +327,13 @@ const SittingBill = () => {
                 backgroundColor: "#0dcaf0",
                 border: "#0dcaf0",
               }}
-              //   onClick={handleButton}
+              onClick={handleButton}
             >
               Print
             </button>
           </div>
-
+        </div>
+        <div ref={contentRef}>
           <div className="row">
             <div className="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
               <div className="clinic-logo">
@@ -192,151 +346,170 @@ const SittingBill = () => {
             </div>
           </div>
           <hr />
-        </div>
-        {/* patient details */}
-        <div className="text-center">
-          <h3>Invoice</h3>
-        </div>
-        <div className="container-fluid">
-          <div className="heading-title">
-            <h4>Patient Details :</h4>
+          {/* patient details */}
+          <div className="text-center">
+            <h3>Sitting Invoice</h3>
           </div>
-          <h6 className="fw-bold">
-            Patient Type : {getPatientData[0]?.patient_type}
-          </h6>
-          <table className="table table-bordered border">
-            <tbody>
-              {getPatientData?.map((item, index) => (
-                <React.Fragment key={index}>
-                  <tr>
-                    <th scope="row">UHID</th>
-                    <td>{item.uhid}</td>
-                    <th scope="row">Gender</th>
-                    <td>{item.gender}</td>
-                  </tr>
+          <div className="container-fluid">
+            <div className="heading-title">
+              <h4 className="">Patient Details :</h4>
+            </div>
+            <h6 className="fw-bold">
+              Patient Type : {getPatientData[0]?.patient_type}
+            </h6>
+            <table className="table table-bordered border">
+              <tbody>
+                {getPatientData?.map((item, index) => (
+                  <React.Fragment key={index}>
+                    {item?.patient_type === "Credit" && (
+                      <tr>
+                        <th scope="row">Credit By</th>
+                        <td>{item?.credit_By}</td>
+                        <th scope="row">Beneficiary Id</th>
+                        <td>{item?.beneficiary_Id}</td>
+                      </tr>
+                    )}
+                    <tr>
+                      <th scope="row">UHID</th>
+                      <td>{item.uhid}</td>
+                      <th scope="row">Gender</th>
+                      <td>{item.gender}</td>
+                    </tr>
 
-                  <tr>
-                    <th scope="row">Name</th>
-                    <td>{item.patient_name}</td>
-                    <th scope="row">Age</th>
-                    <td>{item.age}</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Address</th>
-                    <td>{item.address}</td>
-                    <th scope="row">Invoice No.</th>
-                    <td>billDetails[0]?.bill_id</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Mobile No.</th>
-                    <td>{item.mobileno}</td>
-                    <th scope="row">Date</th>
-                    <td>billDetails[0]?.bill_date.split("T")[0]</td>
-                  </tr>
-                  <tr>
-                    <th scope="row">Email</th>
-                    <td>{item.emailid}</td>
-                    <th scope="row">Treatment Package ID</th>
-                    <td>{tpid}</td>
-                  </tr>
-                </React.Fragment>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        {/* doctor details */}
-        <div className="container-fluid">
-          <div className="heading-title">
-            <h4>Doctor Details :</h4>
+                    <tr>
+                      <th scope="row">Name</th>
+                      <td>{item.patient_name}</td>
+                      <th scope="row">Age</th>
+                      <td>{item.age}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Address</th>
+                      <td>{item.address}</td>
+                      <th scope="row">Invoice No.</th>
+                      <td>{sittingBill[0]?.sb_id}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Mobile No.</th>
+                      <td>{item.mobileno}</td>
+                      <th scope="row">Date</th>
+                      <td>{sittingBill[0]?.date?.split(" ")[0]}</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Email</th>
+                      <td>{item.emailid}</td>
+                      <th scope="row">Treatment Package ID</th>
+                      <td>{tpid}</td>
+                    </tr>
+                  </React.Fragment>
+                ))}
+              </tbody>
+            </table>
           </div>
-          <div className="d-flex justify-content-between">
-            <div className="text-start docDetails">
-              <p>
-                <strong>Doctor Name :</strong> Dr.{" "}
-                user.currentUser.employee_name
-              </p>
-              <p>
-                <strong>Mobile :</strong> user.currentUser.employee_mobile
-              </p>
-              <p>
-                <strong>Email :</strong> user.currentUser.email
-              </p>
+          {/* doctor details */}
+          <div className="container-fluid">
+            <div className="heading-title">
+              <h4 className="">Doctor Details :</h4>
+            </div>
+            <div className="d-flex justify-content-between">
+              <div className="text-start docDetails">
+                <p>
+                  <strong>Doctor Name :</strong> Dr.{" "}
+                  {getDocDetails[0]?.employee_name}
+                </p>
+                <p>
+                  <strong>Mobile :</strong>
+                  {getDocDetails[0]?.employee_mobile}
+                </p>
+                <p>
+                  <strong>Email :</strong> {getDocDetails[0]?.employee_email}
+                </p>
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* patient observation */}
-        <div className="container-fluid">
-          <div className="heading-title">
-            <h4>Patient Observation :</h4>
-          </div>
-          <table className="table table-bordered border">
-            <thead>
-              <tr>
-                <th>Seleted Teeth</th>
-                <th>Disease</th>
-                <th>Chief Complain</th>
-                <th>On Exmination</th>
-                <th>Advice</th>
-              </tr>
-            </thead>
-            <tbody>
-              <>
-                <tr>
-                  <td>selected_teeth</td>
-                  <td>disease</td>
-                  <td>chief_complain</td>
-                  <td>on_examination</td>
-                  <td>advice</td>
-                </tr>
-              </>
-            </tbody>
-          </table>
-        </div>
-
-        {/* treatment provided */}
-        <div className="container-fluid">
-          <div className="heading-title">
-            <h4>Treatment Procedure :</h4>
-          </div>
-          <div className="Treatment">
-            {/* <p className="text-start fs-4 fw-bold">Treatment Procedure</p> */}
+          {/* patient observation */}
+          <div className="container-fluid">
+            <div className="heading-title">
+              <h4 className="">Patient Observation :</h4>
+            </div>
             <table className="table table-bordered border">
               <thead>
                 <tr>
-                  <th>S. No.</th>
-                  <th>Treatment</th>
-                  <th>Teeth</th>
-                  <th>Qty</th>
-                  <th>Cost</th>
-                  <th>Cst * Qty</th>
-                  <th>Disc %</th>
-                  <th>Net Amount</th>
-                  <th>Paid Amount</th>
+                  <th>Seleted Teeth</th>
+                  <th>Disease</th>
+                  <th>Chief Complain</th>
+                  <th>On Exmination</th>
+                  <th>Advice</th>
                 </tr>
               </thead>
               <tbody>
-                <React.Fragment>
-                  <tr
-                  // className={index % 2 === 0 ? "table-primary" : "table-info"}
-                  >
-                    <td>sitting_number</td>
-                    <td>dental_treatment</td>
-                    <td>no_teeth</td>
-                    <td>qty</td>
-                    <td>cost_amt</td>
-                    <td>total_amt</td>
-                    <td>disc_amt</td>
-                    <td>net_amount</td>
-                    <td>
-                      {" "}
-                      sitting_payment_status === "Pending" ? 0 :
-                      item.paid_amount
-                    </td>
-                  </tr>
-                </React.Fragment>
+                {getExaminData?.map((item) => (
+                  <>
+                    <tr>
+                      <td>{item.selected_teeth}</td>
+                      <td>{item.disease}</td>
+                      <td>{item.chief_complain}</td>
+                      <td>{item.on_examination}</td>
+                      <td>{item.advice}</td>
+                    </tr>
+                  </>
+                ))}
               </tbody>
-              <tfoot>
+            </table>
+          </div>
+
+          {/* treatment provided */}
+          <div className="container-fluid">
+            <div className="heading-title">
+              <h4 className="">Treatment Procedure :</h4>
+            </div>
+            <div className="Treatment">
+              {/* <p className="text-start fs-4 fw-bold">Treatment Procedure</p> */}
+              <table className="table table-bordered border">
+                <thead>
+                  <tr>
+                    <th>S. No.</th>
+                    <th>Treatment</th>
+                    <th>Teeth</th>
+                    <th>Qty</th>
+                    <th>Cost</th>
+                    <th>Cst * Qty</th>
+                    <th>Disc %</th>
+                    <th>Net Treatment Amount</th>
+                    <th>Sitting Amount</th>
+                    <th>Paid Amount</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {sittingBill?.map((item, index) => (
+                    <>
+                      <tr
+                        className={
+                          index % 2 === 0 ? "table-primary" : "table-info"
+                        }
+                      >
+                        <td>{item.sitting_number}</td>
+                        <td>{item.treatment}</td>
+                        <td>{item.teeth_number}</td>
+                        <td>{item.teeth_qty}</td>
+                        <td>{item.treatment_cost}</td>
+                        <td>{item.cost_per_qty}</td>
+                        <td>{item.discount}%</td>
+                        <td>{item.final_cost}</td>
+                        <td>{item.sitting_amount}</td>
+                        <td>
+                          {" "}
+                          {item.payment_status === "Pending"
+                            ? 0
+                            : item.paid_amount === null
+                            ? item.sitting_amount
+                            : item.paid_amount}
+                        </td>
+                      </tr>
+                    </>
+                  ))}
+                </tbody>
+                {/* <tfoot>
                 <tr>
                   <td
                     colSpan="8"
@@ -346,13 +519,11 @@ const SittingBill = () => {
                     Treatment Pending Payment:
                   </td>
                   <td className="heading-title text-danger fw-bold">
-                    {/* Calculate total cost here */}
-                    {/* Assuming getTreatData is an array of objects with 'net_amount' property */}
                     billDetails[0]?.total_amount - totalBillvalueWithoutGst
                   </td>
                 </tr>
-              </tfoot>
-              <tfoot>
+              </tfoot> */}
+                {/* <tfoot>
                 <tr>
                   <td
                     colSpan="7"
@@ -362,127 +533,199 @@ const SittingBill = () => {
                     Treatment Total:
                   </td>
                   <td className="heading-title">
-                    {/* {netVal.reduce(
+                    {netVal.reduce(
                       (total, item) =>
                         total +
                         (Number(item.total_amt) -
                           (Number(item.total_amt) * Number(item.disc_amt)) /
                             100),
                       0
-                    )} */}
+                    )}
                   </td>
 
                   <td className="heading-title">
-                    {/* {getTreatData.reduce(
+                    {getTreatData.reduce(
                       (total, item) =>
                         item.sitting_payment_status === "Pending"
                           ? total
                           : total + Number(item.paid_amount),
                       0
-                    )} */}
+                    )}
                   </td>
                 </tr>
-              </tfoot>
-            </table>
+              </tfoot> */}
+              </table>
+            </div>
           </div>
-        </div>
-        {/* terms and condition */}
-        <div className="container-fluid">
-          <div className="row gutter">
-            <div className="col-xxl-8 col-xl-8 col-lg-8 col-md-8 col-sm-8 col-8">
-              <div className="border">
-                <div className="heading-title mt-0">
-                  <h4>Total Amount In Words :</h4>
+          {/* terms and condition */}
+          <div className="container-fluid">
+            <div className="row gutter">
+              <div className="col-xxl-8 col-xl-8 col-lg-8 col-md-8 col-sm-8 col-8">
+                <div className="border">
+                  <div className="heading-title mt-0">
+                    <h4 className="">Total Amount In Words :</h4>
+                  </div>
+                  <div className="text-word">
+                    <p
+                      className="m-0 fw-bold mx-2"
+                      style={{ fontSize: "12px" }}
+                    >
+                      {sittingBill[0]?.paid_amount === null
+                        ? numWords(sittingBill[0]?.sitting_amount).toUpperCase()
+                        : numWords(
+                            sittingBill[0]?.paid_amount
+                          ).toUpperCase()}{" "}
+                      ONLY
+                    </p>
+                  </div>
                 </div>
-                <div className="text-word">
-                  <p className="m-0">totalBillvalueWithoutGst</p>
+                <div className="">
+                  <div className="heading-title mt-0">
+                    <h4 className="">Payment Info :</h4>
+                  </div>
+                  <div className="">
+                    <table className="table table-bordered mb-0">
+                      <tbody>
+                        <tr>
+                          <td className="col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-4 col-4 border p-1">
+                            Account No.:
+                          </td>
+                          <td className="col-xxl-8 col-xl-8 col-lg-8 col-md-8 col-sm-8 col-8 border p-1"></td>
+                        </tr>
+                        <tr>
+                          <td className="col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-4 col-4 border p-1">
+                            Account Name:
+                          </td>
+                          <td className="col-xxl-8 col-xl-8 col-lg-8 col-md-8 col-sm-8 col-8 border p-1"></td>
+                        </tr>
+                        <tr>
+                          <td className="col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-4 col-4 border p-1">
+                            Bank Name:
+                          </td>
+                          <td className="col-xxl-8 col-xl-8 col-lg-8 col-md-8 col-sm-8 col-8 border p-1"></td>
+                        </tr>
+                        <tr>
+                          <td className="col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-4 col-4 border p-1">
+                            IFSC/Bank Code:
+                          </td>
+                          <td className="col-xxl-8 col-xl-8 col-lg-8 col-md-8 col-sm-8 col-8 border p-1"></td>
+                        </tr>
+                        <tr>
+                          <td className="col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-4 col-4 border p-1">
+                            UPI ID:
+                          </td>
+                          <td className="col-xxl-8 col-xl-8 col-lg-8 col-md-8 col-sm-8 col-8 border p-1"></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
-              <div className="">
-                <div className="heading-title mt-0">
-                  <h4>Payment Info :</h4>
-                </div>
+              <div className="col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-4 col-4">
                 <div className="">
                   <table className="table table-bordered mb-0">
                     <tbody>
-                      <tr>
-                        <td className="col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-4 col-4 border p-1">
-                          Account No.:
-                        </td>
-                        <td className="col-xxl-8 col-xl-8 col-lg-8 col-md-8 col-sm-8 col-8 border p-1"></td>
-                      </tr>
-                      <tr>
-                        <td className="col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-4 col-4 border p-1">
-                          Account Name:
-                        </td>
-                        <td className="col-xxl-8 col-xl-8 col-lg-8 col-md-8 col-sm-8 col-8 border p-1"></td>
-                      </tr>
-                      <tr>
-                        <td className="col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-4 col-4 border p-1">
-                          Bank Name:
-                        </td>
-                        <td className="col-xxl-8 col-xl-8 col-lg-8 col-md-8 col-sm-8 col-8 border p-1"></td>
-                      </tr>
-                      <tr>
-                        <td className="col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-4 col-4 border p-1">
-                          IFSC/Bank Code:
-                        </td>
-                        <td className="col-xxl-8 col-xl-8 col-lg-8 col-md-8 col-sm-8 col-8 border p-1"></td>
-                      </tr>
-                      <tr>
-                        <td className="col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-4 col-4 border p-1">
-                          UPI ID:
-                        </td>
-                        <td className="col-xxl-8 col-xl-8 col-lg-8 col-md-8 col-sm-8 col-8 border p-1"></td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-            <div className="col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-4 col-4">
-              <div className="">
-                <table className="table table-bordered mb-0">
-                  <tbody>
-                    <tr>
+                      {/* <tr>
                       <td className="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6 border p-1 text-end total-tr">
                         Amount Received After Treatment:
                       </td>
                       <td className="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6 border p-1 text-center total-tr">
                         totalBillvalueWithoutGst - payafterTreat
                       </td>
-                    </tr>
-                  </tbody>
-                  <tbody>
-                    <tr>
-                      <td className="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6 border p-1 text-end total-tr">
-                        Total Amount Recieved:
-                      </td>
-                      <td className="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6 border p-1 text-center total-tr">
-                        totalBillvalueWithoutGst
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-              <div className="border">
-                <div className="text-terms"></div>
-                <div className="heading-title mt-0">
-                  <h5 className="text-center">Clinic Seal & Signature</h5>
+                    </tr> */}
+                    </tbody>
+                    <tbody>
+                      <tr>
+                        <td className="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6 border p-1 text-end total-tr">
+                          Total Amount Recieved:
+                        </td>
+                        <td className="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6 border p-1 text-center total-tr">
+                          {sittingBill[0]?.payment_status === "Credit"
+                            ? sittingBill[0]?.final_cost
+                            : sittingBill[0]?.paid_amount}
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <div className="border">
+                  <div className="text-terms"></div>
+                  <div className="heading-title mt-0">
+                    <h5 className="text-center ">Clinic Seal & Signature</h5>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div className="border">
-            <div className="heading-title mt-0">
-              <h4>Terms and Conditions :</h4>
+            <div className="border">
+              <div className="heading-title mt-0">
+                <h4 className="">Terms and Conditions :</h4>
+              </div>
+              <div className="text-termslong"></div>
             </div>
-            <div className="text-termslong"></div>
           </div>
         </div>
+
         {/* print button */}
         <div className="container-fluid">
-          <div className="d-flex justify-content-center align-items-center">
+          <div className="text-center">
+            <button
+              className="btn btn-info no-print mx-3 mb-3 mt-2 text-white shadow"
+              style={{
+                backgroundColor: "#0dcaf0",
+                border: "#0dcaf0",
+              }}
+              onClick={handleDownloadPdf}
+            >
+              Download Sitting Bill
+            </button>
+            <button
+              className="btn btn-info no-print text-white mt-2 mb-2"
+              onClick={handleTreatNavigate}
+              style={{
+                backgroundColor: "#0dcaf0",
+                border: "#0dcaf0",
+              }}
+            >
+              Treatment Dashboard
+            </button>
+            <br />
+            Share on :
+            {branchData[0]?.sharemail === "Yes" && (
+              <button
+                className="btn btn-info no-print mx-3 mb-3 mt-2 text-white shadow"
+                style={{
+                  backgroundColor: "#0dcaf0",
+                  border: "#0dcaf0",
+                }}
+                onClick={sendPrescriptionMail}
+              >
+                <SiGmail />
+              </button>
+            )}
+            {branchData[0]?.sharewhatsapp === "Yes" && (
+              <button
+                className="btn btn-info no-print mx-3 mb-3 mt-2 text-white shadow"
+                style={{
+                  backgroundColor: "#0dcaf0",
+                  border: "#0dcaf0",
+                }}
+                onClick={sendPrescriptionWhatsapp}
+              >
+                <IoLogoWhatsapp />
+              </button>
+            )}
+            {branchData[0]?.sharesms === "Yes" && (
+              <button
+                className="btn btn-info no-print mx-3 mb-3 mt-2 text-white shadow"
+                style={{
+                  backgroundColor: "#0dcaf0",
+                  border: "#0dcaf0",
+                }}
+                onClick={billDetailsSms}
+              >
+                <SiGooglemessages />
+              </button>
+            )}
             {/* <button
               className="btn btn-info no-print mt-2 mb-2"
               onClick={handleButton}
@@ -620,7 +863,7 @@ const Wrapper = styled.div`
   }
 
   .text-terms {
-    height: 12.5rem;
+    height: 7.5rem;
   }
 
   .gutter {
@@ -643,8 +886,9 @@ const Wrapper = styled.div`
   .text-termslong {
     height: 2rem;
   }
+
   /* th,
   td {
-    white-space: nowrap;
+    font-size: 12px;
   } */
 `;

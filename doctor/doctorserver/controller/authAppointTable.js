@@ -3,6 +3,15 @@ const db = require("../connect.js");
 const nodemailer = require("nodemailer");
 const dotenv = require("dotenv");
 const moment = require("moment-timezone");
+const twilio = require("twilio");
+const formidable = require("formidable");
+const fs = require("fs");
+const path = require("path");
+dotenv.config();
+
+const ACCOUNT_SID = process.env.ACCOUNT_SID;
+const AUTH_TOKEN = process.env.AUTH_TOKEN;
+const client = twilio(ACCOUNT_SID, AUTH_TOKEN);
 
 const transporter = nodemailer.createTransport({
   service: "Gmail",
@@ -942,6 +951,96 @@ const insertPatientPrescription = (req, res) => {
   );
 };
 
+const prescriptionOnMail = (req, res) => {
+  try {
+    const { email, patient_name, subject, textMatter } = req.body;
+    const pdfPath = req.file.path;
+    const transporter = nodemailer.createTransport({
+      service: "Gmail",
+      auth: {
+        user: process.env.EMAILSENDER,
+        pass: process.env.EMAILPASSWORD,
+      },
+    });
+
+    const mailOptions = {
+      from: process.env.EMAILSENDER,
+      to: email,
+      subject: subject,
+      text: textMatter,
+      attachments: [
+        {
+          filename: "prescription.pdf",
+          path: pdfPath,
+          contentType: "application/pdf",
+        },
+      ],
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.error(error);
+        return res
+          .status(500)
+          .json("An error occurred while sending the email.");
+      } else {
+        console.log("OTP sent:", info.response);
+      }
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "internal server error" });
+  }
+};
+
+const sendSMS = async (req, res) => {
+  const { phoneNumber, message } = req.body;
+
+  try {
+    await client.messages.create({
+      from: process.env.TWILIONUMBER,
+      to: "+91" + phoneNumber,
+      body: message,
+    });
+    res.send("Message sent successfully!");
+    console.log("Message has been sent");
+  } catch (error) {
+    console.error("Error sending SMS:", error);
+    res.status(500).send("Error sending SMS");
+  }
+};
+
+// send-whatsapp
+const sendWhatsapp = async (req, res) => {
+  const { phoneNumber, message } = req.body;
+  const mediaFile = req.file;
+  console.log("1018", mediaFile.filename);
+
+  if (!phoneNumber || !message || !mediaFile) {
+    return res
+      .status(400)
+      .json({ success: false, message: "All fields required" });
+  }
+  console.log("1019", mediaFile, phoneNumber, message);
+  const fileUrl = `http://localhost:8888/prescription/${mediaFile.filename}`;
+  console.log("1027", fileUrl.toString());
+  try {
+    const response = await client.messages.create({
+      body: message,
+      from: process.env.TWILIONUMBERWHATSAPP,
+      mediaUrl: [
+        "https://dentalgurusuperadmin.doaguru.com/branchHeadFootImg/1718777687071header.png",
+      ],
+      to: `whatsapp:+91${phoneNumber}`,
+    });
+    console.log("1027", response.body);
+    console.log("WhatsApp message sent successfully:", response.sid);
+    res.send("WhatsApp message sent successfully");
+  } catch (error) {
+    console.error("Error sending WhatsApp message:", error);
+    res.status(500).send("Error sending WhatsApp message");
+  }
+};
+
 module.exports = {
   getAppointmentsWithPatientDetails,
   getAppointmentsWithPatientDetailsById,
@@ -967,4 +1066,7 @@ module.exports = {
   getOnlyExaminv,
   getPatientByAppID,
   insertPatientPrescription,
+  prescriptionOnMail,
+  sendWhatsapp,
+  sendSMS,
 };

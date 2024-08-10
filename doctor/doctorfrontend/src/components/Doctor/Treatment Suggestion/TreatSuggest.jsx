@@ -18,6 +18,8 @@ const TreatSuggest = () => {
   const [secBut, setSecBut] = useState(false);
   const [loadingTestBt, setLoadingTestBt] = useState(false);
   const user = useSelector((state) => state.user);
+  const branchData = useSelector((state) => state.branch.currentBranch);
+  console.log(branchData);
   const branch = user.currentUser.branch_name;
   const employeeName = user.currentUser.employee_name;
   const [otherMed, setOtherMed] = useState("");
@@ -93,7 +95,7 @@ const TreatSuggest = () => {
   const updateAppointmentData = async () => {
     try {
       const res = await axios.put(
-        `http://localhost:8888/api/doctor/updateAppointmentPath/${id}/${branch}`,
+        `https://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/updateAppointmentPath/${id}/${branch}`,
         {
           currentPath: `/treatmentSuggestion/${id}/${tpid}`,
           tpid: tpid,
@@ -115,7 +117,7 @@ const TreatSuggest = () => {
   const getData = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:8888/api/doctor/getDentalDataByID/${id}/${tpid}`,
+        `https://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/getDentalDataByID/${id}/${tpid}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -151,7 +153,7 @@ const TreatSuggest = () => {
   const getTreatmentList = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:8888/api/doctor/treatmentLists`,
+        `https://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/treatmentLists`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -171,7 +173,7 @@ const TreatSuggest = () => {
   const getProcedureTreat = async () => {
     try {
       const { data } = await axios.get(
-        "http://localhost:8888/api/doctor/getProcedureList",
+        "https://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/getProcedureList",
         {
           headers: {
             "Content-Type": "application/json",
@@ -201,7 +203,7 @@ const TreatSuggest = () => {
   const getPatientDetail = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:8888/api/doctor/getAppointmentsWithPatientDetailsById/${tpid}`,
+        `https://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/getAppointmentsWithPatientDetailsById/${tpid}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -227,7 +229,7 @@ const TreatSuggest = () => {
   const getLabAllData = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:8888/api/doctor/lab-details/${tpid}`,
+        `https://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/lab-details/${tpid}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -252,7 +254,7 @@ const TreatSuggest = () => {
   const timelineForTreatSuggest = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:8888/api/doctor/insertTimelineEvent",
+        "https://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/insertTimelineEvent",
         {
           type: "Treatment Suggest",
           description: `Select Treatment : ${formData.treatment_name} for disease : ${formData.disease}`,
@@ -309,7 +311,7 @@ const TreatSuggest = () => {
     setLoading(true);
     try {
       const res = await axios.post(
-        `http://localhost:8888/api/doctor/insertTreatSuggest`,
+        `https://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/insertTreatSuggest`,
         forms,
         {
           headers: {
@@ -388,7 +390,7 @@ const TreatSuggest = () => {
 
     try {
       const response = await axios.post(
-        `http://localhost:8888/api/doctor/insertLab`,
+        `https://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/insertLab`,
         formsData,
         {
           headers: {
@@ -418,7 +420,7 @@ const TreatSuggest = () => {
   const getLabList = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:8888/api/doctor/getLab`,
+        `https://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/getLab`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -435,7 +437,7 @@ const TreatSuggest = () => {
   const getLabTestList = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:8888/api/doctor/getLabTest`,
+        `https://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/getLabTest`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -460,7 +462,7 @@ const TreatSuggest = () => {
     if (quest) {
       try {
         const response = await axios.delete(
-          `http://localhost:8888/api/doctor/deleteLabTestSuggest/${id}`,
+          `https://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/deleteLabTestSuggest/${id}`,
           {
             headers: {
               "Content-Type": "application/json",
@@ -482,7 +484,7 @@ const TreatSuggest = () => {
   const getListTreatment = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:8888/api/doctor/getTreatList/${branch}/${tpid}`,
+        `https://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/getTreatList/${branch}/${tpid}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -512,7 +514,7 @@ const TreatSuggest = () => {
   const getTreatDetails = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:8888/api/doctor/getTreatmentDataList/${tpid}/${branch}`
+        `https://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/getTreatmentDataList/${tpid}/${branch}`
       );
       setGetTreatData(data);
     } catch (error) {
@@ -525,7 +527,7 @@ const TreatSuggest = () => {
   const fetchMedicineOptions = async () => {
     try {
       const { data } = await axios.get(
-        "http://localhost:8888/api/doctor/getMedicineData",
+        "https://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/getMedicineData",
         {
           headers: {
             "Content-Type": "application/json",
@@ -549,7 +551,7 @@ const TreatSuggest = () => {
   const addNewMedicine = async () => {
     try {
       const response = await axios.post(
-        `http://localhost:8888/api/doctor/purchaseInventory/${branch}`,
+        `https://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/purchaseInventory/${branch}`,
         {
           item_name: otherMed,
           item_category: "drugs",
@@ -595,7 +597,7 @@ const TreatSuggest = () => {
     setLoading(true);
     try {
       const response = await axios.post(
-        `http://localhost:8888/api/doctor/insertTreatPrescriptionQuick/${tpid}`,
+        `https://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/insertTreatPrescriptionQuick/${tpid}`,
         medicineInput,
         {
           headers: {
@@ -609,7 +611,6 @@ const TreatSuggest = () => {
       addNewMedicine();
       // timelineForMedical();
       // getTreatPrescriptionByAppointId();
-      dispatch(toggleTableRefresh());
       setPrescriptionData({
         disease: "",
         treatment: "",
@@ -619,6 +620,7 @@ const TreatSuggest = () => {
         duration: "",
         note: "",
       });
+      dispatch(toggleTableRefresh());
     } catch (error) {
       setLoading(false);
       console.error("Error:", error.response.data);
@@ -630,7 +632,7 @@ const TreatSuggest = () => {
   const getTreatPrescriptionByAppointId = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:8888/api/doctor/getTreatPrescriptionByAppointIdList/${tpid}`,
+        `https://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/getTreatPrescriptionByAppointIdList/${tpid}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -659,7 +661,7 @@ const TreatSuggest = () => {
 
       if (confirmed) {
         const res = await axios.delete(
-          `http://localhost:8888/api/doctor/deleteTreatPrescriptionById/${id}`,
+          `https://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/deleteTreatPrescriptionById/${id}`,
           {
             headers: {
               "Content-Type": "application/json",
@@ -706,7 +708,8 @@ const TreatSuggest = () => {
     assigned_doctor: getPatientData[0]?.doctor_name,
     amount: grandTotal,
     remaining_amount: "",
-    payment_status: "pending",
+    payment_status:
+      getPatientData[0]?.patient_type === "Credit" ? "Credit" : "pending",
     payment_Mode: "",
     transaction_Id: "",
     received_by: "",
@@ -717,7 +720,7 @@ const TreatSuggest = () => {
   const insertCorrectData = async () => {
     try {
       const resp = await axios.post(
-        `http://localhost:8888/api/doctor/addSecurityAmount`,
+        `https://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/addSecurityAmount`,
         formsCorrect,
         {
           headers: {
@@ -730,16 +733,18 @@ const TreatSuggest = () => {
       console.log(resp.data);
       updateAppointmentData();
       dispatch(toggleTableRefresh());
-      navigate(`/prescription-generate/${tpid}`);
+      navigate(`/prescription-generate/${tpid}/${id}`);
     } catch (error) {
       console.log(error);
-      cogoToast.error(error.response.data.message);
+      cogoToast.error(`${error.response.data.message}, Now Start Treatment`);
+      // navigate(`/TreatmentDashBoard/${tpid}/${id}`);
     }
   };
 
-  // const generatePres = () => {
-  //   navigate(`/prescription-generate/${tpid}`);
-  // };
+  const generatePres = () => {
+    // alert("745");
+    navigate(`/prescription-generate/${tpid}/${id}`);
+  };
 
   return (
     <>
@@ -1120,11 +1125,11 @@ const TreatSuggest = () => {
           </div>
 
           {/* Medicine section starts */}
-          <div className="container">
+          <div className="container-fluid">
             <h2>Medicine Details</h2>
-            <div className="row shadow-sm p-3 mb-3 bg-body rounded">
+            <div className="row  shadow-sm p-3 mb-3 bg-body rounded">
               <form onSubmit={handleSubmit}>
-                <div className="row">
+                <div className="row g-3">
                   <div className="col-xxl-2 col-xl-3 col-lg-3 col-md-4 col-sm-6 col-6">
                     <div className="form-outline">
                       <label>disease</label>
@@ -1133,6 +1138,7 @@ const TreatSuggest = () => {
                         onChange={handleChangeMed}
                         required
                         id=""
+                        value={prescriptionData.disease}
                         className="form-select text-start w-100"
                       >
                         <option value="">-select disease-</option>
@@ -1322,7 +1328,7 @@ const TreatSuggest = () => {
             </div>
           </div>
 
-          <div className="container">
+          <div className="container-fluid">
             <div className="row">
               <table class="table">
                 <thead className="rounded">
@@ -1367,13 +1373,40 @@ const TreatSuggest = () => {
           <div className="d-flex justify-content-center align-items-center">
             {treatList.length > 0 ? (
               <>
-                <button
-                  type="button"
-                  className="btn btn-info text-light shadow fw-bold"
-                  onClick={insertCorrectData}
-                >
-                  Print Prescription
-                </button>
+                {branchData[0]?.doctor_payment === "Yes" ? (
+                  <>
+                    {branchData[0]?.allow_insurance !== "Yes" ||
+                    getPatientData[0]?.patient_type !== "Credit" ||
+                    getPatientData[0]?.patient_type === null ? (
+                      <button
+                        type="button"
+                        className="btn btn-info text-light shadow fw-bold"
+                        onClick={handleCollect}
+                      >
+                        Security Amount
+                      </button>
+                    ) : (
+                      <button
+                        type="button"
+                        className="btn btn-info text-light mx-2 shadow fw-bold"
+                        onClick={generatePres}
+                      >
+                        Print Prescription
+                      </button>
+                    )}
+                  </>
+                ) : (
+                  <>
+                    <button
+                      type="button"
+                      className="btn btn-info text-light mx-2 shadow fw-bold"
+                      onClick={insertCorrectData}
+                    >
+                      Print Prescription
+                    </button>
+                  </>
+                )}
+
                 <button
                   className="btn btn-info text-light mx-2 shadow fw-bold"
                   onClick={handleChangePage}
@@ -1383,13 +1416,29 @@ const TreatSuggest = () => {
               </>
             ) : (
               <>
-                <button
-                  type="button"
-                  className="btn btn-info text-light shadow fw-bold"
-                  disabled
-                >
-                  Print Prescription
-                </button>
+                {branchData[0]?.doctor_payment === "Yes" ? (
+                  <>
+                    <button
+                      type="button"
+                      className="btn btn-info text-light mx-2 shadow fw-bold"
+                      disabled
+                    >
+                      Security Amount
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    {" "}
+                    <button
+                      type="button"
+                      className="btn btn-info text-light shadow fw-bold"
+                      disabled
+                    >
+                      Print Prescription
+                    </button>
+                  </>
+                )}
+
                 <button
                   className="btn btn-info text-light mx-2 shadow fw-bold"
                   disabled

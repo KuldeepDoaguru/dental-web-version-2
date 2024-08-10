@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 const HeadBar = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
-  console.log(user.currentUser.employee_name);
+  // console.log(user.currentUser.employee_name);
   return (
     <Wrapper>
       <div>

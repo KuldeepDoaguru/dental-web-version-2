@@ -38,6 +38,7 @@ import ViewTreatPrescriptionList from "./components/Doctor/Prescription/Treatmen
 import PrescriptionQuick from "./pages/DoctorPage/PrescriptionQuick";
 import SittingBill from "./components/Doctor/Treatment/SittingBill";
 import QPrescriptionForm from "./components/Doctor/Prescription/Quick Prescription/QPrescriptionForm";
+import ViewQuickPrescription from "./pages/DoctorPage/ViewQuickPrescription";
 
 function App() {
   const navigate = useNavigate();
@@ -69,7 +70,7 @@ function App() {
   //   try {
   //     setLoading(true);
   //     const response = await axios.get(
-  //       `http://localhost:8888/api/doctor/getTodayAttendance/${user.branch_name}/${user.employee_ID}/${date}`,
+  //       `https://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/getTodayAttendance/${user.branch_name}/${user.employee_ID}/${date}`,
   //       {
   //         headers: {
   //           "Content-Type": "application/json",
@@ -111,7 +112,7 @@ function App() {
     try {
       setLoading(true);
       const response = await axios.get(
-        `http://localhost:8888/api/doctor/getTodayAttendance/${user.branch_name}/${user.employee_ID}/${date}`,
+        `https://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/getTodayAttendance/${user.branch_name}/${user.employee_ID}/${date}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -726,7 +727,7 @@ function App() {
         />
 
         <Route
-          path="/prescription-generate/:tpid"
+          path="/prescription-generate/:tpid/:appoint_id"
           element={
             user === null ? (
               <DoctorLogin />
@@ -749,7 +750,30 @@ function App() {
         />
 
         <Route
-          path="/ViewPatientSittingBill/:tpid/:sitting/:treatment"
+          path="/view-quick-prescription/:uhid/:appointId"
+          element={
+            user === null ? (
+              <DoctorLogin />
+            ) : loading ? (
+              <>
+                {" "}
+                <Lottie
+                  options={defaultOptions}
+                  height={300}
+                  width={400}
+                  style={{ background: "transparent" }}
+                ></Lottie>
+              </>
+            ) : todayAttendance.length === 0 ? (
+              <AttendanceLeave />
+            ) : (
+              <ViewQuickPrescription />
+            )
+          }
+        />
+
+        <Route
+          path="/ViewPatientSittingBill/:tpid/:sitting/:treatment/:appoint_id"
           element={
             user === null ? (
               <DoctorLogin />
@@ -773,7 +797,7 @@ function App() {
 
         {/* ---Quick Prescription */}
         <Route
-          path="/Quick-Prescription"
+          path="/Quick-Prescription/:appoint_id"
           element={
             user === null ? (
               <DoctorLogin />

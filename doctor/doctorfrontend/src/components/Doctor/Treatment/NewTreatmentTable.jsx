@@ -9,9 +9,11 @@ import { useDispatch, useSelector } from "react-redux";
 import cogoToast from "cogo-toast";
 
 const NewTreatmentTable = () => {
-  const { id, tpid } = useParams();
-  console.log(id);
+  const { appoint_id, tpid } = useParams();
+  console.log(appoint_id);
   const navigate = useNavigate();
+  const branchData = useSelector((state) => state.branch.currentBranch);
+  console.log(branchData);
   const [loading, setLoading] = useState(false);
   const [treatmentData, setTreatmentData] = useState([]);
   const [modalIndex, setModalIndex] = useState(null);
@@ -31,7 +33,7 @@ const NewTreatmentTable = () => {
   const getPatientDetail = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:8888/api/doctor/getAppointmentsWithPatientDetailsById/${tpid}`,
+        `https://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/getAppointmentsWithPatientDetailsById/${tpid}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -51,7 +53,7 @@ const NewTreatmentTable = () => {
   const fetchTreatmentData = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:8888/api/doctor/getTreatmentDataViaBranchAndTpid/${tpid}/${branch}`,
+        `https://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/getTreatmentDataViaBranchAndTpid/${tpid}/${branch}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -162,7 +164,7 @@ const NewTreatmentTable = () => {
   const timelineForFinalBill = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:8888/api/doctor/insertTimelineEvent",
+        "https://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/insertTimelineEvent",
         {
           type: "Final Bill Generation",
           description: `Final Bill Generated for TPID : ${tpid}`,
@@ -182,11 +184,28 @@ const NewTreatmentTable = () => {
     }
   };
 
+  const updateAppointmentStat = async () => {
+    try {
+      const res = await axios.put(
+        `https://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/updateAppointStatus/${appoint_id}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      cogoToast.success("appointment updated");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const generateFinalBill = async () => {
     setLoading(true);
     try {
       const res = await axios.post(
-        "http://localhost:8888/api/doctor/generateFinalBillwithTpid",
+        "https://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/generateFinalBillwithTpid",
         billInputField,
         {
           headers: {
@@ -197,10 +216,13 @@ const NewTreatmentTable = () => {
       );
       console.log(res);
       setLoading(false);
+      updateAppointmentStat();
+
       setBillData(res.data);
       timelineForFinalBill();
       cogoToast.success("bill generated successfully");
-      navigate(`/doctor-dashboard`);
+      // navigate(`/doctor-dashboard`);
+      navigate(`/ViewPatientTotalBill/${tpid}`);
     } catch (error) {
       setLoading(false);
       console.log(error);
@@ -217,7 +239,7 @@ const NewTreatmentTable = () => {
   const getExamintionTeeth = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:8888/api/doctor/getExaminedataById/${tpid}`,
+        `https://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/getExaminedataById/${tpid}`,
         {
           headers: {
             "Content-Type": "application/json",

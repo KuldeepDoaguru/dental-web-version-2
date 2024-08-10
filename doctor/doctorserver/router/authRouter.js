@@ -51,6 +51,9 @@ const {
   getOnlyExaminv,
   getPatientByAppID,
   insertPatientPrescription,
+  prescriptionOnMail,
+  sendWhatsapp,
+  sendSMS,
 } = require("../controller/authAppointTable.js");
 const {
   getBranch,
@@ -113,6 +116,8 @@ const {
   insertTreatPrescriptionQuick,
   getTreatPrescriptionByAppointIdList,
   generateSittingBill,
+  getEmployeeDetailsbyId,
+  getSittingBillDueBySittingId,
 } = require("../controller/authTreatment.js");
 const {
   uploadImage,
@@ -306,11 +311,7 @@ router.delete(
   authenticate,
   deleteTreatPrescriptionById
 );
-router.put(
-  "/updateAppointStatus/:appointId",
-  authenticate,
-  updateAppointStatus
-);
+router.put("/updateAppointStatus/:appointId", updateAppointStatus);
 router.get("/onGoingTreat/:patientUHID", authenticate, onGoingTreat);
 // Medical Prescription Routes END here......
 
@@ -577,5 +578,36 @@ router.get(
 router.post("/generateSittingBill/:tpid/:branch", generateSittingBill);
 router.get("/getPatientByAppID/:appoint_id", getPatientByAppID);
 router.post("/insertPatientPrescription", insertPatientPrescription);
+router.get(
+  "/getEmployeeDetailsbyId/:branch/:eid",
+  authenticate,
+  getEmployeeDetailsbyId
+);
+
+router.get(
+  "/getSittingBillbyId/:branch/:sbid/:tpid/:treatment",
+  authenticate,
+  getSittingBillDueBySittingId
+);
+
+const prestorage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "prescription/"); // Define destination folder
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + path.extname(file.originalname));
+  },
+});
+
+const preUpload = multer({ storage: prestorage });
+router.post(
+  "/prescriptionOnMail",
+  authenticate,
+  preUpload.single("file"),
+  prescriptionOnMail
+);
+
+router.post("/sendWhatsapp", preUpload.single("media_url"), sendWhatsapp);
+router.post("/sendSMS", authenticate, sendSMS);
 
 module.exports = { authRoutes: router };

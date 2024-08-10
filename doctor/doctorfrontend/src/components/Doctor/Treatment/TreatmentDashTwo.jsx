@@ -4,10 +4,14 @@ import HeadBar from "../HeadBar";
 import SideBar from "../SideBar";
 import { useNavigate, useParams } from "react-router-dom";
 import TreatmentForm from "./TreatmentForm";
+import { useSelector } from "react-redux";
+import TreatmentFormDocPay from "./TreatmentFormDocPay";
 
 const TreatmentDashTwo = () => {
   const { exid, appoint_id, tp_id } = useParams();
   const navigate = useNavigate();
+  const branchData = useSelector((state) => state.branch.currentBranch);
+  console.log(branchData);
 
   useEffect(() => {
     const handlePopState = (event) => {
@@ -38,7 +42,11 @@ const TreatmentDashTwo = () => {
                 <SideBar />
               </div>
               <div className="col-lg-11 col-11 ps-0 m-0">
-                <TreatmentForm />
+                {branchData[0]?.doctor_payment === "Yes" ? (
+                  <TreatmentFormDocPay />
+                ) : (
+                  <TreatmentForm />
+                )}
               </div>
             </div>
           </div>

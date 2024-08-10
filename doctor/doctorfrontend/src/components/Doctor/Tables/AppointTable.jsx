@@ -43,7 +43,7 @@ const AppointTable = () => {
     setLoading(true);
     try {
       const { data } = await axios.get(
-        `http://localhost:8888/api/doctor/getAppointmentsWithPatientDetailsTreatSugg/${doctorId}`,
+        `https://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/getAppointmentsWithPatientDetailsTreatSugg/${doctorId}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -102,7 +102,7 @@ const AppointTable = () => {
   const timelineForStartTreat = async (uhid) => {
     try {
       const response = await axios.post(
-        "http://localhost:8888/api/doctor/insertTimelineEvent",
+        "https://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/insertTimelineEvent",
         {
           type: "Examination",
           description: "Start Examintion",
@@ -125,7 +125,7 @@ const AppointTable = () => {
   const timelineForCancelTreat = async (uhid) => {
     try {
       const response = await axios.post(
-        "http://localhost:8888/api/doctor/insertTimelineEvent",
+        "https://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/insertTimelineEvent",
         {
           type: "Examination",
           description: "Cancel Treatment",
@@ -148,7 +148,7 @@ const AppointTable = () => {
   const getTreatPackageData = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:8888/api/doctor/getTreatPackageViaTpidUhid/${branch}`,
+        `https://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/getTreatPackageViaTpidUhid/${branch}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -185,7 +185,7 @@ const AppointTable = () => {
       };
 
       await axios.put(
-        `http://localhost:8888/api/doctor/upDateAppointmentStatus`,
+        `https://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/upDateAppointmentStatus`,
         requestBody,
         {
           headers: {
@@ -204,10 +204,7 @@ const AppointTable = () => {
 
         const filterForPendingTp = appointments?.filter((item) => {
           return (
-            item.appoint_id === appointId &&
-            item.tp_id === tpid &&
-            item.package_status !== null &&
-            item.treatment_provided !== "OPD"
+            item.appoint_id === appointId && item.treatment_provided === "OPD"
           );
         });
 
@@ -215,12 +212,15 @@ const AppointTable = () => {
         // alert(filterForPendingTp.length);
 
         const filterForGoingTp = treatData?.filter((item) => {
-          return item.tp_id === tpid && item.package_status === "started";
+          return (
+            (item.tp_id === tpid && item.package_status === "started") ||
+            (item.package_status === "ongoing" && item.current_path !== null)
+          );
         });
 
         console.log(filterForGoingTp);
-        if (filterForPendingTp.length > 0) {
-          navigate(`/TreatmentDashBoard/${tpid}/${appointId}`);
+        if (filterForPendingTp[0]?.current_sitting > 0) {
+          navigate(filterForPendingTp[0]?.current_path);
         } else if (filterForGoingTp.length > 0) {
           const appointFilter = appointments?.filter((tad) => {
             return tad.appoint_id === appointId;
@@ -231,8 +231,12 @@ const AppointTable = () => {
         }
         window.scrollTo(0, 0);
       }
+
+      if (action === "prescription") {
+        navigate(`/Quick-Prescription/${uhid}/${appointId}`);
+      }
       const res = await axios.get(
-        `http://localhost:8888/api/doctor/appointtreatSitting?date=${selectedDate}`,
+        `https://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/appointtreatSitting?date=${selectedDate}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -387,11 +391,7 @@ const AppointTable = () => {
                               "DD-MM-YYYY h:mm A"
                             )}
                           </td>
-                          <td>
-                            {item.treatment_status === "completed"
-                              ? item.treatment_provided
-                              : item.treatment_names}
-                          </td>
+                          <td>{item.treatment_provided}</td>
                           <td>{item.bloodgroup}</td>
                           <td>{moment(item.dob).format("DD-MM-YYYY")}</td>
                           <td>{item.age}</td>
@@ -548,8 +548,7 @@ const AppointTable = () => {
                                 <td>
                                   <small>
                                     {item.treatment_status === "completed" ||
-                                    item.treatment_status === null ||
-                                    item.treatment_provided === "OPD"
+                                    item.treatment_status === null
                                       ? item.treatment_provided
                                       : item.treatment_names}
                                   </small>
@@ -565,11 +564,7 @@ const AppointTable = () => {
                                 <td>{item.disease}</td>
                                 <td>{item.patient_type}</td>
                                 <td>{item.notes}</td>
-                                <td>
-                                  {item.treatment_provided === "OPD"
-                                    ? 0
-                                    : item.current_sitting + 1}
-                                </td>
+                                <td>{item.current_sitting + 1}</td>
                                 <td>{item.appointment_status}</td>
                                 <td>
                                   <div className="dropdown">
@@ -619,6 +614,20 @@ const AppointTable = () => {
                                                 }
                                               >
                                                 Start Treatment
+                                              </button>
+                                            </li>
+                                            <li>
+                                              <button
+                                                className="dropdown-item mx-0"
+                                                onClick={() =>
+                                                  handleAction(
+                                                    "prescription",
+                                                    item.appoint_id,
+                                                    item.uhid
+                                                  )
+                                                }
+                                              >
+                                                Quick Prescription
                                               </button>
                                             </li>
                                             {/* <li>

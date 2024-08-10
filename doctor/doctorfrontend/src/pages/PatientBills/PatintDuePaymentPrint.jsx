@@ -12,11 +12,14 @@ const PatintDuePaymentPrint = () => {
   const navigate = useNavigate();
   const { tpid } = useParams();
   const user = useSelector((state) => state.user.currentUser);
+  const branch = useSelector((state) => state.branch.currentBranch);
+  console.log(branch);
   const userToken = useSelector((state) => state.user);
   const token = userToken.currentUser.token;
   console.log(token);
   console.log(user);
   const [branchData, setBranchData] = useState([]);
+  const [getPatientData, setGetPatientData] = useState([]);
   const [billAmount, setBillAmount] = useState([]);
   const [saAmt, setSaAmt] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -33,6 +36,25 @@ const PatintDuePaymentPrint = () => {
     window.history.go(-1);
   };
 
+  const getPatientDetail = async () => {
+    try {
+      const res = await axios.get(
+        `https://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/getAppointmentsWithPatientDetailsById/${tpid}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      const uhid = res.data.result.length > 0 ? res.data.result[0].uhid : null;
+      setGetPatientData(res.data.result);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const handleChange = (e) => {
     const { value, name } = e.target;
 
@@ -42,7 +64,7 @@ const PatintDuePaymentPrint = () => {
   const getBranchDetails = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:8888/api/doctor/getBranchDetails/${user.branch_name}`,
+        `https://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/getBranchDetails/${user.branch_name}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -62,7 +84,7 @@ const PatintDuePaymentPrint = () => {
   const secuirtyAmtBytpuhid = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:8888/api/doctor/getSecurityAmountDataByTPUHID/${tpid}`,
+        `https://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/getSecurityAmountDataByTPUHID/${tpid}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -80,7 +102,7 @@ const PatintDuePaymentPrint = () => {
   const getBillDetails = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:8888/api/doctor/getPatientBillsAndSecurityAmountByBranch/${user.branch_name}/${tpid}`,
+        `https://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/getPatientBillsAndSecurityAmountByBranch/${user.branch_name}/${tpid}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -97,7 +119,7 @@ const PatintDuePaymentPrint = () => {
   const getTreatDetail = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:8888/api/doctor/getTreatmentDetailsViaTpid/${tpid}/${user.branch_name}`,
+        `https://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/getTreatmentDetailsViaTpid/${tpid}/${user.branch_name}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -113,11 +135,13 @@ const PatintDuePaymentPrint = () => {
   };
 
   console.log(getTreatData);
+  console.log(getPatientData);
 
   useEffect(() => {
     getBranchDetails();
     getBillDetails();
     secuirtyAmtBytpuhid();
+    getPatientDetail();
     getTreatDetail();
   }, []);
 
@@ -187,7 +211,7 @@ const PatintDuePaymentPrint = () => {
     try {
       console.log(remainingSecurityAmount);
       const response = await axios.put(
-        `http://localhost:8888/api/doctor/updateRemainingSecurityAmount/${tpid}`,
+        `https://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/updateRemainingSecurityAmount/${tpid}`,
         {
           remaining_amount: remainingSecurityAmount,
         },
@@ -225,7 +249,11 @@ const PatintDuePaymentPrint = () => {
 
   const BillInput = {
     paid_amount: updatedPaidAmt,
-    payment_status: "paid",
+    payment_status:
+      branch[0]?.allow_insurance === "Yes" &&
+      getPatientData[0]?.patient_type === "Credit"
+        ? "Credit"
+        : "Paid",
     payment_date_time: formattedDate,
     payment_mode: data.payment_mode,
     transaction_Id: data.transaction_Id,
@@ -242,7 +270,7 @@ const PatintDuePaymentPrint = () => {
     setLoading(true);
     try {
       const response = await axios.put(
-        `http://localhost:8888/api/doctor/makeBillPayment/${tpid}/${user.branch_name}`,
+        `https://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/makeBillPayment/${tpid}/${user.branch_name}`,
         BillInput,
         {
           headers: {
@@ -294,7 +322,7 @@ const PatintDuePaymentPrint = () => {
   const completeTreatment = async () => {
     try {
       const res = await axios.put(
-        `http://localhost:8888/api/doctor/updateTreatmentStatus/${user.branch_name}/${tpid}`,
+        `https://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/updateTreatmentStatus/${user.branch_name}/${tpid}`,
         { finalStats: "completed" },
         {
           headers: {
@@ -667,8 +695,15 @@ const PatintDuePaymentPrint = () => {
                         <option value="" selected>
                           Select Payment Method
                         </option>
-                        <option value="cash">Cash</option>
-                        <option value="online">Online</option>
+                        {branch[0]?.allow_insurance === "Yes" &&
+                        getPatientData[0]?.patient_type === "Credit" ? (
+                          <option value="Credit">Credit</option>
+                        ) : (
+                          <>
+                            <option value="cash">Cash</option>
+                            <option value="online">Online</option>
+                          </>
+                        )}
                       </select>
                     </div>
 

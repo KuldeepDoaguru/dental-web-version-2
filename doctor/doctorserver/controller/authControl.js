@@ -265,11 +265,7 @@ const getPatientDetails = (req, res) => {
         if (results.length === 0) {
           res.status(404).json({ message: "Patient not found" });
         } else {
-          res.status(200).json({
-            success: true,
-            data: results[0],
-            message: "Patient fetched successfully",
-          });
+          res.status(200).send(results);
         }
       }
     });

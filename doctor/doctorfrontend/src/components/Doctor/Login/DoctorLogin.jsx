@@ -6,6 +6,7 @@ import axios from "axios";
 import { setUser } from "../../../redux/user/userSlice";
 import cogoToast from "cogo-toast";
 import { IoEye, IoEyeOffOutline } from "react-icons/io5";
+import { setBranch } from "../../../redux/user/branchSlice";
 
 const DoctorLogin = () => {
   const dispatch = useDispatch();
@@ -20,11 +21,12 @@ const DoctorLogin = () => {
   const [braches, setBranches] = useState([]);
   const [selectedBranch, setSelectedBranch] = useState("");
   const [loading, setLoading] = useState(false);
+  const [storeBranch, setStoreBranch] = useState("");
 
   const getBranches = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:8888/api/doctor/get-branches"
+        "https://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/get-branches"
       );
       console.log(response);
       setBranches(response.data.data);
@@ -41,13 +43,22 @@ const DoctorLogin = () => {
     setSelectedBranch(e.target.value);
   };
 
+  useEffect(() => {
+    const filterdResult = braches.filter((item) => {
+      return item.branch_name === selectedBranch;
+    });
+    console.log(filterdResult);
+    setStoreBranch(filterdResult);
+  }, [selectedBranch]);
+
   console.log(selectedBranch);
+  console.log(storeBranch);
   const receptionistLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
     try {
       const response = await axios.post(
-        "http://localhost:8888/api/doctor/doctor-login",
+        "https://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/doctor-login",
         {
           email,
           password,
@@ -63,6 +74,7 @@ const DoctorLogin = () => {
         // sendOtp();
         cogoToast.success(response.data.message);
         dispatch(setUser(response.data.user));
+        dispatch(setBranch(storeBranch));
         setLoading(false);
         navigate("/doctor-dashboard");
         // setPopupVisible(true);

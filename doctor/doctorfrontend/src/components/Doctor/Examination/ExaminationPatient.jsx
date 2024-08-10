@@ -344,7 +344,7 @@ const ExaminationPatientTest = ({ tpid }) => {
   const getChiefList = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:8888/api/doctor/getChiefComplain`
+        `https://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/getChiefComplain`
       );
       setChielfList(data);
     } catch (error) {
@@ -361,7 +361,7 @@ const ExaminationPatientTest = ({ tpid }) => {
   const updateAppointmentData = async () => {
     try {
       const res = await axios.put(
-        `http://localhost:8888/api/doctor/updateAppointmentPath/${id}/${branch}`,
+        `https://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/updateAppointmentPath/${id}/${branch}`,
         {
           currentPath: `/ExaminationDashBoardPatient/${id}/${dcat}/${tpid}`,
           tpid: tpid,
@@ -957,7 +957,7 @@ const ExaminationPatientTest = ({ tpid }) => {
   const timelineForExamination = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:8888/api/doctor/insertTimelineEvent",
+        "https://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/insertTimelineEvent",
         {
           type: "Examination",
           description: "Add Teeth DentalX",
@@ -980,7 +980,7 @@ const ExaminationPatientTest = ({ tpid }) => {
   const getPatientDetail = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:8888/api/doctor/getAppointmentsWithPatientDetailsById/${tpid}`,
+        `https://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/getAppointmentsWithPatientDetailsById/${tpid}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -1024,7 +1024,7 @@ const ExaminationPatientTest = ({ tpid }) => {
   const addChiefComList = async () => {
     try {
       const res = await axios.post(
-        "http://localhost:8888/api/doctor/addChiefComplainTOList",
+        "https://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/addChiefComplainTOList",
         { complain: inputItem.chiefComplain }
       );
       cogoToast.success("Chief Complain added to the list");
@@ -1038,7 +1038,7 @@ const ExaminationPatientTest = ({ tpid }) => {
     setLoading(true);
     try {
       const response = await axios.post(
-        "http://localhost:8888/api/doctor/dentalPediatric",
+        "https://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/dentalPediatric",
         formData,
         {
           headers: {
