@@ -854,7 +854,7 @@ function AddPatient() {
                     placeholder="Enter Beneficiary Id"
                     required
                     autocomplete="off"
-                    maxLength={100}
+                    maxLength={25}
                   />
                 </div>
               </div> 

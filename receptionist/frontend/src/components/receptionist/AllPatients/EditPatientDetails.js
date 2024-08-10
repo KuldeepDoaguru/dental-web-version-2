@@ -315,7 +315,7 @@ console.log(insuranceCompany)
                     placeholder="Enter Beneficiary Id"
                     required
                     autocomplete="off"
-                    maxLength={100}
+                    maxLength={25}
                   />
                 </div>
               </div> 
@@ -533,7 +533,7 @@ console.log(insuranceCompany)
                     className="form-control"
                     name="weight"
                     onChange={handleChange}
-                    required
+                    // required
                     value={data.weight}
                     placeholder="Enter weight in kg"
                     pattern="[0-9]*"
