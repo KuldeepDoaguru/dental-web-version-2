@@ -9,7 +9,7 @@ const path = require("path");
 
 // rest object
 const app = express();
-const {sendEmails} = require("./cron/sendAppointmentEmails");
+const {sendEmails, sendSMS, sendWhatsappTextOnly} = require("./cron/sendAppointmentEmails");
 // middlewares
 app.use(cors());
 app.use(express.json());
@@ -30,6 +30,8 @@ app.use("/prescription", express.static(path.join(__dirname, "prescription")));
 cron.schedule('0 8 * * *', () => {
   console.log('Sending emails for appointments scheduled for today...');
   sendEmails();
+  sendSMS()
+  sendWhatsappTextOnly()
 },{
   scheduled: true,
   timezone: "Asia/Kolkata"
