@@ -72,7 +72,7 @@ const NewRegPatient = () => {
     getAppointList();
   }, [branch.name]);
 
-  console.log(appointmentList);
+  // console.log(appointmentList);
 
   const getDate = new Date();
   const year = getDate.getFullYear();
@@ -82,7 +82,9 @@ const NewRegPatient = () => {
 
   // Group appointments by date and count appointments for each day
   const dailyAppointments = appointmentList?.reduce((acc, appointment) => {
-    const date = appointment.appointment_created_at?.split(" ")[0];
+    // console.log(acc);
+
+    const date = appointment.created_at?.split(" ")[0];
     acc[date] = acc[date] ? acc[date] + 1 : 1;
     return acc;
   }, {});
@@ -92,15 +94,15 @@ const NewRegPatient = () => {
   const data = Array.from({ length: lastDay }, (_, index) => {
     const day = String(index + 1).padStart(2, "0");
     const date = `${formattedDate}-${day}`;
-    console.log(date);
-    console.log(dailyAppointments[date]);
+    // console.log(date);
+    // console.log(dailyAppointments[date]);
     return {
       date,
       Patients: dailyAppointments[date] || 0,
     };
   });
 
-  console.log(data);
+  // console.log(data);
 
   return (
     <>

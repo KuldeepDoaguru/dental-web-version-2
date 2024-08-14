@@ -627,6 +627,88 @@ const getSittingBillDueBySittingId = (req, res) => {
   }
 };
 
+const getPrescriptionList = (req, res) => {
+  try {
+    const branch = req.params.branch;
+    const selectQuery =
+      "SELECT * FROM dental_prescription JOIN dental_examination ON dental_examination.tp_id = dental_prescription.tp_id JOIN treatment_package ON treatment_package.tp_id = dental_prescription.tp_id WHERE dental_prescription.branch_name = ? GROUP BY dental_prescription.tp_id ORDER BY dental_prescription.id DESC";
+    db.query(selectQuery, branch, (err, result) => {
+      if (err) {
+        res.status(400).json({ success: false, message: err.message });
+      }
+      res.status(200).send(result);
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Internal server error" });
+  }
+};
+
+const getTreatPackageData = (req, res) => {
+  try {
+    const tpid = req.params.tpid;
+    const branch = req.params.branch;
+    const selectQuery =
+      "SELECT * FROM treatment_package WHERE tp_id = ? AND branch_name = ?";
+    db.query(selectQuery, [tpid, branch], (err, result) => {
+      if (err) {
+        res.status(400).json({ success: false, message: err.message });
+      }
+      res.status(200).send(result);
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Internal server error" });
+  }
+};
+
+const getAppointmentsWithPatientDetailsById = (req, res) => {
+  const tpid = req.params.tpid;
+
+  const sql = `SELECT * FROM treatment_package JOIN patient_details ON patient_details.uhid = treatment_package.uhid WHERE treatment_package.tp_id = ?`;
+
+  db.query(sql, tpid, (err, result) => {
+    if (err) {
+      console.error("Error executing query:", err.message);
+      return res.status(500).json({ error: "Internal server error" });
+    } else if (result.length === 0) {
+      return res.status(404).json({ error: "TPID not found" });
+    } else {
+      return res.status(200).json({ message: "Get data by TPID", result });
+    }
+  });
+};
+
+const getTreatmentDataList = (req, res) => {
+  const tpid = req.params.tpid;
+  const branch = req.params.branch;
+
+  const sql = `SELECT * FROM treat_suggest LEFT JOIN dental_examination ON dental_examination.tp_id = treat_suggest.tp_id AND dental_examination.disease = treat_suggest.desease WHERE treat_suggest.tp_id = ? AND treat_suggest.branch_name = ?`;
+
+  db.query(sql, [tpid, branch], (err, results) => {
+    if (err) {
+      console.log(err);
+      return res
+        .status(400)
+        .json({ success: false, message: "Error retrieving treatment data" });
+    } else {
+      return res.status(200).send(results);
+    }
+  });
+};
+
+const getTreatPrescriptionByAppointIdList = (req, res) => {
+  const tpid = req.params.tpid;
+
+  const sql = "SELECT * FROM dental_prescription WHERE tp_id = ?";
+
+  db.query(sql, tpid, (err, results) => {
+    if (err) {
+      res.status(500).json({ error: err.message });
+    } else {
+      res.status(200).send(results);
+    }
+  });
+};
+
 module.exports = {
   getTreatSuggest,
   getTreatmentViaUhid,
@@ -653,4 +735,9 @@ module.exports = {
   getSittingBill,
   getLabDetails,
   getSittingBillDueBySittingId,
+  getPrescriptionList,
+  getTreatPackageData,
+  getAppointmentsWithPatientDetailsById,
+  getTreatmentDataList,
+  getTreatPrescriptionByAppointIdList,
 };

@@ -121,6 +121,11 @@ const {
   getSittingBill,
   getLabDetails,
   getSittingBillDueBySittingId,
+  getPrescriptionList,
+  getTreatPackageData,
+  getAppointmentsWithPatientDetailsById,
+  getTreatmentDataList,
+  getTreatPrescriptionByAppointIdList,
 } = require("../controllers/superTreatController");
 // const multer = require("multer");
 const authenticate = require("../middleware/authMiddleware.js");
@@ -145,11 +150,7 @@ router.post(
   EnrollEmployee
 );
 router.put("/EditEmployeeDetails/:emp_id", authenticate, EditEmployeeDetails);
-router.get(
-  "/getEmployeeDetails/:branch/:empId",
-  authenticate,
-  getEmployeeDataByBranchAndId
-);
+router.get("/getEmployeeDetails/:branch/:empId", getEmployeeDataByBranchAndId);
 router.get(
   "/getEmployeeDataByBranch/:branch",
   authenticate,
@@ -228,10 +229,11 @@ router.put(
   editEmployeeDetails
 );
 
+router.get("/getPatientDataByBranchAndId/:pid", getPatientDataByBranchAndId);
 router.get(
-  "/getPatientDataByBranchAndId/:pid",
+  "/getAppointmentsWithPatientDetailsById/:tpid",
   authenticate,
-  getPatientDataByBranchAndId
+  getAppointmentsWithPatientDetailsById
 );
 
 router.get(
@@ -467,5 +469,12 @@ router.post(
 
 router.post("/sendWhatsapp", preUpload.single("mediaFile"), sendWhatsapp);
 router.post("/sendSMS", authenticate, sendSMS);
+router.get("/getPrescriptionList/:branch", getPrescriptionList);
+router.get("/getTreatPackageData/:tpid/:branch", getTreatPackageData);
+router.get("/getTreatmentDataList/:tpid/:branch", getTreatmentDataList);
+router.get(
+  "/getTreatPrescriptionByAppointIdList/:tpid",
+  getTreatPrescriptionByAppointIdList
+);
 
 module.exports = router;

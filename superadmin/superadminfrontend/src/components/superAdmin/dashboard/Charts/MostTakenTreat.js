@@ -72,6 +72,8 @@ const MostTakenTreat = () => {
     getAppointList();
   }, [branch.name]);
 
+  console.log(appointmentList);
+
   useEffect(() => {
     const getDate = new Date();
     const year = getDate.getFullYear();

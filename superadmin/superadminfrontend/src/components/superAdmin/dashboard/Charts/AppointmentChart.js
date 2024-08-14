@@ -132,16 +132,7 @@ const AppointmentChart = () => {
                 }}
               >
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis
-                  dataKey="date"
-                  tick={{
-                    fontSize: 0,
-                    transform: "translate(-10,0)",
-                    dy: 5,
-                    fill: "#666",
-                    fontWeight: "bold",
-                  }}
-                />
+                <XAxis dataKey="date" />
                 <YAxis />
                 <Tooltip />
                 <Legend />

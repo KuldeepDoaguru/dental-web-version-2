@@ -76,6 +76,8 @@ const PatientStatisticChart = () => {
   console.log(filterByTreated);
   // Group appointments by date and count appointments for each day
   const dailyAppointments = filterByTreated.reduce((acc, appointment) => {
+    console.log(acc);
+
     const date = appointment.appointment_dateTime?.split("T")[0];
     acc[date] = acc[date] ? acc[date] + 1 : 1;
     return acc;

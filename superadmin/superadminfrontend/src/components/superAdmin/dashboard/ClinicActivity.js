@@ -183,11 +183,11 @@ const ClinicActivity = () => {
   const filterAppointment = appointmentList?.filter((item) => {
     if (currentDate) {
       // return item.created_at?.split("T")[0] === currentDate;
-      return item.appointment_created_at?.split(" ")[0] === currentDate;
+      return item.appointment_dateTime?.split("T")[0] === currentDate;
     } else {
       return (
-        // item.created_at?.split("T")[0] === todayDate?.split("T")[0]
-        item.appointment_created_at?.split(" ")[0] === todayDate?.split("T")[0]
+        // item.appointment_dateTime?.split("T")[0] === todayDate?.split("T")[0]
+        item.appointment_dateTime?.split("T")[0] === todayDate?.split("T")[0]
       );
     }
   });
@@ -210,7 +210,7 @@ const ClinicActivity = () => {
   console.log(todayDate?.split("T")[0]);
 
   const filterTreatmentVal = filterAppointment?.filter((item) => {
-    return item.treatment_provided !== "OPD";
+    return item.treatment_provided === "OPD";
   });
 
   console.log(filterTreatmentVal);
@@ -218,10 +218,10 @@ const ClinicActivity = () => {
   //filter for day wise Treatment
   const filterTreatment = filterTreatmentVal?.filter((item) => {
     if (currentDate) {
-      return item.appointment_dateTime?.split(" ")[0] === currentDate;
+      return item.appointment_dateTime?.split("T")[0] === currentDate;
     } else {
       return (
-        item.appointment_dateTime?.split(" ")[0] === todayDate?.split("T")[0]
+        item.appointment_dateTime?.split("T")[0] === todayDate?.split("T")[0]
       );
     }
   });
@@ -230,18 +230,31 @@ const ClinicActivity = () => {
 
   const formatTodayDate = moment(todayDate?.split("T")[0]).format("DD-MM-YYYY");
   const formatCurrentDate = moment(currentDate).format("DD-MM-YYYY");
+  console.log(
+    "format today's date",
+    formatTodayDate,
+    "today date",
+    treatValue[0]?.bill_date?.split(" ")[0]
+  );
+  console.log(
+    "format current date",
+    formatCurrentDate,
+    "current date",
+    treatValue[0]?.bill_date?.split(" ")[0]
+  );
+  // console.log();
 
   //filter for day wise billing
   const filterBilling = treatValue?.filter((item) => {
     if (currentDate) {
       return (
         item.bill_date?.split(" ")[0] === formatCurrentDate &&
-        item.payment_status === "paid"
+        (item.payment_status === "Paid" || item.payment_status === "Paid")
       );
     }
     return (
       item.bill_date?.split(" ")[0] === formatTodayDate &&
-      item.payment_status === "paid"
+      (item.payment_status === "Paid" || item.payment_status === "Paid")
     );
   });
 
@@ -420,7 +433,7 @@ const ClinicActivity = () => {
               aria-labelledby="pills-treatment-tab"
             >
               <ul className="appointHeight">
-                {filterTreatmentVal?.map((item) => (
+                {filterTreatment?.map((item) => (
                   <>
                     <li>
                       <div className="d-flex justify-content-between">
@@ -435,12 +448,8 @@ const ClinicActivity = () => {
                         <div>
                           <p className="fw-bold">
                             {moment(item.appointment_created_at).format(
-                              "YYYY-MM-DD"
-                            )}{" "}
-                            {moment(
-                              item.appointment_created_at?.split(" ")[1],
-                              "HH:mm:ss"
-                            ).format("hh:mm A")}
+                              "YYYY-MM-DD h:mm:ss A"
+                            )}
                           </p>
                         </div>
                       </div>

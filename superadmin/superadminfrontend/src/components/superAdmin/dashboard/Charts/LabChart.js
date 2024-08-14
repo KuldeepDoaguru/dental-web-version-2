@@ -43,7 +43,7 @@ const LabChart = () => {
       setLoading(true);
       try {
         const response = await axios.get(
-          `https://dentalguru-superadmin.vimubds5.a2hosted.com/api/v1/super-admin/getLabData/${branch.name}`,
+          `https://dentalguru-superadmin.vimubds5.a2hosted.com/api/v1/super-admin/getPatientLabTest/${branch.name}`,
           {
             headers: {
               "Content-Type": "application/json",
@@ -62,6 +62,8 @@ const LabChart = () => {
     getAppointList();
   }, [branch.name]);
 
+  console.log(appointmentList);
+
   const defaultOptions = {
     loop: true,
     autoplay: true,
@@ -75,6 +77,7 @@ const LabChart = () => {
   const month = String(getDate.getMonth() + 1).padStart(2, "0");
   const lastDay = new Date(year, month, 0).getDate(); // Last day of the current month
   const formattedDate = `${year}-${month}`;
+  console.log(formattedDate);
 
   console.log(appointmentList);
   const filterForPayStatus = appointmentList?.filter((item) => {

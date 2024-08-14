@@ -7,6 +7,7 @@ import { TbReportSearch } from "react-icons/tb";
 import { IoIosPeople } from "react-icons/io";
 import { AiFillBell } from "react-icons/ai";
 import { FcLeave } from "react-icons/fc";
+import { BsPrescription2 } from "react-icons/bs";
 
 const Sider = () => {
   const location = useLocation();
@@ -87,6 +88,23 @@ const Sider = () => {
                 <div>
                   <h3 className=" d-none d-sm-inline icon-view" id="navleft">
                     &nbsp; &nbsp; Bills &nbsp; &nbsp;
+                  </h3>
+                </div>
+              </Link>
+            </li>
+            <hr />
+
+            <li>
+              <Link
+                to="/e-prescription"
+                className={`link-div ${getSidebarClass("/e-prescription")}`}
+              >
+                <div>
+                  <BsPrescription2 className="fs-4 bi bi-receipt-cutoff" />
+                </div>
+                <div>
+                  <h3 className=" d-none d-sm-inline icon-view" id="navleft">
+                    &nbsp; &nbsp; e-Prescription &nbsp; &nbsp;
                   </h3>
                 </div>
               </Link>

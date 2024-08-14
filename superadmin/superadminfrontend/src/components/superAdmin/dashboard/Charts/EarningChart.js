@@ -34,6 +34,7 @@ const EarnTMAdmin = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const branch = useSelector((state) => state.branch);
+
   const [appointmentList, setAppointmentList] = useState([]);
   const [loading, setLoading] = useState(false);
 
@@ -53,7 +54,7 @@ const EarnTMAdmin = () => {
         setLoading(false);
         setAppointmentList(response.data);
       } catch (error) {
-        setLoading(FaLessThanEqual);
+        setLoading(false);
         console.log(error);
       }
     };
@@ -70,6 +71,8 @@ const EarnTMAdmin = () => {
     },
   };
 
+  console.log(appointmentList);
+
   const getDate = new Date();
   const year = getDate.getFullYear();
   const month = String(getDate.getMonth() + 1).padStart(2, "0");
@@ -77,8 +80,10 @@ const EarnTMAdmin = () => {
   const formattedDate = `${month}-${year}`;
 
   const filterForPayStatus = appointmentList?.filter((item) => {
-    return item.payment_status === "paid";
+    return item.payment_status === "Paid" || item.payment_status === "paid";
   });
+
+  console.log(filterForPayStatus);
 
   // Group appointments by date and count appointments for each day
   const dailyAppointments = filterForPayStatus?.reduce((acc, appointment) => {
@@ -89,6 +94,8 @@ const EarnTMAdmin = () => {
     }
     return acc;
   }, {});
+
+  console.log(dailyAppointments);
 
   let totalAmountPerDay = {}; // Object to store total amount for each day
 

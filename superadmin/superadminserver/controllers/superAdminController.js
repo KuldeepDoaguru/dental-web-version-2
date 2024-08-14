@@ -1303,7 +1303,9 @@ const sendWhatsapp = async (req, res) => {
     const response = await client.messages.create({
       body: message,
       from: process.env.TWILIONUMBERWHATSAPP,
-      mediaUrl: [fileUrl],
+      mediaUrl: [
+        "https://res.cloudinary.com/dq5upuxm8/image/upload/v1708065157/dental%20guru/Login-page_wqguum.png",
+      ],
       to: `whatsapp:+91${phoneNumber}`,
     });
     console.log("1027", response.body);

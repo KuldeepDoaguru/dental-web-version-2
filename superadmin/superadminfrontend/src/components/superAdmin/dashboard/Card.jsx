@@ -57,6 +57,8 @@ const Card = () => {
     }
   };
 
+  console.log(appointmentList);
+
   const getEmployeeAvailable = async () => {
     try {
       const { data } = await axios.get(
@@ -124,12 +126,12 @@ const Card = () => {
   const formatChange = `${day}-${month}-${year}`;
   // console.log(formateForDay);
 
-  // console.log(appointmentList);
+  // console.log(appointmentList[0]?.appointment_dateTime?.split("T")[0]);
 
   //filterForPatAppointToday
   const filterForOpdEarnToday = appointmentList?.filter(
     (item) =>
-      item.appointment_created_at?.split(" ")[0] === formateForDay &&
+      item.appointment_dateTime?.split("T")[0] === formateForDay &&
       item.treatment_provided === "OPD" &&
       item.appointment_status !== "Cancel"
   );
@@ -151,6 +153,7 @@ const Card = () => {
   };
 
   const totalOpdValue = totalPrice();
+  // console.log(totalOpdValue);
 
   // console.log(availableEmp);
   // console.log(formateForDay);

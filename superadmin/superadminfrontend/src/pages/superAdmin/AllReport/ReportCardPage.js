@@ -493,7 +493,7 @@ const ReportCardPage = () => {
     const fetchTestCounts = async () => {
       try {
         const response = await axios.get(
-          `https://dentalguru-superadmin.vimubds5.a2hosted.com/api/v1/super-admin/getPatientLabTest/${branch.name}`,
+          `https://dentalguru-superadmin.vimubds5.a2hosted.com/api/v1/super-admin/getPatientLabTestReport/${branch.name}`,
           {
             headers: {
               "Content-Type": "application/json",
