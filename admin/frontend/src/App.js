@@ -50,6 +50,8 @@ import Compleated from "./components/LabReports/Compleated";
 import AdminAllBills from "./pages/AdminAllBills";
 import RefundedAmountReport from "./pages/superAdmin/AllReport/RefundedAmountReport";
 import ViewSittingBill from "./pages/BillsView/ViewSittingBill";
+import PrescriptionList from "./pages/admin/prescription/PrescriptionList";
+import ViewPrescription from "./pages/admin/prescription/ViewPrescription";
 
 const App = () => {
   const user = useSelector((state) => state.user);
@@ -454,6 +456,26 @@ const App = () => {
                 <UniversalLogin />
               ) : (
                 <ViewSittingBill />
+              )
+            }
+          />
+          <Route
+            path="/e-prescription"
+            element={
+              user.currentUser === null ? (
+                <UniversalLogin />
+              ) : (
+                <PrescriptionList />
+              )
+            }
+          />
+          <Route
+            path="/view-prescription/:tpid"
+            element={
+              user.currentUser === null ? (
+                <UniversalLogin />
+              ) : (
+                <ViewPrescription />
               )
             }
           />

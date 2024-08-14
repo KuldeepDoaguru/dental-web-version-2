@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
-// import Sider from "../../../components/Sider";
-// import Header from "../../../components/Header";
 import { IoMdArrowRoundBack } from "react-icons/io";
-// import BranchSelector from "../../../components/BranchSelector";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { utils, writeFile } from "xlsx";

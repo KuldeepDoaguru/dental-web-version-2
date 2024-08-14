@@ -48,7 +48,7 @@ const AdminPatientLIst = () => {
     getPatByBranch();
   }, []);
 
-  console.log(patList.data);
+  console.log(patList);
 
   useEffect(() => {
     setCurrentPage(0);
@@ -62,11 +62,9 @@ const AdminPatientLIst = () => {
 
   console.log(ptype);
 
-  const uniqueDoctor = [
-    ...new Set(patList.data?.map((item) => item.patient_type)),
-  ];
+  const uniqueDoctor = [...new Set(patList?.map((item) => item.patient_type))];
 
-  const searchFilter = patList.data?.filter((lab) => {
+  const searchFilter = patList?.filter((lab) => {
     if (ptype && trimmedKeyword) {
       return (
         lab.patient_type === ptype &&

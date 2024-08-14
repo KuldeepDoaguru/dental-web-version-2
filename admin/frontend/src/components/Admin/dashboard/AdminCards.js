@@ -29,7 +29,7 @@ const AdminCards = () => {
       // console.log(data);
       setAppointmentList(data);
     } catch (error) {
-      // console.log(error);
+      console.log(error);
     }
   };
 

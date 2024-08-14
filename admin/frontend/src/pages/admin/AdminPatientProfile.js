@@ -62,7 +62,7 @@ const AdminPatientProfile = () => {
 
   console.log(ongoingTreat);
 
-  console.log(patientData[0]?.patient_name);
+  console.log(patientData);
 
   const filterForOngoingTreat = ongoingTreat?.filter((item) => {
     return item.treatment_status === "ongoing";
@@ -109,13 +109,13 @@ const AdminPatientProfile = () => {
                           </div>
                           <div className="col-xl-7 col-lg-7 col-md-6 col-sm-6 col-12">
                             <span className="">
-                              {patientData?.patient_type}
+                              {patientData[0]?.patient_type}
                             </span>
                           </div>
                         </div>
                       </div>
                     </li>
-                    {patientData?.patient_type === "Credit" && (
+                    {patientData[0]?.patient_type === "Credit" && (
                       <li>
                         <div>
                           <div className="row">
@@ -123,13 +123,15 @@ const AdminPatientProfile = () => {
                               <strong>Credit By :</strong>
                             </div>
                             <div className="col-xl-7 col-lg-7 col-md-6 col-sm-6 col-12">
-                              <span className="">{patientData?.credit_By}</span>
+                              <span className="">
+                                {patientData[0]?.credit_By}
+                              </span>
                             </div>
                           </div>
                         </div>
                       </li>
                     )}
-                    {patientData?.patient_type === "Credit" && (
+                    {patientData[0]?.patient_type === "Credit" && (
                       <li>
                         <div>
                           <div className="row">
@@ -138,7 +140,7 @@ const AdminPatientProfile = () => {
                             </div>
                             <div className="col-xl-7 col-lg-7 col-md-6 col-sm-6 col-12">
                               <span className="">
-                                {patientData?.beneficiary_Id}
+                                {patientData[0]?.beneficiary_Id}
                               </span>
                             </div>
                           </div>

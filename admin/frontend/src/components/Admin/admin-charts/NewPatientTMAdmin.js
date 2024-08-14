@@ -36,28 +36,28 @@ const NewPatientTMAdmin = () => {
   const [appointmentList, setAppointmentList] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    setLoading(true);
-    const getAppointList = async () => {
-      try {
-        const { data } = await axios.get(
-          `https://dentalguru-admin.vimubds5.a2hosted.com/api/v1/admin/getPatientDetailsByBranch/${user.branch_name}`,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-              Authorization: `Bearer ${user.token}`,
-            },
-          }
-        );
-        setLoading(false);
-        setAppointmentList(data);
-        console.log(appointmentList);
-      } catch (error) {
-        setLoading(false);
-        console.log(error);
-      }
-    };
+  const getAppointList = async () => {
+    try {
+      setLoading(true);
+      const { data } = await axios.get(
+        `https://dentalguru-admin.vimubds5.a2hosted.com/api/v1/admin/getPatientDetailsByBranch/${user.branch_name}`,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
+      );
+      setLoading(false);
+      setAppointmentList(data);
+      console.log(appointmentList);
+    } catch (error) {
+      setLoading(false);
+      console.log(error);
+    }
+  };
 
+  useEffect(() => {
     getAppointList();
   }, []);
 
@@ -69,13 +69,36 @@ const NewPatientTMAdmin = () => {
   const lastDay = new Date(year, month, 0).getDate(); // Last day of the current month
   const formattedDate = `${year}-${month}`;
 
+  const dailyAppointments = appointmentList?.reduce((acc, appointment) => {
+    const date = appointment.created_at?.split("T")[0];
+    acc[date] = acc[date] ? acc[date] + 1 : 1;
+    return acc;
+  }, {});
+
+  console.log(dailyAppointments);
   const processedAppointments = {};
+
+  if (dailyAppointments && typeof dailyAppointments === "object") {
+    Object.entries(dailyAppointments).forEach(([key, value]) => {
+      const date = key.split(" ")[0];
+      if (processedAppointments[date]) {
+        processedAppointments[date] += value;
+      } else {
+        processedAppointments[date] = value;
+      }
+    });
+  }
+
+  console.log("Processed Appointments:", processedAppointments);
+  // Create an array containing data for all days of the month
   const data = Array.from({ length: lastDay }, (_, index) => {
     const day = String(index + 1).padStart(2, "0");
     const date = `${formattedDate}-${day}`;
+    // console.log(date);
+
     return {
       date,
-      patients: processedAppointments[date] || 0,
+      Patients: processedAppointments[date] || 0,
     };
   });
 
@@ -114,7 +137,7 @@ const NewPatientTMAdmin = () => {
                 <YAxis />
                 <Tooltip />
                 <Legend />
-                <Bar dataKey="patients" fill="#40407a" />
+                <Bar dataKey="Patients" fill="#40407a" />
               </BarChart>
             </>
           )}

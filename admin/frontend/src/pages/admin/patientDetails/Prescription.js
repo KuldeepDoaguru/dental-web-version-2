@@ -7,8 +7,6 @@ import axios from "axios";
 const Prescription = () => {
   const dispatch = useDispatch();
   const { pid } = useParams();
-  // const { uhid } = useParams();
-  // console.log(uhid);
   const user = useSelector((state) => state.user.currentUser);
   console.log(`User Name: ${user.name}, User ID: ${user.id}`);
   console.log("User State:", user);

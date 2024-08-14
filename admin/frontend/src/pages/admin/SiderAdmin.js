@@ -6,7 +6,7 @@ import { FaCodeBranch } from "react-icons/fa";
 import { TbReportSearch } from "react-icons/tb";
 import { IoIosPeople } from "react-icons/io";
 import { AiFillBell } from "react-icons/ai";
-import { BsFileEarmarkPerson } from "react-icons/bs";
+import { BsFileEarmarkPerson, BsPrescription2 } from "react-icons/bs";
 import { useDispatch } from "react-redux";
 import { clearUser } from "../../redux/slices/UserSlicer";
 import { FcLeave } from "react-icons/fc";
@@ -59,10 +59,7 @@ const SiderAdmin = () => {
                     <i className="fs-4 bi bi-table"></i>
                   </div>
                   <div>
-                    <h3
-                      className="d-none d-sm-inline icon-view"
-                      id="navleft2"
-                    >
+                    <h3 className="d-none d-sm-inline icon-view" id="navleft2">
                       Appointment
                     </h3>
                   </div>
@@ -80,11 +77,24 @@ const SiderAdmin = () => {
                     <i className="fs-4 bi bi-receipt-cutoff"></i>
                   </div>
                   <div>
-                    <h3
-                      className=" d-none d-sm-inline icon-view"
-                      id="navleft2"
-                    >
+                    <h3 className=" d-none d-sm-inline icon-view" id="navleft2">
                       Bills
+                    </h3>
+                  </div>
+                </Link>
+              </li>
+              <hr />
+              <li>
+                <Link
+                  to="/e-prescription"
+                  className={`link-div ${getSidebarClass("/e-prescription")}`}
+                >
+                  <div>
+                    <BsPrescription2 className="fs-4 bi bi-receipt-cutoff" />
+                  </div>
+                  <div>
+                    <h3 className=" d-none d-sm-inline icon-view" id="navleft2">
+                      e-Prescription
                     </h3>
                   </div>
                 </Link>
@@ -128,26 +138,22 @@ const SiderAdmin = () => {
                 </Link>
               </li>
               <hr />
-              <li>
+              {/* <li>
                 <Link
                   to="/manage-staff"
                   className={`link-div ${getSidebarClass("/manage-staff")}`}
                 >
                   <div>
-                    {/* <i className="fs-4 bi bi-camera-video"></i> */}
                     <IoIosPeople className="fs-4 bi bi-camera-video" />
                   </div>
                   <div>
-                    <h3
-                      className=" d-none d-sm-inline icon-view"
-                      id="navleft2"
-                    >
+                    <h3 className=" d-none d-sm-inline icon-view" id="navleft2">
                       Manage Staff
                     </h3>
                   </div>
                 </Link>
               </li>
-              <hr />
+              <hr /> */}
               <li>
                 <Link
                   to="/admin-lab-setting"
@@ -159,10 +165,7 @@ const SiderAdmin = () => {
                     <i className="fs-4 bi bi-file-medical"></i>
                   </div>
                   <div>
-                    <h3
-                      className=" d-none d-sm-inline icon-view"
-                      id="navleft2"
-                    >
+                    <h3 className=" d-none d-sm-inline icon-view" id="navleft2">
                       Lab
                     </h3>
                   </div>
@@ -178,7 +181,7 @@ const SiderAdmin = () => {
                 >
                   <div>
                     {/* <i className="fs-4 bi bi-house-door-fill"></i> */}
-                    {/* <BsFileEarmarkPerson className="fs-2 text-dark" />
+              {/* <BsFileEarmarkPerson className="fs-2 text-dark" />
                   </div>
                   <div>
                     <h3
@@ -189,7 +192,7 @@ const SiderAdmin = () => {
                     </h3>
                   </div>
                 </Link> */}
-              {/* </li> */} 
+              {/* </li> */}
               {/* <hr /> */}
 
               {/* <li>
@@ -199,9 +202,9 @@ const SiderAdmin = () => {
                 >
                   <div>
                     {/* <i className="fs-4 bi bi-camera-video"></i> */}
-                    {/* <FcLeave className="fs-4 bi bi-camera-video" /> */}
-                    {/* <IoIosPeople  /> */}
-                  {/* </div>
+              {/* <FcLeave className="fs-4 bi bi-camera-video" /> */}
+              {/* <IoIosPeople  /> */}
+              {/* </div>
                   <div>
                     <h3
                       className=" d-none d-sm-inline icon-view"
@@ -225,10 +228,7 @@ const SiderAdmin = () => {
                     <TbReportSearch className="fs-4 bi bi-camera-video" />
                   </div>
                   <div>
-                    <h3
-                      className=" d-none d-sm-inline icon-view"
-                      id="navleft2"
-                    >
+                    <h3 className=" d-none d-sm-inline icon-view" id="navleft2">
                       Report
                     </h3>
                   </div>
@@ -326,7 +326,7 @@ const Container = styled.div`
     padding: 1rem;
     box-shadow: 0px 0px 16px #9af5c996;
   } */
-    .nav-dash {
+  .nav-dash {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -363,5 +363,4 @@ const Container = styled.div`
   a {
     text-decoration: none;
   }
-
 `;

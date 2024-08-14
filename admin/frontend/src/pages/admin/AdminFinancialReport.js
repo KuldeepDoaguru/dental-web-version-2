@@ -174,7 +174,13 @@ const FinancialReportCard = () => {
     try {
       const { data } = await axios.post(
         `https://dentalguru-admin.vimubds5.a2hosted.com/api/v1/admin/downloadExpenseReportByTime/${user.branch_name}`,
-        { fromDate: fromDate, toDate: toDate }
+        { fromDate: fromDate, toDate: toDate },
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
       );
       console.log(data);
       setSelectedEarn(data);

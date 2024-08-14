@@ -166,6 +166,12 @@ const HeaderAdmin = () => {
                     </li>
                     <hr className="dropdown-divider" />
                     <li>
+                      <Link className="dropdown-item" to="/manage-staff">
+                        Manage Staff
+                      </Link>
+                    </li>
+                    <hr className="dropdown-divider" />
+                    <li>
                       <Link className="dropdown-item" to="/leave-management">
                         Leave Detail{" "}
                       </Link>

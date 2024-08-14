@@ -105,24 +105,29 @@ const AdminAppointment = () => {
   const trimmedKeyword = keyword.trim().toLowerCase();
   console.log(trimmedKeyword);
 
+  const uniqueDoctor = [
+    ...new Set(appointmentList?.map((item) => item.assigned_doctor_name)),
+  ];
+
+  console.log(uniqueDoctor);
+
   const searchFilter = appointmentList.filter((lab) => {
     if (status && trimmedKeyword) {
       return (
-        lab.appointment_status === status &&
-        (lab.patient_name.toLowerCase().includes(trimmedKeyword) ||
-          lab.patient_uhid.toLowerCase().includes(trimmedKeyword) ||
-          lab.mobileno.toLowerCase().includes(trimmedKeyword))
+        (lab.assigned_doctor_name === status &&
+          (lab.patient_name.toLowerCase().includes(trimmedKeyword) ||
+            lab.patient_uhid.toLowerCase().includes(trimmedKeyword))) ||
+        lab.mobileno.toLowerCase().includes(trimmedKeyword)
       );
     } else if (status) {
-      return lab.appointment_status === status;
+      return lab.assigned_doctor_name === status;
     } else if (trimmedKeyword) {
       return (
         lab.patient_name.toLowerCase().includes(trimmedKeyword) ||
-        lab.patient_uhid.toLowerCase().includes(trimmedKeyword) ||
-        lab.mobileno.toLowerCase().includes(trimmedKeyword)
+        lab.patient_uhid.toLowerCase().includes(trimmedKeyword)
       );
     } else {
-      return true;
+      return true; // Show all data when no filters are applied
     }
   });
 
@@ -179,8 +184,14 @@ const AdminAppointment = () => {
                           <div className="col-xxl-5 col-xl-5 col-lg-5 col-md-6 col-sm-12 col-12">
                             <div className="d-flex justify-content-end align-items-center mt-3">
                               <div>
-                                <button className="btn btn-info">
-                                  Filter by Status
+                                <button
+                                  className="btn btn-info text-white"
+                                  style={{
+                                    backgroundColor: "#1abc9c",
+                                    borderColor: "#1abc9c",
+                                  }}
+                                >
+                                  Filter by Doctor
                                 </button>
                               </div>
 
@@ -191,14 +202,12 @@ const AdminAppointment = () => {
                                   value={status}
                                   onChange={(e) => setStatus(e.target.value)}
                                 >
-                                  <option value="">Select-Status</option>
-                                  <option value="Appoint">Appoint</option>
-                                  <option value="Complete">Complete</option>
-                                  <option value="in treatment">
-                                    In Treatment
-                                  </option>
-                                  <option value="Check-In">Check-In</option>
-                                  <option value="Cancel">Cancel</option>
+                                  <option value="">Select-</option>
+                                  {uniqueDoctor?.map((item) => (
+                                    <>
+                                      <option value={item}>{item}</option>
+                                    </>
+                                  ))}
                                 </select>
                               </div>
                             </div>

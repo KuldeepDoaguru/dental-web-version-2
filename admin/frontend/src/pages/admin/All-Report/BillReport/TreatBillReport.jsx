@@ -13,9 +13,7 @@ const TreatBillReport = () => {
   const location = useLocation();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user.currentUser);
-
   const branch = user.branch_name;
-
   const [listBills, setListBills] = useState([]);
   const { refreshTable } = useSelector((state) => state.user);
   const [fromDate, setFromDate] = useState("");

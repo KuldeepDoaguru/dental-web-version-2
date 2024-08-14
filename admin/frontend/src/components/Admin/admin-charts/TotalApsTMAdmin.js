@@ -60,6 +60,8 @@ const TotalApsTMAdmin = () => {
     getAppointList();
   }, []);
 
+  console.log(appointmentList);
+
   const getDate = new Date();
   const year = getDate.getFullYear();
   const month = String(getDate.getMonth() + 1).padStart(2, "0");
@@ -68,7 +70,7 @@ const TotalApsTMAdmin = () => {
 
   // Group appointments by date and count appointments for each day
   const dailyAppointments = appointmentList?.reduce((acc, appointment) => {
-    const date = appointment.appointment_dateTime?.split("T")[0];
+    const date = appointment.created_at?.split(" ")[0];
     acc[date] = acc[date] ? acc[date] + 1 : 1;
     return acc;
   }, {});

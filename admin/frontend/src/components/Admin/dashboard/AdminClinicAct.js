@@ -68,6 +68,8 @@ const ClinicActivity = () => {
     }
   };
 
+  console.log(patDetails);
+
   const getTime = new Date();
   const hours = ("0" + (getTime.getHours() - 5)).slice(-2);
   const minutes = ("0" + getTime.getMinutes()).slice(-2);
@@ -215,9 +217,18 @@ const ClinicActivity = () => {
   });
 
   console.log(filterBilling);
-  console.log(patDetails[0]?.created_at?.split(" ")[0]);
+  console.log(patDetails);
   console.log(currentDate);
   console.log(todayDate?.split("T")[0]);
+
+  const filterPatient = patDetails?.filter((item) => {
+    if (currentDate) {
+      return item.created_at?.split(" ")[0] === currentDate;
+    }
+    return item.created_at?.split(" ")[0] === todayDate?.split("T")[0];
+  });
+
+  console.log(filterPatient);
 
   const tdate = new Date();
 
@@ -380,15 +391,15 @@ const ClinicActivity = () => {
               aria-labelledby="pills-treatment-tab"
             >
               <ul className="appointHeight">
-                {filterTreatmentVal?.map((item) => (
+                {filterAppointment?.map((item) => (
                   <>
                     <li>
                       <div className="d-flex justify-content-between">
                         <div>
                           <h5>
                             <FaDotCircle className="mx-1" />{" "}
-                            {item.treatment_provided} Treatment provided to{" "}
-                            patient {item.patient_name} by Dr.{" "}
+                            {item.treatment_provided} provided to patient{" "}
+                            {item.patient_name} by Dr.{" "}
                             {item.assigned_doctor_name}
                           </h5>
                         </div>
@@ -446,7 +457,7 @@ const ClinicActivity = () => {
               aria-labelledby="pills-Patient-tab"
             >
               <ul className="appointHeight">
-                {/* {filterPatient?.map((item) => (
+                {filterPatient?.map((item) => (
                   <>
                     <li>
                       <div className="d-flex justify-content-between">
@@ -468,7 +479,7 @@ const ClinicActivity = () => {
                     </li>
                     <hr />
                   </>
-                ))} */}
+                ))}
               </ul>
             </div>
           </div>
