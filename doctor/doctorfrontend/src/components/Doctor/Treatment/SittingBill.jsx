@@ -263,7 +263,7 @@ const SittingBill = () => {
         type: "application/pdf",
       });
 
-      formData.append("media_url", file);
+      formData.append("mediaFile", file);
       for (let [key, value] of formData.entries()) {
         console.log(key, value);
       }

@@ -246,21 +246,31 @@ const PrescriptionQuick = () => {
       const pdfData = pdf.output("blob");
       console.log(pdfData);
 
+      const file = new File([pdfData], "prescription.pdf", {
+        type: "application/pdf",
+      });
+
       const formData = new FormData();
       formData.append("number", getPatientData[0]?.mobileno);
       formData.append("type", "media");
       formData.append("message", `test message`);
-      formData.append(
-        "media_url",
-        `https://res.cloudinary.com/dq5upuxm8/video/upload/v1697973901/Stranger_Things_4___Volume_2_Trailer___Netflix_u6dbve.mp4`
-      );
+
+      formData.append("mediaFile", file);
       formData.append("filename", "stranger things");
       formData.append("instance_id", "66A738A57110E");
       formData.append("access_token", "668f7d2850e22");
       for (let [key, value] of formData.entries()) {
         console.log(key, value);
       }
-
+      const res = await axios.post(
+        "https://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/sendWhatsapp",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
       cogoToast.success("Prescription sent successfully");
       console.log("PDF sent successfully");
     } catch (error) {

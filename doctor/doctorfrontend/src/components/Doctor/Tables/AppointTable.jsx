@@ -213,14 +213,14 @@ const AppointTable = () => {
 
         const filterForGoingTp = treatData?.filter((item) => {
           return (
-            (item.tp_id === tpid && item.package_status === "started") ||
-            (item.package_status === "ongoing" && item.current_path !== null)
+            (item.tp_id === tpid && item.package_status !== "started") ||
+            (item.treatment_status === "ongoing" && item.current_path !== null)
           );
         });
 
         console.log(filterForGoingTp);
-        if (filterForPendingTp[0]?.current_sitting > 0) {
-          navigate(filterForPendingTp[0]?.current_path);
+        if (filterForPendingTp[0]?.treatment_status !== "pending") {
+          navigate(`/TreatmentDashBoard/${tpid}/${appointId}`);
         } else if (filterForGoingTp.length > 0) {
           const appointFilter = appointments?.filter((tad) => {
             return tad.appoint_id === appointId;

@@ -354,7 +354,7 @@ const TreatmentFormDocPay = () => {
           return rawNetAmount - formData.paid_amount;
         }
       } else {
-        if (formData.sitting_payment_status === "Received") {
+        if (formData.sitting_payment_status === "paid") {
           return formData.paid_amount;
         } else if (formData.paid_amount === "") {
           return 0;
@@ -370,7 +370,7 @@ const TreatmentFormDocPay = () => {
           return lastTreatment?.pending_amount - formData.paid_amount;
         }
       } else {
-        if (formData.sitting_payment_status === "Received") {
+        if (formData.sitting_payment_status === "paid") {
           return formData.paid_amount;
         } else if (formData.paid_amount === "") {
           return 0;
@@ -419,7 +419,7 @@ const TreatmentFormDocPay = () => {
     dir_rec_amt:
       secRecValue <= payableAmountafterSecAmount
         ? payableAmountafterSecAmount - secRecValue
-        : formData.sitting_payment_status === "Received"
+        : formData.sitting_payment_status === "paid"
         ? payableAmountafterSecAmount
         : 0,
     sec_rec_amt: secRecValue,
@@ -469,6 +469,7 @@ const TreatmentFormDocPay = () => {
         ? lastTreatment?.pending_amount
         : rawNetAmount,
     sitting_amount: formData.paid_amount,
+    paid_amount: formData.paid_amount,
     pending_amount:
       lastTreatment?.paid_amount > 0
         ? lastTreatment?.pending_amount - formData.paid_amount
@@ -476,7 +477,7 @@ const TreatmentFormDocPay = () => {
     pay_direct:
       secRecValue <= payableAmountafterSecAmount
         ? payableAmountafterSecAmount - secRecValue
-        : formData.sitting_payment_status === "Received"
+        : formData.sitting_payment_status === "paid"
         ? payableAmountafterSecAmount
         : 0,
     pay_security_amount: secRecValue,
@@ -484,9 +485,7 @@ const TreatmentFormDocPay = () => {
     payment_status:
       getPatientData[0]?.patient_type === "Credit"
         ? "Credit"
-        : formData.sitting_payment_status === "Received"
-        ? "paid"
-        : "pending",
+        : formData.sitting_payment_status,
     note: formData.note,
   };
 
@@ -687,10 +686,10 @@ const TreatmentFormDocPay = () => {
             lastTreatment?.pending_amount === undefined
               ? rawNetAmount > securityAmt[0]?.remaining_amount
                 ? "pending"
-                : "Received"
+                : "paid"
               : netAmount > securityAmt[0]?.remaining_amount
               ? "pending"
-              : "Received",
+              : "paid",
         },
         {
           headers: {
@@ -1207,7 +1206,7 @@ const TreatmentFormDocPay = () => {
                           <>
                             {" "}
                             <option value="">-select-</option>
-                            <option value="Received">Yes</option>
+                            <option value="paid">Yes</option>
                             {/* <option value="Pending">No</option> */}
                           </>
                         ) : (
@@ -1217,12 +1216,12 @@ const TreatmentFormDocPay = () => {
                               <>
                                 {" "}
                                 <option value="">-select-</option>
-                                <option value="Received">Recieved</option>
+                                <option value="paid">Recieved</option>
                               </>
                             ) : (
                               <>
                                 <option value="">-select-</option>
-                                <option value="Recieved">Received</option>
+                                <option value="paid">Received</option>
                               </>
                             )}
                           </>
