@@ -42,7 +42,7 @@ const TreatmentTMAdmin = () => {
     setLoading(true);
     try {
       const response = await axios.get(
-        `https://dentalguru-admin.vimubds5.a2hosted.com/api/v1/admin/getAppointmentData/${user.branch_name}`,
+        `https://dentalguru-admin.vimubds5.a2hosted.com/api/v1/admin/getTreatmentDetails/${user.branch_name}`,
         {
           headers: {
             "Content-Type": "multipart/form-data",
@@ -68,6 +68,8 @@ const TreatmentTMAdmin = () => {
     const month = String(getDate.getMonth() + 1).padStart(2, "0");
     const formattedDate = `${year}-${month}`;
 
+    console.log(appointmentList);
+
     console.log(
       appointmentList[1]?.appointment_dateTime?.split("T")[0]?.slice(0, 7)
     );
@@ -80,9 +82,11 @@ const TreatmentTMAdmin = () => {
     console.log(filterForMonthlyAppointments);
 
     if (filterForMonthlyAppointments.length > 0) {
-      const treatments = filterForMonthlyAppointments.map(
-        (item) => item.treatment_provided
+      const treatments = filterForMonthlyAppointments.map((item) =>
+        item.treatment_name ? item.treatment_name : item.treatment_provided
       );
+      console.log(treatments);
+
       const series = treatments.reduce((acc, val) => acc.concat(val), []);
       const uniqueTreatments = [...new Set(series)];
       console.log(uniqueTreatments);

@@ -191,7 +191,7 @@ const TreatBillReport = () => {
                                       {item.bill_id}
                                     </td>
                                     <td className="table-small">
-                                      {item.bill_date?.split("T")[0]}
+                                      {item.bill_date?.split(" ")[0]}
                                     </td>
                                     <td className="table-small">{item.uhid}</td>
                                     <td className="table-small">

@@ -125,7 +125,6 @@ const AdminPrescriptTemp = () => {
       );
       closeUpdatePopup();
       setAddPres(initialaddPres);
-
       getPrescriptionDetails();
       cogoToast.success("prescription details added successfully");
     } catch (error) {

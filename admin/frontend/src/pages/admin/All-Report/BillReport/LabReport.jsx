@@ -196,7 +196,7 @@ const LabReport = () => {
                                   <tr className="table-row">
                                     <td className="table-sno">{item.testid}</td>
                                     <td className="table-small">
-                                      {item.created_date?.split("T")[0]}
+                                      {item.created_date?.split(" ")[0]}
                                     </td>
                                     <td className="table-small">
                                       {item.patient_uhid}

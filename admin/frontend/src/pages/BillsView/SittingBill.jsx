@@ -231,7 +231,7 @@ const SittingBill = () => {
                               {item.sitting_amount}
                             </td>
                             <td>
-                              {item.payment_Status ? item.payment_Status : "-"}
+                              {item.payment_status ? item.payment_status : "-"}
                             </td>
                             <td>
                               <button

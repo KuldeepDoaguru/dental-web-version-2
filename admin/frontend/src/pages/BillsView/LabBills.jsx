@@ -167,14 +167,7 @@ const LabBills = () => {
                             {/* <td className="table-small">{item.cost}</td> */}
                             <td className="table-small">{item.payment}</td>
                             <td>{item.payment_status}</td>
-                            <td>
-                              {item?.created_date
-                                ? moment(
-                                    item?.created_date,
-                                    "YYYY-MM-DDTHH:mm"
-                                  ).format("DD/MM/YYYY")
-                                : "--"}
-                            </td>
+                            <td>{item?.created_date?.split(" ")[0]}</td>
 
                             {/* <td>
                               <td>{item.cost - item.payment}</td>
