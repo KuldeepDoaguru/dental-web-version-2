@@ -331,7 +331,7 @@ const TreatBills = () => {
                         <>
                           <tr className="">
                             <td>{item.bill_id}</td>
-                            <td>{item.bill_date?.split("T")[0]}</td>
+                            <td>{item.bill_date?.split(" ")[0]}</td>
                             <td>
                               <Link
                                 className="fw-bold"

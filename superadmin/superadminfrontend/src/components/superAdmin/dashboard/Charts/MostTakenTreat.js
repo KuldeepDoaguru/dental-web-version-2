@@ -52,7 +52,7 @@ const MostTakenTreat = () => {
     setLoading(true);
     try {
       const response = await axios.get(
-        `https://dentalguru-superadmin.vimubds5.a2hosted.com/api/v1/super-admin/getAppointmentData/${branch.name}`,
+        `https://dentalguru-superadmin.vimubds5.a2hosted.com/api/v1/super-admin/getTreatmentDetails/${branch.name}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -97,8 +97,8 @@ const MostTakenTreat = () => {
     console.log(filterForMonthlyAppointments);
 
     if (filterForMonthlyAppointments.length > 0) {
-      const treatments = filterForMonthlyAppointments.map(
-        (item) => item.treatment_provided
+      const treatments = filterForMonthlyAppointments.map((item) =>
+        item.treatment_name ? item.treatment_name : item.treatment_provided
       );
       const series = treatments.reduce((acc, val) => acc.concat(val), []);
       const uniqueTreatments = [...new Set(series)];

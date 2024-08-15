@@ -28,7 +28,7 @@ const LabReport = () => {
     setLoading(true);
     try {
       const { data } = await axios.get(
-        `https://dentalguru-superadmin.vimubds5.a2hosted.com/api/v1/super-admin/getLabData/${branch.name}`,
+        `https://dentalguru-superadmin.vimubds5.a2hosted.com/api/v1/super-admin/getPatientLabTest/${branch.name}`,
         {
           headers: {
             "Content-Type": "application/json",
