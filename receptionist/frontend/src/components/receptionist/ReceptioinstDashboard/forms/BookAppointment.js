@@ -1225,7 +1225,7 @@ function BookAppointment() {
                       >
                         <option value="">Select</option>
                         <option value="Cash">Cash</option>
-                             {selectedPatient?.patient_type == "Credit" && <option value="Credit">Credit</option> }
+                             {(selectedPatient?.patient_type == "Credit" && currentBranch[0].allow_insurance == "Yes") && <option value="Credit">Credit</option> }
                               <option value="UPI">UPI</option>
                               <option value="Card">Card</option>
                               {/* <option value="Cheque">Cheque</option> */}
