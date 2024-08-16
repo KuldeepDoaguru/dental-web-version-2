@@ -5,7 +5,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { FaArrowCircleLeft } from "react-icons/fa";
 import { FaArrowCircleRight } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
-import { toggleTableRefresh } from "../../../redux/user/userSlice";
+import { clearUser, toggleTableRefresh } from "../../../redux/user/userSlice";
 import cogoToast from "cogo-toast";
 import moment from "moment";
 import animationData from "../../../animation/animation-four.json";
@@ -33,6 +33,12 @@ const AppointTable = () => {
   // console.log(branch);
   // const [selectedActions, setSelectedActions] = useState({});
 
+  const logoutHandleByToken = () => {
+    // alert("Token Expired! You have been logged out");
+    dispatch(clearUser());
+    navigate("/");
+  };
+
   const handleDateChange = (increment) => {
     const currentDate = new Date(selectedDate);
     currentDate.setDate(currentDate.getDate() + increment);
@@ -51,11 +57,21 @@ const AppointTable = () => {
           },
         }
       );
-      // setLoading(false);
+      setLoading(false);
       setAppointments(data);
     } catch (error) {
-      // setLoading(false);
-      // console.error("Error fetching appointments:", error.message);
+      if (error.response && error.response.status === 401) {
+        const errorMessage = error.response.data.message;
+        if (errorMessage === "Unauthorized - Token expired") {
+          logoutHandleByToken();
+        } else {
+          console.log("Unauthorized access:", errorMessage);
+        }
+      } else {
+        console.log("An error occurred:", error.message);
+      }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -213,13 +229,18 @@ const AppointTable = () => {
 
         const filterForGoingTp = treatData?.filter((item) => {
           return (
-            (item.tp_id === tpid && item.package_status !== "started") ||
+            (item.tp_id === tpid &&
+              item.package_status !== "started" &&
+              item.package_status !== "completed") ||
             (item.treatment_status === "ongoing" && item.current_path !== null)
           );
         });
 
         console.log(filterForGoingTp);
-        if (filterForPendingTp[0]?.treatment_status !== "pending") {
+        if (
+          filterForPendingTp[0]?.treatment_status !== "pending" &&
+          filterForPendingTp[0]?.package_status !== "completed"
+        ) {
           navigate(`/TreatmentDashBoard/${tpid}/${appointId}`);
         } else if (filterForGoingTp.length > 0) {
           const appointFilter = appointments?.filter((tad) => {

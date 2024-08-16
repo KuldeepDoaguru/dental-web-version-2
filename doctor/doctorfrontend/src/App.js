@@ -138,12 +138,10 @@ function App() {
   };
 
   useEffect(() => {
-    if (user) {
-      getTodayAttendance();
-    }
-  }, [user]);
+    getTodayAttendance();
+  }, []);
 
-  console.log(todayAttendance.length);
+  console.log(todayAttendance);
 
   return (
     <>

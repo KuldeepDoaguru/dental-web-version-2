@@ -1817,7 +1817,7 @@ const ExaminationPatientTest = ({ tpid }) => {
                             <select
                               name="chiefComplain"
                               onChange={handleSelecteditem}
-                              // value={inputItem.chiefComplain}
+                              value={inputItem.chiefComplain}
                               required
                               id="form8Example3"
                               class="form-control"

@@ -481,10 +481,17 @@ const TreatmentFormDocPay = () => {
         ? payableAmountafterSecAmount
         : 0,
     pay_security_amount: secRecValue,
-    payment_mode: getPatientData[0]?.patient_type === "Credit" ? "Credit" : "",
+    payment_mode:
+      getPatientData[0]?.patient_type === "Credit"
+        ? branchData[0]?.allow_insurance === "No"
+          ? ""
+          : "Credit"
+        : "",
     payment_status:
       getPatientData[0]?.patient_type === "Credit"
-        ? "Credit"
+        ? branchData[0]?.allow_insurance === "No"
+          ? formData.sitting_payment_status
+          : "Credit"
         : formData.sitting_payment_status,
     note: formData.note,
   };

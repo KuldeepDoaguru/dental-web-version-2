@@ -6,6 +6,8 @@ import cogoToast from "cogo-toast";
 import moment from "moment";
 import { toggleTableRefresh } from "../../redux/user/userSlice";
 import { useNavigate } from "react-router-dom";
+import { TbRefresh } from "react-icons/tb";
+import styled from "styled-components";
 
 const MarkAttendance = () => {
   const dispatch = useDispatch();
@@ -19,7 +21,7 @@ const MarkAttendance = () => {
   const employee_designation = user.employee_designation;
   const date = new Date().toISOString().slice(0, 10);
   const time = new Date();
-
+  const [isRotating, setIsRotating] = useState(false);
   const [todayAttendance, setTodayAttendance] = useState([]);
 
   const getTodayAttendance = async () => {
@@ -84,6 +86,15 @@ const MarkAttendance = () => {
     }
   };
 
+  const refreshPage = () => {
+    window.location.reload();
+
+    setTimeout(() => {
+      setIsRotating(false);
+      window.location.reload();
+    }, 1000);
+  };
+
   const handleLogout = async () => {
     // Display a confirmation popup
     const isConfirmed = window.confirm(
@@ -127,43 +138,73 @@ const MarkAttendance = () => {
   };
 
   return (
-    <div className="container">
-      <div className="row d-flex justify-content-end">
-        <div className="col-6 d-flex justify-content-end gap-2">
-          {todayAttendance?.length == 0 && (
-            <button
-              className="btn btn-success shadow"
-              style={{
-                backgroundColor: "#0dcaf0",
-                border: "#0dcaf0",
-              }}
-              onClick={handleLogin}
-            >
-              Attendance Login
-            </button>
-          )}
+    <>
+      <Container>
+        <div className="container">
+          <div className="row d-flex justify-content-end">
+            <div className="col-6 d-flex justify-content-end gap-2">
+              {todayAttendance?.length == 0 && (
+                <button
+                  className="btn btn-success shadow"
+                  style={{
+                    backgroundColor: "#0dcaf0",
+                    border: "#0dcaf0",
+                  }}
+                  onClick={handleLogin}
+                >
+                  Attendance Login
+                </button>
+              )}
 
-          {todayAttendance?.length > 0 && (
-            <button
-              className="btn btn-success shadow"
-              style={{
-                backgroundColor: "#0dcaf0",
-                border: "#0dcaf0",
-              }}
-              onClick={handleLogout}
-            >
-              Attendance Logout
-            </button>
-          )}
-        </div>
-        {/* <div className='col-3'>
+              {todayAttendance?.length > 0 && (
+                <>
+                  <button
+                    className="btn btn-info"
+                    style={{
+                      backgroundColor: "#0dcaf0",
+                      border: "#0dcaf0",
+                    }}
+                    onClick={refreshPage}
+                  >
+                    <TbRefresh className={isRotating ? "rotate" : ""} />
+                  </button>
+                  <button
+                    className="btn btn-success shadow"
+                    style={{
+                      backgroundColor: "#0dcaf0",
+                      border: "#0dcaf0",
+                    }}
+                    onClick={handleLogout}
+                  >
+                    Attendance Logout
+                  </button>
+                </>
+              )}
+            </div>
+            {/* <div className='col-3'>
           
          
         </div> */}
-        {/* <div>{message}</div> */}
-      </div>
-    </div>
+            {/* <div>{message}</div> */}
+          </div>
+        </div>
+      </Container>
+    </>
   );
 };
 
 export default MarkAttendance;
+const Container = styled.div`
+  @keyframes rotate {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  .rotate {
+    animation: rotate 1s linear infinite;
+  }
+`;
