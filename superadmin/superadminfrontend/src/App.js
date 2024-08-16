@@ -66,6 +66,7 @@ import ClinicConfigSetting from "./pages/superAdmin/settings/ClinicConfigSetting
 import ViewSittingBill from "./pages/superAdmin/BillsView/ViewSittingBill";
 import PrescriptionList from "./components/superAdmin/prescription/PrescriptionList";
 import ViewPrescription from "./components/superAdmin/prescription/ViewPrescription";
+import PatientBillsByTpid from "./pages/superAdmin/AllReport/BillReport/PatientBillsByTpid";
 
 const App = () => {
   // const storedUserData = localStorage.getItem("userData");
@@ -329,6 +330,12 @@ const App = () => {
         <Route
           path="/view-prescription/:tpid"
           element={user.id === null ? <UniversalLogin /> : <ViewPrescription />}
+        />
+        <Route
+          path="/ViewPatientTotalBill/:tpid"
+          element={
+            user.id === null ? <UniversalLogin /> : <PatientBillsByTpid />
+          }
         />
       </Routes>
     </BrowserRouter>

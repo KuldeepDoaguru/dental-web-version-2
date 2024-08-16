@@ -101,7 +101,7 @@ const Header = () => {
     };
   }, []);
 
-  // console.log(notifyList);
+  console.log(notifyList);
 
   const filterForRead = notifyList?.filter((item) => {
     return item.status !== "read";

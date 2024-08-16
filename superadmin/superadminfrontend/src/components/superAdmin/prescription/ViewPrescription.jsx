@@ -70,7 +70,7 @@ const ViewPrescription = () => {
   const getLabAllData = async () => {
     try {
       const res = await axios.get(
-        `https://dentalguru-superadmin.vimubds5.a2hosted.com/api/v1/super-admin/lab-details/${tpid}`,
+        `https://dentalguru-superadmin.vimubds5.a2hosted.com/api/v1/super-admin/getLabDetails/${tpid}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -78,12 +78,14 @@ const ViewPrescription = () => {
           },
         }
       );
-      setGetLabData(res.data.lab_details);
+      setGetLabData(res.data);
       console.log(res.data.lab_details);
     } catch (error) {
       console.log(error);
     }
   };
+
+  console.log(getLabData);
 
   const getTreatDetails = async () => {
     try {

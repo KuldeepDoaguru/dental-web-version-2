@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
@@ -11,6 +11,7 @@ import moment from "moment";
 import cogoToast from "cogo-toast";
 
 const TreatBillReport = () => {
+  const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
@@ -319,6 +320,7 @@ const TreatBillReport = () => {
                           <th className="sticky">Pay by Security Amount</th>
                           <th className="sticky">Payment Status</th>
                           <th className="sticky">Payment Date & Time</th>
+                          <th className="sticky">View Invoice</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -377,17 +379,22 @@ const TreatBillReport = () => {
                                   {item.paid_amount}
                                 </td>
                                 <td>{item.pay_by_sec_amt}</td>
-                                <td>
-                                  {item.payment_status === "paid"
-                                    ? "Paid"
-                                    : "Pending"}
-                                </td>
+                                <td>{item.payment_status}</td>
                                 <td>
                                   {item.payment_date_time?.split(" ")[0]}{" "}
-                                  {moment(
-                                    item.payment_date_time?.split(" ")[1],
-                                    "HH:mm:ss"
-                                  ).format("hh:mm a")}
+                                </td>
+                                <td>
+                                  <Link
+                                    to={`/ViewPatientTotalBill/${item.tp_id}`}
+                                  >
+                                    {" "}
+                                    <button
+                                      className="btn btn-success"
+                                      style={{ backgroundColor: "#004aad" }}
+                                    >
+                                      View
+                                    </button>
+                                  </Link>
                                 </td>
                               </tr>
                             </>
