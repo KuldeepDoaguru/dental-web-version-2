@@ -374,12 +374,13 @@ const BookSittingAppointment = ({
 
       const isCanceled = appointment.appointment_status !== "Cancel";
 
-      return !(
+      return (
         appointment.assigned_doctor_id === doctorDetailsStore.employee_ID &&
-        appointmentDate.getTime() === selectedDate.getTime() &&
+        appointmentDate.getTime() !== selectedDate.getTime() &&
         isCanceled
       );
     });
+    console.log(isSlotAvailable);
 
     if (isSlotAvailable) {
       // Slot is available, proceed with booking

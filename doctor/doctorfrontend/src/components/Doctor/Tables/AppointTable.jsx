@@ -229,9 +229,7 @@ const AppointTable = () => {
 
         const filterForGoingTp = treatData?.filter((item) => {
           return (
-            (item.tp_id === tpid &&
-              item.package_status !== "started" &&
-              item.package_status !== "completed") ||
+            (item.tp_id === tpid && item.package_status !== "started") ||
             (item.treatment_status === "ongoing" && item.current_path !== null)
           );
         });
@@ -239,13 +237,19 @@ const AppointTable = () => {
         console.log(filterForGoingTp);
         if (
           filterForPendingTp[0]?.treatment_status !== "pending" &&
+          filterForPendingTp[0]?.treatment_status !== null &&
           filterForPendingTp[0]?.package_status !== "completed"
         ) {
+          // alert("filter pending tp");
           navigate(`/TreatmentDashBoard/${tpid}/${appointId}`);
-        } else if (filterForGoingTp.length > 0) {
+        } else if (
+          filterForGoingTp.length > 0 &&
+          filterForGoingTp[0]?.package_status !== "completed"
+        ) {
           const appointFilter = appointments?.filter((tad) => {
             return tad.appoint_id === appointId;
           });
+          // alert("current path");
           navigate(appointFilter[0]?.current_path);
         } else {
           navigate(`/examination-Dashboard/${appointId}/${uhid}`);
