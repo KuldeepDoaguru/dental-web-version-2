@@ -433,7 +433,7 @@ const ClinicActivity = () => {
               aria-labelledby="pills-treatment-tab"
             >
               <ul className="appointHeight">
-                {filterTreatment?.map((item) => (
+                {filterAppointment?.map((item) => (
                   <>
                     <li>
                       <div className="d-flex justify-content-between">

@@ -312,12 +312,12 @@ const App = () => {
           element={user.id === null ? <UniversalLogin /> : <ErrorPage />}
         />
 
-        <Route
+        {/* <Route
           path="/ViewPatientTotalBill/:tpid"
           element={
             user.id === null ? <UniversalLogin /> : <ViewPatientTotalBill />
           }
-        />
+        /> */}
 
         <Route
           path="/ViewSittingBill/:tpid/:sitting/:treatment/:appoint_id/:uhid"

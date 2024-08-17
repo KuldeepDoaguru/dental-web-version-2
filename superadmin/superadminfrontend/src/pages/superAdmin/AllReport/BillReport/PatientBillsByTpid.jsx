@@ -20,10 +20,13 @@ const PatientBillsByTpid = () => {
   const user = useSelector((state) => state.user);
   console.log(`User Name: ${user.name}, User ID: ${user.id}`);
   console.log("User State:", user);
-  const branch = useSelector((state) => state.branch.branch.name);
+  const branch = useSelector((state) => state.branch);
+  console.log(branch.name);
+
   const [getExaminData, setGetExaminData] = useState([]);
   const [getTreatData, setGetTreatData] = useState([]);
   const [getTreatMedicine, setGetTreatMedicine] = useState([]);
+  const [getDocDetails, setGetDocDetails] = useState([]);
   const [getTreatSug, setGetTreatSug] = useState([]);
   const [getBranch, setGetBranch] = useState([]);
   const [billDetails, setBillDetails] = useState([]);
@@ -31,7 +34,7 @@ const PatientBillsByTpid = () => {
   const getBranchDetails = async () => {
     try {
       const { data } = await axios.get(
-        `https://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/getBranchDetails/${branch}`,
+        `https://dentalguru-superadmin.vimubds5.a2hosted.com/api/v1/super-admin/getBranchDetailsByBranch/${branch.name}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -46,12 +49,12 @@ const PatientBillsByTpid = () => {
     }
   };
 
-  console.log(getBranch[0]?.hospital_name);
+  console.log(getBranch);
   // Get Patient Details START
   const getPatientDetail = async () => {
     try {
       const res = await axios.get(
-        `https://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/getAppointmentsWithPatientDetailsById/${tpid}`,
+        `https://dentalguru-superadmin.vimubds5.a2hosted.com/api/v1/super-admin/getAppointmentsWithPatientDetailsById/${tpid}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -76,7 +79,7 @@ const PatientBillsByTpid = () => {
   const getExaminDetail = async () => {
     try {
       const res = await axios.get(
-        `https://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/getDentalDataByTpid/${tpid}/${branch}`,
+        `https://dentalguru-superadmin.vimubds5.a2hosted.com/api/v1/super-admin/getDentalDataByTpid/${tpid}/${branch.name}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -102,7 +105,7 @@ const PatientBillsByTpid = () => {
   const getTreatDetail = async () => {
     try {
       const { data } = await axios.get(
-        `https://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/getTreatmentDetailsViaTpid/${tpid}/${branch}`,
+        `https://dentalguru-superadmin.vimubds5.a2hosted.com/api/v1/super-admin/getTreatmentDetailsViaTpid/${tpid}/${branch.name}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -127,7 +130,7 @@ const PatientBillsByTpid = () => {
   const getTreatPrescriptionByAppointId = async () => {
     try {
       const { data } = await axios.get(
-        `https://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/getTreatPrescriptionByTpid/${tpid}/${branch}`,
+        `https://dentalguru-superadmin.vimubds5.a2hosted.com/api/v1/super-admin/getTreatPrescriptionByTpid/${tpid}/${branch.name}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -151,7 +154,7 @@ const PatientBillsByTpid = () => {
   const getTreatmentSuggestAppointId = async () => {
     try {
       const { data } = await axios.get(
-        `https://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/getTreatSuggestViaTpid/${tpid}/${branch}`,
+        `https://dentalguru-superadmin.vimubds5.a2hosted.com/api/v1/super-admin/getTreatSuggestViaTpid/${tpid}/${branch.name}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -180,7 +183,7 @@ const PatientBillsByTpid = () => {
   const getBillDetails = async () => {
     try {
       const { data } = await axios.get(
-        `https://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/billDetailsViaTpid/${tpid}`,
+        `https://dentalguru-superadmin.vimubds5.a2hosted.com/api/v1/super-admin/billDetailsViaTpid/${tpid}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -208,9 +211,29 @@ const PatientBillsByTpid = () => {
 
   console.log(totalBillvalueWithoutGst);
 
+  const getDoctorDetails = async () => {
+    try {
+      const { data } = await axios.get(
+        `https://dentalguru-superadmin.vimubds5.a2hosted.com/api/v1/super-admin/getEmployeeDetails/${branch.name}/${getTreatData[0]?.dir_rec_doctor_id}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${user.token}`,
+          },
+        }
+      );
+      setGetDocDetails(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  console.log(getDocDetails);
+
   useEffect(() => {
     getTreatmentSuggestAppointId();
     getBillDetails();
+    getDoctorDetails();
   }, []);
 
   console.log(billDetails[0]?.total_amount);
@@ -237,22 +260,22 @@ const PatientBillsByTpid = () => {
 
   console.log(payafterTreat);
 
-  useEffect(() => {
-    const handlePopState = (event) => {
-      // Push a new state to ensure the user stays on the current page
-      window.history.pushState(null, "", window.location.href);
-    };
+  // useEffect(() => {
+  //   const handlePopState = (event) => {
+  //     // Push a new state to ensure the user stays on the current page
+  //     window.history.pushState(null, "", window.location.href);
+  //   };
 
-    // Listen for popstate events
-    window.addEventListener("popstate", handlePopState);
+  //   // Listen for popstate events
+  //   window.addEventListener("popstate", handlePopState);
 
-    // Push the initial state
-    window.history.pushState(null, "", window.location.href);
+  //   // Push the initial state
+  //   window.history.pushState(null, "", window.location.href);
 
-    return () => {
-      window.removeEventListener("popstate", handlePopState);
-    };
-  }, []);
+  //   return () => {
+  //     window.removeEventListener("popstate", handlePopState);
+  //   };
+  // }, []);
 
   const handleDownloadPdf = async () => {
     const element = contentRef.current;
@@ -262,7 +285,7 @@ const PatientBillsByTpid = () => {
     const imgWidth = 210; // A4 width in mm
     const imgHeight = (canvas.height * imgWidth) / canvas.width;
 
-    pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
+    pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight, undefined, "FAST");
     pdf.save("final bill.pdf");
   };
 
@@ -295,7 +318,7 @@ const PatientBillsByTpid = () => {
         console.log(key, value);
       }
       const response = await axios.post(
-        "https://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/prescriptionOnMail",
+        "https://dentalguru-superadmin.vimubds5.a2hosted.com/api/v1/super-admin/prescriptionOnMail",
         formData,
         {
           headers: {
@@ -320,13 +343,25 @@ const PatientBillsByTpid = () => {
       const imgWidth = 210; // A4 width in mm
       const imgHeight = (canvas.height * imgWidth) / canvas.width;
 
-      pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
+      pdf.addImage(
+        imgData,
+        "PNG",
+        0,
+        0,
+        imgWidth,
+        imgHeight,
+        undefined,
+        "FAST"
+      );
       const pdfData = pdf.output("blob");
       console.log(pdfData);
 
       const formData = new FormData();
       formData.append("phoneNumber", getPatientData[0]?.mobileno);
-      formData.append("message", "test message");
+      formData.append(
+        "message",
+        `Dear ${getPatientData[0]?.patient_name}, your bill generated for the treatment, bill amount is ${billDetails[0]?.total_amount}/-`
+      );
       // Convert Blob to a File
       const file = new File([pdfData], "treatment bill.pdf", {
         type: "application/pdf",
@@ -338,11 +373,12 @@ const PatientBillsByTpid = () => {
       }
 
       const res = await axios.post(
-        "https://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/sendWhatsapp",
+        "https://dentalguru-superadmin.vimubds5.a2hosted.com/api/v1/super-admin/sendWhatsapp",
         formData,
         {
           headers: {
             "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${user.token}`,
           },
         }
       );
@@ -360,7 +396,7 @@ const PatientBillsByTpid = () => {
   const billDetailsSms = async () => {
     try {
       const { data } = await axios.post(
-        "https://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/sendSMS",
+        "https://dentalguru-superadmin.vimubds5.a2hosted.com/api/v1/super-admin/sendSMS",
         formDetails,
         {
           headers: {
@@ -373,6 +409,10 @@ const PatientBillsByTpid = () => {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const goBack = () => {
+    window.history.go(-1);
   };
 
   return (
@@ -446,7 +486,17 @@ const PatientBillsByTpid = () => {
           <hr />
         </div> */}
         <div className="container-fluid">
-          <div className="d-flex justify-content-end">
+          <div className="d-flex justify-content-between">
+            <button
+              className="btn btn-info no-print mt-2 mb-2 text-white shadow"
+              style={{
+                backgroundColor: "#0dcaf0",
+                border: "#0dcaf0",
+              }}
+              onClick={goBack}
+            >
+              Back
+            </button>
             <button
               className="btn btn-info no-print mt-2 mb-2 text-white shadow"
               style={{
@@ -540,13 +590,13 @@ const PatientBillsByTpid = () => {
               <div className="text-start docDetails">
                 <p>
                   <strong>Doctor Name :</strong> Dr.{" "}
-                  {user.currentUser.employee_name}
+                  {getDocDetails[0]?.employee_name}
                 </p>
                 <p>
-                  <strong>Mobile :</strong> {user.currentUser.employee_mobile}
+                  <strong>Mobile :</strong> {getDocDetails[0]?.employee_mobile}
                 </p>
                 <p>
-                  <strong>Email :</strong> {user.currentUser.email}
+                  <strong>Email :</strong> {getDocDetails[0]?.email}
                 </p>
               </div>
             </div>
@@ -797,7 +847,7 @@ const PatientBillsByTpid = () => {
             >
               Download Bill
             </button>
-            {branchData[0]?.doctor_payment === "No" ? (
+            {/* {getBranch[0]?.doctor_payment === "No" ? (
               <>
                 {" "}
                 <button
@@ -856,10 +906,10 @@ const PatientBillsByTpid = () => {
                   </>
                 )}
               </>
-            )}
+            )} */}
             <br />
             Share on :
-            {branchData[0]?.sharemail === "Yes" && (
+            {getBranch[0]?.sharemail === "Yes" && (
               <button
                 className="btn btn-info no-print mx-3 mb-3 mt-2 text-white shadow"
                 style={{
@@ -871,7 +921,7 @@ const PatientBillsByTpid = () => {
                 <SiGmail />
               </button>
             )}
-            {branchData[0]?.sharewhatsapp === "Yes" && (
+            {getBranch[0]?.sharewhatsapp === "Yes" && (
               <button
                 className="btn btn-info no-print mx-3 mb-3 mt-2 text-white shadow"
                 style={{
@@ -883,7 +933,7 @@ const PatientBillsByTpid = () => {
                 <IoLogoWhatsapp />
               </button>
             )}
-            {branchData[0]?.sharesms === "Yes" && (
+            {getBranch[0]?.sharesms === "Yes" && (
               <button
                 className="btn btn-info no-print mx-3 mb-3 mt-2 text-white shadow"
                 style={{
