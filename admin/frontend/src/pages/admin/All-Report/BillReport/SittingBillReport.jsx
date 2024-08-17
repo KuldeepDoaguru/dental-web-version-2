@@ -323,11 +323,7 @@ const SittingBillReport = () => {
                                 {item.paid_amount}
                               </td>
                               <td>{item.pay_security_amount}</td>
-                              <td>
-                                {item.payment_status === "paid"
-                                  ? "Paid"
-                                  : "Pending"}
-                              </td>
+                              <td>{item.payment_status}</td>
                               <td>
                                 {item.date?.split(" ")[0]}{" "}
                                 {moment(

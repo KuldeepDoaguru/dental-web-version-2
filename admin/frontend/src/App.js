@@ -52,6 +52,7 @@ import RefundedAmountReport from "./pages/superAdmin/AllReport/RefundedAmountRep
 import ViewSittingBill from "./pages/BillsView/ViewSittingBill";
 import PrescriptionList from "./pages/admin/prescription/PrescriptionList";
 import ViewPrescription from "./pages/admin/prescription/ViewPrescription";
+import PatientBillsByTpid from "./pages/admin/All-Report/BillReport/PatientBillsByTpid";
 
 const App = () => {
   const user = useSelector((state) => state.user);
@@ -476,6 +477,16 @@ const App = () => {
                 <UniversalLogin />
               ) : (
                 <ViewPrescription />
+              )
+            }
+          />
+          <Route
+            path="/ViewPatientTotalBill/:tpid"
+            element={
+              user.currentUser === null ? (
+                <UniversalLogin />
+              ) : (
+                <PatientBillsByTpid />
               )
             }
           />

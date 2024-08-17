@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
@@ -167,7 +167,8 @@ const TreatBillReport = () => {
                           <th className="table-small sticky">Total Amount</th>
                           <th className="sticky">Paid Amount</th>
                           <th className="sticky">Payment Status</th>
-                          <th className="sticky">Payment Date & Time</th>
+                          <th className="sticky">Payment Date</th>
+                          <th className="sticky">View Invoice</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -204,12 +205,21 @@ const TreatBillReport = () => {
                                     <td className="table-small">
                                       {item.paid_amount}
                                     </td>
-                                    <td>
-                                      {item.payment_status === "paid"
-                                        ? "Paid"
-                                        : "Pending"}
-                                    </td>
+                                    <td>{item.payment_status}</td>
                                     <td>{item.payment_date_time}</td>
+                                    <td>
+                                      <Link
+                                        to={`/ViewPatientTotalBill/${item.tp_id}`}
+                                      >
+                                        {" "}
+                                        <button
+                                          className="btn btn-info"
+                                          style={{ backgroundColor: "#1abc9c" }}
+                                        >
+                                          View
+                                        </button>
+                                      </Link>
+                                    </td>
                                   </tr>
                                 </>
                               ))
@@ -244,12 +254,22 @@ const TreatBillReport = () => {
                                     <td className="table-small">
                                       {item.paid_amount}
                                     </td>
-                                    <td>
-                                      {item.payment_status === "paid"
-                                        ? "Paid"
-                                        : "Pending"}
-                                    </td>
+                                    <td>{item.payment_status}</td>
                                     <td>{item.payment_date_time}</td>
+                                    <td>
+                                      {" "}
+                                      <Link
+                                        to={`/ViewPatientTotalBill/${item.tp_id}`}
+                                      >
+                                        {" "}
+                                        <button
+                                          className="btn btn-info"
+                                          style={{ backgroundColor: "#1abc9c" }}
+                                        >
+                                          View
+                                        </button>
+                                      </Link>
+                                    </td>
                                   </tr>
                                 </>
                               ))}

@@ -68,7 +68,7 @@ const ViewPrescription = () => {
   const getLabAllData = async () => {
     try {
       const res = await axios.get(
-        `https://dentalguru-admin.vimubds5.a2hosted.com/api/v1/admin/lab-details/${tpid}`,
+        `https://dentalguru-admin.vimubds5.a2hosted.com/api/v1/admin/getLabDetails/${tpid}`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -76,12 +76,14 @@ const ViewPrescription = () => {
           },
         }
       );
-      setGetLabData(res.data.lab_details);
-      console.log(res.data.lab_details);
+      setGetLabData(res.data);
+      console.log(res.data);
     } catch (error) {
       console.log(error);
     }
   };
+
+  console.log(getLabData);
 
   const getTreatDetails = async () => {
     try {
@@ -458,7 +460,7 @@ const ViewPrescription = () => {
                     ))}
                   </table>
                 </div>
-                {getLabData.length > 0 ? (
+                {getLabData?.length > 0 ? (
                   <>
                     <div className="diagnosis">
                       <p className="text-start  fw-bold">Lab Test</p>
