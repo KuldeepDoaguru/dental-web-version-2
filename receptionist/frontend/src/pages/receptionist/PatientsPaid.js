@@ -43,7 +43,7 @@ function PatientsPaid() {
 
   console.log(paidList);
   const filterForPaidBills = paidList?.filter((item) => {
-    return item.payment_status === "paid";
+    return item.payment_status === "paid" || item.payment_status === "Paid" ;
   });
 
   console.log(filterForPaidBills);

@@ -776,7 +776,7 @@ console.log(selected)
                                 <td>{item.refund_amount}</td>
                                 <td>
                                   {/* {item?.remaining_amount === 0 && ( */}
-                                  {item.payment_status === "pending" ? (
+                                  {(item.payment_status === "pending" || item.payment_status === "Pending") ? (
                                     <>
                                       <button
                                         className="mx-2 btn btn-info"

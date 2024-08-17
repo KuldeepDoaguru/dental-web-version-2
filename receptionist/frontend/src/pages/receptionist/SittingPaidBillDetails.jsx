@@ -43,7 +43,7 @@ function SittingPaidBillDetails() {
 
   console.log(patBill);
   const filterForUnPaidBills = patBill?.filter((item) => {
-    return item.payment_status === "paid";
+    return item.payment_status === "paid" || item.payment_status === "Paid";
   });
 
   console.log(filterForUnPaidBills);
@@ -51,6 +51,8 @@ function SittingPaidBillDetails() {
   useEffect(() => {
     getPatBills();
   }, []);
+
+  
 
   console.log(patBill);
 

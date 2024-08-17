@@ -1,44 +1,45 @@
-import React, { useState,useRef, useEffect } from "react";
-import styled from "styled-components";
-import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
-import { useSelector } from "react-redux";
-import numToWords from "num-to-words";
-import moment from "moment";
-import { FaPrint } from "react-icons/fa6";
+import { numToWords } from "num-to-words";
+import React, { useEffect,useRef, useState } from "react";
 import { IoMdArrowRoundBack } from "react-icons/io";
+import { useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
+import styled from "styled-components";
+import { FaPrint } from "react-icons/fa6";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import { SiGmail, SiGooglemessages } from "react-icons/si";
 import { IoLogoWhatsapp } from "react-icons/io";
 import cogoToast from "cogo-toast";
-import domtoimage from 'dom-to-image'
-// import numWords from "num-words";
 
-
-const PatientBillsByTpid = () => {
-  const { tpid } = useParams();
-  const navigate = useNavigate();
+const CreditSittingBill = () => {
+  const { tpid, sbid, treatment } = useParams();
   const contentRef = useRef();
+  const navigate = useNavigate();
   const [getPatientData, setGetPatientData] = useState([]);
   const { refreshTable, currentUser } = useSelector((state) => state.user);
   const {currentBranch} = useSelector((state) => state.branch);
-  const branch = currentUser.branch_name;
   const token = currentUser?.token;
-
-  console.log(tpid);
-
+  const branch = currentUser.branch_name;
   const [getExaminData, setGetExaminData] = useState([]);
   const [getTreatData, setGetTreatData] = useState([]);
   const [getTreatMedicine, setGetTreatMedicine] = useState([]);
   const [getTreatSug, setGetTreatSug] = useState([]);
   const [getBranch, setGetBranch] = useState([]);
-  const [billDetails, setBillDetails] = useState([]);
+  const [getLabData, setGetLabData] = useState([]);
+  const [sittingBill, setSittingBill] = useState([]);
+  const [getDocDetails, setGetDocDetails] = useState([]);
 
   const getBranchDetails = async () => {
     try {
       const { data } = await axios.get(
-        `https://dentalguru-receptionist.vimubds5.a2hosted.com/api/v1/receptionist/getBranchDetailsByBranch/${branch}`
+        `https://dentalguru-receptionist.vimubds5.a2hosted.com/api/v1/receptionist/getBranchDetailsByBranch/${branch}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
       console.log(data);
       setGetBranch(data);
@@ -47,7 +48,15 @@ const PatientBillsByTpid = () => {
     }
   };
 
-  console.log(getBranch[0]?.hospital_name);
+  console.log(getBranch);
+  const handleButton = async () => {
+    try {
+      window.print();
+    } catch (error) {
+      console.log("Error updating sitting count", error);
+    }
+  };
+
   // Get Patient Details START
   const getPatientDetail = async () => {
     try {
@@ -66,19 +75,65 @@ const PatientBillsByTpid = () => {
     }
   };
 
-  console.log(getPatientData[0]?.address);
-  useEffect(() => {
-    getPatientDetail();
-    getBranchDetails();
-  }, []);
-  // Get Patient Details END
+  console.log(getPatientData);
 
-  const handleBack = ()=>{
-    navigate("/invoices?tab=paid")
-  }
+  const getLabAllData = async () => {
+    try {
+      const res = await axios.get(
+        `https://dentalguru-receptionist.vimubds5.a2hosted.com/api/v1/receptionist/lab-details/${tpid}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setGetLabData(res.data.lab_details);
+      console.log(res.data.lab_details);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-  // Get Patient Examintion Details START
-  const getExaminDetail = async () => {
+  const getSittingBillbyId = async () => {
+    try {
+      const { data } = await axios.get(
+        `https://dentalguru-receptionist.vimubds5.a2hosted.com/api/v1/receptionist/getSittingBillbyId/${branch}/${sbid}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setSittingBill(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  console.log(sittingBill);
+
+  const getDoctorDetails = async () => {
+    try {
+      const { data } = await axios.get(
+        `https://dentalguru-receptionist.vimubds5.a2hosted.com/api/v1/receptionist/getEmployeeDetailsbyId/${branch}/${getPatientData[0]?.doctor_id}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setGetDocDetails(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  console.log(getDocDetails);
+
+  const getExamineDetails = async () => {
     try {
       const res = await axios.get(
         `https://dentalguru-receptionist.vimubds5.a2hosted.com/api/v1/receptionist/getDentalDataByTpid/${tpid}/${branch}`,
@@ -89,182 +144,33 @@ const PatientBillsByTpid = () => {
           },
         }
       );
+
       setGetExaminData(res.data.result);
-      console.log(res.data);
     } catch (error) {
       console.log(error);
     }
   };
 
-  useEffect(() => {
-    getExaminDetail();
-  }, []);
-  // Get Patient Examintion Details END
+  console.log(getExaminData);
 
   useEffect(() => {
-    // Push a new entry into the history stack
-    window.history.pushState(null, null, window.location.href);
-
-    const handleBackButton = (event) => {
-      event.preventDefault();
-      // Prevent the back navigation
-      window.history.pushState(null, null, window.location.href);
-    };
-
-    // Listen for popstate events (which occur on back/forward navigation)
-    window.addEventListener("popstate", handleBackButton);
-
-    return () => {
-      window.removeEventListener("popstate", handleBackButton);
-    };
+    getPatientDetail();
+    getBranchDetails();
+    getLabAllData();
+    getSittingBillbyId();
+    // getDoctorDetails();
+    getExamineDetails();
   }, []);
 
+  useEffect(()=>{
+    getDoctorDetails();
+  },[getPatientData])
 
-  // Get Patient Treatment Details START
-  const getTreatDetail = async () => {
-    try {
-      const { data } = await axios.get(
-        `https://dentalguru-receptionist.vimubds5.a2hosted.com/api/v1/receptionist/getTreatmentDetailsViaTpid/${tpid}/${branch}`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      setGetTreatData(data.result);
-      console.log(data);
-    } catch (error) {
-      console.log(error);
-    }
+  console.log(sittingBill);
+
+  const goBack = () => {
+    navigate("/all_credit_invoice?tab=creditSittingBill");
   };
-
-  console.log(getTreatData);
-  useEffect(() => {
-    getTreatDetail();
-  }, []);
-  // Get Patient Treatment Details END
-
-  // Get Treatment Medical Prescription Data START
-  const getTreatPrescriptionByAppointId = async () => {
-    try {
-      const { data } = await axios.get(
-        `https://dentalguru-receptionist.vimubds5.a2hosted.com/api/v1/receptionist/getTreatPrescriptionByTpid/${tpid}/${branch}`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      setGetTreatMedicine(data);
-      console.log(data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    getTreatPrescriptionByAppointId();
-  }, []);
-  // Get Treatment Medical Prescription Data END
-
-  // Get Treatment Suggest START
-  const getTreatmentSuggestAppointId = async () => {
-    try {
-      const { data } = await axios.get(
-        `https://dentalguru-receptionist.vimubds5.a2hosted.com/api/v1/receptionist/getTreatSuggestViaTpid/${tpid}/${branch}`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      setGetTreatSug(data.data);
-      console.log(data.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  console.log(getTreatSug);
-  // Get Treatment Suggest END
-
-  const handleButton = async () => {
-    try {
-      window.print();
-    } catch (error) {
-      console.log("Error updating sitting count", error);
-    }
-  };
-
-  const totalBillvalueWithoutGst = getTreatData?.reduce((total, item) => {
-    if (billDetails[0]?.due_amount === billDetails[0]?.net_amount) {
-      return total + Number(item.paid_amount);
-    } else {
-      return (
-        Number(billDetails[0]?.paid_amount) +
-        Number(billDetails[0]?.pay_by_sec_amt)
-      );
-    }
-  }, 0);
-
-  console.log(totalBillvalueWithoutGst);
-
-  const getBillDetails = async () => {
-    try {
-      const { data } = await axios.get(
-        `https://dentalguru-receptionist.vimubds5.a2hosted.com/api/v1/receptionist/billDetailsViaTpid/${tpid}`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      setBillDetails(data);
-      console.log(data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => {
-    getTreatmentSuggestAppointId();
-    getBillDetails();
-  }, []);
-
-  console.log(billDetails);
-
-  const netVal = getTreatData?.filter((item) => {
-    return item.sitting_number === 1;
-  });
-
-  const payafterTreat = getTreatData.reduce(
-    (total, item) =>
-      item.sitting_payment_status === "Pending"
-        ? total
-        : total + Number(item.paid_amount),
-    0
-  );
-   
-
-  // its genrate very high size file
-
-  // const handleDownloadPdf = async () => {
-  //   const element = contentRef.current;
-  //   const canvas = await html2canvas(element);
-  //   const imgData = canvas.toDataURL("image/png");
-  //   const pdf = new jsPDF();
-  //   const imgWidth = 210; // A4 width in mm
-  //   const imgHeight = (canvas.height * imgWidth) / canvas.width;
-
-  //   pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
-  //   pdf.save("final bill.pdf");
-  // };
-
-   // optimize code for reduce pdf size
   const handleDownloadPdf = async () => {
     const element = contentRef.current;
     const canvas = await html2canvas(element, { scale: 2 }); // Increase the scale for better quality
@@ -275,8 +181,36 @@ const PatientBillsByTpid = () => {
     const imgHeight = (canvas.height * imgWidth) / canvas.width;
 
     pdf.addImage(imgData, "JPEG", 0, 0, imgWidth, imgHeight, undefined, 'FAST'); // Use 'FAST' for compression
-    pdf.save("bill.pdf");
+    pdf.save("sitting bill.pdf");
   };
+
+//   const handleDownloadPdf = async () => {
+//     const element = contentRef.current;
+//     const canvas = await html2canvas(element, { scale: 2 }); // Increase the scale for better quality
+//     const imgData = canvas.toDataURL("image/jpeg", 0.75); // Use JPEG with 75% quality
+
+//     const pdf = new jsPDF({
+//         orientation: "portrait",
+//         unit: "mm",
+//         format: "a4"
+//     });
+
+//     const pageWidth = pdf.internal.pageSize.getWidth();
+//     const pageHeight = pdf.internal.pageSize.getHeight();
+
+//     const imgWidth = pageWidth;
+//     const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+//     // Check if the image height is greater than the page height
+//     if (imgHeight > pageHeight) {
+//         pdf.addImage(imgData, "JPEG", 0, 0, imgWidth, pageHeight);
+//     } else {
+//         pdf.addImage(imgData, "JPEG", 0, 0, imgWidth, imgHeight);
+//     }
+
+//     pdf.save("sitting_bill.pdf");
+// };
+
 
 
 
@@ -302,11 +236,11 @@ const PatientBillsByTpid = () => {
       formData.append("patient_name", getPatientData[0]?.patient_name);
       formData.append(
         "subject",
-        `${getPatientData[0]?.patient_name}, your final bill file`
+        `${getPatientData[0]?.patient_name}, your sitting bill file`
       );
       formData.append(
         "textMatter",
-        `Dear ${getPatientData[0]?.patient_name}, Please find the attached final bill file.\n` +
+        `Dear ${getPatientData[0]?.patient_name}, Please find the attached sitting bill file.\n` +
         `Clinic Details:\n` +
         `Name: ${currentBranch[0]?.hospital_name}\n` +
         `Contact: ${currentBranch[0]?.branch_contact}\n` +
@@ -320,7 +254,7 @@ const PatientBillsByTpid = () => {
       for (let [key, value] of formData.entries()) {
         console.log(key, value);
       }
-      cogoToast.success("Treatment bill sending to email");
+      cogoToast.success("Sitting bill Sending to email");
       const response = await axios.post(
         "https://dentalguru-receptionist.vimubds5.a2hosted.com/api/v1/receptionist/prescriptionOnMail",
         formData,
@@ -331,10 +265,12 @@ const PatientBillsByTpid = () => {
           },
         }
       );
-      cogoToast.success("Treatment bill sent successfully");
+      cogoToast.success("Sitting bill sent successfully");
+      console.log(response)
       console.log("PDF sent successfully:", response.data);
     } catch (error) {
       console.error("Error sending PDF:", error);
+      cogoToast.error("Error to send Sitting bill");
     }
   };
 
@@ -355,7 +291,7 @@ const PatientBillsByTpid = () => {
       formData.append("phoneNumber", getPatientData[0]?.mobileno);
       formData.append("message", "test message");
       // Convert Blob to a File
-      const file = new File([pdfData], "treatment bill.pdf", {
+      const file = new File([pdfData], "sitting bill.pdf", {
         type: "application/pdf",
       });
 
@@ -373,16 +309,17 @@ const PatientBillsByTpid = () => {
           },
         }
       );
-      cogoToast.success("Bill sent successfully");
+      cogoToast.success("sitting bill sent successfully");
       console.log("PDF sent successfully");
     } catch (error) {
       console.error("Error sending PDF:", error);
+      cogoToast.error("Error to send Sitting bill");
     }
   };
 
   const formDetails = {
     phoneNumber: getPatientData[0]?.mobileno,
-    message: `Dear ${getPatientData[0]?.patient_name}, your bill generated for the treatment, bill amount is ${billDetails[0]?.total_amount}/-`,
+    message: `Dear ${getPatientData[0]?.patient_name}, your bill generated for the sitting ${sittingBill[0]?.sitting_number} of treatment ${sittingBill[0]?.treatment}, sitting bill amount is ${sittingBill[0]?.sitting_amount}/-`,
   };
   const billDetailsSms = async () => {
     try {
@@ -396,9 +333,10 @@ const PatientBillsByTpid = () => {
           },
         }
       );
-      cogoToast.success("bill details sent successfully");
+      cogoToast.success("Bill details sent successfully");
     } catch (error) {
       console.log(error);
+      cogoToast.error("Error to send Sitting bill Details");
     }
   };
 
@@ -406,36 +344,18 @@ const PatientBillsByTpid = () => {
     <>
       <Wrapper>
         {/* branch details */}
-        <div className="container-fluid">
-          <div className="d-flex justify-content-between align-items-center my-2 px-3 gap-2">
-            <button
-              className="btn btn-info no-print btn-lg shadow"
-              // onClick={() => window.history.go(-1)}
-              onClick={handleBack}
-            >
-            <IoMdArrowRoundBack />   Back
-            </button>
-            <button
-              className="btn btn-info no-print btn-lg shadow"
-              onClick={handleButton}
-            >
-             <FaPrint /> Print
-            </button>
-          </div>
-        </div>
-        <div ref={contentRef}>
-        <div className="container-fluid">
+        {/* <div className="container-fluid">
           <div className="row">
-            <div className="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+            <div className="col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-4 col-4">
               <div className="clinic-logo">
                 <img
-                  src={getBranch[0]?.head_img}
+                  src="https://res.cloudinary.com/dq5upuxm8/image/upload/v1708075638/dental%20guru/Login-page_1_cwadmt.png"
                   alt=""
                   className="img-fluid"
                 />
               </div>
             </div>
-            {/* <div className="col-xxl-8 col-xl-8 col-lg-8 col-md-8 col-sm-8 col-8">
+            <div className="col-xxl-8 col-xl-8 col-lg-8 col-md-8 col-sm-8 col-8">
               <div className="header-left">
                 <h3 className="text-center">Invoice</h3>
                 <hr />
@@ -486,13 +406,45 @@ const PatientBillsByTpid = () => {
                   </span>
                 </h6>
               </div>
-            </div> */}
+            </div>
           </div>
           <hr />
-        </div>
-        {/* patient details */}
+        </div> */}
         <div className="container-fluid">
-          <h3 className="text-center">Invoice</h3>
+        <div className="d-flex justify-content-between align-items-center my-2 px-3 gap-2">
+            <button
+              className="btn btn-info no-print btn-lg shadow"
+              // onClick={() => window.history.go(-1)}
+              onClick={goBack}
+            >
+            <IoMdArrowRoundBack />  Back
+            </button>
+            <button
+              className="btn btn-info no-print btn-lg shadow"
+              onClick={handleButton}
+            >
+             <FaPrint /> Print
+            </button>
+          </div>
+          <div ref={contentRef}>
+          <div className="row">
+            <div className="col-xxl-12 col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+              <div className="clinic-logo">
+                <img
+                  src={getBranch[0]?.head_img}
+                  alt="header"
+                  className="img-fluid"
+                />
+              </div>
+            </div>
+          </div>
+          <hr />
+        
+        {/* patient details */}
+        <div className="text-center">
+          <h3>Invoice</h3>
+        </div>
+        <div className="container-fluid">
           <div className="heading-title">
             <h6>Patient Details :</h6>
           </div>
@@ -503,7 +455,7 @@ const PatientBillsByTpid = () => {
             <tbody>
               {getPatientData?.map((item, index) => (
                 <React.Fragment key={index}>
-                   {
+                {
                   item?.patient_type === "Credit" &&
                   <tr>
                     <th scope="row">Credit By</th>
@@ -521,29 +473,21 @@ const PatientBillsByTpid = () => {
 
                   <tr>
                     <th scope="row">Name</th>
-                    <td className="text-capitalize">{item.patient_name}</td>
+                    <td>{item.patient_name}</td>
                     <th scope="row">Age</th>
                     <td>{item.age}</td>
                   </tr>
                   <tr>
                     <th scope="row">Address</th>
                     <td>{item.address}</td>
-                    <th scope="row">Invoice No.</th>
-                    <td>{billDetails[0]?.bill_id}</td>
+                    <th scope="row">Sitting Invoice No.</th>
+                    <td>{sbid}</td>
                   </tr>
                   <tr>
                     <th scope="row">Mobile No.</th>
                     <td>{item.mobileno}</td>
                     <th scope="row">Date</th>
-
-                    <td>
-                      {billDetails[0]?.bill_date
-                        ? moment(
-                            billDetails[0]?.bill_date,
-                            "DD-MM-YYYYTHH:mm:ss"
-                          ).format("DD/MM/YYYY")
-                        : ""}
-                    </td>
+                    <td>{sittingBill[0]?.date.split(" ")[0]}</td>
                   </tr>
                   <tr>
                     <th scope="row">Email</th>
@@ -562,17 +506,17 @@ const PatientBillsByTpid = () => {
             <h6>Doctor Details :</h6>
           </div>
           <div className="d-flex justify-content-between">
-            <div className="text-start docDetails text-capitalize">
+            <div className="text-start docDetails">
               <p>
                 <strong>Doctor Name :</strong> Dr.{" "}
-                {billDetails[0]?.assigned_doctor_name}
-              </p>
-              {/* <p>
-                <strong>Mobile :</strong> {user.employee_mobile}
+                {getDocDetails[0]?.employee_name}
               </p>
               <p>
-                <strong>Email :</strong> {user.email}
-              </p> */}
+                <strong>Mobile :</strong> {getDocDetails[0]?.employee_mobile}
+              </p>
+              <p>
+                <strong>Email :</strong> {getDocDetails[0]?.employee_email}
+              </p>
             </div>
           </div>
         </div>
@@ -592,9 +536,9 @@ const PatientBillsByTpid = () => {
                 <th>Advice</th>
               </tr>
             </thead>
-            {getExaminData?.map((item, index) => (
-              <tbody>
-                <React.Fragment>
+            <tbody>
+              {getExaminData?.map((item) => (
+                <>
                   <tr>
                     <td>{item.selected_teeth}</td>
                     <td>{item.disease}</td>
@@ -602,9 +546,9 @@ const PatientBillsByTpid = () => {
                     <td>{item.on_examination}</td>
                     <td>{item.advice}</td>
                   </tr>
-                </React.Fragment>
-              </tbody>
-            ))}
+                </>
+              ))}
+            </tbody>
           </table>
         </div>
 
@@ -618,49 +562,47 @@ const PatientBillsByTpid = () => {
             <table className="table table-bordered border">
               <thead>
                 <tr>
-                  <th>S.No.</th>
+                  <th>S. No.</th>
                   <th>Treatment</th>
                   <th>Teeth</th>
                   <th>Qty</th>
                   <th>Cost</th>
                   <th>Cst * Qty</th>
                   <th>Disc %</th>
-                  <th>Net Amount</th>
+                  <th>Net Treatment Amount</th>
+                  <th>Sitting Amount</th>
                   <th>Paid Amount</th>
-                  {/* <th>Final Cost</th> */}
+                  {/* <th>Payment Mode</th>
+                  <th>Payment Date</th> */}
+                  {/* <th>Note</th> */}
                 </tr>
               </thead>
-              {getTreatData?.map((item, index) => (
-                <tbody>
-                  <React.Fragment>
+              <tbody>
+                {sittingBill?.map((item, index) => (
+                  <>
                     <tr
                       className={
                         index % 2 === 0 ? "table-primary" : "table-info"
                       }
                     >
                       <td>{item.sitting_number}</td>
-                      <td>{item.dental_treatment}</td>
-                      <td>{item.no_teeth}</td>
-                      <td>{item.qty}</td>
-                      <td>{item.cost_amt}</td>
-                      <td>{item.total_amt}</td>
-                      <td>{item.disc_amt}</td>
-                      {/* <td>{item.net_amount}</td> */}
-                      <td>
-                        {item.total_amt -
-                          (item.total_amt * item.disc_amt) / 100}
-                      </td>
-                      <td>
-                        {" "}
-                        {item.sitting_payment_status === "Pending"
-                          ? 0
-                          : item.paid_amount}
-                      </td>
+                      <td>{item.treatment}</td>
+                      <td>{item.teeth_number}</td>
+                      <td>{item.teeth_qty}</td>
+                      <td>{item.treatment_cost}</td>
+                      <td>{item.treatment_cost * item.teeth_qty}</td>
+                      <td>{item.discount}</td>
+                      <td>{item.final_cost}</td>
+                      <td>{item.sitting_amount}</td>
+                      <td>{item.paid_amount}</td>
+                      {/* <td>{item.payment_mode}</td>
+                      <td>{item.date?.split(" ")[0]}</td> */}
+                      {/* <td>{item.note}</td> */}
                     </tr>
-                  </React.Fragment>
-                </tbody>
-              ))}
-              <tfoot>
+                  </>
+                ))}
+              </tbody>
+              {/* <tfoot>
                 <tr>
                   <td
                     colSpan="8"
@@ -670,15 +612,11 @@ const PatientBillsByTpid = () => {
                     Treatment Pending Payment:
                   </td>
                   <td className="heading-title text-danger fw-bold">
-                    {/* Calculate total cost here */}
-                    {/* Assuming getTreatData is an array of objects with 'net_amount' property */}
-                    {billDetails[0]?.total_amount - totalBillvalueWithoutGst
-                      ? billDetails[0]?.total_amount - totalBillvalueWithoutGst
-                      : 0}
+                    billDetails[0]?.total_amount - totalBillvalueWithoutGst
                   </td>
                 </tr>
-              </tfoot>
-              <tfoot>
+              </tfoot> */}
+              {/* <tfoot>
                 <tr>
                   <td
                     colSpan="7"
@@ -708,7 +646,7 @@ const PatientBillsByTpid = () => {
                     )}
                   </td>
                 </tr>
-              </tfoot>
+              </tfoot> */}
             </table>
           </div>
         </div>
@@ -722,7 +660,8 @@ const PatientBillsByTpid = () => {
                 </div>
                 <div className="text-word">
                   <p className="m-0 fw-bold">
-                    {numToWords(totalBillvalueWithoutGst)} {"Rupees ONLY"}
+                    {" "}
+                    {numToWords(sittingBill[0]?.paid_amount).toUpperCase()} RUPEES ONLY
                   </p>
                 </div>
               </div>
@@ -771,23 +710,23 @@ const PatientBillsByTpid = () => {
             <div className="col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-4 col-4">
               <div className="">
                 <table className="table table-bordered mb-0">
-                  <tbody>
+                  {/* <tbody>
                     <tr>
                       <td className="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6 border p-1 text-end total-tr">
                         Amount Received After Treatment:
                       </td>
                       <td className="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6 border p-1 text-center total-tr">
-                        {totalBillvalueWithoutGst - payafterTreat}
+                        totalBillvalueWithoutGst - payafterTreat
                       </td>
                     </tr>
-                  </tbody>
+                  </tbody> */}
                   <tbody>
                     <tr>
                       <td className="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6 border p-1 text-end total-tr">
                         Total Amount Received:
                       </td>
-                      <td className="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6 border p-1 text-center fs-6 fw-bold total-tr">
-                        {totalBillvalueWithoutGst}
+                      <td className="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6 border fw-bold p-1 text-center total-tr fs-6">
+                        {sittingBill[0]?.paid_amount}
                       </td>
                     </tr>
                   </tbody>
@@ -809,14 +748,55 @@ const PatientBillsByTpid = () => {
           </div>
         </div>
         </div>
+        </div>
+        {/* print button */}
         <div className="container-fluid">
-          <div className="text-center">
+          <div className="d-flex justify-content-center align-items-center">
             {/* <button
               className="btn btn-info no-print mt-2 mb-2"
               onClick={handleButton}
             >
               Print
             </button> */}
+            {/* {billDetails[0]?.payment_status === "paid" ? (
+              ""
+            ) : (
+              <button
+                className="btn btn-success ms-2 no-print mt-2 mb-2 text-white shadow"
+                style={{
+                  backgroundColor: "#0dcaf0",
+                  border: "#0dcaf0",
+                }}
+                onClick={() => navigate(`/patient-due-payment-print/${tpid}`)}
+              >
+                Go to Payment page
+              </button>
+            )} */}
+            {/* {billDetails[0]?.due_amount !== "0" ||
+            billDetails[0]?.payment_status !== "paid" ? (
+              ""
+            ) : (
+              <>
+                <button
+                  className="btn btn-info no-print mx-3 mt-2 mb-2 text-white shadow"
+                  style={{
+                    backgroundColor: "#0dcaf0",
+                    border: "#0dcaf0",
+                  }}
+                  //   onClick={() => navigate("/doctor-dashboard")}
+                >
+                  Appointment Dashboard
+                </button>
+              </>
+            )} */}
+            {/* <button
+              className="btn btn-info no-print mx-3 mt-2 mb-2"
+              onClick={() => navigate("/doctor-dashboard")}
+            >
+              Appointment Dashboard
+            </button> */}
+              <div className="container-fluid">
+          <div className="text-center">
             <button
               className="btn btn-info no-print mx-3 mb-3 mt-2 text-white shadow"
               style={{
@@ -825,11 +805,20 @@ const PatientBillsByTpid = () => {
               }}
               onClick={handleDownloadPdf}
             >
-              Download Bill
+              Download Sitting Bill
             </button>
-          
+            {/* <button
+              className="btn btn-info no-print text-white mt-2 mb-2"
+              onClick={handleTreatNavigate}
+              style={{
+                backgroundColor: "#0dcaf0",
+                border: "#0dcaf0",
+              }}
+            >
+              Treatment Dashboard
+            </button> */}
             <br />
-           <span className="fs-5 fw-bold no-print"> Share on : </span>
+            <span className="fs-5 fw-bold no-print"> Share on : </span>
             {currentBranch[0]?.sharemail === "Yes" && (
               <button
                 className="btn btn-info no-print mx-3 mb-3 mt-2 text-white shadow"
@@ -866,31 +855,16 @@ const PatientBillsByTpid = () => {
                 <SiGooglemessages />
               </button>
             )}
-            {/* <button
-              className="btn btn-info no-print mx-3 mt-2 mb-2"
-              onClick={() => navigate("/doctor-dashboard")}
-            >
-              Appointment Dashboard
-            </button> */}
+          </div>
+          </div>
           </div>
         </div>
-        {/* print button */}
-        {/* <div className="container-fluid">
-          <div className="d-flex justify-content-center align-items-center my-2 gap-2">
-            <button className="btn btn-info no-print" onClick={handleButton}>
-              Print
-            </button>
-            <button className="btn btn-primary no-print" onClick={() => window.history.go(-1)}>
-              Back
-            </button>
-          </div>
-        </div> */}
       </Wrapper>
     </>
   );
 };
 
-export default PatientBillsByTpid;
+export default CreditSittingBill;
 const Wrapper = styled.div`
 font-size: 12px;
   overflow: hidden;
@@ -975,8 +949,6 @@ font-size: 12px;
   }
   .text-word {
     height: auto;
-    text-transform: uppercase;
-    padding: 2px;
   }
 
   .text-terms {
@@ -1003,4 +975,13 @@ font-size: 12px;
   .text-termslong {
     height: 2rem;
   }
+  /* th,
+  td {
+    white-space: nowrap;
+  } */
+
+  //th {
+   // white-space: nowrap;
+  // }
+ 
 `;

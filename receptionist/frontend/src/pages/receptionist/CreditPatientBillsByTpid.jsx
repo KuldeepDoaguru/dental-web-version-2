@@ -16,7 +16,7 @@ import domtoimage from 'dom-to-image'
 // import numWords from "num-words";
 
 
-const PatientBillsByTpid = () => {
+const CreditPatientBillsByTpid = () => {
   const { tpid } = useParams();
   const navigate = useNavigate();
   const contentRef = useRef();
@@ -74,7 +74,7 @@ const PatientBillsByTpid = () => {
   // Get Patient Details END
 
   const handleBack = ()=>{
-    navigate("/invoices?tab=paid")
+    navigate("/all_credit_invoice?tab=creditInvoice")
   }
 
   // Get Patient Examintion Details START
@@ -100,25 +100,6 @@ const PatientBillsByTpid = () => {
     getExaminDetail();
   }, []);
   // Get Patient Examintion Details END
-
-  useEffect(() => {
-    // Push a new entry into the history stack
-    window.history.pushState(null, null, window.location.href);
-
-    const handleBackButton = (event) => {
-      event.preventDefault();
-      // Prevent the back navigation
-      window.history.pushState(null, null, window.location.href);
-    };
-
-    // Listen for popstate events (which occur on back/forward navigation)
-    window.addEventListener("popstate", handleBackButton);
-
-    return () => {
-      window.removeEventListener("popstate", handleBackButton);
-    };
-  }, []);
-
 
   // Get Patient Treatment Details START
   const getTreatDetail = async () => {
@@ -890,7 +871,7 @@ const PatientBillsByTpid = () => {
   );
 };
 
-export default PatientBillsByTpid;
+export default CreditPatientBillsByTpid;
 const Wrapper = styled.div`
 font-size: 12px;
   overflow: hidden;

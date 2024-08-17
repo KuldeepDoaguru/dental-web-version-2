@@ -42,7 +42,8 @@ function PatientsDue() {
 
   console.log(patBill);
   const filterForUnPaidBills = patBill?.filter((item) => {
-    return item.payment_status !== "paid";
+    // return (item.payment_status !== "paid" && item.payment_status !== "Paid");
+    return (item.payment_status === "pending" || item.payment_status === "Pending")
   });
 
   useEffect(() => {

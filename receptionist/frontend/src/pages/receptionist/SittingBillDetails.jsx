@@ -43,7 +43,7 @@ function SittingBillDetails() {
 
   console.log(patBill);
   const filterForUnPaidBills = patBill?.filter((item) => {
-    return item.payment_status === "pending";
+    return item.payment_status === "pending" || item.payment_status === "Pending";
   });
 
   console.log(filterForUnPaidBills);
@@ -309,7 +309,7 @@ function SittingBillDetails() {
                                 {/* <td>{item.pay_direct}</td>
                                 <td>{item.pay_security_amount}</td> */}
                                 <td>
-                                  {item.payment_status === "pending"
+                                  {(item.payment_status === "pending" || item.payment_status === "Pending")
                                     ? item.sitting_amount
                                     : 0}
                                 </td>

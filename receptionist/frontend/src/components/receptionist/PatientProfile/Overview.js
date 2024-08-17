@@ -118,7 +118,7 @@ const Overview = () => {
   }, []);
 
   const filterForPendingAmount = bills?.filter((item) => {
-    return item.payment_status === "Pending";
+    return item.payment_status === "Pending" || item.payment_status === "pending";
   });
   const total = filterForPendingAmount?.reduce((accumulator, item) => {
     return accumulator + item.total_amount;

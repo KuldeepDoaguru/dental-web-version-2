@@ -5,10 +5,28 @@ import Sider from "../../components/receptionist/Sider";
 import SittingCreditBill from "./SittingCreditBill";
 import FinalCreditInvoice from "./FinalCreditInvoice";
 import CreditOPDBill from "./CreditOPDBill";
+import { useLocation, useNavigate } from "react-router-dom";
 
 
 function AllCreditInvoice() {
   
+  const location = useLocation();
+  const navigate =  useNavigate ();
+
+  const [activeTab, setActiveTab] = useState('creditSittingBill');
+
+  useEffect(() => {
+    const query = new URLSearchParams(location.search);
+    const tab = query.get('tab');
+    if (tab) {
+      setActiveTab(tab);
+    }
+  }, [location.search]);
+
+  const handleTabClick = (tab) => {
+    setActiveTab(tab);
+    navigate(`?tab=${tab}`);
+  };
   return (
     <Wrapper>
       <div className="header">
@@ -27,52 +45,47 @@ function AllCreditInvoice() {
           <ul className="nav nav-tabs" id="myTab" role="tablist">
         <li className="nav-item" role="presentation">
           <button
-            className="nav-link active nav-link1"
-            id="home-tab"
-            data-bs-toggle="tab"
-            data-bs-target="#home-tab-pane"
+            
+            className={`nav-link nav-link1 ${activeTab === 'creditSittingBill' ? 'active' : ''}`}
+            id="creditSitting-tab"
             type="button"
             role="tab"
-            aria-controls="home-tab-pane"
-            aria-selected="true"
+            onClick={() => handleTabClick('creditSittingBill')}
           >
             Sitting Bill
           </button>
         </li>
         <li className="nav-item" role="presentation">
           <button
-            className="nav-link nav-link1"
-            id="profile-tab"
-            data-bs-toggle="tab"
-            data-bs-target="#profile-tab-pane"
+            className={`nav-link nav-link1 ${activeTab === 'creditInvoice' ? 'active' : ''}`}
+            id="creditInvoice-tab"
+           
             type="button"
             role="tab"
-            aria-controls="profile-tab-pane"
-            aria-selected="false"
+            onClick={() => handleTabClick('creditInvoice')}
+
           >
            Invoice
           </button>
         </li>
         <li className="nav-item" role="presentation">
           <button
-            className="nav-link nav-link1"
-            id="opd-tab"
-            data-bs-toggle="tab"
-            data-bs-target="#opd-tab-pane"
+            className={`nav-link nav-link1 ${activeTab === 'creditOpd' ? 'active' : ''}`}
+            id="creditOpd-tab"
+            
             type="button"
             role="tab"
-            aria-controls="opd-tab-pane"
-            aria-selected="false"
+            onClick={() => handleTabClick('creditOpd')}
           >
            OPD Bill
           </button>
         </li>
         <div className="tab-content" id="myTabContent">
           <div
-            className="tab-pane fade show active"
-            id="home-tab-pane"
+            className={`tab-pane fade ${activeTab === 'creditSittingBill' ? 'show active' : ''}`}
+            id="creditSitting-tab-pane"
             role="tabpanel"
-            aria-labelledby="home-tab"
+            aria-labelledby="creditSitting-tab"
             tabindex="0"
           >
             <ul className="list-group">
@@ -82,10 +95,10 @@ function AllCreditInvoice() {
             </ul>
           </div>
           <div
-            className="tab-pane fade"
-            id="profile-tab-pane"
+            className={`tab-pane fade ${activeTab === 'creditInvoice' ? 'show active' : ''}`}
+            id="creditInvoice-tab-pane"
             role="tabpanel"
-            aria-labelledby="profile-tab"
+            aria-labelledby="creditInvoice-tab"
             tabindex="0"
           >
             <ul className="list-group">
@@ -95,10 +108,10 @@ function AllCreditInvoice() {
             </ul>
           </div>
           <div
-            className="tab-pane fade"
-            id="opd-tab-pane"
+            className={`tab-pane fade ${activeTab === 'creditOpd' ? 'show active' : ''}`}
+            id="creditOpd-tab-pane"
             role="tabpanel"
-            aria-labelledby="opd-tab"
+            aria-labelledby="creditOpd-tab"
             tabindex="0"
           >
             <ul className="list-group">

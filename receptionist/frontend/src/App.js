@@ -42,6 +42,8 @@ import SittingBill from "./pages/receptionist/SittingBill";
 import SittingPaidBillDetails from "./pages/receptionist/SittingPaidBillDetails";
 import AllCreditInvoice from "./pages/receptionist/AllCreditInvoice";
 import FinalInvoices from "./pages/receptionist/FinalInvoices";
+import CreditPatientBillsByTpid from "./pages/receptionist/CreditPatientBillsByTpid";
+import CreditSittingBill from "./pages/receptionist/CreditSittingBill";
 
 function App() {
   const user = useSelector((state) => state.user);
@@ -252,6 +254,16 @@ function App() {
         }
       />
       <Route
+        path="/credit-patient-bill/:billid/:tpid"
+        element={
+          user.currentUser === null ? (
+            <UniversalLogin />
+          ) : (
+            <CreditPatientBillsByTpid />
+          )
+        }
+      />
+      <Route
         path="/branch-details"
         element={
           user.currentUser === null ? <UniversalLogin /> : <BranchInfo />
@@ -262,6 +274,12 @@ function App() {
         path="/ViewPatientSittingBill/:tpid/:sbid/:treatment"
         element={
           user.currentUser === null ? <UniversalLogin /> : <SittingBill />
+        }
+      />
+      <Route
+        path="/ViewCreditPatientSittingBill/:tpid/:sbid"
+        element={
+          user.currentUser === null ? <UniversalLogin /> : <CreditSittingBill />
         }
       />
       <Route

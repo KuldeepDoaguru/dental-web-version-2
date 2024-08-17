@@ -307,6 +307,7 @@ function FinalCreditInvoice() {
                           <th className="sticky">Payment Date</th>
                           <th className="sticky">Payment Status</th>
                           <th className="sticky">Action</th>
+                          <th className="sticky">Action</th>
                         </tr>
                       </thead>
                       {currentRows.length === 0 ? (
@@ -371,6 +372,21 @@ function FinalCreditInvoice() {
                                     </button>
 }
                                  
+                                </td>
+                                <td>
+                                  <Link
+                                    // to={`/PatintPaidPaymentPrint/${item.bill_id}`}
+                                    to={`/credit-patient-bill/${item.bill_id}/${item.tp_id}`}
+                                  >
+                                    <button
+                                      className="btn"
+                                      style={{
+                                        backgroundColor: "#FFA600",
+                                      }}
+                                    >
+                                      View Invoice
+                                    </button>
+                                  </Link>
                                 </td>
                               </tr>
                             </>

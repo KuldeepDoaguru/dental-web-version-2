@@ -322,6 +322,7 @@ function SittingCreditBill() {
                           <th className=" sticky">Payment Status</th>
                           <th className=" sticky">Bill Date</th>
                           <th className=" sticky">Action</th>
+                          <th className=" sticky">Action</th>
                         </tr>
                       </thead>
                       {currentRows.length === 0 ? (
@@ -374,6 +375,20 @@ function SittingCreditBill() {
                                     </button>
 }
                                  
+                                </td>
+                                <td>
+                                  <Link
+                                    to={`/ViewCreditPatientSittingBill/${item.tp_id}/${item.sb_id}`}
+                                  >
+                                    <button
+                                      className="btn"
+                                      style={{
+                                        backgroundColor: "#FFA600",
+                                      }}
+                                    >
+                                      View Invoice
+                                    </button>
+                                  </Link>
                                 </td>
                               </tr>
                             </>

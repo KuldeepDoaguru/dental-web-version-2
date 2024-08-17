@@ -162,6 +162,24 @@ const SittingBill = () => {
     getExamineDetails();
   }, []);
 
+  useEffect(() => {
+    // Push a new entry into the history stack
+    window.history.pushState(null, null, window.location.href);
+
+    const handleBackButton = (event) => {
+      event.preventDefault();
+      // Prevent the back navigation
+      window.history.pushState(null, null, window.location.href);
+    };
+
+    // Listen for popstate events (which occur on back/forward navigation)
+    window.addEventListener("popstate", handleBackButton);
+
+    return () => {
+      window.removeEventListener("popstate", handleBackButton);
+    };
+  }, []);
+
   useEffect(()=>{
     getDoctorDetails();
   },[getPatientData])
