@@ -3534,7 +3534,7 @@ const getSittingBillDue = (req, res) => {
   try {
     const branch = req.params.branch;
     const selectQuery =
-      "SELECT * FROM sitting_bill JOIN treatment_package ON treatment_package.tp_id = sitting_bill.tp_id JOIN patient_details ON patient_details.uhid = treatment_package.uhid WHERE sitting_bill.branch_name = ?";
+      "SELECT * FROM sitting_bill JOIN treatment_package ON treatment_package.tp_id = sitting_bill.tp_id JOIN patient_details ON patient_details.uhid = treatment_package.uhid WHERE sitting_bill.branch_name = ? ORDER BY sitting_bill.sb_id DESC";
     db.query(selectQuery, branch, (err, result) => {
       if (err) {
         res.status(400).json({ success: false, message: err.message });
