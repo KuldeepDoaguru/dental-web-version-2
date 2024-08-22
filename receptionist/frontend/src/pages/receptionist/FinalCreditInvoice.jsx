@@ -359,10 +359,10 @@ function FinalCreditInvoice() {
                                 {item.payment_status === "Credit"
                                  &&
                                     <button
-                                      className="btn"
-                                      style={{
-                                        backgroundColor: "#FFA600",
-                                      }}
+                                      className="btn btn-warning"
+                                      // style={{
+                                      //   backgroundColor: "#FFA600",
+                                      // }}
                                       onClick={() =>
                                         updateBillforPaid(item.bill_id)
                                       }
@@ -379,10 +379,10 @@ function FinalCreditInvoice() {
                                     to={`/credit-patient-bill/${item.bill_id}/${item.tp_id}`}
                                   >
                                     <button
-                                      className="btn"
-                                      style={{
-                                        backgroundColor: "#FFA600",
-                                      }}
+                                      className="btn btn-success"
+                                      // style={{
+                                      //   backgroundColor: "#FFA600",
+                                      // }}
                                     >
                                       View Invoice
                                     </button>

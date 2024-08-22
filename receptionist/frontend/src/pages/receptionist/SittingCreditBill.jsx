@@ -362,10 +362,10 @@ function SittingCreditBill() {
                                  {item.payment_status === "Credit"
                                  &&
                                     <button
-                                      className="btn"
-                                      style={{
-                                        backgroundColor: "#FFA600",
-                                      }}
+                                      className="btn btn-warning"
+                                      // style={{
+                                      //   backgroundColor: "#FFA600",
+                                      // }}
                                       onClick={() =>
                                         updateBillforSitting(item.sb_id)
                                       }
@@ -381,10 +381,8 @@ function SittingCreditBill() {
                                     to={`/ViewCreditPatientSittingBill/${item.tp_id}/${item.sb_id}`}
                                   >
                                     <button
-                                      className="btn"
-                                      style={{
-                                        backgroundColor: "#FFA600",
-                                      }}
+                                      className="btn btn-success"
+                                      
                                     >
                                       View Invoice
                                     </button>

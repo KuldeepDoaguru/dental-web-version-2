@@ -15,7 +15,7 @@ import animationData from "../../images/animation/loading-effect.json";
 
 function SecurityAmount() {
   const { refreshTable, currentUser } = useSelector((state) => state.user);
-  const {currentBranch} = useSelector((state) => state.branch);
+  const { currentBranch } = useSelector((state) => state.branch);
   const branch = currentUser.branch_name;
   const [patients, setPatients] = useState([]);
   const token = currentUser?.token;
@@ -66,7 +66,7 @@ function SecurityAmount() {
       [name]: value,
     });
   };
-console.log(selected)
+  console.log(selected)
   const handleInput = async (event) => {
     const { name, value } = event.target;
     if (name === "appointment_id") {
@@ -210,13 +210,13 @@ console.log(selected)
         }
       );
       setLoading(false);
-      if((filterForSecAmountDef[0].patient_number && currentBranch[0]?.sharesms === "Yes")){
+      if ((filterForSecAmountDef[0].patient_number && currentBranch[0]?.sharesms === "Yes")) {
         refundBillDetailsSms()
       }
-      if((filterForSecAmountDef[0].patient_number && currentBranch[0]?.sharewhatsapp === "Yes")){
+      if ((filterForSecAmountDef[0].patient_number && currentBranch[0]?.sharewhatsapp === "Yes")) {
         RefundSendWhatsappTextOnly()
       }
-      
+
       cogoToast.success("Amount Refunded Successfully");
       getSecurityAmountList();
       closeUpdatePopup();
@@ -248,10 +248,10 @@ console.log(selected)
         }
       );
       setLoading(false);
-      if((filterForSecAmountDef[0].patient_number && currentBranch[0]?.sharesms === "Yes")){
+      if ((filterForSecAmountDef[0].patient_number && currentBranch[0]?.sharesms === "Yes")) {
         billDetailsSms()
       }
-      if((filterForSecAmountDef[0].patient_number && currentBranch[0]?.sharewhatsapp === "Yes")){
+      if ((filterForSecAmountDef[0].patient_number && currentBranch[0]?.sharewhatsapp === "Yes")) {
         sendWhatsappTextOnly()
       }
       cogoToast.success("Amount Paid Successfully");
@@ -505,17 +505,17 @@ console.log(selected)
 
   const formDetails = {
     phoneNumber: filterForSecAmountDef[0]?.patient_number,
-    message: `Dear ${filterForSecAmountDef[0]?.patient_name}, UHID ${filterForSecAmountDef[0]?.uhid} you have successfully paid ${filterForSecAmountDef[0]?.amount}/- as security amount.\n` + 
-    `Clinic Details:\n` +
-    `Name: ${currentBranch[0]?.hospital_name}\n` +
-    `Contact: ${currentBranch[0]?.branch_contact}\n` +
-    `Address: ${currentBranch[0]?.branch_address}\n` +
-    `Email: ${currentBranch[0]?.branch_email}\n\n` +
-    `Thank you for choosing ${currentBranch[0]?.hospital_name}.\n\n` +
-    `Best regards,\n` +
-    `${currentBranch[0]?.hospital_name} Team`,
+    message: `Dear ${filterForSecAmountDef[0]?.patient_name}, UHID ${filterForSecAmountDef[0]?.uhid} you have successfully paid ${filterForSecAmountDef[0]?.amount}/- as security amount.\n` +
+      `Clinic Details:\n` +
+      `Name: ${currentBranch[0]?.hospital_name}\n` +
+      `Contact: ${currentBranch[0]?.branch_contact}\n` +
+      `Address: ${currentBranch[0]?.branch_address}\n` +
+      `Email: ${currentBranch[0]?.branch_email}\n\n` +
+      `Thank you for choosing ${currentBranch[0]?.hospital_name}.\n\n` +
+      `Best regards,\n` +
+      `${currentBranch[0]?.hospital_name} Team`,
   };
- 
+
   const billDetailsSms = async () => {
     try {
       const { data } = await axios.post(
@@ -536,7 +536,7 @@ console.log(selected)
 
   const sendWhatsappTextOnly = async () => {
     try {
-    
+
       const res = await axios.post(
         "https://dentalguru-receptionist.vimubds5.a2hosted.com/api/v1/receptionist/sendWhatsapptextonly",
         formDetails,
@@ -557,14 +557,14 @@ console.log(selected)
   const refundformDetails = {
     phoneNumber: filterForSecAmountDef[0]?.patient_number,
     message: `Dear ${filterForSecAmountDef[0]?.patient_name}, UHID ${filterForSecAmountDef[0]?.uhid} you have successfully Refunded ${filterForSecAmountDef[0]?.remaining_amount}/- from security amount.\n` +
-    `Clinic Details:\n` +
-    `Name: ${currentBranch[0]?.hospital_name}\n` +
-    `Contact: ${currentBranch[0]?.branch_contact}\n` +
-    `Address: ${currentBranch[0]?.branch_address}\n` +
-    `Email: ${currentBranch[0]?.branch_email}\n\n` +
-    `Thank you for choosing ${currentBranch[0]?.hospital_name}.\n\n` +
-    `Best regards,\n` +
-    `${currentBranch[0]?.hospital_name} Team`,
+      `Clinic Details:\n` +
+      `Name: ${currentBranch[0]?.hospital_name}\n` +
+      `Contact: ${currentBranch[0]?.branch_contact}\n` +
+      `Address: ${currentBranch[0]?.branch_address}\n` +
+      `Email: ${currentBranch[0]?.branch_email}\n\n` +
+      `Thank you for choosing ${currentBranch[0]?.hospital_name}.\n\n` +
+      `Best regards,\n` +
+      `${currentBranch[0]?.hospital_name} Team`,
   };
 
   const refundBillDetailsSms = async () => {
@@ -587,7 +587,7 @@ console.log(selected)
 
   const RefundSendWhatsappTextOnly = async () => {
     try {
-    
+
       const res = await axios.post(
         "https://dentalguru-receptionist.vimubds5.a2hosted.com/api/v1/receptionist/sendWhatsapptextonly",
         refundformDetails,
@@ -725,9 +725,9 @@ console.log(selected)
                                 <td>
                                   {item?.date
                                     ? moment(
-                                        item?.date,
-                                        "DD-MM-YYYYTHH:mm:ss"
-                                      ).format("DD/MM/YYYY")
+                                      item?.date,
+                                      "DD-MM-YYYYTHH:mm:ss"
+                                    ).format("DD/MM/YYYY")
                                     : ""}
                                 </td>
                                 <td>{item.appointment_id}</td>
@@ -753,17 +753,17 @@ console.log(selected)
                                 <td>
                                   {item.payment_date
                                     ? moment(
-                                        item?.payment_date,
-                                        "DD-MM-YYYYTHH:mm:ss"
-                                      ).format("DD/MM/YYYY hh:mm A")
+                                      item?.payment_date,
+                                      "DD-MM-YYYYTHH:mm:ss"
+                                    ).format("DD/MM/YYYY hh:mm A")
                                     : ""}
                                 </td>
                                 <td>
                                   {item?.refund_date
                                     ? moment(
-                                        item?.refund_date,
-                                        "DD-MM-YYYYTHH:mm:ss"
-                                      ).format("DD/MM/YYYY hh:mm A")
+                                      item?.refund_date,
+                                      "DD-MM-YYYYTHH:mm:ss"
+                                    ).format("DD/MM/YYYY hh:mm A")
                                     : ""}
                                 </td>
                                 <td>
@@ -790,11 +790,10 @@ console.log(selected)
                                   ) : (
                                     <>
                                       <button
-                                        className={`mx-2 btn btn-warning ${
-                                          item.remaining_amount == 0
+                                        className={`mx-2 btn btn-warning ${item.remaining_amount == 0
                                             ? "disabled"
                                             : ""
-                                        } `}
+                                          } `}
                                         onClick={() =>
                                           openSecAmountSubPopup(item.sa_id)
                                         }
@@ -807,15 +806,20 @@ console.log(selected)
                                   {/* )} */}
                                 </td>
                                 <td>
-                                  <Link
-                                    to={`/print_security_amount/${item.sa_id}`}
-                                  >
-                                    {item.payment_status !== "Pending" && (
+                                  {item.payment_status !== "pending" ?
+                                    <Link
+                                      to={`/print_security_amount/${item.sa_id}`}
+                                    >
                                       <button className="btn btn-success">
                                         View Reciept
                                       </button>
-                                    )}
-                                  </Link>
+                                    </Link>
+                                    :
+                                    <button className="btn btn-success" disabled>
+                                      View Reciept
+                                    </button>
+
+                                  }
                                 </td>
                               </tr>
                             </>
@@ -972,14 +976,14 @@ console.log(selected)
                   >
                     <option value="">Select</option>
                     <option value="Cash">Cash</option>
-                             {/* {selectedPatient?.patient_type == "Credit" && <option value="Credit">Credit</option> } */}
-                              <option value="UPI">UPI</option>
-                              <option value="Card">Card</option>
-                              {/* <option value="Cheque">Cheque</option> */}
+                    {/* {selectedPatient?.patient_type == "Credit" && <option value="Credit">Credit</option> } */}
+                    <option value="UPI">UPI</option>
+                    <option value="Card">Card</option>
+                    {/* <option value="Cheque">Cheque</option> */}
                   </select>
                 </div>
 
-                {(data.payment_Mode === "Card" || data.payment_Mode === "UPI"  ) && (
+                {(data.payment_Mode === "Card" || data.payment_Mode === "UPI") && (
                   <div class="mb-3">
                     <label className="form-label" for="form6Example1">
                       Transaction Id *

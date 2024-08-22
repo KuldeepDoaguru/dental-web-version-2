@@ -506,10 +506,10 @@ function CreditOPDBill() {
                                   {data.payment_Status === "Credit"
                                  &&
                                     <button
-                                      className="btn"
-                                      style={{
-                                        backgroundColor: "#FFA600",
-                                      }}
+                                      className="btn btn-warning"
+                                      // style={{
+                                      //   backgroundColor: "#FFA600",
+                                      // }}
                                       onClick={() =>
                                         updateBillforPaid(data.appoint_id)
                                       }
