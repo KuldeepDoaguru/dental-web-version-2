@@ -164,15 +164,16 @@ const ViewQuickPrescription = () => {
 
                 {/* <h6 className="fw-bold text-capitalize text-start">
                   hospital_name
-                </h6>
-                <h6 className="fw-bold text-capitalize text-start">
-                  {getBranch[0]?.hospital_name}
                 </h6> */}
                 <h6 className="fw-bold text-capitalize text-start">
+                  Hospital Name : {getBranch[0]?.hospital_name}
+                </h6>
+                <h6 className="fw-bold text-capitalize text-start">
                   Date :{" "}
-                  {moment(getTreatMedicine[0]?.date, "YYYY-MM-DD").format(
+                  {/* {moment(getTreatMedicine[0]?.date, "YYYY-MM-DD").format(
                     "DD-MM-YYYY"
-                  )}
+                  )} */}
+                  {getTreatMedicine[0]?.date}
                 </h6>
               </div>
             </div>

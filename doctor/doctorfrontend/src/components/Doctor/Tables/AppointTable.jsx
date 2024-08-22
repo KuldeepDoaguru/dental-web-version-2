@@ -238,12 +238,14 @@ const AppointTable = () => {
         if (
           filterForPendingTp[0]?.treatment_status !== "pending" &&
           filterForPendingTp[0]?.treatment_status !== null &&
+          filterForPendingTp[0]?.package_status !== "complete" &&
           filterForPendingTp[0]?.package_status !== "completed"
         ) {
           // alert("filter pending tp");
           navigate(`/TreatmentDashBoard/${tpid}/${appointId}`);
         } else if (
           filterForGoingTp.length > 0 &&
+          filterForGoingTp[0]?.package_status !== "complete" &&
           filterForGoingTp[0]?.package_status !== "completed"
         ) {
           const appointFilter = appointments?.filter((tad) => {
@@ -257,8 +259,17 @@ const AppointTable = () => {
         window.scrollTo(0, 0);
       }
 
-      if (action === "prescription") {
-        navigate(`/Quick-Prescription/${uhid}/${appointId}`);
+      if (action === "Complete") {
+        const filterForGoingTp = treatData?.filter((item) => {
+          return (
+            (item.tp_id === tpid && item.package_status !== "started") ||
+            item.treatment_status === "ongoing"
+          );
+        });
+
+        if (filterForGoingTp.length === 0) {
+          navigate(`/Quick-Prescription/${uhid}/${appointId}`);
+        }
       }
       const res = await axios.get(
         `https://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/appointtreatSitting?date=${selectedDate}`,
@@ -641,20 +652,26 @@ const AppointTable = () => {
                                                 Start Treatment
                                               </button>
                                             </li>
-                                            <li>
-                                              <button
-                                                className="dropdown-item mx-0"
-                                                onClick={() =>
-                                                  handleAction(
-                                                    "prescription",
-                                                    item.appoint_id,
-                                                    item.uhid
-                                                  )
-                                                }
-                                              >
-                                                Quick Prescription
-                                              </button>
-                                            </li>
+                                            {item.appointment_status ===
+                                              "Check-In" && (
+                                              <>
+                                                <li>
+                                                  <button
+                                                    className="dropdown-item mx-0"
+                                                    onClick={() =>
+                                                      handleAction(
+                                                        "Complete",
+                                                        item.appoint_id,
+                                                        item.uhid
+                                                      )
+                                                    }
+                                                  >
+                                                    Quick Prescription
+                                                  </button>
+                                                </li>
+                                              </>
+                                            )}
+
                                             {/* <li>
                                             <button
                                               className="dropdown-item mx-0"

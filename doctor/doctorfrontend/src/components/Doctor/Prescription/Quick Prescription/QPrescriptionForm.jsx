@@ -5,29 +5,36 @@ import Sider from "../../SideBar";
 import { IoIosArrowRoundForward } from "react-icons/io";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const QPrescriptionForm = () => {
+  const navigate = useNavigate();
   console.log(useParams());
-  const { patient_uhid, appointId } = useParams();
+  const { patient_uhid, appoint_id } = useParams();
   const dispatch = useDispatch();
   const { refreshTable } = useSelector((state) => state.user);
   const user = useSelector((state) => state.user);
+  console.log(user);
+
   const token = user.currentUser.token;
   const [appointments, setAppointments] = useState({});
   const [chiefList, setChiefList] = useState([]);
   const [formData, setFormData] = useState({
-    patient_name: appointments[0]?.patient_name,
-    patient_uhid: appointments[0]?.uhid,
-    appointId: appointId,
-    age: appointments[0]?.age,
-    gender: appointments[0]?.gender,
+    name: appointments?.patient_name,
+    branch_name: user.currentUser.branch_name,
+    uhid: appointments?.uhid,
+    appoint_id: appoint_id,
+    age: appointments?.age,
+    gender: appointments?.gender,
     chief_complain: "",
-    medical_history: "",
-    dental_history: "",
+    medical_histry: "",
+    dental_histry: "",
     onexam: "",
     advice: "",
     medicines: "",
+    dosage: "",
+    frequency: "",
+    duration: "",
     note: "",
   });
 
@@ -58,7 +65,7 @@ const QPrescriptionForm = () => {
           },
         }
       );
-      setAppointments(data);
+      setAppointments(data.data);
       console.log(data);
     } catch (error) {
       console.log(error);
@@ -70,8 +77,21 @@ const QPrescriptionForm = () => {
     ChiefComplainTOList();
   }, []);
 
-  console.log(appointments);
+  console.log(appointments.patient_name);
   console.log(chiefList);
+
+  useEffect(() => {
+    if (appointments) {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        name: appointments.patient_name,
+        uhid: appointments.uhid,
+        appoint_id: appoint_id,
+        age: appointments.age,
+        gender: appointments.gender,
+      }));
+    }
+  }, [appointments, appoint_id]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -81,18 +101,22 @@ const QPrescriptionForm = () => {
     });
   };
 
+  console.log(formData);
+
+  const payload = {
+    ...appointments,
+    ...formData,
+  };
+
+  console.log(payload);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    const payload = {
-      ...appointments,
-      ...formData,
-    };
 
     try {
       const response = await axios.post(
         `https://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/insertPatientPrescription`,
-        payload
+        formData
         // {
         //   headers: {
         //     "Content-Type": "application/json",
@@ -101,6 +125,16 @@ const QPrescriptionForm = () => {
         // }
       );
       alert("Prescription inserted successfully");
+      setFormData({
+        chief_complain: "",
+        medical_history: "",
+        dental_history: "",
+        onexam: "",
+        advice: "",
+        medicines: "",
+        note: "",
+      });
+      navigate(`/view-quick-prescription/${patient_uhid}/${appoint_id}`);
       console.log(response);
     } catch (error) {
       console.log(error);
@@ -127,7 +161,7 @@ const QPrescriptionForm = () => {
                       <div className="row">
                         <form onSubmit={handleSubmit}>
                           <div className="row mb-4">
-                            <div className="col">
+                            <div className="col-xxl-4 col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12">
                               <div className="form-outline">
                                 <label htmlFor="patientName">
                                   Patient name
@@ -143,7 +177,7 @@ const QPrescriptionForm = () => {
                                 />
                               </div>
                             </div>
-                            <div className="col">
+                            <div className="col-xxl-4 col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12">
                               <div className="form-outline">
                                 <label htmlFor="uhid">UHID</label>
                                 <input
@@ -157,7 +191,7 @@ const QPrescriptionForm = () => {
                                 />
                               </div>
                             </div>
-                            <div className="col">
+                            <div className="col-xxl-4 col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12">
                               <div className="form-outline">
                                 <label htmlFor="appoint_id">Appoint ID</label>
                                 <input
@@ -165,14 +199,14 @@ const QPrescriptionForm = () => {
                                   id="appoint_id"
                                   name="appoint_id"
                                   className="form-control"
-                                  value={appointments.appoint_id || ""}
+                                  value={appoint_id || ""}
                                   readOnly
                                 />
                               </div>
                             </div>
                           </div>
                           <div className="row mb-4">
-                            <div className="col">
+                            <div className="col-xxl-4 col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12">
                               <div className="form-outline">
                                 <label htmlFor="age">Age</label>
                                 <input
@@ -186,7 +220,7 @@ const QPrescriptionForm = () => {
                                 />
                               </div>
                             </div>
-                            <div className="col">
+                            <div className="col-xxl-4 col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12">
                               <div className="form-outline">
                                 <label htmlFor="gender">Gender</label>
                                 <input
@@ -200,7 +234,7 @@ const QPrescriptionForm = () => {
                                 />
                               </div>
                             </div>
-                            <div className="col">
+                            <div className="col-xxl-4 col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12">
                               <div className="form-outline">
                                 <label htmlFor="dateOfVisit">
                                   Date of Visit
@@ -216,8 +250,8 @@ const QPrescriptionForm = () => {
                               </div>
                             </div>
                           </div>
-                          <div className="row mb-4">
-                            <div className="col">
+                          <div className="row mb-4 g-3">
+                            <div className="col-xxl-4 col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12">
                               <div className="form-outline">
                                 <label htmlFor="chief_complain">
                                   Chief Complaint
@@ -236,6 +270,7 @@ const QPrescriptionForm = () => {
                                   className="form-control"
                                   id=""
                                   onChange={handleChange}
+                                  value={formData.chief_complain}
                                 >
                                   <option value="">-select-</option>
                                   {chiefList?.map((item) => (
@@ -248,16 +283,14 @@ const QPrescriptionForm = () => {
                                 </select>
                               </div>
                             </div>
-                          </div>
-                          <div className="row mb-4">
-                            <div className="col">
+                            <div className="col-xxl-4 col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12">
                               <div className="form-outline">
-                                <label htmlFor="medical_histry">
+                                <label htmlFor="medical_history">
                                   Medical History
                                 </label>
                                 <input
                                   type="text"
-                                  id="medical_histry"
+                                  id="medical_history"
                                   name="medical_histry"
                                   className="form-control"
                                   placeholder="Medical History"
@@ -266,16 +299,14 @@ const QPrescriptionForm = () => {
                                 />
                               </div>
                             </div>
-                          </div>
-                          <div className="row mb-4">
-                            <div className="col">
+                            <div className="col-xxl-4 col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12">
                               <div className="form-outline">
-                                <label htmlFor="dental_histry">
+                                <label htmlFor="dental_history">
                                   Dental History
                                 </label>
                                 <input
                                   type="text"
-                                  id="dental_histry"
+                                  id="dental_history"
                                   name="dental_histry"
                                   className="form-control"
                                   placeholder="Dental History"
@@ -284,9 +315,7 @@ const QPrescriptionForm = () => {
                                 />
                               </div>
                             </div>
-                          </div>
-                          <div className="row mb-4">
-                            <div className="col">
+                            <div className="col-xxl-4 col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12">
                               <div className="form-outline">
                                 <label htmlFor="onexam">On Examination</label>
                                 <input
@@ -300,9 +329,7 @@ const QPrescriptionForm = () => {
                                 />
                               </div>
                             </div>
-                          </div>
-                          <div className="row mb-4">
-                            <div className="col">
+                            <div className="col-xxl-4 col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12">
                               <div className="form-outline">
                                 <label htmlFor="advice">Advice</label>
                                 <input
@@ -316,9 +343,7 @@ const QPrescriptionForm = () => {
                                 />
                               </div>
                             </div>
-                          </div>
-                          <div className="row mb-4">
-                            <div className="col">
+                            <div className="col-xxl-4 col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12">
                               <div className="form-outline">
                                 <label htmlFor="medicines">Medicines</label>
                                 <input
@@ -332,7 +357,60 @@ const QPrescriptionForm = () => {
                                 />
                               </div>
                             </div>
+                            <div className="col-xxl-4 col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12">
+                              <div className="form-outline">
+                                <label>Dosage</label>
+                                <input
+                                  type="text"
+                                  name="dosage"
+                                  className="form-control"
+                                  placeholder="dosage"
+                                  value={formData.dosage}
+                                  onChange={handleChange}
+                                />
+                              </div>
+                            </div>
+                            <div className="col-xxl-4 col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12">
+                              <div className="form-outline">
+                                <label>Frequency</label>
+                                <input
+                                  type="text"
+                                  name="frequency"
+                                  className="form-control"
+                                  placeholder="frequency"
+                                  value={formData.frequency}
+                                  onChange={handleChange}
+                                />
+                              </div>
+                            </div>
+                            <div className="col-xxl-4 col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12">
+                              <div className="form-outline">
+                                <label>Duration</label>
+                                <input
+                                  type="text"
+                                  name="duration"
+                                  className="form-control"
+                                  placeholder="duration"
+                                  value={formData.duration}
+                                  onChange={handleChange}
+                                />
+                              </div>
+                            </div>
+                            <div className="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-12">
+                              <div className="form-outline">
+                                <label>Duration</label>
+                                <textarea
+                                  type="text"
+                                  name="note"
+                                  className="form-control"
+                                  placeholder="write note..."
+                                  value={formData.note}
+                                  onChange={handleChange}
+                                />
+                              </div>
+                            </div>
                           </div>
+
                           <button
                             className="btn btn-primary shadow"
                             type="submit"
@@ -340,10 +418,13 @@ const QPrescriptionForm = () => {
                             Create Prescription
                           </button>
                         </form>
-                        <button className="btn btn-secondary w-25">
+                        {/* <button
+                          className="btn btn-info w-25 mt-3"
+                          onClick={handleViewPres}
+                        >
                           Preview Prescription{" "}
                           <IoIosArrowRoundForward size={25} />
-                        </button>
+                        </button> */}
                       </div>
                     </div>
                   </div>
