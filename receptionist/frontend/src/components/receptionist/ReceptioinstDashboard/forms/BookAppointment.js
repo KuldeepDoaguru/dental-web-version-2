@@ -28,10 +28,31 @@ function BookAppointment() {
   const [weekOffDay, setWeekOffDay] = useState("");
   const [branchHolidays, setBranchHolidays] = useState([]);
   const [patientTreatmentDetails, setPatientTreatmentDetails] = useState([]);
-  const opdCost = treatments?.filter(
+
+
+  // const opdCost = treatments?.filter(
+  //   (treatment) => treatment?.treatment_name === "OPD"
+  // )[0]?.treatment_cost;
+
+  let opdCost ;
+
+  const opdCostfind = treatments?.filter(
     (treatment) => treatment?.treatment_name === "OPD"
-  )[0]?.treatment_cost;
+  )
+ 
+  if(currentBranch[0]?.hospital_category === "Nabh"){
+    opdCost = opdCostfind[0]?.nabh
+  }
+  else if (currentBranch[0]?.hospital_category === "non-Nabh"){
+    opdCost = opdCostfind[0]?.non_nabh
+  }
+  else{
+    opdCost = opdCostfind[0]?.treatment_cost
+  }
+  
+
   const minDate = new Date();
+
   console.log(patientTreatmentDetails);
   const [loading, setLoading] = useState(false);
 
