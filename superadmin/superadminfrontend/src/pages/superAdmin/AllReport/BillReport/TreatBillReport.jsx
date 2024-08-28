@@ -290,9 +290,7 @@ const TreatBillReport = () => {
                 </div>
               </div>
             </div>
-            <div>
-              <h4>Total Amount : {totalBillAmount}/-</h4>
-            </div>
+            <div>{/* <h4>Total Amount : {totalBillAmount}/-</h4> */}</div>
             <div className="container-fluid mt-3">
               {loading ? (
                 <Lottie

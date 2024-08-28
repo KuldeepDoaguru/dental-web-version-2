@@ -34,8 +34,8 @@ const TreatmentSetting = () => {
     treat_procedure_id: "",
     treat_procedure_name: "",
     treatment_name: "",
-    treatment_cost: "",
-    treatment_discount: "",
+    nabh: "",
+    non_nabh: "",
     value: "",
     label: "",
   });
@@ -44,8 +44,8 @@ const TreatmentSetting = () => {
     treat_procedure_id: "",
     treat_procedure_name: "",
     treatment_name: "",
-    treatment_cost: "",
-    treatment_discount: "",
+    nabh: "",
+    non_nabh: "",
     value: "",
     label: "",
   });
@@ -431,10 +431,13 @@ const TreatmentSetting = () => {
                                   Treatment Producer Name
                                 </th>
                                 <th className="table-small">Treatment Name</th>
-                                <th className="table-small">Cost(INR)</th>
+                                <th className="table-small">NABH Cost(INR)</th>
                                 <th className="table-small">
-                                  Maximum Discount To give
+                                  non-NABH Cost(INR)
                                 </th>
+                                {/* <th className="table-small">
+                                  Maximum Discount To give
+                                </th> */}
                                 <th className="table-small">Actions</th>
                               </tr>
                             </thead>
@@ -451,12 +454,13 @@ const TreatmentSetting = () => {
                                     <td className="table-small">
                                       {item.treatment_name}
                                     </td>
+                                    <td className="table-small">{item.nabh}</td>
                                     <td className="table-small">
-                                      {item.treatment_cost}
+                                      {item.non_nabh}
                                     </td>
-                                    <td className="table-small">
+                                    {/* <td className="table-small">
                                       {item.treatment_discount}
-                                    </td>
+                                    </td> */}
                                     <td>
                                       <button
                                         className="btn btn-warning text-light"
@@ -600,29 +604,27 @@ const TreatmentSetting = () => {
                     />
                   </div>
                   <div className="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-                    <label class="form-label fw-bold">
-                      Treatment Cost(INR)*
-                    </label>
+                    <label class="form-label fw-bold">NABH Cost(INR)*</label>
                     <input
                       type="number"
-                      placeholder="Add Treatment Cost"
+                      placeholder="Add NABH Cost"
                       class="form-control"
-                      name="treatment_cost"
-                      value={treatData.treatment_cost}
+                      name="nabh"
+                      value={treatData.nabh}
                       onChange={handleInputChange}
                       required
                     />
                   </div>
                   <div className="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
                     <label class="form-label fw-bold">
-                      Treatment Discount %
+                      non-NABH cost (INR)
                     </label>
                     <input
                       type="number"
-                      placeholder="Add Treatment Discount"
+                      placeholder="Add non-NABH cost"
                       class="form-control"
-                      name="treatment_discount"
-                      value={treatData.treatment_discount}
+                      name="non_nabh"
+                      value={treatData.non_nabh}
                       onChange={handleInputChange}
                     />
                   </div>
@@ -725,29 +727,27 @@ const TreatmentSetting = () => {
                     />
                   </div>
                   <div className="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-                    <label class="form-label fw-bold">
-                      Treatment Cost (INR)
-                    </label>
+                    <label class="form-label fw-bold">NABH Cost (INR)</label>
                     <input
                       type="number"
-                      placeholder="Add Treatment Cost"
+                      placeholder="Add NABH Cost"
                       class="form-control"
-                      name="treatment_cost"
-                      value={updateTreatVal?.treatment_cost}
+                      name="nabh"
+                      value={updateTreatVal?.nabh}
                       onChange={handleUpdateInputChange}
                       required
                     />
                   </div>
                   <div className="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
                     <label class="form-label fw-bold">
-                      Treatment Discount %
+                      non-NABH Cost (INR)
                     </label>
                     <input
                       type="number"
-                      placeholder="Add Treatment Discount"
+                      placeholder="Add non-NABH cost"
                       class="form-control"
-                      name="treatment_discount"
-                      value={updateTreatVal?.treatment_discount}
+                      name="non_nabh"
+                      value={updateTreatVal?.non_nabh}
                       onChange={handleUpdateInputChange}
                     />
                   </div>

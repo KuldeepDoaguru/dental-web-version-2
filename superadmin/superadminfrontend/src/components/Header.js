@@ -49,7 +49,10 @@ const Header = () => {
     } catch (error) {
       if (error.response && error.response.status === 401) {
         const errorMessage = error.response.data.message;
-        if (errorMessage === "Unauthorized - Token expired") {
+        if (
+          errorMessage === "Unauthorized - Token expired" ||
+          errorMessage === "Unauthorized - Invalid token"
+        ) {
           logoutHandleByToken();
         } else {
           console.log("Unauthorized access:", errorMessage);

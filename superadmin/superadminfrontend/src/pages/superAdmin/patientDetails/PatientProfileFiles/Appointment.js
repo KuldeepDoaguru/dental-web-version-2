@@ -20,7 +20,7 @@ const Appointment = () => {
   const getAppointDetailsPat = async () => {
     try {
       const { data } = await axios.get(
-        `https://dentalguru-superadmin.vimubds5.a2hosted.com/api/v1/super-admin/getAppointmentByBranchAndId/${pid}`,
+        `https://dentalguru-superadmin.vimubds5.a2hosted.com/api/v1/super-admin/getAppointmentByBranchAndId/${branch.name}/${pid}`,
         {
           headers: {
             "Content-Type": "application/json",

@@ -27,6 +27,7 @@ const ClinicConfigSetting = () => {
   const [selected, setSelected] = useState("");
   const [showAddInsurance, setShowAddInsurance] = useState(false);
   const [insList, setInsList] = useState([]);
+  const [branchCategory, setBranchCategory] = useState();
   const [showEditInsurance, setShowEditInsurance] = useState(false);
   const [addIns, setAddIns] = useState({
     branch: branch.name,
@@ -100,6 +101,7 @@ const ClinicConfigSetting = () => {
           sharewhatsapp: shareWhatapps,
           sharemail: shareEmail,
           sharesms: shareSms,
+          branchCategory: branchCategory,
         },
         {
           headers: {
@@ -154,7 +156,7 @@ const ClinicConfigSetting = () => {
   useEffect(() => {
     getBranchData();
     getInsuranceList();
-  }, []);
+  }, [branch.name]);
 
   console.log(insList);
 
@@ -302,6 +304,12 @@ const ClinicConfigSetting = () => {
                         {branchDetails[0]?.sharesms}
                       </span>
                     </h6>
+                    <h6 className="text-center mt-2 fw-bold text-success">
+                      Hospital Category :{" "}
+                      <span style={{ color: "#004aad" }}>
+                        {branchDetails[0]?.hospital_category}
+                      </span>
+                    </h6>
                   </div>
                   <form onSubmit={SubmitDocPaymentChange}>
                     <div className="container d-flex justify-content-center align-item-center mb-2">
@@ -369,6 +377,20 @@ const ClinicConfigSetting = () => {
                         <option value="">--select--</option>
                         <option value="Yes">Yes</option>
                         <option value="No">No</option>
+                      </select>
+                    </div>
+                    <div className="container d-flex justify-content-center align-item-center mb-2">
+                      <h6 className="fw-bold mx-2">Hospital category :</h6>
+                      <select
+                        name=""
+                        id=""
+                        onChange={(e) => setBranchCategory(e.target.value)}
+                        className="p-1 rounded"
+                      >
+                        <option value="">--select--</option>
+                        <option value="General">General</option>
+                        <option value="Nabh">Nabh</option>
+                        <option value="non-Nabh">non-Nabh</option>
                       </select>
                     </div>
                     <div className="d-flex justify-content-center">

@@ -8,7 +8,7 @@ import styled from "styled-components";
 const Treatment = () => {
   const dispatch = useDispatch();
   const { pid } = useParams();
-  console.log(pid);
+  // console.log(pid);
   const user = useSelector((state) => state.user);
   // console.log(`User Name: ${user.name}, User ID: ${user.id}`);
   // console.log("User State:", user);
@@ -27,7 +27,7 @@ const Treatment = () => {
           },
         }
       );
-      console.log(data);
+      // console.log(data);
       setPatAppointDetails(data);
     } catch (error) {
       console.log(error);
@@ -38,7 +38,7 @@ const Treatment = () => {
     getAppointDetailsPat();
   });
 
-  console.log(patAppointDetails);
+  // console.log(patAppointDetails);
 
   return (
     <Wrapper>

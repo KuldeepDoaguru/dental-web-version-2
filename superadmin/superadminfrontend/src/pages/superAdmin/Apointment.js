@@ -151,6 +151,7 @@ const Apointment = () => {
   };
 
   const displayedAppointments = filterAppointDataByMonth();
+  console.log(displayedAppointments);
 
   return (
     <>
@@ -216,7 +217,10 @@ const Apointment = () => {
                           </div>
                         </div>
                         <div>
-                          <h4>Total Appointments : {searchFilter.length}</h4>
+                          <h4>
+                            Total appointments this month :{" "}
+                            {searchFilter.length}
+                          </h4>
                         </div>
                       </div>
 

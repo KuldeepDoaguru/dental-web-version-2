@@ -176,7 +176,7 @@ const SittingBills = () => {
           </div>
 
           <div>
-            <h4>Total OPD Amount :- {totalOpdAmount}/-</h4>
+            <h4>Total sitting bill amount this month :- {totalOpdAmount}/-</h4>
           </div>
         </div>
 

@@ -282,9 +282,7 @@ const OpdReport = () => {
               </div>
             </div>
 
-            <div>
-              <h4>Total OPD Amount :- {totalOpdAmount}/-</h4>
-            </div>
+            <div>{/* <h4>Total OPD Amount :- {totalOpdAmount}/-</h4> */}</div>
             <div className="container-fluid mt-3">
               {loading ? (
                 <Lottie

@@ -283,7 +283,7 @@ const TreatBills = () => {
             </div>
           </div>
           <div>
-            <h4>Total Received Amount :- {totalBillAmount}/-</h4>
+            <h4>Total received amount this month :- {totalBillAmount}/-</h4>
           </div>
 
           <div>

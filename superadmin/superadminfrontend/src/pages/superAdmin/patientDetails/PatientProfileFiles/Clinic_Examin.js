@@ -59,7 +59,12 @@ const ClinicExamin = () => {
                 {exmData?.map((item) => (
                   <>
                     <tr>
-                      <td>{moment(item.date).format("DD-MM-YYYY hh:mm A")}</td>
+                      <td>
+                        {item.date?.split(" ")[0]}{" "}
+                        {moment(item.date?.split(" ")[1], "HH:MM:ss").format(
+                          "hh:mm A"
+                        )}
+                      </td>
                       <td>{item.diagnosis_category}</td>
                       <td>{item.disease}</td>
 

@@ -249,12 +249,12 @@ const ClinicActivity = () => {
     if (currentDate) {
       return (
         item.bill_date?.split(" ")[0] === formatCurrentDate &&
-        (item.payment_status === "Paid" || item.payment_status === "Paid")
+        (item.payment_status === "paid" || item.payment_status === "Paid")
       );
     }
     return (
       item.bill_date?.split(" ")[0] === formatTodayDate &&
-      (item.payment_status === "Paid" || item.payment_status === "Paid")
+      (item.payment_status === "paid" || item.payment_status === "Paid")
     );
   });
 
