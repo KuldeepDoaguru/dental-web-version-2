@@ -83,7 +83,7 @@ const Sider = () => {
                 </div>
               </Link>
             </li>
-            <hr />
+            {/* <hr />
             <li>
               <Link
                 to="/prescription-details"
@@ -92,7 +92,6 @@ const Sider = () => {
                 )}`}
               >
                 <div>
-                  {/* <i className="fs-4 bi bi-house-door-fill"></i> */}
                   <FaPrescriptionBottleMedical className="fs-2 text-white" />
                 </div>
                 <div>
@@ -104,7 +103,7 @@ const Sider = () => {
                   </h3>
                 </div>
               </Link>
-            </li>
+            </li> */}
             <hr />
             <li>
               <div

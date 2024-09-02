@@ -312,7 +312,8 @@ const NewTreatmentTable = () => {
                   <td>{item.net_amount}</td>
                   <td>
                     {" "}
-                    {item.sitting_payment_status === "Pending"
+                    {item.sitting_payment_status === "Pending" ||
+                    item.sitting_payment_status === "pending"
                       ? item.sec_rec_amt > 0
                         ? item.sec_rec_amt
                         : 0

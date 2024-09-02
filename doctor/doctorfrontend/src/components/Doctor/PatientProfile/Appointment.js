@@ -28,7 +28,7 @@ const Appointment = () => {
         }
       );
       console.log(data.data);
-      setPatAppointDetails(data.data);
+      setPatAppointDetails(data);
     } catch (error) {
       console.log(error);
     }

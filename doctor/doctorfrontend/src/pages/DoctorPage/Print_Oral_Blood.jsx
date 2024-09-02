@@ -20,6 +20,8 @@ const Print_Oral_Blood = () => {
   const navigate = useNavigate();
   const user = useSelector((state) => state.user.currentUser);
   console.log(user);
+  const branchData = useSelector((state) => state.branch.currentBranch);
+  console.log(branchData);
 
   const goBack = () => {
     window.history.go(-1);
@@ -127,12 +129,16 @@ const Print_Oral_Blood = () => {
 
                         <form className="d-flex">
                           <h5>Email id : </h5>
-                          <h5 className="ms-2">DentalGuru@Gmail.com</h5>
+                          <h5 className="ms-2">
+                            {branchData[0]?.branch_email}
+                          </h5>
                         </form>
 
                         <form className="d-flex ms-auto my-sm mt-1">
                           <h5>Contact Number : </h5>
-                          <h5 className="ms-2">+91-7000000058 </h5>
+                          <h5 className="ms-2">
+                            {branchData[0]?.branch_contact}{" "}
+                          </h5>
                         </form>
                       </div>
 

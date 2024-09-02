@@ -602,7 +602,6 @@ const prestorage = multer.diskStorage({
 const preUpload = multer({ storage: prestorage });
 router.post(
   "/prescriptionOnMail",
-  authenticate,
   preUpload.single("file"),
   prescriptionOnMail
 );

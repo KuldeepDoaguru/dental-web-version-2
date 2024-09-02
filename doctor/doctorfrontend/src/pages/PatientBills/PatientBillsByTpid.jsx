@@ -213,7 +213,7 @@ const PatientBillsByTpid = () => {
     getBillDetails();
   }, []);
 
-  console.log(billDetails[0]?.total_amount);
+  console.log(billDetails);
 
   const totalDueAmount = getTreatData?.reduce((total, item) => {
     return total + Number(item.total_amt);
@@ -228,10 +228,7 @@ const PatientBillsByTpid = () => {
   console.log(billDetails[0]?.total_amount, totalBillvalueWithoutGst);
 
   const payafterTreat = getTreatData.reduce(
-    (total, item) =>
-      item.sitting_payment_status === "Pending"
-        ? total
-        : total + Number(item.paid_amount),
+    (total, item) => total + Number(item.paid_amount),
     0
   );
 
@@ -642,7 +639,8 @@ const PatientBillsByTpid = () => {
                     <td className="heading-title text-danger fw-bold">
                       {/* Calculate total cost here */}
                       {/* Assuming getTreatData is an array of objects with 'net_amount' property */}
-                      {billDetails[0]?.total_amount - totalBillvalueWithoutGst}
+                      {billDetails[0]?.total_amount -
+                        billDetails[0]?.paid_amount}
                     </td>
                   </tr>
                 </tfoot>
@@ -656,24 +654,28 @@ const PatientBillsByTpid = () => {
                       Treatment Total:
                     </td>
                     <td className="heading-title">
-                      {netVal.reduce(
+                      {/* {netVal.reduce(
                         (total, item) =>
                           total +
                           (Number(item.total_amt) -
                             (Number(item.total_amt) * Number(item.disc_amt)) /
                               100),
                         0
-                      )}
+                      )} */}
+                      {billDetails[0]?.total_amount}
                     </td>
 
                     <td className="heading-title">
-                      {getTreatData.reduce(
+                      {/* {getTreatData.reduce(
                         (total, item) =>
                           item.sitting_payment_status === "Pending"
                             ? total
                             : total + Number(item.paid_amount),
                         0
                       )}
+                       */}
+
+                      {billDetails[0]?.paid_amount}
                     </td>
                   </tr>
                 </tfoot>
@@ -690,7 +692,7 @@ const PatientBillsByTpid = () => {
                   </div>
                   <div className="text-word">
                     <p className="m-0 px-1">
-                      {numWords(totalBillvalueWithoutGst)}
+                      {numWords(billDetails[0]?.paid_amount)}
                     </p>
                   </div>
                 </div>
@@ -745,7 +747,8 @@ const PatientBillsByTpid = () => {
                           Amount Received After Treatment:
                         </td>
                         <td className="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6 border p-1 text-center total-tr">
-                          {totalBillvalueWithoutGst - payafterTreat}
+                          {billDetails[0]?.payment_status === "Paid" &&
+                            billDetails[0]?.total_amount - payafterTreat}
                         </td>
                       </tr>
                     </tbody>
@@ -755,7 +758,8 @@ const PatientBillsByTpid = () => {
                           Total Amount Recieved:
                         </td>
                         <td className="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6 border p-1 text-center total-tr">
-                          {totalBillvalueWithoutGst}
+                          {/* {totalBillvalueWithoutGst} */}
+                          {billDetails[0]?.paid_amount}
                         </td>
                       </tr>
                     </tbody>
@@ -833,6 +837,16 @@ const PatientBillsByTpid = () => {
                           }
                         >
                           Go to Payment page
+                        </button>
+                        <button
+                          className="btn btn-info no-print mx-3 mt-2 mb-2 text-white shadow"
+                          style={{
+                            backgroundColor: "#0dcaf0",
+                            border: "#0dcaf0",
+                          }}
+                          onClick={() => navigate("/doctor-dashboard")}
+                        >
+                          Dashboard
                         </button>
                       </>
                     )}

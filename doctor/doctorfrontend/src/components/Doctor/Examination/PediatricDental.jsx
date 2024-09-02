@@ -1359,7 +1359,7 @@ const PediatricDentalTest = ({ tpid }) => {
                       <div data-mdb-input-init class="form-outline">
                         <label className="lable">Cheif Complaint</label>
                         <button
-                          className="btn btn-info text-light mx-3"
+                          className="btn btn-info text-light mx-3 mb-1"
                           onClick={handleChiefListChange}
                           type="button"
                         >

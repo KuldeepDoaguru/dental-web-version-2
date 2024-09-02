@@ -10,6 +10,7 @@ import Select from "react-select";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleTableRefresh } from "../../../redux/user/userSlice";
 import cogoToast from "cogo-toast";
+import { Alert } from "react-bootstrap";
 
 const BookSittingAppointment = ({
   onClose,
@@ -367,7 +368,7 @@ const BookSittingAppointment = ({
         (selectedDateTime >= eveningStart && selectedDateTime <= eveningEnd)
       );
     };
-    console.log(docAppoint);
+    console.log(docAppoint?.result);
     const isSlotAvailable = docAppoint?.result.every((appointment) => {
       const appointmentDate = new Date(appointment.appointment_dateTime);
       const selectedDate = new Date(data.appointment_dateTime);
@@ -376,8 +377,7 @@ const BookSittingAppointment = ({
 
       return (
         appointment.assigned_doctor_id === doctorDetailsStore.employee_ID &&
-        appointmentDate.getTime() !== selectedDate.getTime() &&
-        isCanceled
+        appointmentDate.getTime() !== selectedDate.getTime()
       );
     });
     console.log(isSlotAvailable);
@@ -415,6 +415,7 @@ const BookSittingAppointment = ({
           }
         );
         console.log(response);
+        // alert("check");
         setLoading(false);
         cogoToast.success(response?.data?.message);
         dispatch(toggleTableRefresh());
@@ -426,8 +427,8 @@ const BookSittingAppointment = ({
         // );
       } catch (error) {
         setLoading(false);
-        console.log(error);
-        cogoToast.error(error?.response?.data?.message);
+        console.log("ssdsdsds", error);
+        cogoToast.error(error?.response?.data?.message, "error jjjjj");
       }
     } else {
       setLoading(false);

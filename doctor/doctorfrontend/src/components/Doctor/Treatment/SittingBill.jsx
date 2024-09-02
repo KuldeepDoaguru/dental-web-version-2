@@ -206,7 +206,16 @@ const SittingBill = () => {
       const imgWidth = 210; // A4 width in mm
       const imgHeight = (canvas.height * imgWidth) / canvas.width;
 
-      pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
+      pdf.addImage(
+        imgData,
+        "PNG",
+        0,
+        0,
+        imgWidth,
+        imgHeight,
+        undefined,
+        "FAST"
+      );
       const pdfData = pdf.output("blob");
       console.log(pdfData);
 
@@ -640,8 +649,9 @@ const SittingBill = () => {
                           Total Amount Recieved:
                         </td>
                         <td className="col-xxl-6 col-xl-6 col-lg-6 col-md-6 col-sm-6 col-6 border p-1 text-center total-tr">
-                          {sittingBill[0]?.payment_status === "Credit"
-                            ? sittingBill[0]?.final_cost
+                          {sittingBill[0]?.payment_status === "pending" ||
+                          sittingBill[0]?.payment_status === "Pending"
+                            ? 0
                             : sittingBill[0]?.paid_amount}
                         </td>
                       </tr>
@@ -679,7 +689,7 @@ const SittingBill = () => {
               Download Sitting Bill
             </button>
             <button
-              className="btn btn-info no-print text-white mt-2 mb-2"
+              className="btn btn-info no-print text-white mt-2 mb-3 shadow"
               onClick={handleTreatNavigate}
               style={{
                 backgroundColor: "#0dcaf0",

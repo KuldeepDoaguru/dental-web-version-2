@@ -80,10 +80,18 @@ const TreatSuggest = () => {
       const treatment = treatments.find(
         (treatment) => treatment.treatment_name === prevInputItem.treatment_name
       );
-      return {
-        ...prevInputItem,
-        total_cost: treatment?.treatment_cost,
-      };
+
+      if (branchData[0]?.hospital_category === "Nabh") {
+        return {
+          ...prevInputItem,
+          total_cost: treatment?.nabh,
+        };
+      } else {
+        return {
+          ...prevInputItem,
+          total_cost: treatment?.non_nabh,
+        };
+      }
     });
   };
 

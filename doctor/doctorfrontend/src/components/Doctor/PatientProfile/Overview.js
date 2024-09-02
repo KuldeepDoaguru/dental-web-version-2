@@ -34,7 +34,7 @@ const Overview = () => {
   const getPresDetails = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:7777/api/v1/super-admin/getPrescriptionDetailsById/${pid}`
+        `https://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/getPrescriptionDetailsById/${pid}`
       );
       setPresData(data);
     } catch (error) {
@@ -45,7 +45,7 @@ const Overview = () => {
   const getPendingBillDetails = async () => {
     try {
       const { data } = await axios.get(
-        `https://dentalguru-doctor.vimubds5.a2hosted.com/api/v1/super-admin/getPatientBillByBranchAndId/${pid}`
+        `https://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/getPatientBillByBranchAndId/${pid}`
       );
       // console.log(data);
       setPatPendingBill(data);
@@ -66,7 +66,7 @@ const Overview = () => {
         }
       );
       // console.log(data);
-      setPatAppointDetails(data?.data);
+      setPatAppointDetails(data);
     } catch (error) {
       console.log(error);
     }
@@ -76,7 +76,7 @@ const Overview = () => {
   const getExamineDetails = async () => {
     try {
       const { data } = await axios.get(
-        `http://localhost:7777/api/v1/super-admin/examinDetailsByPatId/${pid}`
+        `https://dentalguru-doctor.vimubds5.a2hosted.com/api/doctor/examinDetailsByPatId/${pid}`
       );
       // setExmData(data);
     } catch (error) {
@@ -229,11 +229,17 @@ const Overview = () => {
   console.log(billData);
 
   const filterForPendingAmount = billData?.filter((item) => {
-    return item.payment_status !== "paid";
+    return (
+      item.payment_status !== "paid" ||
+      item.payment_status !== "Paid" ||
+      item.payment_status !== "Credit"
+    );
   });
   console.log(filterForPendingAmount);
   const total = filterForPendingAmount?.reduce((accumulator, item) => {
-    return accumulator + item.total_amount;
+    return (
+      accumulator + item.total_amount - (item.pay_by_sec_amt + item.paid_amount)
+    );
   }, 0);
 
   console.log(total);
@@ -263,6 +269,8 @@ const Overview = () => {
   useEffect(() => {
     onGoingTreat();
   }, []);
+
+  console.log(sortedAppointments);
 
   return (
     <>
@@ -489,7 +497,11 @@ const Overview = () => {
                     <>
                       {item.notes && (
                         <tr>
-                          <td>{item.notes}</td>
+                          <td>
+                            Appointment scheduled for {item.treatment_provided}{" "}
+                            Treatment on{" "}
+                            {item.appointment_dateTime?.split("T")[0]}
+                          </td>
                         </tr>
                       )}
                     </>

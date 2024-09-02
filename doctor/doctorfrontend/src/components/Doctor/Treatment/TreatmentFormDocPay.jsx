@@ -1199,6 +1199,7 @@ const TreatmentFormDocPay = () => {
                         class="form-control"
                         id=""
                         name="sitting_payment_status"
+                        required
                         onChange={handleChange}
                         value={formData.sitting_payment_status}
                       >
