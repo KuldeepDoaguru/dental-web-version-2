@@ -1065,6 +1065,7 @@ function AddPatient() {
                     id="dob"
                     className="form-control"
                     max={formatDate(new Date())}
+                    min={"1900-01-01"}
                     name="dob"
                     onChange={(e) => {
                       handleChange(e);

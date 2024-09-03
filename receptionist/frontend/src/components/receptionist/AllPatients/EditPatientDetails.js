@@ -497,6 +497,7 @@ console.log(insuranceCompany)
                     className="form-control"
                     name="dob"
                     max={formatDate(new Date())}
+                    min={"1900-01-01"}
                     value={data.dob}
                     onChange={(e) => {
                       handleChange(e);
