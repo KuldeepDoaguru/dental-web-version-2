@@ -222,6 +222,7 @@ const PrescriptionQuick = () => {
         `Dear ${getPatientData[0]?.patient_name}, Please find the attached Prescription file.`
       );
       formData.append("file", pdfData, "prescription.pdf");
+      formData.append("file", "prescription.pdf");
       for (let [key, value] of formData.entries()) {
         console.log(key, value);
       }

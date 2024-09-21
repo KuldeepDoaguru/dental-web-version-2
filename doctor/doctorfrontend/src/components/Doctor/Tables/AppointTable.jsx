@@ -227,12 +227,10 @@ const AppointTable = () => {
         console.log(filterForPendingTp);
         // alert(filterForPendingTp.length);
 
-        const filterForGoingTp = treatData?.filter((item) => {
+        const filterForGoingTp = filteredData?.filter((item) => {
           return (
-            item.tp_id === tpid &&
-            (item.package_status !== "started" ||
-              item.package_status !== "completed") &&
-            item.treatment_status === "ongoing" &&
+            item.appoint_id === appointId &&
+            item.package_status === "started" &&
             item.current_path !== null
           );
         });
@@ -250,8 +248,8 @@ const AppointTable = () => {
           const appointFilter = appointments?.filter((tad) => {
             return tad.appoint_id === appointId;
           });
-          alert("current path");
-          // navigate(appointFilter[0]?.current_path);
+          // alert("current path");
+          navigate(appointFilter[0]?.current_path);
         } else {
           navigate(`/examination-Dashboard/${appointId}/${uhid}`);
         }

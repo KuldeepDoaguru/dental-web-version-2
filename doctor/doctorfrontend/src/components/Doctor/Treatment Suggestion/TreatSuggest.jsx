@@ -1342,6 +1342,7 @@ const TreatSuggest = () => {
                 <thead className="rounded">
                   <tr>
                     <th className="colorth">Date</th>
+                    <th className="colorth">Disease</th>
                     <th className="colorth">Medicine Name</th>
                     <th className="colorth">Dosage</th>
                     <th className="colorth">Frequency</th>
@@ -1354,6 +1355,7 @@ const TreatSuggest = () => {
                   {getTreatMedicine?.map((item, index) => (
                     <tr key={index}>
                       <td>{item.date?.split(" ")[0]}</td>
+                      <td>{item.desease}</td>
                       <td>{item.medicine_name}</td>
                       <td>{item.dosage}</td>
                       <td>{item.frequency}</td>

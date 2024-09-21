@@ -231,6 +231,7 @@ const SittingBill = () => {
         `Dear ${getPatientData[0]?.patient_name}, Please find the attached sitting bill file.`
       );
       formData.append("file", pdfData, "prescription.pdf");
+      formData.append("filename", "prescription.pdf");
       for (let [key, value] of formData.entries()) {
         console.log(key, value);
       }
@@ -320,7 +321,7 @@ const SittingBill = () => {
 
         <div className="container-fluid">
           <div className="d-flex justify-content-between">
-            <button
+            {/* <button
               className="btn btn-info no-print mt-2 mb-2 text-white shadow"
               style={{
                 backgroundColor: "#0dcaf0",
@@ -329,7 +330,7 @@ const SittingBill = () => {
               onClick={goBack}
             >
               <IoMdArrowRoundBack /> Back
-            </button>
+            </button> */}
             <button
               className="btn btn-info no-print mt-2 mb-2 text-white shadow"
               style={{
